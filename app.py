@@ -814,7 +814,7 @@ def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict
     try:
         with DDGS() as ddgs:
             query = f"{keyword} news article analysis study report"
-            ddg_results = list(ddgs.text(query, max_results=max_results * 5))
+            ddg_results = list(ddgs.text(query, max_results=max_results * 8))
             for r in ddg_results:
                 url = r.get("href", "")
                 if any(domain in url for domain in trusted_domains):
