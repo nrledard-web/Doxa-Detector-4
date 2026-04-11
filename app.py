@@ -803,56 +803,107 @@ def extract_article_from_url(url: str) -> str:
 
 @st.cache_data(show_spinner=False, ttl=1800)
 def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict]:
-    api_key = st.secrets["NEWS_API_KEY"]
+    def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict]:
 
-    url = "https://newsapi.org/v2/everything"
+    articles = []
+    seen_urls = set()
 
-    params = {
-        "q": keyword,
-        "language": "en",
-        "sortBy": "relevancy",
-        "pageSize": max_results * 2,
-        "apiKey": api_key,
-    }
+    # -----------------------------
+    # 1) NewsAPI d'abord
+    # -----------------------------
+    api_key = st.secrets.get("NEWS_API_KEY")
+
+    if api_key:
+        url = "https://newsapi.org/v2/everything"
+
+        params = {
+            "q": keyword,
+            "language": "en",
+            "sortBy": "relevancy",
+            "pageSize": max_results * 2,
+            "apiKey": api_key,
+        }
+
+        try:
+            response = requests.get(url, params=params, timeout=10)
+
+            if response.status_code == 200:
+                data = response.json()
+
+                for art in data.get("articles", []):
+                    article_url = art.get("url")
+                    title = art.get("title")
+                    source = art.get("source", {}).get("name", "Unknown")
+
+                    if not article_url or article_url in seen_urls:
+                        continue
+
+                    seen_urls.add(article_url)
+
+                    articles.append(
+                        {
+                            "title": title,
+                            "url": article_url,
+                            "source": source,
+                        }
+                    )
+
+                    if len(articles) >= max_results:
+                        return articles
+
+            else:
+                st.warning(f"NewsAPI HTTP error {response.status_code}")
+
+        except Exception as e:
+            st.warning(f"NewsAPI error: {e}")
+
+    # -----------------------------
+    # 2) Fallback DuckDuckGo
+    # -----------------------------
+    trusted_domains = [
+        "lemonde.fr", "lefigaro.fr", "liberation.fr", "francetvinfo.fr",
+        "lexpress.fr", "lepoint.fr", "nouvelobs.com", "la-croix.com",
+        "lesechos.fr", "latribune.fr", "mediapart.fr", "arte.tv",
+        "bbc.com", "reuters.com", "apnews.com", "nytimes.com",
+        "theguardian.com", "bloomberg.com", "dw.com", "aljazeera.com",
+        "nature.com", "science.org", "who.int", "un.org", "worldbank.org",
+        "elpais.com", "elmundo.es", "corriere.it", "spiegel.de", "zeit.de",
+        "france24.com", "20minutes.fr", "ouest-france.fr", "tf1info.fr",
+        "cnbc.com", "npr.org", "abcnews.go.com", "cbsnews.com",
+    ]
 
     try:
-        response = requests.get(url, params=params, timeout=10)
+        with DDGS() as ddgs:
+            query = f"{keyword} news article analysis report"
+            ddg_results = list(ddgs.text(query, max_results=max_results * 8))
 
-        if response.status_code != 200:
-            st.warning(f"NewsAPI HTTP error {response.status_code}")
-            return []
+            for r in ddg_results:
+                article_url = r.get("href", "")
+                title = r.get("title", "Untitled")
 
-        data = response.json()
+                if not article_url or article_url in seen_urls:
+                    continue
 
-        articles = []
-        seen_urls = set()
+                if not any(domain in article_url for domain in trusted_domains):
+                    continue
 
-        for art in data.get("articles", []):
+                seen_urls.add(article_url)
 
-            url = art.get("url")
-            title = art.get("title")
-            source = art.get("source", {}).get("name", "Unknown")
+                articles.append(
+                    {
+                        "title": title,
+                        "url": article_url,
+                        "source": article_url.split("/")[2] if "/" in article_url else article_url,
+                    }
+                )
 
-            if not url:
-                continue
+                if len(articles) >= max_results:
+                    break
 
-            if url in seen_urls:
-                continue
+    except Exception as e:
+        st.warning(f"DuckDuckGo fallback error: {e}")
 
-            seen_urls.add(url)
-
-            articles.append(
-                {
-                    "title": title,
-                    "url": url,
-                    "source": source,
-                }
-            )
-
-            if len(articles) >= max_results:
-                break
-
-        return articles
+    return articles[:max_results]
 
     except Exception as e:
         st.warning(f"NewsAPI error: {e}")
