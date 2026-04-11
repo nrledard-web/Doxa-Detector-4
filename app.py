@@ -803,9 +803,6 @@ def extract_article_from_url(url: str) -> str:
 
 @st.cache_data(show_spinner=False, ttl=1800)
 def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict]:
-
-    def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict]:
-
     api_key = st.secrets["NEWS_API_KEY"]
 
     url = "https://newsapi.org/v2/everything"
