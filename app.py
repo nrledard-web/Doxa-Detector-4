@@ -1356,13 +1356,17 @@ else:
         st.subheader(T["ai_analysis_result"])
         st.markdown(ai_summary)
 
-if st.session_state.get("article_source") == "paste":
+if st.session_state.get("article_source") == "paste" and st.session_state.get("last_article"):
     st.divider()
     st.subheader(T["external_corroboration_module"])
     st.caption(T["external_corroboration_caption"])
 
     with st.spinner(T["corroboration_in_progress"]):
-        corroboration = corroborate_claims(article_for_analysis, max_claims=5, max_results_per_claim=3)
+        corroboration = corroborate_claims(
+            st.session_state.last_article,
+            max_claims=5,
+            max_results_per_claim=3
+        )
 
     if corroboration:
         for i, item in enumerate(corroboration, start=1):
