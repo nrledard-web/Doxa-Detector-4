@@ -904,14 +904,7 @@ def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict
 
     return articles[:max_results]
 
-    except Exception as e:
-        st.warning(f"NewsAPI error: {e}")
-        return []
-        return articles
 
-    except Exception as e:
-        st.warning(f"NewsAPI error: {e}")
-        return []
     trusted_domains = [
         "lemonde.fr", "lefigaro.fr", "liberation.fr", "francetvinfo.fr",
         "lexpress.fr", "lepoint.fr", "nouvelobs.com", "la-croix.com",
