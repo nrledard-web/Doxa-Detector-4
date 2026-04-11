@@ -1341,7 +1341,27 @@ if st.button(T["analyze_topic"], key="analyze_topic"):
             df_plot = df_multi.copy()
             df_plot["Article"] = [f"{T['article_label']} {i+1}" for i in range(len(df_plot))]
             st.bar_chart(df_plot.set_index("Article")["Hard Fact Score"])
-            st.dataframe(df_multi, use_container_width=True, hide_index=True)
+            st.dataframe(
+    df_multi.drop(columns=["URL"]),
+    use_container_width=True,
+    hide_index=True
+)
+
+st.markdown("### Articles trouvés")
+
+for idx, row in df_multi.reset_index(drop=True).iterrows():
+    with st.container(border=True):
+        st.markdown(f"**{idx+1}. {row['Title']}**")
+        st.caption(
+            f"Source : {row['Source']} | "
+            f"Hard Fact Score : {row['Hard Fact Score']} | "
+            f"Classic Score : {row['Classic Score']} | "
+            f"Verdict : {row['Verdict']}"
+        )
+        st.markdown(
+            f'<a href="{row["URL"]}" target="_blank">🔗 Ouvrir l’article dans un nouvel onglet</a>',
+            unsafe_allow_html=True
+        )
         else:
             st.warning(T["no_exploitable_articles_found"])
     else:
