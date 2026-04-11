@@ -814,7 +814,7 @@ def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict
     try:
         with DDGS() as ddgs:
             query = f"{keyword} news article analysis study report"
-            ddg_results = list(ddgs.text(query, max_results=max_results * 8))
+            ddg_results = list(ddgs.text(query, max_results=max_results * 5))
             for r in ddg_results:
                 url = r.get("href", "")
                 if any(domain in url for domain in trusted_domains):
@@ -1356,12 +1356,14 @@ else:
         st.subheader(T["ai_analysis_result"])
         st.markdown(ai_summary)
 
+if st.session_state.get("article_source") == "paste":
 if st.session_state.get("article_source") == "paste" and st.session_state.get("last_article"):
     st.divider()
     st.subheader(T["external_corroboration_module"])
     st.caption(T["external_corroboration_caption"])
 
     with st.spinner(T["corroboration_in_progress"]):
+        corroboration = corroborate_claims(article_for_analysis, max_claims=5, max_results_per_claim=3)
         corroboration = corroborate_claims(
             st.session_state.last_article,
             max_claims=5,
@@ -1591,7 +1593,7 @@ if result:
         st.dataframe(claims_df, use_container_width=True, hide_index=True)
     else:
         st.info(T["paste_longer_text"])
- 
+
     st.divider()
     st.subheader(T["ai_module"])
     st.caption(T["ai_module_caption"])
@@ -1746,4 +1748,4 @@ for i, (name, low, high) in enumerate(stages):
 st.caption(
     "Lorsque G et N augmentent sans inflation de D, la cognition gagne en revisabilité."
 )
-
+~
