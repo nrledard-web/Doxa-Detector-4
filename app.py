@@ -1347,21 +1347,16 @@ if st.button(T["analyze_topic"], key="analyze_topic"):
     hide_index=True
 )
 
-st.markdown("### Articles trouvés")
+if client is None:
+    st.warning(T["ai_unavailable"])
+else:
+    if st.button(T["generate_ai_analysis"], key="generate_ai_analysis"):
+        with st.spinner("AI is analyzing..."):
+            ai_summary = generate_ai_summary(lang, article, result)
+        st.subheader(T["ai_analysis_result"])
+        st.markdown(ai_summary)
 
-for idx, row in df_multi.reset_index(drop=True).iterrows():
-    with st.container(border=True):
-        st.markdown(f"**{idx+1}. {row['Title']}**")
-        st.caption(
-            f"Source : {row['Source']} | "
-            f"Hard Fact Score : {row['Hard Fact Score']} | "
-            f"Classic Score : {row['Classic Score']} | "
-            f"Verdict : {row['Verdict']}"
-        )
-        st.markdown(
-            f'<a href="{row["URL"]}" target="_blank">🔗 Ouvrir l’article dans un nouvel onglet</a>',
-            unsafe_allow_html=True
-        )
+if st.session_state.get("article_source") == "paste":
         else:
             st.warning(T["no_exploitable_articles_found"])
     else:
