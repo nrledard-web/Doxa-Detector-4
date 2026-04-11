@@ -21,6 +21,7 @@ from dataclasses import dataclass
 from typing import Dict, List, Optional
 
 import pandas as pd
+import requests
 from ddgs import DDGS
 from newspaper import Article
 import matplotlib.pyplot as plt
@@ -803,6 +804,8 @@ def extract_article_from_url(url: str) -> str:
 @st.cache_data(show_spinner=False, ttl=1800)
 def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict]:
 
+    def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict]:
+
     api_key = st.secrets["NEWS_API_KEY"]
 
     url = "https://newsapi.org/v2/everything"
@@ -811,28 +814,52 @@ def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict
         "q": keyword,
         "language": "en",
         "sortBy": "relevancy",
-        "pageSize": max_results,
+        "pageSize": max_results * 2,
         "apiKey": api_key,
     }
 
     try:
         response = requests.get(url, params=params, timeout=10)
+
+        if response.status_code != 200:
+            st.warning(f"NewsAPI HTTP error {response.status_code}")
+            return []
+
         data = response.json()
 
         articles = []
+        seen_urls = set()
 
         for art in data.get("articles", []):
-            if not art["url"]:
+
+            url = art.get("url")
+            title = art.get("title")
+            source = art.get("source", {}).get("name", "Unknown")
+
+            if not url:
                 continue
+
+            if url in seen_urls:
+                continue
+
+            seen_urls.add(url)
 
             articles.append(
                 {
-                    "title": art["title"],
-                    "url": art["url"],
-                    "source": art["source"]["name"],
+                    "title": title,
+                    "url": url,
+                    "source": source,
                 }
             )
 
+            if len(articles) >= max_results:
+                break
+
+        return articles
+
+    except Exception as e:
+        st.warning(f"NewsAPI error: {e}")
+        return []
         return articles
 
     except Exception as e:
