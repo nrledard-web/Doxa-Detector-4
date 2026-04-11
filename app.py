@@ -802,6 +802,42 @@ def extract_article_from_url(url: str) -> str:
 
 @st.cache_data(show_spinner=False, ttl=1800)
 def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict]:
+
+    api_key = st.secrets["NEWS_API_KEY"]
+
+    url = "https://newsapi.org/v2/everything"
+
+    params = {
+        "q": keyword,
+        "language": "en",
+        "sortBy": "relevancy",
+        "pageSize": max_results,
+        "apiKey": api_key,
+    }
+
+    try:
+        response = requests.get(url, params=params, timeout=10)
+        data = response.json()
+
+        articles = []
+
+        for art in data.get("articles", []):
+            if not art["url"]:
+                continue
+
+            articles.append(
+                {
+                    "title": art["title"],
+                    "url": art["url"],
+                    "source": art["source"]["name"],
+                }
+            )
+
+        return articles
+
+    except Exception as e:
+        st.warning(f"NewsAPI error: {e}")
+        return []
     trusted_domains = [
         "lemonde.fr", "lefigaro.fr", "liberation.fr", "francetvinfo.fr",
         "lexpress.fr", "lepoint.fr", "nouvelobs.com", "la-croix.com",
