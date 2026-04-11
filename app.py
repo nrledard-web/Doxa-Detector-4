@@ -1015,7 +1015,7 @@ def analyze_multiple_articles(keyword: str, max_results: int = 10) -> List[Dict]
     for art in articles:
         try:
             full_text = extract_article_from_url(art["url"])
-            if len(full_text) > 200:
+            if len(full_text) > 120:
                 analysis = analyze_article(full_text)
                 results.append(
                     {
