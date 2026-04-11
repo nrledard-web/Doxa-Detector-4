@@ -1357,10 +1357,20 @@ else:
         st.markdown(ai_summary)
 
 if st.session_state.get("article_source") == "paste":
-        else:
-            st.warning(T["no_exploitable_articles_found"])
+    st.divider()
+    st.subheader(T["external_corroboration_module"])
+    st.caption(T["external_corroboration_caption"])
+
+    with st.spinner(T["corroboration_in_progress"]):
+        corroboration = corroborate_claims(article, max_claims=5, max_results_per_claim=3)
+
+    if corroboration:
+        for i, item in enumerate(corroboration, start=1):
+            title_preview = item["claim"][:140] + ("..." if len(item["claim"]) > 140 else "")
+            with st.expander(f"{T['claim']} {i} : {title_preview}", expanded=(i == 1)):
+                st.markdown(f"**{T['corroboration_verdict']} :** {display_corroboration_verdict(item['verdict'])}")
     else:
-        st.warning(T["enter_keyword_first"])
+        st.info(T["no_corroboration_found"])
 
 
 # -----------------------------
