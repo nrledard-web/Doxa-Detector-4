@@ -805,8 +805,8 @@ def extract_article_from_url(url: str) -> str:
 def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict]:
     def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict]:
 
-    articles = []
-    seen_urls = set()
+        articles = []
+        seen_urls = set()
 
     # -----------------------------
     # 1) NewsAPI d'abord
