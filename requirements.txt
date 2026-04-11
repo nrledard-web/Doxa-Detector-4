@@ -1,1 +1,12 @@
+streamlit
+pandas
+numpy
+streamlit
+pandas
+lxml[html_clean]
+newspaper3k
+ddgs
+streamlit-mic-recorder
+openai
+matplotlib
 
