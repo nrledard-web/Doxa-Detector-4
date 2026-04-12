@@ -892,7 +892,7 @@ def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict
                     {
                         "title": title,
                         "url": url,
-                        "source": url.split("/")[2] if "/" in url else url,
+                        "source": url.split("/")[2] if "://" in url else url,
                     }
                 )
 
