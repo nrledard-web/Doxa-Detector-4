@@ -1522,7 +1522,9 @@ if load_url_submitted:
         if texte:
             st.session_state.article = texte
             st.session_state.article_source = "url"
+            st.session_state.loaded_url = url
             st.success(T["article_loaded_from_url"])
+            st.rerun()
         else:
             st.error(T["unable_to_retrieve_text"])
     else:
