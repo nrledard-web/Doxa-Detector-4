@@ -1602,9 +1602,6 @@ if "last_keyword" not in st.session_state:
 # -----------------------------
 # Main analysis
 # -----------------------------
-# -----------------------------
-# Main analysis
-# -----------------------------
 if analyze_submitted:
     st.session_state.last_result = analyze_article(article)
     st.session_state.last_article = article
