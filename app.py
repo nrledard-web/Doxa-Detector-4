@@ -41,9 +41,6 @@ st.set_page_config(
     layout="wide",
 )
 
-# -----------------------------
-# Bannière
-# -----------------------------
 st.image("banner2.png", use_container_width=True)
 
 st.caption("Laboratoire de calibration cognitive — M = (G + N) − D")
