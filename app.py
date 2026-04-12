@@ -1785,7 +1785,7 @@ if result:
     else:
         if st.button(T["generate_ai_analysis"], key="generate_ai_analysis"):
             with st.spinner("AI is analyzing..."):
-                ai_summary = generate_ai_summary(lang, article, result)
+                ai_summary = generate_ai_summary(lang, article_for_analysis, result)
             st.subheader(T["ai_analysis_result"])
             st.markdown(ai_summary)
     if st.session_state.get("article_source") == "paste":
