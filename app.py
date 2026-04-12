@@ -1626,6 +1626,8 @@ if result:
 
     with col2:
         st.metric("Mendacity Index (ME)", round(result["ME"], 2))
+    delta_mm = round(result["M"] - result["ME"], 2)
+    st.caption(f"Cognitive gap (M − ME) : {delta_mm}")
 
     if result["M"] > result["ME"] + 1:
         dominant_pattern = "Dominant pattern: mécroyance"
