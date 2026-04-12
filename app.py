@@ -1538,7 +1538,6 @@ with st.container(border=True):
 if article.strip() != previous_article.strip():
     st.session_state.article_source = "paste"
 
-st.session_state.article = article
 
 source_label = (
     T["manual_paste"]
