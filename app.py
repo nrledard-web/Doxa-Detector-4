@@ -1559,6 +1559,12 @@ if "last_article" not in st.session_state:
 if "ai_summary" not in st.session_state:
     st.session_state.ai_summary = ""
 
+if "multi_results" not in st.session_state:
+    st.session_state.multi_results = []
+
+if "last_keyword" not in st.session_state:
+    st.session_state.last_keyword = ""
+
 # -----------------------------
 # Main analysis
 # -----------------------------
