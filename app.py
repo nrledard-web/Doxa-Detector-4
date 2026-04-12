@@ -859,7 +859,6 @@ def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict
     # -----------------------------
     # 2) Fallback DuckDuckGo
     # -----------------------------
-
     trusted_domains = [
         "lemonde.fr", "lefigaro.fr", "liberation.fr", "francetvinfo.fr",
         "lexpress.fr", "lepoint.fr", "nouvelobs.com", "la-croix.com",
@@ -869,25 +868,40 @@ def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict
         "nature.com", "science.org", "who.int", "un.org", "worldbank.org",
         "elpais.com", "elmundo.es", "corriere.it", "spiegel.de", "zeit.de",
     ]
+
     results: List[Dict] = []
+
     try:
         with DDGS() as ddgs:
             query = f"{keyword} news article analysis study report"
             ddg_results = list(ddgs.text(query, max_results=max_results * 5))
+
             for r in ddg_results:
                 url = r.get("href", "")
-                if any(domain in url for domain in trusted_domains):
-                    results.append(
-                        {
-                            "title": r.get("title", "Untitled"),
-                            "url": url,
-                            "source": url.split("/")[2] if "/" in url else url,
-                        }
-                    )
-                    if len(results) >= max_results:
-                        break
+                title = r.get("title", "Untitled")
+
+                if not url or url in seen_urls:
+                    continue
+
+                if not any(domain in url for domain in trusted_domains):
+                    continue
+
+                seen_urls.add(url)
+
+                results.append(
+                    {
+                        "title": title,
+                        "url": url,
+                        "source": url.split("/")[2] if "/" in url else url,
+                    }
+                )
+
+                if len(results) >= max_results:
+                    break
+
     except Exception as e:
         st.warning(f"Search error: {e}")
+
     return results
 
 
