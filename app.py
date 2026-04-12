@@ -30,8 +30,6 @@ except Exception:
     MICRO_AVAILABLE = False
 
 
-import streamlit as st
-
 # -----------------------------
 # Configuration page
 # -----------------------------
