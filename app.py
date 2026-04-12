@@ -1611,11 +1611,31 @@ if result:
     st.caption("Le texte est placé dans l’espace de la cognition : savoir articulé, compréhension intégrée, et certitude assertive.")
 
     fig_triangle = plot_cognitive_triangle_3d(
-    result["G"],
-    result["N"],
-    result["D"]
-)
+        result["G"],
+        result["N"],
+        result["D"]
+    )
     st.pyplot(fig_triangle, use_container_width=True)
+
+    st.subheader("Cognitive Metrics")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.metric("Mécroyance Index (M)", round(result["M"], 2))
+
+    with col2:
+        st.metric("Mendacity Index (ME)", round(result["ME"], 2))
+
+    if result["ME"] > result["M"] and result["ME"] > 0:
+        cognitive_type = "Possible strategic lying"
+    elif result["M"] < 0:
+        cognitive_type = "High mécroyance / cognitive closure"
+    else:
+        cognitive_type = "Likely sincere but misaligned cognition"
+
+    st.subheader("Cognitive Interpretation")
+    st.write(cognitive_type)
 
     with st.expander(T["strengths_detected"], expanded=True):
         if result["strengths"]:
