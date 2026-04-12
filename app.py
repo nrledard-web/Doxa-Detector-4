@@ -746,14 +746,30 @@ T = translations[lang]
 # -----------------------------
 # Header
 # -----------------------------
-
-st.title(T["title"])
+st.title("DOXA Detector")
 
 with st.container(border=True):
-    st.subheader(T["home_intro_title"])
-    st.write(T["home_intro_text"])
-    st.write(T["home_intro_text_2"])
-    st.caption(T["home_intro_note"])
+
+    st.subheader("Analyser la fiabilité d’un texte")
+
+    st.write(
+        "DOXA Detector aide à évaluer la solidité d’un article ou d’un texte. "
+        "L’outil examine la présence de sources, les affirmations, et le niveau de nuance du contenu."
+    )
+
+    st.write(
+        "Collez un texte, chargez une URL, ou analysez un sujet pour comparer plusieurs articles."
+    )
+
+    st.write(
+        "L’application produit ensuite un **score de crédibilité**, "
+        "analyse les principales affirmations et indique les éléments vérifiables ou fragiles."
+    )
+
+    st.caption(
+        "Cet outil n'affirme pas si un texte est vrai ou faux : "
+        "il aide à mieux comprendre comment l'information est construite."
+    )
 
 
 # -----------------------------
