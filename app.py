@@ -1411,6 +1411,7 @@ if st.button(T["analyze_topic"], key="analyze_topic"):
     if keyword.strip():
         st.info(T["searching"])
         multiple_results = analyze_multiple_articles(keyword.strip(), max_results=10)
+
         if multiple_results:
             df_multi = pd.DataFrame(multiple_results).sort_values("Hard Fact Score", ascending=False)
             st.success(f"{len(df_multi)} {T['articles_analyzed']}")
@@ -1429,6 +1430,37 @@ if st.button(T["analyze_topic"], key="analyze_topic"):
             df_plot["Article"] = [f"{T['article_label']} {i+1}" for i in range(len(df_plot))]
             st.bar_chart(df_plot.set_index("Article")["Hard Fact Score"])
             st.dataframe(df_multi, use_container_width=True, hide_index=True)
+
+            st.markdown("### Actions sur les articles trouvés")
+
+            for i, row in df_multi.reset_index(drop=True).iterrows():
+                with st.container(border=True):
+                    st.markdown(f"**{row['Title']}**")
+                    st.caption(f"{row['Source']}")
+
+                    col1, col2 = st.columns(2)
+
+                    with col1:
+                        st.link_button(
+                            "🌐 Ouvrir l'article",
+                            row["URL"],
+                            use_container_width=True
+                        )
+
+                    with col2:
+                        if st.button(f"📥 Charger pour analyse", key=f"load_article_{i}"):
+                            loaded_text = fetch_text_for_textarea(row["URL"])
+
+                            if loaded_text:
+                                st.session_state.article = loaded_text
+                                st.session_state.article_source = "url"
+                                st.session_state.loaded_url = row["URL"]
+
+                                st.success("Article chargé dans la zone de texte.")
+                                st.rerun()
+                            else:
+                                st.warning("Impossible d'extraire le texte.")
+
         else:
             st.warning(T["no_exploitable_articles_found"])
     else:
