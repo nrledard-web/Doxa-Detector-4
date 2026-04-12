@@ -305,6 +305,10 @@ translations = {
         "integration": "N : intégration — contexte, nuances, réserves, cohérence argumentative.",
         "assertive_rigidity": "D : rigidité assertive — certitudes non soutenues, emballement rhétorique.",
         "disclaimer": "Cette app ne remplace ni un journaliste, ni un chercheur, ni un greffier du réel. Mais elle retire déjà quelques masques au texte qui parade.",
+        "home_intro_title": "Comprendre la fiabilité d’un texte",
+        "home_intro_text": "DOXA Detector analyse la fiabilité d’un texte. Collez un article, chargez une URL ou analysez un sujet. L’application examine les sources, les affirmations et le niveau de nuance du texte.",
+        "home_intro_text_2": "Elle attribue ensuite un score de crédibilité et met en évidence les éléments vérifiables ou fragiles.",
+        "home_intro_note": "Cet outil n’affirme pas si un texte est vrai ou faux : il aide simplement à mieux lire l’information.",
     },
     "English": {
         "title": "🧠 Mecroyance Lab — Credibility Analyzer",
@@ -442,6 +446,10 @@ translations = {
         "integration": "N: integration — context, nuances, reservations, argumentative coherence.",
         "assertive_rigidity": "D: assertive rigidity — unsupported certainties, rhetorical inflation.",
         "disclaimer": "This app does not replace a journalist, a researcher, or a clerk of reality. But it already removes a few masks from the text that parades.",
+        "home_intro_title": "Understand how reliable a text is",
+        "home_intro_text": "DOXA Detector analyzes how reliable a text appears to be. Paste an article, load a URL, or analyze a topic. The app examines sources, claims, and the level of nuance in the text.",
+        "home_intro_text_2": "It then assigns a credibility score and highlights which elements seem verifiable or fragile.",
+        "home_intro_note": "This tool does not decide whether a text is true or false: it simply helps you read information more clearly.",
     },
     "Español": {
         "title": "🧠 Mecroyance Lab — Analizador de Credibilidad",
@@ -579,6 +587,10 @@ translations = {
         "integration": "N: integración — contexto, matices, reservas, coherencia argumentativa.",
         "assertive_rigidity": "D: rigidez asertiva — certezas no sustentadas, inflación retórica.",
         "disclaimer": "Esta app no reemplaza ni a un periodista, ni a un investigador, ni a un escribano de la realidad. Pero ya arranca algunas máscaras al texto que desfila.",
+        "home_intro_title": "Comprender la fiabilidad de un texto",
+        "home_intro_text": "DOXA Detector analiza la fiabilidad aparente de un texto. Pega un artículo, carga una URL o analiza un tema. La aplicación examina las fuentes, las afirmaciones y el nivel de matiz del texto.",
+        "home_intro_text_2": "Después asigna una puntuación de credibilidad y destaca los elementos verificables o frágiles.",
+        "home_intro_note": "Esta herramienta no decide si un texto es verdadero o falso: simplemente ayuda a leer la información con más claridad.",
     },
     "Filipino": {
         "title": "🧠 Mecroyance Lab — Credibility Analyzer",
@@ -716,6 +728,10 @@ translations = {
         "integration": "N: integration — konteksto, mga nuance, reserbasyon, at argumentative coherence.",
         "assertive_rigidity": "D: assertive rigidity — mga katiyakang walang sapat na batayan, retorikal na paglobo.",
         "disclaimer": "Hindi kapalit ng mamamahayag, mananaliksik, o tagapag-ingat ng realidad ang app na ito. Ngunit nakakatanggal na ito ng ilang maskara sa tekstong nagmamartsa.",
+        "home_intro_title": "Unawain kung gaano kapagkakatiwalaan ang isang teksto",
+        "home_intro_text": "Sinusuri ng DOXA Detector ang pagiging maaasahan ng isang teksto. Mag-paste ng artikulo, mag-load ng URL, o magsuri ng isang paksa. Tinitingnan ng app ang mga source, pahayag, at antas ng nuance ng teksto.",
+        "home_intro_text_2": "Pagkatapos ay nagbibigay ito ng credibility score at itinatampok ang mga elementong maaaring mapatunayan o mahina.",
+        "home_intro_note": "Hindi nito sinasabi kung ang isang teksto ay totoo o mali: tumutulong lamang ito upang mas malinaw na mabasa ang impormasyon.",
     },
 }
 
@@ -730,9 +746,14 @@ T = translations[lang]
 # -----------------------------
 # Header
 # -----------------------------
+
 st.title(T["title"])
-st.info(T["intro"])
-st.caption(T["intro_2"])
+
+with st.container(border=True):
+    st.subheader(T["home_intro_title"])
+    st.write(T["home_intro_text"])
+    st.write(T["home_intro_text_2"])
+    st.caption(T["home_intro_note"])
 
 
 # -----------------------------
