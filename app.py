@@ -753,22 +753,27 @@ with st.container(border=True):
     st.subheader("Analyser la fiabilité d’un texte")
 
     st.write(
-        "DOXA Detector aide à évaluer la solidité d’un article ou d’un texte. "
-        "L’outil examine la présence de sources, les affirmations, et le niveau de nuance du contenu."
+        "DOXA Detector aide à comprendre si un texte repose sur des faits solides "
+        "ou sur une rhétorique persuasive."
     )
 
-    st.write(
-        "Collez un texte, chargez une URL, ou analysez un sujet pour comparer plusieurs articles."
-    )
+    col1, col2, col3 = st.columns(3)
 
-    st.write(
-        "L’application produit ensuite un **score de crédibilité**, "
-        "analyse les principales affirmations et indique les éléments vérifiables ou fragiles."
-    )
+    with col1:
+        st.markdown("### 1️⃣ Coller un texte")
+        st.write("Copiez un article ou un extrait dans la zone d’analyse.")
+
+    with col2:
+        st.markdown("### 2️⃣ Analyser")
+        st.write("L’application examine les sources, les affirmations et la nuance.")
+
+    with col3:
+        st.markdown("### 3️⃣ Comprendre")
+        st.write("Obtenez un score de crédibilité et une analyse des affirmations.")
 
     st.caption(
-        "Cet outil n'affirme pas si un texte est vrai ou faux : "
-        "il aide à mieux comprendre comment l'information est construite."
+        "Cet outil n’affirme pas si un texte est vrai ou faux : "
+        "il aide simplement à mieux comprendre la solidité de l’information."
     )
 
 
