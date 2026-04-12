@@ -859,51 +859,6 @@ def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict
     # -----------------------------
     # 2) Fallback DuckDuckGo
     # -----------------------------
-    trusted_domains = [
-        "lemonde.fr", "lefigaro.fr", "liberation.fr", "francetvinfo.fr",
-        "lexpress.fr", "lepoint.fr", "nouvelobs.com", "la-croix.com",
-        "lesechos.fr", "latribune.fr", "mediapart.fr", "arte.tv",
-        "bbc.com", "reuters.com", "apnews.com", "nytimes.com",
-        "theguardian.com", "bloomberg.com", "dw.com", "aljazeera.com",
-        "nature.com", "science.org", "who.int", "un.org", "worldbank.org",
-        "elpais.com", "elmundo.es", "corriere.it", "spiegel.de", "zeit.de",
-        "france24.com", "20minutes.fr", "ouest-france.fr", "tf1info.fr",
-        "cnbc.com", "npr.org", "abcnews.go.com", "cbsnews.com",
-    ]
-
-    try:
-        with DDGS() as ddgs:
-            query = f"{keyword} news article analysis report"
-            ddg_results = list(ddgs.text(query, max_results=max_results * 8))
-
-            for r in ddg_results:
-                article_url = r.get("href", "")
-                title = r.get("title", "Untitled")
-
-                if not article_url or article_url in seen_urls:
-                    continue
-
-                if not any(domain in article_url for domain in trusted_domains):
-                    continue
-
-                seen_urls.add(article_url)
-
-                articles.append(
-                    {
-                        "title": title,
-                        "url": article_url,
-                        "source": article_url.split("/")[2] if "/" in article_url else article_url,
-                    }
-                )
-
-                if len(articles) >= max_results:
-                    break
-
-    except Exception as e:
-        st.warning(f"DuckDuckGo fallback error: {e}")
-
-    return articles[:max_results]
-
 
     trusted_domains = [
         "lemonde.fr", "lefigaro.fr", "liberation.fr", "francetvinfo.fr",
@@ -1137,7 +1092,17 @@ def analyze_multiple_articles(keyword: str, max_results: int = 10) -> List[Dict]
         except Exception:
             continue
     return results
-
+@st.cache_data(show_spinner=False, ttl=1800)
+def fetch_text_for_textarea(url: str) -> str:
+    """
+    Charge le texte principal d'une URL pour l'envoyer
+    dans la zone d'analyse.
+    """
+    try:
+        text = extract_article_from_url(url)
+        return (text or "").strip()
+    except Exception:
+        return ""
 
 # -----------------------------
 # Corroboration
