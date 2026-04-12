@@ -30,14 +30,25 @@ except Exception:
     MICRO_AVAILABLE = False
 
 
+import streamlit as st
+
 # -----------------------------
 # Configuration page
 # -----------------------------
 st.set_page_config(
-    page_title="Mécroyance Lab — Fact-checking",
+    page_title="DOXA Detector",
     page_icon="🧠",
     layout="wide",
 )
+
+# -----------------------------
+# Bannière
+# -----------------------------
+st.image("banner2.png", use_container_width=True)
+
+st.title("DOXA DETECTOR")
+st.caption("Laboratoire de calibration cognitive — M = (G + N) − D")
+st.markdown("---")
 
 # -----------------------------
 # Bannière professionnelle
