@@ -53,7 +53,6 @@ st.markdown("---")
 # -----------------------------
 # Bannière professionnelle
 # -----------------------------
-st.image("banner2.png", use_container_width=True)
 
 st.title("DOXA DETECTOR")
 st.caption("Laboratoire de calibration cognitive — M = (G + N) − D")
