@@ -1628,7 +1628,6 @@ if result:
         st.metric("Mendacity Index (ME)", round(result["ME"], 2))
     delta_mm = round(result["M"] - result["ME"], 2)
     st.caption(f"Cognitive gap (M − ME) : {delta_mm}")
-
     if result["M"] > result["ME"] + 1:
         dominant_pattern = "Dominant pattern: mécroyance"
     elif result["ME"] > result["M"] + 1:
@@ -1648,6 +1647,18 @@ if result:
 
     st.subheader("Cognitive Interpretation")
     st.write(cognitive_type)
+
+    if result["M"] - result["ME"] > 3:
+        diagnosis = "Strong mécroyance structure"
+    elif result["M"] > result["ME"]:
+        diagnosis = "Moderate mécroyance structure"
+    elif abs(result["M"] - result["ME"]) <= 1:
+        diagnosis = "Ambiguous cognitive structure"
+    else:
+        diagnosis = "Possible strategic deception"
+
+    st.subheader("Cognitive diagnosis")
+    st.write(diagnosis)
 
     with st.expander(T["strengths_detected"], expanded=True):
         if result["strengths"]:
