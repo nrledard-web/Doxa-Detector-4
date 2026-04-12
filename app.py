@@ -50,8 +50,6 @@ st.markdown("---")
 # Bannière professionnelle
 # -----------------------------
 
-st.markdown("---")
-
 
 def plot_cognitive_triangle_3d(G: float, N: float, D: float):
     """
