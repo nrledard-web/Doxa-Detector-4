@@ -1410,61 +1410,70 @@ keyword = st.text_input(T["topic"], placeholder=T["topic_placeholder"])
 if st.button(T["analyze_topic"], key="analyze_topic"):
     if keyword.strip():
         st.info(T["searching"])
-        multiple_results = analyze_multiple_articles(keyword.strip(), max_results=10)
-
-        if multiple_results:
-            df_multi = pd.DataFrame(multiple_results).sort_values("Hard Fact Score", ascending=False)
-            st.success(f"{len(df_multi)} {T['articles_analyzed']}")
-
-            c1, c2 = st.columns(2)
-            c1.metric(T["analyzed_articles"], len(df_multi))
-            c2.metric(T["avg_hard_fact"], round(df_multi["Hard Fact Score"].mean(), 1))
-            st.metric(T["avg_classic_score"], round(df_multi["Classic Score"].mean(), 1))
-
-            ecart_type_hf = df_multi["Hard Fact Score"].std()
-            indice_doxa = "high" if ecart_type_hf < 1.5 else ("medium" if ecart_type_hf < 3 else "low")
-            st.metric(T["topic_doxa_index"], T[indice_doxa])
-
-            st.subheader(T["credibility_score_dispersion"])
-            df_plot = df_multi.copy()
-            df_plot["Article"] = [f"{T['article_label']} {i+1}" for i in range(len(df_plot))]
-            st.bar_chart(df_plot.set_index("Article")["Hard Fact Score"])
-            st.dataframe(df_multi, use_container_width=True, hide_index=True)
-
-            st.markdown("### Actions sur les articles trouvés")
-
-            for i, row in df_multi.reset_index(drop=True).iterrows():
-                with st.container(border=True):
-                    st.markdown(f"**{row['Title']}**")
-                    st.caption(f"{row['Source']}")
-
-                    col1, col2 = st.columns(2)
-
-                    with col1:
-                        st.link_button(
-                            "🌐 Ouvrir l'article",
-                            row["URL"],
-                            use_container_width=True
-                        )
-
-                    with col2:
-                        if st.button(f"📥 Charger pour analyse", key=f"load_article_{i}"):
-                            loaded_text = fetch_text_for_textarea(row["URL"])
-
-                            if loaded_text:
-                                st.session_state.article = loaded_text
-                                st.session_state.article_source = "url"
-                                st.session_state.loaded_url = row["URL"]
-
-                                st.success("Article chargé dans la zone de texte.")
-                                st.rerun()
-                            else:
-                                st.warning("Impossible d'extraire le texte.")
-
-        else:
-            st.warning(T["no_exploitable_articles_found"])
+        st.session_state.multi_results = analyze_multiple_articles(
+            keyword.strip(),
+            max_results=10
+        )
+        st.session_state.last_keyword = keyword.strip()
     else:
+        st.session_state.multi_results = []
         st.warning(T["enter_keyword_first"])
+
+
+if st.session_state.multi_results:
+    df_multi = pd.DataFrame(st.session_state.multi_results).sort_values(
+        "Hard Fact Score",
+        ascending=False
+    )
+
+    st.success(f"{len(df_multi)} {T['articles_analyzed']}")
+
+    c1, c2 = st.columns(2)
+    c1.metric(T["analyzed_articles"], len(df_multi))
+    c2.metric(T["avg_hard_fact"], round(df_multi["Hard Fact Score"].mean(), 1))
+    st.metric(T["avg_classic_score"], round(df_multi["Classic Score"].mean(), 1))
+
+    ecart_type_hf = df_multi["Hard Fact Score"].std()
+    indice_doxa = "high" if ecart_type_hf < 1.5 else ("medium" if ecart_type_hf < 3 else "low")
+    st.metric(T["topic_doxa_index"], T[indice_doxa])
+
+    st.subheader(T["credibility_score_dispersion"])
+    df_plot = df_multi.copy()
+    df_plot["Article"] = [f"{T['article_label']} {i+1}" for i in range(len(df_plot))]
+    st.bar_chart(df_plot.set_index("Article")["Hard Fact Score"])
+    st.dataframe(df_multi, use_container_width=True, hide_index=True)
+
+    st.markdown("### Actions sur les articles trouvés")
+
+    for i, row in df_multi.reset_index(drop=True).iterrows():
+        with st.container(border=True):
+            st.markdown(f"**{row['Title']}**")
+            st.caption(f"{row['Source']}")
+
+            col1, col2 = st.columns(2)
+
+            with col1:
+                st.link_button(
+                    "🌐 Ouvrir l'article",
+                    row["URL"],
+                    use_container_width=True
+                )
+
+            with col2:
+                if st.button(f"📥 Charger pour analyse", key=f"load_article_{i}"):
+                    loaded_text = fetch_text_for_textarea(row["URL"])
+
+                    if loaded_text:
+                        st.session_state.article = loaded_text
+                        st.session_state.article_source = "url"
+                        st.session_state.loaded_url = row["URL"]
+                        st.success("Article chargé dans la zone de texte.")
+                        st.rerun()
+                    else:
+                        st.warning("Impossible d'extraire le texte.")
+
+elif st.session_state.last_keyword:
+    st.warning(T["no_exploitable_articles_found"])
 
 
 # -----------------------------
