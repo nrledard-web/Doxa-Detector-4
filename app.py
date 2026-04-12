@@ -1391,14 +1391,6 @@ with st.expander(T["settings"], expanded=False):
         f"- **15–20** : {T['scale_15_20']}"
     )
 
-
-if "article" not in st.session_state:
-    st.session_state.article = SAMPLE_ARTICLE
-if "article_source" not in st.session_state:
-    st.session_state.article_source = "paste"
-if use_sample:
-    st.session_state.article = SAMPLE_ARTICLE
-    st.session_state.article_source = "paste"
 if "article" not in st.session_state:
     st.session_state.article = SAMPLE_ARTICLE
 
