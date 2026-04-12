@@ -38,9 +38,6 @@ def plot_cognitive_triangle_3d(G: float, N: float, D: float):
     Les valeurs sont attendues entre 0 et 10.
     """
 
-    import requests
-    import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
     # Points de base du triangle
     G_pt = [10, 0, 0]
