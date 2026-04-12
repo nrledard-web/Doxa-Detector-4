@@ -1659,6 +1659,11 @@ if result:
 
     st.subheader("Cognitive diagnosis")
     st.write(diagnosis)
+    conflict = abs(result["M"] - result["ME"])
+    conflict_bar = min(conflict / 10, 1)
+
+    st.write("Cognitive tension (mécroyance vs mendacity)")
+    st.progress(conflict_bar)
 
     with st.expander(T["strengths_detected"], expanded=True):
         if result["strengths"]:
