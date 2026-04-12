@@ -53,7 +53,6 @@ st.markdown("---")
 # Bannière professionnelle
 # -----------------------------
 
-st.caption("Laboratoire de calibration cognitive — M = (G + N) − D")
 st.markdown("---")
 
 
