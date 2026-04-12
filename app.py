@@ -110,14 +110,11 @@ def plot_cognitive_triangle_3d(G: float, N: float, D: float):
 # OpenAI client
 # -----------------------------
 def get_openai_client() -> Optional["OpenAI"]:
+
     if OpenAI is None:
         return None
 
-    api_key = None
-    try:
-        api_key = st.secrets["OPENAI_API_KEY"]
-    except Exception:
-        api_key = None
+    api_key = st.secrets.get("OPENAI_API_KEY")
 
     if not api_key:
         return None
