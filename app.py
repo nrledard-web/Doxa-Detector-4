@@ -46,7 +46,6 @@ st.set_page_config(
 # -----------------------------
 st.image("banner2.png", use_container_width=True)
 
-st.title("DOXA DETECTOR")
 st.caption("Laboratoire de calibration cognitive — M = (G + N) − D")
 st.markdown("---")
 
@@ -54,7 +53,6 @@ st.markdown("---")
 # Bannière professionnelle
 # -----------------------------
 
-st.title("DOXA DETECTOR")
 st.caption("Laboratoire de calibration cognitive — M = (G + N) − D")
 st.markdown("---")
 
