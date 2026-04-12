@@ -1089,6 +1089,9 @@ def analyze_article(text: str) -> Dict:
     if sum(1 for c in claims if c.status == T["very_fragile"]) >= 2:
         weaknesses.append(T["multiple_claims_very_fragile"])
 
+    M = (G + N) - D
+    ME = (2 * D) - (G + N)
+
     return {
         "words": len(words),
         "sentences": len(sentences),
@@ -1096,6 +1099,7 @@ def analyze_article(text: str) -> Dict:
         "N": N,
         "D": D,
         "M": M,
+        "ME": ME,
         "V": V,
         "R": R,
         "improved": improved,
