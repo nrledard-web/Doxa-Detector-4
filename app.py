@@ -1405,21 +1405,6 @@ if "article_source" not in st.session_state:
 if "loaded_url" not in st.session_state:
     st.session_state.loaded_url = ""
 
-if "last_result" not in st.session_state:
-    st.session_state.last_result = None
-
-if "last_article" not in st.session_state:
-    st.session_state.last_article = ""
-
-if "ai_summary" not in st.session_state:
-    st.session_state.ai_summary = ""
-
-if "multi_results" not in st.session_state:
-    st.session_state.multi_results = []
-
-if "last_keyword" not in st.session_state:
-    st.session_state.last_keyword = ""
-
 if use_sample:
     st.session_state.article = SAMPLE_ARTICLE
     st.session_state.article_source = "paste"
