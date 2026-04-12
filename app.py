@@ -1627,6 +1627,16 @@ if result:
     with col2:
         st.metric("Mendacity Index (ME)", round(result["ME"], 2))
 
+    if result["M"] > result["ME"] + 1:
+        dominant_pattern = "Dominant pattern: mécroyance"
+    elif result["ME"] > result["M"] + 1:
+        dominant_pattern = "Dominant pattern: strategic lying"
+    else:
+        dominant_pattern = "Dominant pattern: mixed or ambiguous"
+
+    st.subheader("Dominant cognitive pattern")
+    st.write(dominant_pattern)
+
     if result["ME"] > result["M"] and result["ME"] > 0:
         cognitive_type = "Possible strategic lying"
     elif result["M"] < 0:
