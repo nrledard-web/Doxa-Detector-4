@@ -281,6 +281,18 @@ translations = {
         "cognitive_interpretation": "Interprétation cognitive",
         "cognitive_diagnosis": "Diagnostic cognitif",
         "cognitive_tension": "Tension cognitive (mécroyance vs mensonge)",
+        "pattern_mecroyance": "mécroyance",
+        "pattern_strategic_lying": "mensonge stratégique",
+        "pattern_mixed": "indéterminée ou ambiguë",
+
+        "cognitive_type_strategic_lying": "Mensonge stratégique possible",
+        "cognitive_type_closure": "Mécroyance élevée / fermeture cognitive",
+        "cognitive_type_misaligned": "Cognition probablement sincère mais mal alignée",
+
+        "diagnosis_strong_mecroyance": "Structure forte de mécroyance",
+        "diagnosis_moderate_mecroyance": "Structure modérée de mécroyance",
+        "diagnosis_ambiguous": "Structure cognitive ambiguë",
+        "diagnosis_deception": "Tromperie stratégique possible",
     },
     "English": {
         "title": "🧠 Mecroyance Lab — Credibility Analyzer",
@@ -431,6 +443,18 @@ translations = {
         "cognitive_interpretation": "Cognitive Interpretation",
         "cognitive_diagnosis": "Cognitive diagnosis",
         "cognitive_tension": "Cognitive tension (mécroyance vs mendacity)",
+        "pattern_mecroyance": "mécroyance",
+        "pattern_strategic_lying": "strategic lying",
+        "pattern_mixed": "indeterminate or ambiguous",
+
+        "cognitive_type_strategic_lying": "Possible strategic lying",
+        "cognitive_type_closure": "High mécroyance / cognitive closure",
+        "cognitive_type_misaligned": "Likely sincere but misaligned cognition",
+
+        "diagnosis_strong_mecroyance": "Strong mécroyance structure",
+        "diagnosis_moderate_mecroyance": "Moderate mécroyance structure",
+        "diagnosis_ambiguous": "Ambiguous cognitive structure",
+        "diagnosis_deception": "Possible strategic deception",
     },
     "Español": {
         "title": "🧠 Mecroyance Lab — Analizador de Credibilidad",
@@ -581,6 +605,18 @@ translations = {
         "cognitive_interpretation": "Interpretación cognitiva",
         "cognitive_diagnosis": "Diagnóstico cognitivo",
         "cognitive_tension": "Tensión cognitiva (mécroyance vs mentira)",
+        "pattern_mecroyance": "mécroyance",
+        "pattern_strategic_lying": "mentira estratégica",
+        "pattern_mixed": "indeterminado o ambiguo",
+
+        "cognitive_type_strategic_lying": "Posible mentira estratégica",
+        "cognitive_type_closure": "Mécroyance alta / cierre cognitivo",
+        "cognitive_type_misaligned": "Cognición probablemente sincera pero desalineada",
+
+        "diagnosis_strong_mecroyance": "Estructura fuerte de mécroyance",
+        "diagnosis_moderate_mecroyance": "Estructura moderada de mécroyance",
+        "diagnosis_ambiguous": "Estructura cognitiva ambigua",
+        "diagnosis_deception": "Posible engaño estratégico",
     },
     "Filipino": {
         "title": "🧠 Mecroyance Lab — Credibility Analyzer",
@@ -731,6 +767,18 @@ translations = {
         "cognitive_interpretation": "Interpretasyong kognitibo",
         "cognitive_diagnosis": "Diyagnosis na kognitibo",
         "cognitive_tension": "Tensiyong kognitibo (mécroyance laban sa pagsisinungaling)",
+        "pattern_mecroyance": "mécroyance",
+        "pattern_strategic_lying": "estratehikong pagsisinungaling",
+        "pattern_mixed": "hindi tiyak o malabo",
+
+        "cognitive_type_strategic_lying": "Posibleng estratehikong pagsisinungaling",
+        "cognitive_type_closure": "Mataas na mécroyance / pagsasarang kognitibo",
+        "cognitive_type_misaligned": "Malamang na tapat ngunit hindi nakaayon ang kognisyon",
+
+        "diagnosis_strong_mecroyance": "Malakas na estruktura ng mécroyance",
+        "diagnosis_moderate_mecroyance": "Katamtamang estruktura ng mécroyance",
+        "diagnosis_ambiguous": "Malabong estrukturang kognitibo",
+        "diagnosis_deception": "Posibleng estratehikong panlilinlang",
     },
 }
 
