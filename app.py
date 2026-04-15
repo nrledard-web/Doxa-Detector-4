@@ -1737,7 +1737,6 @@ if result:
     st.subheader(T["results_explanation_title"])
 
 explanations = []
-    explanations = []
 
 # Hard Fact Score
 if result["hard_fact_score"] < 6:
