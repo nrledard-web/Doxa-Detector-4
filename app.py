@@ -281,18 +281,6 @@ translations = {
         "cognitive_interpretation": "Interprétation cognitive",
         "cognitive_diagnosis": "Diagnostic cognitif",
         "cognitive_tension": "Tension cognitive (mécroyance vs mensonge)",
-        "pattern_mecroyance": "mécroyance",
-        "pattern_strategic_lying": "mensonge stratégique",
-        "pattern_mixed": "indéterminée ou ambiguë",
-
-        "cognitive_type_strategic_lying": "Mensonge stratégique possible",
-        "cognitive_type_closure": "Mécroyance élevée / fermeture cognitive",
-        "cognitive_type_misaligned": "Cognition probablement sincère mais mal alignée",
-
-        "diagnosis_strong_mecroyance": "Structure forte de mécroyance",
-        "diagnosis_moderate_mecroyance": "Structure modérée de mécroyance",
-        "diagnosis_ambiguous": "Structure cognitive ambiguë",
-        "diagnosis_deception": "Tromperie stratégique possible",
     },
     "English": {
         "title": "🧠 Mecroyance Lab — Credibility Analyzer",
@@ -443,18 +431,6 @@ translations = {
         "cognitive_interpretation": "Cognitive Interpretation",
         "cognitive_diagnosis": "Cognitive diagnosis",
         "cognitive_tension": "Cognitive tension (mécroyance vs mendacity)",
-        "pattern_mecroyance": "mécroyance",
-        "pattern_strategic_lying": "strategic lying",
-        "pattern_mixed": "indeterminate or ambiguous",
-
-        "cognitive_type_strategic_lying": "Possible strategic lying",
-        "cognitive_type_closure": "High mécroyance / cognitive closure",
-        "cognitive_type_misaligned": "Likely sincere but misaligned cognition",
-
-        "diagnosis_strong_mecroyance": "Strong mécroyance structure",
-        "diagnosis_moderate_mecroyance": "Moderate mécroyance structure",
-        "diagnosis_ambiguous": "Ambiguous cognitive structure",
-        "diagnosis_deception": "Possible strategic deception",
     },
     "Español": {
         "title": "🧠 Mecroyance Lab — Analizador de Credibilidad",
@@ -605,18 +581,6 @@ translations = {
         "cognitive_interpretation": "Interpretación cognitiva",
         "cognitive_diagnosis": "Diagnóstico cognitivo",
         "cognitive_tension": "Tensión cognitiva (mécroyance vs mentira)",
-        "pattern_mecroyance": "mécroyance",
-        "pattern_strategic_lying": "mentira estratégica",
-        "pattern_mixed": "indeterminado o ambiguo",
-
-        "cognitive_type_strategic_lying": "Posible mentira estratégica",
-        "cognitive_type_closure": "Mécroyance alta / cierre cognitivo",
-        "cognitive_type_misaligned": "Cognición probablemente sincera pero desalineada",
-
-        "diagnosis_strong_mecroyance": "Estructura fuerte de mécroyance",
-        "diagnosis_moderate_mecroyance": "Estructura moderada de mécroyance",
-        "diagnosis_ambiguous": "Estructura cognitiva ambigua",
-        "diagnosis_deception": "Posible engaño estratégico",
     },
     "Filipino": {
         "title": "🧠 Mecroyance Lab — Credibility Analyzer",
@@ -767,18 +731,6 @@ translations = {
         "cognitive_interpretation": "Interpretasyong kognitibo",
         "cognitive_diagnosis": "Diyagnosis na kognitibo",
         "cognitive_tension": "Tensiyong kognitibo (mécroyance laban sa pagsisinungaling)",
-        "pattern_mecroyance": "mécroyance",
-        "pattern_strategic_lying": "estratehikong pagsisinungaling",
-        "pattern_mixed": "hindi tiyak o malabo",
-
-        "cognitive_type_strategic_lying": "Posibleng estratehikong pagsisinungaling",
-        "cognitive_type_closure": "Mataas na mécroyance / pagsasarang kognitibo",
-        "cognitive_type_misaligned": "Malamang na tapat ngunit hindi nakaayon ang kognisyon",
-
-        "diagnosis_strong_mecroyance": "Malakas na estruktura ng mécroyance",
-        "diagnosis_moderate_mecroyance": "Katamtamang estruktura ng mécroyance",
-        "diagnosis_ambiguous": "Malabong estrukturang kognitibo",
-        "diagnosis_deception": "Posibleng estratehikong panlilinlang",
     },
 }
 
@@ -1472,83 +1424,266 @@ with st.expander(T["settings"], expanded=False):
     use_sample = st.button(T["load_example"])
     show_method = st.toggle(T["show_method"], value=True)
     st.divider()
-    st.subheader("Comment lire ces résultats")
+    st.subheader(T["hard_fact_score_scale"])
+    st.markdown(
+        f"- **0–5** : {T['scale_0_5']}\n"
+        f"- **6–9** : {T['scale_6_9']}\n"
+        f"- **10–14** : {T['scale_10_14']}\n"
+        f"- **15–20** : {T['scale_15_20']}"
+    )
 
-    explanations = []
+if "article" not in st.session_state:
+    st.session_state.article = SAMPLE_ARTICLE
 
-    # Hard Fact Score
-    if result["hard_fact_score"] < 6:
-        explanations.append(
-            "Le Hard Fact Score est faible : le texte contient trop peu d’éléments vérifiables pour soutenir solidement ses affirmations."
+if "article_source" not in st.session_state:
+    st.session_state.article_source = "paste"
+
+if "loaded_url" not in st.session_state:
+    st.session_state.loaded_url = ""
+
+if use_sample:
+    st.session_state.article = SAMPLE_ARTICLE
+    st.session_state.article_source = "paste"
+    st.session_state.loaded_url = ""
+
+
+# -----------------------------
+# Multi-article section
+# -----------------------------
+st.subheader(T["topic_section"])
+keyword = st.text_input(T["topic"], placeholder=T["topic_placeholder"])
+
+if st.button(T["analyze_topic"], key="analyze_topic"):
+    if keyword.strip():
+        st.info(T["searching"])
+        st.session_state.multi_results = analyze_multiple_articles(
+            keyword.strip(),
+            max_results=10
         )
-    elif result["hard_fact_score"] < 10:
-        explanations.append(
-            "Le Hard Fact Score reste prudent : certains indices existent, mais l’ensemble demeure fragile."
-        )
-    elif result["hard_fact_score"] < 15:
-        explanations.append(
-            "Le Hard Fact Score est correct : plusieurs éléments peuvent être vérifiés, même si certaines affirmations restent discutables."
-        )
+        st.session_state.last_keyword = keyword.strip()
     else:
-        explanations.append(
-            "Le Hard Fact Score est élevé : le texte paraît globalement mieux soutenu par des éléments vérifiables."
-        )
+        st.session_state.multi_results = []
+        st.warning(T["enter_keyword_first"])
 
-    # Mécroyance
-    if result["M"] < 0:
-        explanations.append(
-            "La mécroyance est en zone négative : la certitude dépasse l’ancrage cognitif du texte."
-        )
-    elif result["M"] <= 10:
-        explanations.append(
-            "La mécroyance reste modérée : le texte garde un certain équilibre entre affirmation et compréhension."
-        )
+if st.session_state.get("multi_results"):
+    df_multi = pd.DataFrame(st.session_state.multi_results).sort_values(
+        "Hard Fact Score",
+        ascending=False
+    )
+
+    st.success(f"{len(df_multi)} {T['articles_analyzed']}")
+
+    c1, c2 = st.columns(2)
+    c1.metric(T["analyzed_articles"], len(df_multi))
+    c2.metric(T["avg_hard_fact"], round(df_multi["Hard Fact Score"].mean(), 1))
+    st.metric(T["avg_classic_score"], round(df_multi["Classic Score"].mean(), 1))
+
+    ecart_type_hf = df_multi["Hard Fact Score"].std()
+    indice_doxa = "high" if ecart_type_hf < 1.5 else ("medium" if ecart_type_hf < 3 else "low")
+    st.metric(T["topic_doxa_index"], T[indice_doxa])
+
+    st.subheader(T["credibility_score_dispersion"])
+    df_plot = df_multi.copy()
+    df_plot["Article"] = [f"{T['article_label']} {i+1}" for i in range(len(df_plot))]
+    st.bar_chart(df_plot.set_index("Article")["Hard Fact Score"])
+    st.dataframe(df_multi, use_container_width=True, hide_index=True)
+
+    st.markdown("### Actions sur les articles trouvés")
+
+    for i, row in df_multi.reset_index(drop=True).iterrows():
+        with st.container(border=True):
+            st.markdown(f"### {row['Title']}")
+            st.caption(f"{row['Source']}")
+
+            score = row["Hard Fact Score"]
+
+            if score <= 6:
+                color = "🔴"
+                label = "Fragile"
+            elif score <= 11:
+                color = "🟠"
+                label = "Douteux"
+            elif score <= 15:
+                color = "🟡"
+                label = "Plausible"
+            else:
+                color = "🟢"
+                label = "Robuste"
+
+            st.markdown(f"**{color} Score : {score}/20 — {label}**")
+            st.progress(score / 20)
+
+            col1, col2 = st.columns(2)
+
+            with col1:
+                st.link_button(
+                    "🌐 Ouvrir l'article",
+                    row["URL"],
+                    use_container_width=True
+                )
+
+            with col2:
+                if st.button(f"📥 Charger pour analyse", key=f"load_article_{i}"):
+                    loaded_text = fetch_text_for_textarea(row["URL"])
+
+                    if loaded_text:
+                        st.session_state.article = loaded_text
+                        st.session_state.article_source = "url"
+                        st.session_state.loaded_url = row["URL"]
+                        st.success("Article chargé dans la zone de texte.")
+                        st.rerun()
+                    else:
+                        st.warning("Impossible d'extraire le texte.")
+
+elif st.session_state.get("last_keyword"):
+    st.warning(T["no_exploitable_articles_found"])
+# -----------------------------
+with st.form("url_form"):
+    url = st.text_input(T["url"])
+    load_url_submitted = st.form_submit_button(T["load_url"])
+
+if load_url_submitted:
+    if url:
+        texte = extract_article_from_url(url)
+        if texte:
+            st.session_state.article = texte
+            st.session_state.article_source = "url"
+            st.session_state.loaded_url = url
+            st.success(T["article_loaded_from_url"])
+            st.rerun()
+        else:
+            st.error(T["unable_to_retrieve_text"])
     else:
-        explanations.append(
-            "La mécroyance est positive : le texte semble plus révisable et moins enfermé dans une certitude rigide."
+        st.warning(T["paste_url_first"])
+
+
+# -----------------------------
+# Main article form
+# -----------------------------
+# -----------------------------
+# -----------------------------
+# Zone de saisie + micro visuellement collé au texte
+# -----------------------------
+previous_article = st.session_state.article
+
+st.markdown("### Zone d’analyse")
+
+with st.container(border=True):
+
+    st.caption("Collez un texte, chargez une URL, ou dictez directement.")
+
+    if MICRO_AVAILABLE:
+        spoken_text = speech_to_text(
+            language="fr",
+            start_prompt="🎙️ Dicter",
+            stop_prompt="⏹️ Stop",
+            just_once=True,
+            use_container_width=True,
+            key="speech_to_text_article"
         )
 
-    # Mendacity
-    if result["ME"] > result["M"] and result["ME"] > 0:
-        explanations.append(
-            "L’indice de mendacity est relativement élevé : certaines structures peuvent relever d’une rhétorique orientée ou stratégique."
-        )
+        if spoken_text:
+            st.session_state.article = spoken_text
+            st.session_state.article_source = "paste"
+            st.success("Texte dicté reçu.")
+            st.rerun()
+
     else:
-        explanations.append(
-            "L’indice de mendacity reste faible : le texte semble plutôt relever d’une cognition sincère, même imparfaite."
+        st.info("Microphone indisponible sur cette version.")
+
+    with st.form("article_form"):
+        article = st.text_area(
+            T["paste"],
+            key="article",
+            height=220,
+            label_visibility="collapsed",
+            placeholder=T["paste"]
         )
 
-    # Vérifiabilité
-    if result["V"] < 4:
-        explanations.append(
-            "La vérifiabilité est faible : peu d’indices permettent de contrôler les affirmations."
+        analyze_submitted = st.form_submit_button(
+            T["analyze"],
+            use_container_width=True
         )
-    elif result["V"] < 7:
-        explanations.append(
-            "La vérifiabilité est moyenne : quelques éléments permettent un contrôle partiel."
-        )
+
+if article.strip() != previous_article.strip():
+    st.session_state.article_source = "paste"
+
+
+source_label = (
+    T["manual_paste"]
+    if st.session_state.get("article_source") == "paste"
+    else T["loaded_url_source"]
+)
+
+st.caption(f"{T['text_source']} : {source_label}")
+
+if st.session_state.get("loaded_url"):
+    st.caption(f"URL : {st.session_state.loaded_url}")
+
+if "last_result" not in st.session_state:
+    st.session_state.last_result = None
+
+if "last_article" not in st.session_state:
+    st.session_state.last_article = ""
+
+if "ai_summary" not in st.session_state:
+    st.session_state.ai_summary = ""
+
+if "multi_results" not in st.session_state:
+    st.session_state.multi_results = []
+
+if "last_keyword" not in st.session_state:
+    st.session_state.last_keyword = ""
+
+# -----------------------------
+# Main analysis
+# -----------------------------
+if analyze_submitted:
+    st.session_state.last_result = analyze_article(article)
+    st.session_state.last_article = article
+    st.session_state.ai_summary = ""
+
+result = st.session_state.last_result
+article_for_analysis = st.session_state.last_article
+
+if result:
+
+    col1, col2, col3 = st.columns(3)
+    col1.metric(T["classic_score"], result["M"], help=T["help_classic_score"])
+    col2.metric(T["improved_score"], result["improved"], help=T["help_improved_score"])
+    col3.metric(T["hard_fact_score"], result["hard_fact_score"], help=T["help_hard_fact_score"])
+
+    score = result["hard_fact_score"]
+    if score <= 6:
+        couleur, etiquette, message = "🔴", T["fragile"], T["fragile_message"]
+    elif score <= 11:
+        couleur, etiquette, message = "🟠", T["doubtful"], T["doubtful_message"]
+    elif score <= 15:
+        couleur, etiquette, message = "🟡", T["plausible"], T["plausible_message"]
     else:
-        explanations.append(
-            "La vérifiabilité est bonne : plusieurs éléments concrets facilitent la vérification."
-        )
+        couleur, etiquette, message = "🟢", T["robust"], T["robust_message"]
 
-    # Doxa
-    if result["D"] >= 7:
-        explanations.append(
-            "La doxa est forte : le texte adopte un ton très affirmatif, avec un risque de fermeture cognitive."
-        )
-    elif result["D"] >= 4:
-        explanations.append(
-            "La doxa est modérée : le texte affirme avec assurance sans être entièrement verrouillé."
-        )
-    else:
-        explanations.append(
-            "La doxa est faible : le texte laisse davantage de place à la nuance et à la révision."
-        )
+    st.subheader(f"{couleur} {T['credibility_gauge']} : {etiquette}")
+    st.progress(score / 20)
+    st.caption(f"{T['score']} : {score}/20 — {message}")
+    st.subheader("Diagnostic cognitif")
 
-    for exp in explanations:
-        st.info(exp)
+    life_score = round((result["hard_fact_score"] / 20) * 100, 1)
+    mecroyance_bar = max(0.0, min(1.0, (result["M"] + 10) / 30))
 
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.write("Vitalité cognitive")
+        st.progress(life_score / 100)
+        st.caption(f"{life_score}%")
+
+    with col2:
+        st.write("Indice de mécroyance")
+        st.progress(mecroyance_bar)
+        st.caption(f"M = {result['M']}")
+
+    st.subheader(f"{T['verdict']} : {result['verdict']}")
     st.subheader(T["summary"])
 
     m1, m2 = st.columns(2)
@@ -1578,19 +1713,33 @@ with st.expander(T["settings"], expanded=False):
     )
     st.pyplot(fig_triangle, use_container_width=True)
 
+st.subheader(T["cognitive_metrics"])
     st.subheader(T["cognitive_metrics"])
 
+col1, col2 = st.columns(2)
     col1, col2 = st.columns(2)
 
+with col1:
+    st.metric(T["mecroyance_index"], round(result["M"], 2))
     with col1:
         st.metric(T["mecroyance_index"], round(result["M"], 2))
 
+with col2:
+    st.metric(T["mendacity_index"], round(result["ME"], 2))
     with col2:
         st.metric(T["mendacity_index"], round(result["ME"], 2))
 
+delta_mm = round(result["M"] - result["ME"], 2)
+st.caption(f"{T['cognitive_gap']} : {delta_mm}")
     delta_mm = round(result["M"] - result["ME"], 2)
     st.caption(f"{T['cognitive_gap']} : {delta_mm}")
 
+if result["M"] > result["ME"] + 1:
+    dominant_pattern = T["pattern_mecroyance"]
+elif result["ME"] > result["M"] + 1:
+    dominant_pattern = T["pattern_strategic_lying"]
+else:
+    dominant_pattern = T["pattern_mixed"]
     if result["M"] > result["ME"] + 1:
         dominant_pattern = T["pattern_mecroyance"]
     elif result["ME"] > result["M"] + 1:
@@ -1598,9 +1747,17 @@ with st.expander(T["settings"], expanded=False):
     else:
         dominant_pattern = T["pattern_mixed"]
 
+st.subheader(T["dominant_pattern_title"])
+st.write(f"{T['dominant_pattern']} : {dominant_pattern}")
     st.subheader(T["dominant_pattern_title"])
     st.write(f"{T['dominant_pattern']} : {dominant_pattern}")
 
+if result["ME"] > result["M"] and result["ME"] > 0:
+    cognitive_type = T["cognitive_type_strategic_lying"]
+elif result["M"] < 0:
+    cognitive_type = T["cognitive_type_closure"]
+else:
+    cognitive_type = T["cognitive_type_misaligned"]
     if result["ME"] > result["M"] and result["ME"] > 0:
         cognitive_type = T["cognitive_type_strategic_lying"]
     elif result["M"] < 0:
@@ -1608,9 +1765,19 @@ with st.expander(T["settings"], expanded=False):
     else:
         cognitive_type = T["cognitive_type_misaligned"]
 
+st.subheader(T["cognitive_interpretation"])
+st.write(cognitive_type)
     st.subheader(T["cognitive_interpretation"])
     st.write(cognitive_type)
 
+if result["M"] - result["ME"] > 3:
+    diagnosis = T["diagnosis_strong_mecroyance"]
+elif result["M"] > result["ME"]:
+    diagnosis = T["diagnosis_moderate_mecroyance"]
+elif abs(result["M"] - result["ME"]) <= 1:
+    diagnosis = T["diagnosis_ambiguous"]
+else:
+    diagnosis = T["diagnosis_deception"]
     if result["M"] - result["ME"] > 3:
         diagnosis = T["diagnosis_strong_mecroyance"]
     elif result["M"] > result["ME"]:
@@ -1620,12 +1787,18 @@ with st.expander(T["settings"], expanded=False):
     else:
         diagnosis = T["diagnosis_deception"]
 
+st.subheader(T["cognitive_diagnosis"])
+st.write(diagnosis)
     st.subheader(T["cognitive_diagnosis"])
     st.write(diagnosis)
 
+conflict = abs(result["M"] - result["ME"])
+conflict_bar = min(conflict / 10, 1)
     conflict = abs(result["M"] - result["ME"])
     conflict_bar = min(conflict / 10, 1)
 
+st.write(T["cognitive_tension"])
+st.progress(conflict_bar)
     st.write(T["cognitive_tension"])
     st.progress(conflict_bar)
 
@@ -1684,6 +1857,7 @@ with st.expander(T["settings"], expanded=False):
         st.dataframe(claims_df, use_container_width=True, hide_index=True)
     else:
         st.info(T["paste_longer_text"])
+ 
 
     st.divider()
     st.subheader(T["ai_module"])
@@ -1719,6 +1893,7 @@ with st.expander(T["settings"], expanded=False):
                             st.markdown(f"**[{match['title']}]({match['url']})**")
                             st.markdown(
                                 f"- **{T['match_score']}** : {match['match_score']['score']}\n"
+                                f"- **{T['contradiction_signal']}** : {T['detected'] if match['match_score']['contradiction_signal'] else T['not_detected']}"
                                 f"- **{T['contradiction_signal']}** : "
                                 f"{T['detected'] if match['match_score']['contradiction_signal'] else T['not_detected']}"
                             )
