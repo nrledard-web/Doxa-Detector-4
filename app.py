@@ -1705,21 +1705,6 @@ if "last_keyword" not in st.session_state:
     st.session_state.last_keyword = ""
 
 
-"explain_m_negative": "La mécroyance est en zone négative : le niveau de certitude dépasse l’ancrage cognitif du texte. Le discours affirme plus qu’il ne démontre.",
-"explain_m_stable": "La mécroyance reste dans une zone modérée : le texte conserve un certain équilibre entre affirmation, savoir et compréhension.",
-"explain_m_high": "La mécroyance est positive : le texte reste relativement révisable et ne semble pas enfermé dans une certitude rigide.",
-
-"explain_me_high": "L’indice de mendacity est relativement élevé : certaines structures du texte peuvent correspondre à une rhétorique orientée ou stratégique.",
-"explain_me_low": "L’indice de mendacity est faible : le texte semble plutôt relever d’une cognition sincère, même si elle peut rester imparfaite.",
-
-"explain_v_low": "La vérifiabilité est faible : peu d’indices permettent de contrôler les affirmations (données, références, repères factuels).",
-"explain_v_mid": "La vérifiabilité est moyenne : quelques éléments permettent un contrôle partiel du contenu.",
-"explain_v_high": "La vérifiabilité est bonne : le texte contient plusieurs éléments concrets permettant la vérification.",
-
-"explain_d_high": "La doxa est forte : le texte adopte un ton très affirmatif ou saturé, ce qui peut signaler une fermeture cognitive.",
-"explain_d_mid": "La doxa est modérée : le texte affirme avec assurance mais conserve une certaine ouverture.",
-"explain_d_low": "La doxa est faible : le texte laisse place à la nuance, au doute et à la révision.",
-
 # -----------------------------
 # Method section
 # -----------------------------
