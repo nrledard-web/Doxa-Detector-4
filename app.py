@@ -1732,6 +1732,53 @@ if result:
         st.caption(f"M = {result['M']}")
 
     st.subheader(f"{T['verdict']} : {result['verdict']}")
+    st.divider()
+    st.subheader(T["results_explanation_title"])
+
+explanations = []
+
+# Hard Fact Score
+if result["hard_fact_score"] < 6:
+    explanations.append(T["explain_hard_fact_low"])
+elif result["hard_fact_score"] < 10:
+    explanations.append(T["explain_hard_fact_mid"])
+elif result["hard_fact_score"] < 15:
+    explanations.append(T["explain_hard_fact_good"])
+else:
+    explanations.append(T["explain_hard_fact_strong"])
+
+# Mécroyance
+if result["M"] < 0:
+    explanations.append(T["explain_m_negative"])
+elif result["M"] <= 10:
+    explanations.append(T["explain_m_stable"])
+else:
+    explanations.append(T["explain_m_high"])
+
+# Mendacity
+if result["ME"] > result["M"] and result["ME"] > 0:
+    explanations.append(T["explain_me_high"])
+else:
+    explanations.append(T["explain_me_low"])
+
+# Vérifiabilité
+if result["V"] < 4:
+    explanations.append(T["explain_v_low"])
+elif result["V"] < 7:
+    explanations.append(T["explain_v_mid"])
+else:
+    explanations.append(T["explain_v_high"])
+
+# Doxa
+if result["D"] >= 7:
+    explanations.append(T["explain_d_high"])
+elif result["D"] >= 4:
+    explanations.append(T["explain_d_mid"])
+else:
+    explanations.append(T["explain_d_low"])
+
+for exp in explanations:
+    st.info(exp)
     st.subheader(T["summary"])
 
     m1, m2 = st.columns(2)
