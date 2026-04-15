@@ -1689,12 +1689,15 @@ if result:
     m1, m2 = st.columns(2)
     m1.metric("G — gnōsis", result["G"])
     m2.metric("N — nous", result["N"])
+
     m3, m4 = st.columns(2)
     m3.metric("D — doxa", result["D"])
     m4.metric("V — vérifiabilité", result["V"])
+
     m5, m6 = st.columns(2)
     m5.metric("QS", result["source_quality"])
     m6.metric("RC", round(result["avg_claim_risk"], 1))
+
     m7, m8 = st.columns(2)
     m7.metric("VC", round(result["avg_claim_verifiability"], 1))
     m8.metric("F", len(result["red_flags"]))
@@ -1710,56 +1713,56 @@ if result:
     )
     st.pyplot(fig_triangle, use_container_width=True)
 
-st.subheader(T["cognitive_metrics"])
+    st.subheader(T["cognitive_metrics"])
 
-col1, col2 = st.columns(2)
+    col1, col2 = st.columns(2)
 
-with col1:
-    st.metric(T["mecroyance_index"], round(result["M"], 2))
+    with col1:
+        st.metric(T["mecroyance_index"], round(result["M"], 2))
 
-with col2:
-    st.metric(T["mendacity_index"], round(result["ME"], 2))
+    with col2:
+        st.metric(T["mendacity_index"], round(result["ME"], 2))
 
-delta_mm = round(result["M"] - result["ME"], 2)
-st.caption(f"{T['cognitive_gap']} : {delta_mm}")
+    delta_mm = round(result["M"] - result["ME"], 2)
+    st.caption(f"{T['cognitive_gap']} : {delta_mm}")
 
-if result["M"] > result["ME"] + 1:
-    dominant_pattern = T["pattern_mecroyance"]
-elif result["ME"] > result["M"] + 1:
-    dominant_pattern = T["pattern_strategic_lying"]
-else:
-    dominant_pattern = T["pattern_mixed"]
+    if result["M"] > result["ME"] + 1:
+        dominant_pattern = T["pattern_mecroyance"]
+    elif result["ME"] > result["M"] + 1:
+        dominant_pattern = T["pattern_strategic_lying"]
+    else:
+        dominant_pattern = T["pattern_mixed"]
 
-st.subheader(T["dominant_pattern_title"])
-st.write(f"{T['dominant_pattern']} : {dominant_pattern}")
+    st.subheader(T["dominant_pattern_title"])
+    st.write(f"{T['dominant_pattern']} : {dominant_pattern}")
 
-if result["ME"] > result["M"] and result["ME"] > 0:
-    cognitive_type = T["cognitive_type_strategic_lying"]
-elif result["M"] < 0:
-    cognitive_type = T["cognitive_type_closure"]
-else:
-    cognitive_type = T["cognitive_type_misaligned"]
+    if result["ME"] > result["M"] and result["ME"] > 0:
+        cognitive_type = T["cognitive_type_strategic_lying"]
+    elif result["M"] < 0:
+        cognitive_type = T["cognitive_type_closure"]
+    else:
+        cognitive_type = T["cognitive_type_misaligned"]
 
-st.subheader(T["cognitive_interpretation"])
-st.write(cognitive_type)
+    st.subheader(T["cognitive_interpretation"])
+    st.write(cognitive_type)
 
-if result["M"] - result["ME"] > 3:
-    diagnosis = T["diagnosis_strong_mecroyance"]
-elif result["M"] > result["ME"]:
-    diagnosis = T["diagnosis_moderate_mecroyance"]
-elif abs(result["M"] - result["ME"]) <= 1:
-    diagnosis = T["diagnosis_ambiguous"]
-else:
-    diagnosis = T["diagnosis_deception"]
+    if result["M"] - result["ME"] > 3:
+        diagnosis = T["diagnosis_strong_mecroyance"]
+    elif result["M"] > result["ME"]:
+        diagnosis = T["diagnosis_moderate_mecroyance"]
+    elif abs(result["M"] - result["ME"]) <= 1:
+        diagnosis = T["diagnosis_ambiguous"]
+    else:
+        diagnosis = T["diagnosis_deception"]
 
-st.subheader(T["cognitive_diagnosis"])
-st.write(diagnosis)
+    st.subheader(T["cognitive_diagnosis"])
+    st.write(diagnosis)
 
-conflict = abs(result["M"] - result["ME"])
-conflict_bar = min(conflict / 10, 1)
+    conflict = abs(result["M"] - result["ME"])
+    conflict_bar = min(conflict / 10, 1)
 
-st.write(T["cognitive_tension"])
-st.progress(conflict_bar)
+    st.write(T["cognitive_tension"])
+    st.progress(conflict_bar)
 
     with st.expander(T["strengths_detected"], expanded=True):
         if result["strengths"]:
@@ -1788,9 +1791,11 @@ st.progress(conflict_bar)
     c1, c2 = st.columns(2)
     c1.metric(T["overconfidence"], round(overconfidence, 2))
     c2.metric(T["calibration"], round(calibration, 2))
+
     c3, c4 = st.columns(2)
     c3.metric(T["revisability"], round(revisability, 2))
     c4.metric(T["cognitive_closure"], round(closure, 2))
+
     st.markdown(f"**{T['interpretation']} :** {cog.interpret()}")
 
     st.subheader(T["hard_fact_checking_by_claim"])
@@ -1814,7 +1819,7 @@ st.progress(conflict_bar)
         st.dataframe(claims_df, use_container_width=True, hide_index=True)
     else:
         st.info(T["paste_longer_text"])
- 
+
     st.divider()
     st.subheader(T["ai_module"])
     st.caption(T["ai_module_caption"])
@@ -1827,24 +1832,30 @@ st.progress(conflict_bar)
                 ai_summary = generate_ai_summary(lang, article_for_analysis, result)
             st.subheader(T["ai_analysis_result"])
             st.markdown(ai_summary)
+
     if st.session_state.get("article_source") == "paste":
         st.divider()
         st.subheader(T["external_corroboration_module"])
         st.caption(T["external_corroboration_caption"])
+
         with st.spinner(T["corroboration_in_progress"]):
             corroboration = corroborate_claims(article_for_analysis, max_claims=5, max_results_per_claim=3)
+
         if corroboration:
             for i, item in enumerate(corroboration, start=1):
                 title_preview = item["claim"][:140] + ("..." if len(item["claim"]) > 140 else "")
+
                 with st.expander(f"{T['claim']} {i} : {title_preview}", expanded=(i == 1)):
                     st.markdown(f"**{T['corroboration_verdict']} :** {display_corroboration_verdict(item['verdict'])}")
                     st.markdown(f"**{T['generated_query']} :** `{item['query']}`")
+
                     if item["matches"]:
                         for match in item["matches"]:
                             st.markdown(f"**[{match['title']}]({match['url']})**")
                             st.markdown(
                                 f"- **{T['match_score']}** : {match['match_score']['score']}\n"
-                                f"- **{T['contradiction_signal']}** : {T['detected'] if match['match_score']['contradiction_signal'] else T['not_detected']}"
+                                f"- **{T['contradiction_signal']}** : "
+                                f"{T['detected'] if match['match_score']['contradiction_signal'] else T['not_detected']}"
                             )
                             if match["snippet"]:
                                 st.caption(match["snippet"])
@@ -1852,6 +1863,7 @@ st.progress(conflict_bar)
                         st.warning(T["no_strong_sources_found"])
         else:
             st.info(T["no_corroboration_found"])
+
 else:
     st.info(T["paste_text_or_load_url"])
 
