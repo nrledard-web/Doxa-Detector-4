@@ -293,6 +293,27 @@ translations = {
         "diagnosis_moderate_mecroyance": "Structure modérée de mécroyance",
         "diagnosis_ambiguous": "Structure cognitive ambiguë",
         "diagnosis_deception": "Tromperie stratégique possible",
+        "results_explanation_title": "Comment lire ces résultats",
+
+        "explain_hard_fact_low": "Le Hard Fact Score est très faible : le texte contient peu d’éléments vérifiables (sources, chiffres, dates ou noms). Les affirmations reposent davantage sur la formulation que sur des faits contrôlables.",
+        "explain_hard_fact_mid": "Le Hard Fact Score reste fragile : certains indices factuels existent mais ils ne suffisent pas à soutenir solidement les affirmations principales.",
+        "explain_hard_fact_good": "Le Hard Fact Score est correct : plusieurs éléments du texte peuvent être vérifiés, même si certaines affirmations restent plus fragiles.",
+        "explain_hard_fact_strong": "Le Hard Fact Score est élevé : les affirmations sont globalement soutenues par des éléments vérifiables et une structure factuelle relativement solide.",
+
+        "explain_m_negative": "La mécroyance est en zone négative : le niveau de certitude dépasse l’ancrage cognitif du texte. Le discours affirme plus qu’il ne démontre.",
+        "explain_m_stable": "La mécroyance reste dans une zone modérée : le texte conserve un certain équilibre entre affirmation, savoir et compréhension.",
+        "explain_m_high": "La mécroyance est positive : l’ancrage cognitif domine encore la certitude, ce qui rend le texte plus révisable.",
+
+        "explain_me_high": "L’indice de mendacity est relativement élevé : certaines structures du texte peuvent correspondre à une rhétorique orientée ou stratégique.",
+        "explain_me_low": "L’indice de mendacity reste faible : le texte semble plutôt relever d’une cognition sincère, même si elle peut rester incomplète.",
+
+        "explain_v_low": "La vérifiabilité est faible : peu d’indices permettent de contrôler les affirmations (données, références, repères factuels).",
+        "explain_v_mid": "La vérifiabilité est moyenne : quelques éléments permettent un contrôle partiel du contenu.",
+        "explain_v_high": "La vérifiabilité est bonne : le texte contient plusieurs éléments concrets permettant la vérification.",
+
+        "explain_d_high": "La doxa est forte : le texte adopte un ton très affirmatif ou saturé, ce qui peut signaler une fermeture cognitive.",
+        "explain_d_mid": "La doxa est modérée : le texte affirme avec assurance sans être totalement verrouillé.",
+        "explain_d_low": "La doxa est faible : le texte laisse davantage de place à la nuance et à la révision."
     },
     "English": {
         "title": "🧠 Mecroyance Lab — Credibility Analyzer",
