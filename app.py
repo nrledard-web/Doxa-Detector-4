@@ -1704,7 +1704,6 @@ if "multi_results" not in st.session_state:
 if "last_keyword" not in st.session_state:
     st.session_state.last_keyword = ""
 
-"results_explanation_title": "Comment lire ces résultats",
 
 "explain_hard_fact_low": "Le Hard Fact Score est très faible : le texte contient peu d’éléments vérifiables (chiffres, sources, dates, noms). Les affirmations reposent davantage sur des formulations que sur des faits contrôlables.",
 "explain_hard_fact_mid": "Le Hard Fact Score reste fragile : certains indices factuels existent, mais ils ne suffisent pas à soutenir solidement les affirmations principales.",
