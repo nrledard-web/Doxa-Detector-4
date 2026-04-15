@@ -1704,9 +1704,6 @@ if "multi_results" not in st.session_state:
 if "last_keyword" not in st.session_state:
     st.session_state.last_keyword = ""
 
-"explain_hard_fact_mid": "Le Hard Fact Score reste fragile : certains indices factuels existent, mais ils ne suffisent pas à soutenir solidement les affirmations principales.",
-"explain_hard_fact_good": "Le Hard Fact Score est correct : plusieurs éléments du texte peuvent être vérifiés (sources, chiffres ou repères concrets), même si certaines parties restent plus fragiles.",
-"explain_hard_fact_strong": "Le Hard Fact Score est élevé : les affirmations sont globalement soutenues par des éléments vérifiables et une structure factuelle relativement solide.",
 
 "explain_m_negative": "La mécroyance est en zone négative : le niveau de certitude dépasse l’ancrage cognitif du texte. Le discours affirme plus qu’il ne démontre.",
 "explain_m_stable": "La mécroyance reste dans une zone modérée : le texte conserve un certain équilibre entre affirmation, savoir et compréhension.",
