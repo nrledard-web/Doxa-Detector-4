@@ -1710,53 +1710,56 @@ if result:
     )
     st.pyplot(fig_triangle, use_container_width=True)
 
-    st.subheader("Cognitive Metrics")
+st.subheader(T["cognitive_metrics"])
 
-    col1, col2 = st.columns(2)
+col1, col2 = st.columns(2)
 
-    with col1:
-        st.metric("Mécroyance Index (M)", round(result["M"], 2))
+with col1:
+    st.metric(T["mecroyance_index"], round(result["M"], 2))
 
-    with col2:
-        st.metric("Mendacity Index (ME)", round(result["ME"], 2))
-    delta_mm = round(result["M"] - result["ME"], 2)
-    st.caption(f"Cognitive gap (M − ME) : {delta_mm}")
-    if result["M"] > result["ME"] + 1:
-        dominant_pattern = "Dominant pattern: mécroyance"
-    elif result["ME"] > result["M"] + 1:
-        dominant_pattern = "Dominant pattern: strategic lying"
-    else:
-        dominant_pattern = "Dominant pattern: mixed or ambiguous"
+with col2:
+    st.metric(T["mendacity_index"], round(result["ME"], 2))
 
-    st.subheader("Dominant cognitive pattern")
-    st.write(dominant_pattern)
+delta_mm = round(result["M"] - result["ME"], 2)
+st.caption(f"{T['cognitive_gap']} : {delta_mm}")
 
-    if result["ME"] > result["M"] and result["ME"] > 0:
-        cognitive_type = "Possible strategic lying"
-    elif result["M"] < 0:
-        cognitive_type = "High mécroyance / cognitive closure"
-    else:
-        cognitive_type = "Likely sincere but misaligned cognition"
+if result["M"] > result["ME"] + 1:
+    dominant_pattern = T["pattern_mecroyance"]
+elif result["ME"] > result["M"] + 1:
+    dominant_pattern = T["pattern_strategic_lying"]
+else:
+    dominant_pattern = T["pattern_mixed"]
 
-    st.subheader("Cognitive Interpretation")
-    st.write(cognitive_type)
+st.subheader(T["dominant_pattern_title"])
+st.write(f"{T['dominant_pattern']} : {dominant_pattern}")
 
-    if result["M"] - result["ME"] > 3:
-        diagnosis = "Strong mécroyance structure"
-    elif result["M"] > result["ME"]:
-        diagnosis = "Moderate mécroyance structure"
-    elif abs(result["M"] - result["ME"]) <= 1:
-        diagnosis = "Ambiguous cognitive structure"
-    else:
-        diagnosis = "Possible strategic deception"
+if result["ME"] > result["M"] and result["ME"] > 0:
+    cognitive_type = T["cognitive_type_strategic_lying"]
+elif result["M"] < 0:
+    cognitive_type = T["cognitive_type_closure"]
+else:
+    cognitive_type = T["cognitive_type_misaligned"]
 
-    st.subheader("Cognitive diagnosis")
-    st.write(diagnosis)
-    conflict = abs(result["M"] - result["ME"])
-    conflict_bar = min(conflict / 10, 1)
+st.subheader(T["cognitive_interpretation"])
+st.write(cognitive_type)
 
-    st.write("Cognitive tension (mécroyance vs mendacity)")
-    st.progress(conflict_bar)
+if result["M"] - result["ME"] > 3:
+    diagnosis = T["diagnosis_strong_mecroyance"]
+elif result["M"] > result["ME"]:
+    diagnosis = T["diagnosis_moderate_mecroyance"]
+elif abs(result["M"] - result["ME"]) <= 1:
+    diagnosis = T["diagnosis_ambiguous"]
+else:
+    diagnosis = T["diagnosis_deception"]
+
+st.subheader(T["cognitive_diagnosis"])
+st.write(diagnosis)
+
+conflict = abs(result["M"] - result["ME"])
+conflict_bar = min(conflict / 10, 1)
+
+st.write(T["cognitive_tension"])
+st.progress(conflict_bar)
 
     with st.expander(T["strengths_detected"], expanded=True):
         if result["strengths"]:
