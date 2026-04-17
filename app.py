@@ -881,6 +881,7 @@ def detect_political_patterns(text: str):
         "socialisme_communisme": SOCIALISME_COMMUNISME,
         "delegitimation": CONFUSION_DELEGITIMATION,
         "dilution": DILUTION_RESPONSABILITE,
+        "causalite": CAUSALITE_IMPLICITE,
     }
 
     results = {}
