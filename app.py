@@ -1632,6 +1632,28 @@ if result:
     c3, c4 = st.columns(2)
     c3.metric(T["revisability"], round(revisability, 2))
     c4.metric(T["cognitive_closure"], round(closure, 2))
+    st.divider()
+    st.subheader("Jauge de clôture cognitive")
+
+    st.caption(
+        "Cette jauge mesure le degré de verrouillage cognitif du texte. "
+        "Plus elle monte, plus la certitude domine le savoir et l’intégration."
+    )
+
+    closure_gauge = min(closure / 1.5, 1.0)
+
+    closure_label, closure_color, closure_text = interpret_closure_gauge(closure)
+
+    render_custom_gauge(closure_gauge, closure_color)
+
+    st.markdown(
+        f"<b style='color:{closure_color}'>{closure_label}</b> — {round(closure,2)}",
+        unsafe_allow_html=True
+    )
+
+    st.caption("Ouverture cognitive ⟵⟶ Clôture cognitive")
+
+    st.caption(closure_text)
     st.markdown(f"**{T['interpretation']} :** {cog.interpret()}")
 
     st.subheader(T["hard_fact_checking_by_claim"])
