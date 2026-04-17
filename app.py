@@ -1642,6 +1642,48 @@ if result:
 
     st.caption("Pression rhétorique faible ⟵⟶ Pression rhétorique forte")
 
+        st.divider()
+    st.subheader("Jauge propagandiste")
+    st.caption(
+        "Cette jauge combine la tension cognitive, la pression rhétorique, "
+        "les motifs idéologiques détectés et le degré de fermeture cognitive. "
+        "Elle aide à estimer si le texte relève d’un simple discours orienté "
+        "ou d’une structure plus franchement propagandiste."
+    )
+
+    closure_for_discourse = (
+        (result["D"] * (1 + len(result["red_flags"]) / 5)) / (result["G"] + result["N"])
+        if (result["G"] + result["N"]) > 0 else 10
+    )
+
+    propaganda_value = compute_propaganda_gauge(
+        lie_gauge=gauge_value,
+        rhetorical_pressure=rp,
+        political_pattern_score=result["political_pattern_score"],
+        closure=closure_for_discourse
+    )
+
+    propaganda_label, propaganda_color, propaganda_text = interpret_propaganda_gauge(propaganda_value)
+
+    render_custom_gauge(propaganda_value, propaganda_color)
+
+    st.markdown(
+        f"<b style='color:{propaganda_color}'>{propaganda_label}</b> — {round(propaganda_value*100, 1)}%",
+        unsafe_allow_html=True
+    )
+
+    st.caption("Discours peu orienté ⟵⟶ Structure propagandiste")
+    st.caption(propaganda_text)
+
+    discursive_profile = interpret_discursive_profile(
+        lie_gauge=gauge_value,
+        rhetorical_pressure=rp,
+        propaganda_gauge=propaganda_value
+    )
+
+    st.subheader("Profil discursif global")
+    st.write(discursive_profile)
+
     with st.expander("Voir les manœuvres discursives détectées", expanded=False):
         if result["political_pattern_score"] == 0:
             st.info("Aucun marqueur rhétorique politique saillant détecté.")
