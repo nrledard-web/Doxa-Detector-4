@@ -550,18 +550,13 @@ def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict
 # -----------------------------
 # Jauge mécroyance / mensonge
 # -----------------------------
-def compute_lie_gauge(G: float, N: float, D: float, M: float):
+def compute_lie_gauge(M: float, ME: float):
 
-    ME_gauge = (2 * D) - (G + N)
-    delta = ME_gauge - M
-
-    # amplification contrôlée
+    delta = ME - M
     amp = 8.0
-
     strength = min(abs(delta) / amp, 1.0)
 
     if delta <= 0:
-        # zone mécroyance
         gauge = 0.5 * (1 - strength)
 
         if gauge > 0.35:
@@ -570,9 +565,7 @@ def compute_lie_gauge(G: float, N: float, D: float, M: float):
         else:
             label = "Mécroyance forte"
             color = "#a16207"
-
     else:
-        # zone mensonge
         gauge = 0.5 + (0.5 * strength)
 
         if gauge < 0.65:
@@ -585,228 +578,7 @@ def compute_lie_gauge(G: float, N: float, D: float, M: float):
             label = "Mensonge extrême"
             color = "#991b1b"
 
-    return round(gauge,3), label, color, round(ME_gauge,2)
-
-
-@dataclass
-class Claim:
-    text: str
-    has_number: bool
-    has_date: bool
-    has_named_entity: bool
-    has_source_cue: bool
-    absolutism: int
-    emotional_charge: int
-    verifiability: float
-    risk: float
-    status: str
-
-
-SOURCE_CUES = [
-    "selon", "affirme", "déclare", "rapport", "étude", "expert",
-    "source", "dit", "écrit", "publié", "annonce", "confirme", "révèle",
-]
-
-ABSOLUTIST_WORDS = [
-    "toujours", "jamais", "absolument", "certain", "certaine",
-    "prouvé", "prouvée", "incontestable", "tous", "aucun",
-]
-
-EMOTIONAL_WORDS = [
-    "choc", "incroyable", "terrible", "peur", "menace",
-    "scandale", "révolution", "urgent", "catastrophe", "crise",
-]
-
-NUANCE_MARKERS = [
-    "cependant", "pourtant", "néanmoins", "toutefois", "mais",
-    "nuancer", "prudence", "possible", "peut-être", "semble",
-]
-
-
-def analyze_claim(sentence: str) -> Claim:
-    has_number = bool(re.search(r"\d+", sentence))
-    has_date = bool(
-        re.search(
-            r"\d{4}|janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre",
-            sentence,
-            re.I,
-        )
-    )
-    has_named_entity = bool(re.search(r"[A-Z][a-z]+ [A-Z][a-z]+|[A-Z]{2,}", sentence))
-    has_source_cue = any(cue in sentence.lower() for cue in SOURCE_CUES)
-
-    absolutism = sum(1 for word in ABSOLUTIST_WORDS if word in sentence.lower())
-    emotional_charge = sum(1 for word in EMOTIONAL_WORDS if word in sentence.lower())
-
-    v_score = clamp((has_number * 5) + (has_date * 5) + (has_named_entity * 5) + (has_source_cue * 5), 0, 20)
-    r_score = clamp((absolutism * 7) + (emotional_charge * 7), 0, 20)
-
-    if v_score < 5:
-        status = T["very_fragile"]
-    elif v_score < 12:
-        status = T["to_verify"]
-    else:
-        status = T["rather_verifiable"]
-
-    return Claim(
-        text=sentence,
-        has_number=has_number,
-        has_date=has_date,
-        has_named_entity=has_named_entity,
-        has_source_cue=has_source_cue,
-        absolutism=absolutism,
-        emotional_charge=emotional_charge,
-        verifiability=v_score,
-        risk=r_score,
-        status=status,
-    )
-
-
-def analyze_article(text: str) -> Dict:
-    words = text.split()
-    sentences = [s.strip() for s in re.split(r"[.!?]+", text) if len(s.strip()) > 10]
-    article_length = len(words)
-
-    source_markers = len(re.findall(r"|".join(re.escape(c) for c in SOURCE_CUES), text.lower()))
-    citation_like = len(re.findall(r'"|\'|«|»', text))
-    nuance_markers = len(re.findall(r"|".join(re.escape(c) for c in NUANCE_MARKERS), text.lower()))
-
-    G = clamp(source_markers * 1.5 + citation_like * 0.5, 0, 10)
-    N = clamp(nuance_markers * 2 + (article_length / 100), 0, 10)
-
-    certainty = len(re.findall(r"certain|absolument|prouvé|évident|incontestable", text.lower()))
-    emotional = len(re.findall(r"|".join(re.escape(w) for w in EMOTIONAL_WORDS), text.lower()))
-
-    D = clamp(certainty * 2 + emotional * 1.5, 0, 10)
-    M = round((G + N) - D, 1)
-    V = clamp(G * 0.8 + N * 0.2, 0, 10)
-    R = clamp(D * 0.7 + (emotional * 1.2), 0, 10)
-    improved = round((G + N + V) - (D + R), 1)
-
-    claims = [analyze_claim(s) for s in sentences[:15]]
-    avg_claim_verifiability = sum(c.verifiability for c in claims) / len(claims) if claims else 0
-    avg_claim_risk = sum(c.risk for c in claims) / len(claims) if claims else 0
-    source_quality = clamp(source_markers * 3 - (emotional * 2), 0, 20)
-
-    red_flags = []
-    if D > 8:
-        red_flags.append("Doxa saturée")
-    if emotional > 5:
-        red_flags.append("Pathos excessif")
-    if G < 2:
-        red_flags.append("Désert documentaire")
-    if article_length < 50:
-        red_flags.append("Format indigent")
-
-    hard_fact_score_raw = (
-        (0.18 * G + 0.12 * N + 0.20 * V + 0.22 * source_quality + 0.18 * avg_claim_verifiability)
-        - (0.16 * D + 0.12 * R + 0.18 * avg_claim_risk + 0.9 * len(red_flags))
-    )
-    hard_fact_score = round(clamp(hard_fact_score_raw + 8, 0, 20), 1)
-
-    if hard_fact_score < 6:
-        verdict = T["low_credibility"]
-    elif hard_fact_score < 10:
-        verdict = T["prudent_credibility"]
-    elif hard_fact_score < 15:
-        verdict = T["rather_credible"]
-    else:
-        verdict = T["strong_credibility"]
-
-    strengths = []
-    if source_markers >= 2:
-        strengths.append(T["presence_of_source_markers"])
-    if citation_like >= 2:
-        strengths.append(T["verifiability_clues"])
-    if nuance_markers >= 2:
-        strengths.append(T["text_contains_nuances"])
-    if source_quality >= 12:
-        strengths.append(T["text_evokes_robust_sources"])
-    if any(c.status == T["rather_verifiable"] for c in claims):
-        strengths.append(T["some_claims_verifiable"])
-
-    weaknesses = []
-    if certainty >= 3:
-        weaknesses.append(T["overly_assertive_language"])
-    if emotional >= 2:
-        weaknesses.append(T["notable_emotional_sensational_charge"])
-    if source_markers == 0 and citation_like == 0:
-        weaknesses.append(T["almost_total_absence_of_verifiable_elements"])
-    if article_length < 80:
-        weaknesses.append(T["text_too_short"])
-    weaknesses.extend(red_flags)
-    if sum(1 for c in claims if c.status == T["very_fragile"]) >= 2:
-        weaknesses.append(T["multiple_claims_very_fragile"])
-
-    ling = compute_linguistic_suspicion(text)
-    L = ling["L"]
-
-    ME_base = max(0, (2 * D) - (G + N))
-    ME = round(ME_base * L, 2)
-
-    return {
-        "words": len(words),
-        "sentences": len(sentences),
-        "G": G,
-        "N": N,
-        "D": D,
-        "M": M,
-        "ME_base": ME_base,
-        "ME": ME,
-        "L": L,
-        "linguistic_trigger_count": ling["trigger_count"],
-        "rhetorical_pressure": ling["rhetorical_pressure"],
-        "absolute_claims": ling["absolute_claims"],
-        "vague_authority": ling["vague_authority"],
-        "dramatic_framing": ling["dramatic_framing"],
-        "lack_of_nuance": ling["lack_of_nuance"],
-        "V": V,
-        "R": R,
-        "improved": improved,
-        "source_quality": source_quality,
-        "avg_claim_risk": avg_claim_risk,
-        "avg_claim_verifiability": avg_claim_verifiability,
-        "hard_fact_score": hard_fact_score,
-        "verdict": verdict,
-        "profil_solidite": verdict,
-        "strengths": strengths,
-        "weaknesses": weaknesses,
-        "claims": claims,
-        "red_flags": red_flags,
-    }
-
-
-@st.cache_data(show_spinner=False, ttl=1800)
-def analyze_multiple_articles(keyword: str, max_results: int = 10) -> List[Dict]:
-    articles = search_articles_by_keyword(keyword, max_results)
-    results = []
-    for art in articles:
-        try:
-            full_text = extract_article_from_url(art["url"])
-            if len(full_text) > 120:
-                analysis = analyze_article(full_text)
-                results.append(
-                    {
-                        "Source": art["source"],
-                        "Titre": art["title"],
-                        "Score classique": analysis["M"],
-                        "Hard Fact Score": analysis["hard_fact_score"],
-                        "Verdict": analysis["verdict"],
-                        "URL": art["url"],
-                    }
-                )
-        except Exception:
-            continue
-    return results
-
-
-@st.cache_data(show_spinner=False, ttl=1800)
-def fetch_text_for_textarea(url: str) -> str:
-    try:
-        text = extract_article_from_url(url)
-        return (text or "").strip()
-    except Exception:
-        return ""
+    return round(gauge,3), label, color, round(ME,2)
 
 
 # -----------------------------
