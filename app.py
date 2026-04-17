@@ -1019,8 +1019,15 @@ def analyze_multiple_articles(keyword: str, max_results: int = 10) -> List[Dict]
         except Exception:
             continue
 
-    return results        
-
+    return results   
+    
+@st.cache_data(show_spinner=False, ttl=1800)
+def fetch_text_for_textarea(url: str) -> str:
+    try:
+        text = extract_article_from_url(url)
+        return (text or "").strip()
+    except Exception:
+        return ""
 
 # -----------------------------
 # Réglages
