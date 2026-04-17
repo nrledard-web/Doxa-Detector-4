@@ -893,7 +893,7 @@ def analyze_article(text: str) -> Dict:
         "political_pattern_score": political_pattern_score,
         "political_results": political_results,
         "matched_terms": matched_terms,
-        "rhetorical_pressure_score": rhetorical_pressure_score,
+        "rhetorical_pressure": rhetorical_pressure,
         "V": V,
         "R": R,
         "improved": improved,
