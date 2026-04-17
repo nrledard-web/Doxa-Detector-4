@@ -850,6 +850,28 @@ CAUSALITE_IMPLICITE = [
     "this shows that",
     "this leads to",
 ]
+MORALISATION_DISCOURS = [
+    "il serait irresponsable de",
+    "nous avons le devoir de",
+    "nous avons la responsabilité de",
+    "la justice exige",
+    "la morale exige",
+    "il est moralement nécessaire",
+    "personne ne peut rester indifférent",
+    "nous ne pouvons pas rester indifférents",
+    "il serait immoral de",
+    "il serait injuste de",
+    "il est de notre devoir",
+    "nous devons protéger",
+    "nous devons défendre",
+    "nous devons agir",
+    "nous devons faire face",
+    "it would be irresponsible",
+    "we have a duty to",
+    "we have a responsibility to",
+    "justice requires",
+    "we cannot remain indifferent"
+]
 def detect_political_patterns(text: str):
     """
     Détecte des manœuvres discursives politiques ou rhétoriques
