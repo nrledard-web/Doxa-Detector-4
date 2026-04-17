@@ -1100,7 +1100,7 @@ if result:
     st.write(diagnosis)
 
     gauge_value, gauge_label, gauge_color, ME_gauge = compute_lie_gauge(
-        result["G"], result["N"], result["D"], result["M"]
+        result["M"], result["ME"]
     )
 
     st.write("Tension cognitive (mécroyance vs mensonge)")
