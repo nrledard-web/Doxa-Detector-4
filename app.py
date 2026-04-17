@@ -933,6 +933,7 @@ def compute_rhetorical_pressure(results: dict) -> float:
         "naturalisation": 1.4,
         "ennemi": 1.5,
         "causalite": 1.4,
+        "moralisation": 1.2,
     }
 
     weighted_score = 0.0
