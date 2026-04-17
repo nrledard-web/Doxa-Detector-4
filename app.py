@@ -738,7 +738,11 @@ def analyze_article(text: str) -> Dict:
     if sum(1 for c in claims if c.status == T["very_fragile"]) >= 2:
         weaknesses.append(T["multiple_claims_very_fragile"])
 
-    ME = (2 * D) - (G + N)
+    ling = compute_linguistic_suspicion(text)
+    L = ling["L"]
+
+    ME_base = max(0, (2 * D) - (G + N))
+    ME = round(ME_base * L, 2)
 
     return {
         "words": len(words),
@@ -747,7 +751,15 @@ def analyze_article(text: str) -> Dict:
         "N": N,
         "D": D,
         "M": M,
+        "ME_base": ME_base,
         "ME": ME,
+        "L": L,
+        "linguistic_trigger_count": ling["trigger_count"],
+        "rhetorical_pressure": ling["rhetorical_pressure"],
+        "absolute_claims": ling["absolute_claims"],
+        "vague_authority": ling["vague_authority"],
+        "dramatic_framing": ling["dramatic_framing"],
+        "lack_of_nuance": ling["lack_of_nuance"],
         "V": V,
         "R": R,
         "improved": improved,
