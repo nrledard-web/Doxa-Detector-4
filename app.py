@@ -995,6 +995,31 @@ Texte à analyser :
         return response.output_text.strip()
     except Exception as e:
         return f"Erreur IA : {e}"
+        
+@st.cache_data(show_spinner=False, ttl=1800)
+def analyze_multiple_articles(keyword: str, max_results: int = 10) -> List[Dict]:
+    articles = search_articles_by_keyword(keyword, max_results)
+    results = []
+
+    for art in articles:
+        try:
+            full_text = extract_article_from_url(art["url"])
+            if len(full_text) > 120:
+                analysis = analyze_article(full_text)
+                results.append(
+                    {
+                        "Source": art["source"],
+                        "Titre": art["title"],
+                        "Score classique": analysis["M"],
+                        "Hard Fact Score": analysis["hard_fact_score"],
+                        "Verdict": analysis["verdict"],
+                        "URL": art["url"],
+                    }
+                )
+        except Exception:
+            continue
+
+    return results        
 
 
 # -----------------------------
