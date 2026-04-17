@@ -681,6 +681,93 @@ PROMESSE_EXCESSIVE = [
     "we will guarantee security"
 ]
 
+POPULISME_ANTI_ELITE = [
+    "les élites ont trahi",
+    "les élites méprisent le peuple",
+    "le peuple contre les élites",
+    "les puissants contre le peuple",
+    "les technocrates",
+    "les bureaucrates de bruxelles",
+    "la caste",
+    "l'oligarchie",
+    "les élites mondialisées",
+    "le système est verrouillé",
+    "ceux d'en haut",
+    "la finance décide de tout",
+    "les banques gouvernent",
+    "les marchés imposent leur loi",
+    "ordinary people versus the elite",
+    "the elite has failed",
+    "the establishment betrayed the people",
+    "the system is rigged"
+]
+
+PROGRESSISME_IDENTITAIRE = [
+    "les dominations systémiques",
+    "la violence systémique",
+    "le racisme systémique",
+    "les discriminations structurelles",
+    "les privilèges invisibles",
+    "les privilèges blancs",
+    "les privilèges de classe",
+    "déconstruire les normes",
+    "déconstruire les stéréotypes",
+    "remettre en cause les normes",
+    "les identités minorisées",
+    "les corps minorisés",
+    "les personnes marginalisées",
+    "les vécus minoritaires",
+    "intersection des oppressions",
+    "les rapports de domination",
+    "check your privilege",
+    "systemic oppression",
+    "structural discrimination",
+    "deconstruct gender norms",
+    "marginalized voices",
+    "lived experience matters",
+    "the personal is political"
+]
+
+SOCIALISME_COMMUNISME = [
+    "les travailleurs exploités",
+    "la lutte des classes",
+    "le capital détruit",
+    "le capital exploite",
+    "les possédants",
+    "les exploiteurs",
+    "la bourgeoisie",
+    "le patronat prédateur",
+    "les riches doivent payer",
+    "reprendre les richesses",
+    "socialiser les moyens de production",
+    "redistribuer les richesses",
+    "mettre fin au capitalisme",
+    "abolir l'exploitation",
+    "protéger les services publics contre le marché",
+    "workers are exploited",
+    "class struggle",
+    "the ruling class",
+    "end capitalism",
+    "redistribute wealth",
+    "the wealthy must pay",
+    "public ownership"
+]
+
+CONFUSION_DELEGITIMATION = [
+    "tout populisme est d'extrême droite",
+    "le populisme mène toujours au fascisme",
+    "toute critique est réactionnaire",
+    "toute opposition est haineuse",
+    "qui n'est pas avec nous est contre nous",
+    "refuser cette réforme c'est refuser le progrès",
+    "critiquer cela c'est être raciste",
+    "critiquer cela c'est être sexiste",
+    "critiquer cela c'est être transphobe",
+    "toute réserve est suspecte",
+    "there is only one acceptable position",
+    "any criticism is hate",
+    "if you disagree you are on the wrong side of history"
+]
 
 def detect_political_patterns(text: str):
     """
