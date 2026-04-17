@@ -894,8 +894,9 @@ def analyze_article(text: str) -> Dict:
         "ME_base": ME_base,
         "ME": ME,
         "L": L,
+        
         "linguistic_trigger_count": ling["trigger_count"],
-        "rhetorical_pressure": ling["rhetorical_pressure"],
+        "linguistic_pressure_hits": ling["rhetorical_pressure"],
         "absolute_claims": ling["absolute_claims"],
         "vague_authority": ling["vague_authority"],
         "dramatic_framing": ling["dramatic_framing"],
