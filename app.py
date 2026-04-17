@@ -613,6 +613,72 @@ NUANCE_MARKERS = [
     "nuancer", "prudence", "possible", "peut-être", "semble",
 ]
 
+CERTITUDE_PERFORMATIVE = [
+    "il est évident",
+    "il est clair que",
+    "sans aucun doute",
+    "il est absolument certain",
+    "les faits sont clairs",
+    "personne ne peut nier",
+    "la réalité est simple",
+    "clearly",
+    "it is obvious",
+    "without any doubt",
+    "there is no doubt"
+]
+
+AUTORITE_VAGUE = [
+    "selon des experts",
+    "des sources indiquent",
+    "selon certains spécialistes",
+    "plusieurs analystes pensent",
+    "des rapports suggèrent",
+    "according to sources",
+    "experts say",
+    "insiders say",
+    "many specialists"
+]
+
+DRAMATISATION = [
+    "crise majeure",
+    "catastrophe imminente",
+    "menace historique",
+    "situation explosive",
+    "choc politique",
+    "crise sans précédent",
+    "unprecedented crisis",
+    "historic threat",
+    "major collapse"
+]
+
+GENERALISATION = [
+    "tout le monde sait",
+    "les citoyens pensent",
+    "les gens comprennent",
+    "les Français savent",
+    "everyone knows",
+    "people understand",
+    "everyone realizes"
+]
+
+NATURALISATION = [
+    "il n'y a pas d'alternative",
+    "c'est la seule solution",
+    "c'est inévitable",
+    "nous devons agir",
+    "unavoidable",
+    "necessary reform",
+    "no alternative"
+]
+
+ENNEMI_ABSTRAIT = [
+    "certaines forces",
+    "des intérêts puissants",
+    "certains groupes",
+    "des acteurs étrangers",
+    "hostile forces",
+    "external actors"
+]
 
 def analyze_claim(sentence: str) -> Claim:
     has_number = bool(re.search(r"\d+", sentence))
