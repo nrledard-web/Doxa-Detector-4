@@ -791,10 +791,20 @@ def detect_political_patterns(text: str):
     categories = {
         "certitude": CERTITUDE_PERFORMATIVE,
         "autorite": AUTORITE_VAGUE,
+        "autorite_academique": AUTORITE_ACADEMIQUE_VAGUE,
         "dramatisation": DRAMATISATION,
         "generalisation": GENERALISATION,
         "naturalisation": NATURALISATION,
         "ennemi": ENNEMI_ABSTRAIT,
+        "victimisation": VICTIMISATION,
+        "moralisation": MORALISATION,
+        "urgence": URGENCE,
+        "promesse": PROMESSE_EXCESSIVE,
+        "populisme": POPULISME_ANTI_ELITE,
+        "progressisme_identitaire": PROGRESSISME_IDENTITAIRE,
+        "socialisme_communisme": SOCIALISME_COMMUNISME,
+        "delegitimation": CONFUSION_DELEGITIMATION,
+        "dilution": DILUTION_RESPONSABILITE,
     }
 
     results = {}
