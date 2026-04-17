@@ -769,6 +769,11 @@ CONFUSION_DELEGITIMATION = [
     "if you disagree you are on the wrong side of history"
 ]
 
+
+# -----------------------------
+# Bibliothèques rhétoriques
+# -----------------------------
+
 def detect_political_patterns(text: str):
     """
     Détecte des manœuvres discursives politiques ou rhétoriques
