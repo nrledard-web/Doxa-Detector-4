@@ -869,7 +869,7 @@ def analyze_article(text: str) -> Dict:
     L = ling["L"]
 
     political_pattern_score, political_results, matched_terms = detect_political_patterns(text)
-    rhetorical_pressure_score = compute_rhetorical_pressure(political_results)
+    rhetorical_pressure = compute_rhetorical_pressure(political_results)
 
     ME_base = max(0, (2 * D) - (G + N))
     ME = round(ME_base * L, 2)
