@@ -1642,7 +1642,7 @@ if result:
 
     st.caption("Pression rhétorique faible ⟵⟶ Pression rhétorique forte")
 
-        st.divider()
+    st.divider()
     st.subheader("Jauge propagandiste")
     st.caption(
         "Cette jauge combine la tension cognitive, la pression rhétorique, "
