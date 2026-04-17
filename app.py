@@ -884,7 +884,6 @@ def analyze_article(text: str) -> Dict:
     ME_base = max(0, (2 * D) - (G + N))
     ME = round(ME_base * L, 2)
 
-    return {
         "words": len(words),
         "sentences": len(sentences),
         "G": G,
