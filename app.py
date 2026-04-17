@@ -1498,7 +1498,7 @@ if result:
 
     st.caption("Erreur sincère ⟵⟶ Manipulation probable")
 
-        st.divider()
+    st.divider()
     st.subheader("Jauge de pression rhétorique")
     st.caption(
         "Cette jauge ne mesure pas un mensonge certain, mais l’intensité des procédés discursifs "
