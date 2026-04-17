@@ -523,7 +523,7 @@ def interpret_rhetorical_pressure(value: float):
         return "Élevée", "#f97316"
     else:
         return "Très élevée", "#dc2626"
- def compute_propaganda_gauge(
+def compute_propaganda_gauge(
     lie_gauge: float,
     rhetorical_pressure: float,
     political_pattern_score: int,
