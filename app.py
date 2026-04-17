@@ -1505,7 +1505,7 @@ if result:
         "susceptibles d’orienter, de verrouiller ou de dramatiser un discours."
     )
 
-    rp = result["rhetorical_pressure_score"]
+    rp = result["rhetorical_pressure"]
     rp_label, rp_color = interpret_rhetorical_pressure(rp)
 
     st.markdown(f"""
