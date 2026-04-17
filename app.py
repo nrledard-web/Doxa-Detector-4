@@ -452,7 +452,76 @@ def compute_linguistic_suspicion(text: str) -> dict:
         "lack_of_nuance": lack_of_nuance,
         "trigger_count": raw_score,
     }
+def detect_political_patterns(text: str):
+    """
+    Détecte des manœuvres discursives politiques ou rhétoriques
+    à partir de bibliothèques d'expressions.
+    Retourne :
+    - total_score : nombre total d'occurrences détectées
+    - results : nombre d'occurrences par catégorie
+    - matched_terms : expressions effectivement trouvées
+    """
+    if not text:
+        return 0, {}, {}
 
+    t = text.lower()
+
+    categories = {
+        "certitude": CERTITUDE_PERFORMATIVE,
+        "autorite": AUTORITE_VAGUE,
+        "dramatisation": DRAMATISATION,
+        "generalisation": GENERALISATION,
+        "naturalisation": NATURALISATION,
+        "ennemi": ENNEMI_ABSTRAIT,
+    }
+
+    results = {}
+    matched_terms = {}
+    total_score = 0
+
+    for name, terms in categories.items():
+        hits = [term for term in terms if term in t]
+        results[name] = len(hits)
+        matched_terms[name] = hits
+        total_score += len(hits)
+
+    return total_score, results, matched_terms
+
+
+def compute_rhetorical_pressure(results: dict) -> float:
+    """
+    Calcule une pression rhétorique pondérée entre 0.0 et 1.0
+    à partir des catégories détectées.
+    """
+    weights = {
+        "certitude": 1.2,
+        "autorite": 1.0,
+        "dramatisation": 1.3,
+        "generalisation": 1.1,
+        "naturalisation": 1.4,
+        "ennemi": 1.5,
+    }
+
+    weighted_score = 0.0
+
+    for cat, count in results.items():
+        weighted_score += count * weights.get(cat, 1.0)
+
+    return min(weighted_score / 10, 1.0)
+
+
+def interpret_rhetorical_pressure(value: float):
+    """
+    Traduit la pression rhétorique en étiquette + couleur.
+    """
+    if value < 0.20:
+        return "Faible", "#16a34a"
+    elif value < 0.40:
+        return "Modérée", "#ca8a04"
+    elif value < 0.70:
+        return "Élevée", "#f97316"
+    else:
+        return "Très élevée", "#dc2626"
 
 @st.cache_data(show_spinner=False, ttl=3600)
 def extract_article_from_url(url: str) -> str:
