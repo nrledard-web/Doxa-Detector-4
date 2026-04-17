@@ -768,7 +768,30 @@ CONFUSION_DELEGITIMATION = [
     "any criticism is hate",
     "if you disagree you are on the wrong side of history"
 ]
-
+CAUSALITE_IMPLICITE = [
+    "depuis que",
+    "depuis l'introduction de",
+    "depuis la mise en place de",
+    "depuis l'arrivée de",
+    "suite à",
+    "à cause de",
+    "en raison de",
+    "cela a conduit à",
+    "cela explique",
+    "cela montre que",
+    "ce qui prouve que",
+    "ce qui démontre que",
+    "ce qui explique que",
+    "c'est pourquoi",
+    "d'où",
+    "ce qui entraîne",
+    "ce qui conduit à",
+    "ce qui provoque",
+    "which explains",
+    "this proves that",
+    "this shows that",
+    "this leads to",
+]
 
 # -----------------------------
 # Bibliothèques rhétoriques
