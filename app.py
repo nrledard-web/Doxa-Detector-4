@@ -523,19 +523,6 @@ def interpret_rhetorical_pressure(value: float):
         return "Élevée", "#f97316"
     else:
         return "Très élevée", "#dc2626"
- def interpret_rhetorical_pressure(value: float):
-    """
-    Traduit la pression rhétorique en étiquette + couleur.
-    """
-    if value < 0.20:
-        return "Faible", "#16a34a"
-    elif value < 0.40:
-        return "Modérée", "#ca8a04"
-    elif value < 0.70:
-        return "Élevée", "#f97316"
-    else:
-        return "Très élevée", "#dc2626"
-
 
 def interpret_closure_gauge(value: float):
     """
