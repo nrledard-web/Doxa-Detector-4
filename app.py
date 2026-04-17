@@ -38,7 +38,7 @@ FRENCH_NEWS_DOMAINS = [
 "ripostelaique.com",
 "boulevardvoltaire.fr",
 "egaliteetreconciliation.fr",
-"reseauinternational.net"
+"reseauinternational.net",
 
 # international
 "france24.com",
