@@ -365,11 +365,93 @@ SAMPLE_ARTICLE = (
 )
 
 
+
 # -----------------------------
 # Helpers
 # -----------------------------
 def clamp(n: float, minn: float, maxn: float) -> float:
     return max(min(maxn, n), minn)
+
+
+def compute_linguistic_suspicion(text: str) -> dict:
+    """
+    Amplificateur linguistique simple pour le mensonge brut.
+    Retourne un facteur L entre 1.0 et 2.0 environ.
+    """
+    if not text:
+        return {
+            "L": 1.0,
+            "rhetorical_pressure": 0,
+            "absolute_claims": 0,
+            "vague_authority": 0,
+            "dramatic_framing": 0,
+            "lack_of_nuance": 0,
+            "trigger_count": 0,
+        }
+
+    t = text.lower()
+
+    rhetorical_pressure_terms = [
+        "clearly", "obviously", "without doubt", "there is no doubt",
+        "the truth is", "everyone knows", "it is certain", "undeniable",
+        "il est évident", "sans aucun doute", "la vérité est",
+        "tout le monde sait", "il est certain", "indéniable"
+    ]
+
+    absolute_claim_terms = [
+        "always", "never", "everyone", "nobody", "all", "none",
+        "toujours", "jamais", "tout le monde", "personne", "tous", "aucun"
+    ]
+
+    vague_authority_terms = [
+        "experts say", "sources say", "insiders say", "many specialists",
+        "according to sources", "internal sources", "reports confirm",
+        "les experts disent", "des sources affirment", "selon des sources",
+        "des spécialistes", "des rapports confirment", "sources internes"
+    ]
+
+    dramatic_framing_terms = [
+        "shocking truth", "what they don't want you to know", "unbelievable",
+        "hidden truth", "explosive revelation", "scandalous",
+        "vérité choquante", "ce qu'on ne veut pas que vous sachiez",
+        "incroyable", "vérité cachée", "révélation explosive", "scandaleux"
+    ]
+
+    nuance_terms = [
+        "may", "might", "could", "perhaps", "possibly", "suggests", "appears",
+        "peut", "pourrait", "peut-être", "possiblement", "semble", "suggère"
+    ]
+
+    def count_hits(terms):
+        return sum(1 for term in terms if term in t)
+
+    rhetorical_pressure = count_hits(rhetorical_pressure_terms)
+    absolute_claims = count_hits(absolute_claim_terms)
+    vague_authority = count_hits(vague_authority_terms)
+    dramatic_framing = count_hits(dramatic_framing_terms)
+    nuance_hits = count_hits(nuance_terms)
+
+    lack_of_nuance = 2 if nuance_hits == 0 else 1 if nuance_hits <= 2 else 0
+
+    raw_score = (
+        rhetorical_pressure
+        + absolute_claims
+        + vague_authority
+        + dramatic_framing
+        + lack_of_nuance
+    )
+
+    L = 1.0 + min(raw_score / 8.0, 1.0)
+
+    return {
+        "L": round(L, 3),
+        "rhetorical_pressure": rhetorical_pressure,
+        "absolute_claims": absolute_claims,
+        "vague_authority": vague_authority,
+        "dramatic_framing": dramatic_framing,
+        "lack_of_nuance": lack_of_nuance,
+        "trigger_count": raw_score,
+    }
 
 
 @st.cache_data(show_spinner=False, ttl=3600)
