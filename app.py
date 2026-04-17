@@ -2106,6 +2106,7 @@ if result:
                 "generalisation": "Généralisation abusive",
                 "naturalisation": "Naturalisation idéologique",
                 "ennemi": "Ennemi abstrait",
+                "causalite": "Causalité implicite ou non démontrée",
             }
 
             for cat, count in result["political_results"].items():
