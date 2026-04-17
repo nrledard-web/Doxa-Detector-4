@@ -773,7 +773,60 @@ CONFUSION_DELEGITIMATION = [
 # -----------------------------
 # Bibliothèques rhétoriques
 # -----------------------------
+AUTORITE_ACADEMIQUE_VAGUE = [
+    "selon plusieurs études",
+    "selon certaines études",
+    "selon une étude récente",
+    "selon des chercheurs",
+    "selon certains chercheurs",
+    "selon plusieurs chercheurs",
+    "plusieurs études suggèrent",
+    "plusieurs travaux suggèrent",
+    "les analyses montrent",
+    "les analyses suggèrent",
+    "les données montrent",
+    "les données indiquent",
+    "les données disponibles",
+    "les recherches montrent",
+    "les recherches suggèrent",
+    "la littérature scientifique",
+    "le consensus scientifique",
+    "de nombreux spécialistes",
+    "certains spécialistes",
+    "de nombreux experts",
+    "certains experts",
+    "plusieurs experts",
+    "de nombreux analystes",
+    "plusieurs analystes",
+    "the data suggests",
+    "available data shows",
+    "research suggests",
+    "studies suggest",
+    "experts agree",
+    "many specialists"
+]
 
+DILUTION_RESPONSABILITE = [
+    "il ne s'agit pas d'accuser",
+    "il ne s'agit pas de blâmer",
+    "il ne s'agit pas de désigner",
+    "personne ne cherche à accuser",
+    "il faut simplement reconnaître",
+    "il faut seulement reconnaître",
+    "il s'agit simplement de constater",
+    "il s'agit seulement de constater",
+    "il convient de reconnaître",
+    "il faut admettre que",
+    "il serait naïf d'ignorer",
+    "ignorer cette réalité reviendrait à",
+    "ce n'est pas une accusation",
+    "sans mettre en cause quiconque",
+    "sans désigner de coupable",
+    "without blaming anyone",
+    "this is not about blaming",
+    "it is simply necessary to recognize",
+    "it would be naive to ignore"
+]
 def detect_political_patterns(text: str):
     """
     Détecte des manœuvres discursives politiques ou rhétoriques
