@@ -523,6 +523,47 @@ def interpret_rhetorical_pressure(value: float):
         return "Élevée", "#f97316"
     else:
         return "Très élevée", "#dc2626"
+ def compute_propaganda_gauge(
+    lie_gauge: float,
+    rhetorical_pressure: float,
+    political_pattern_score: int,
+    closure: float
+) -> float:
+    """
+    Jauge propagandiste globale entre 0 et 1.
+    Combine :
+    - tension cognitive
+    - pression rhétorique
+    - motifs politiques/idéologiques détectés
+    - fermeture cognitive
+    """
+    pattern_factor = min(political_pattern_score / 8, 1.0)
+    closure_factor = min(closure / 1.2, 1.0)
+
+    score = (
+        0.30 * lie_gauge +
+        0.35 * rhetorical_pressure +
+        0.20 * pattern_factor +
+        0.15 * closure_factor
+    )
+
+    return min(max(score, 0.0), 1.0)
+
+
+def interpret_propaganda_gauge(value: float):
+    """
+    Traduit l'indice propagandiste en étiquette + couleur + commentaire.
+    """
+    if value < 0.20:
+        return "Très faible", "#16a34a", "Le texte ne présente pas de structure propagandiste marquée."
+    elif value < 0.40:
+        return "Faible", "#84cc16", "Le discours peut orienter légèrement la perception, sans verrouillage fort."
+    elif value < 0.60:
+        return "Modéré", "#ca8a04", "Le texte contient plusieurs éléments compatibles avec une mise en orientation du lecteur."
+    elif value < 0.80:
+        return "Élevé", "#f97316", "Le discours semble fortement orienté et cherche à imposer un cadrage interprétatif."
+    else:
+        return "Très élevé", "#dc2626", "Le texte présente une structure fortement propagandiste ou de verrouillage idéologique."       
 
 def interpret_closure_gauge(value: float):
     """
