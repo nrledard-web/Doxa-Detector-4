@@ -884,6 +884,7 @@ def analyze_article(text: str) -> Dict:
     ME_base = max(0, (2 * D) - (G + N))
     ME = round(ME_base * L, 2)
 
+    return {
         "words": len(words),
         "sentences": len(sentences),
         "G": G,
@@ -893,8 +894,30 @@ def analyze_article(text: str) -> Dict:
         "ME_base": ME_base,
         "ME": ME,
         "L": L,
-
-    return {
+        "linguistic_trigger_count": ling["trigger_count"],
+        "rhetorical_pressure_hits": ling["rhetorical_pressure"],
+        "absolute_claims": ling["absolute_claims"],
+        "vague_authority": ling["vague_authority"],
+        "dramatic_framing": ling["dramatic_framing"],
+        "lack_of_nuance": ling["lack_of_nuance"],
+        "political_pattern_score": political_pattern_score,
+        "political_results": political_results,
+        "matched_terms": matched_terms,
+        "rhetorical_pressure": rhetorical_pressure,
+        "V": V,
+        "R": R,
+        "improved": improved,
+        "source_quality": source_quality,
+        "avg_claim_risk": avg_claim_risk,
+        "avg_claim_verifiability": avg_claim_verifiability,
+        "hard_fact_score": hard_fact_score,
+        "verdict": verdict,
+        "profil_solidite": verdict,
+        "strengths": strengths,
+        "weaknesses": weaknesses,
+        "claims": claims,
+        "red_flags": red_flags,
+    }
         "words": len(words),
         "sentences": len(sentences),
         "G": G,
