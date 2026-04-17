@@ -452,6 +452,7 @@ def compute_linguistic_suspicion(text: str) -> dict:
         "lack_of_nuance": lack_of_nuance,
         "trigger_count": raw_score,
     }
+    
 def detect_political_patterns(text: str):
     """
     Détecte des manœuvres discursives politiques ou rhétoriques
