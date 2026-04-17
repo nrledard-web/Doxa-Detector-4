@@ -523,6 +523,55 @@ def interpret_rhetorical_pressure(value: float):
         return "Élevée", "#f97316"
     else:
         return "Très élevée", "#dc2626"
+ def interpret_rhetorical_pressure(value: float):
+    """
+    Traduit la pression rhétorique en étiquette + couleur.
+    """
+    if value < 0.20:
+        return "Faible", "#16a34a"
+    elif value < 0.40:
+        return "Modérée", "#ca8a04"
+    elif value < 0.70:
+        return "Élevée", "#f97316"
+    else:
+        return "Très élevée", "#dc2626"
+
+
+def interpret_closure_gauge(value: float):
+    """
+    Traduit la clôture cognitive en étiquette + couleur + commentaire.
+    """
+    if value < 0.40:
+        return "Ouverture cognitive", "#16a34a", "Le texte reste assez révisable."
+    elif value < 0.75:
+        return "Rigidification modérée", "#ca8a04", "Le discours commence à se refermer sur ses certitudes."
+    elif value < 1.10:
+        return "Clôture élevée", "#f97316", "La certitude domine nettement l’ancrage cognitif."
+    else:
+        return "Clôture critique", "#dc2626", "Le texte semble fortement verrouillé par sa propre structure."
+
+
+def render_custom_gauge(value: float, color: str):
+    value = max(0.0, min(1.0, value))
+    st.markdown(f"""
+    <div style="width:100%; margin-top:10px; margin-bottom:10px;">
+        <div style="
+            width:100%;
+            height:26px;
+            background:#e5e7eb;
+            border-radius:12px;
+            overflow:hidden;
+            border:1px solid #cbd5e1;
+        ">
+            <div style="
+                width:{value*100}%;
+                height:100%;
+                background:{color};
+                transition:width 0.4s ease;
+            "></div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)       
 
 @st.cache_data(show_spinner=False, ttl=3600)
 def extract_article_from_url(url: str) -> str:
