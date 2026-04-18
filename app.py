@@ -1279,6 +1279,230 @@ ENNEMI_ABSTRAIT = [
     "external actors"
 ]
 
+# -----------------------------
+# Helpers pour les nouveaux modules
+# -----------------------------
+def unique_keep_order(items):
+    seen = set()
+    out = []
+    for item in items:
+        if item not in seen:
+            seen.add(item)
+            out.append(item)
+    return out
+
+
+def contains_term(text: str, term: str) -> bool:
+    escaped = re.escape(term.lower())
+    if " " in term or "-" in term or "'" in term:
+        pattern = escaped
+    else:
+        pattern = rf"\b{escaped}\b"
+    return re.search(pattern, text.lower()) is not None
+
+
+# -----------------------------
+# Qualifications normatives
+# -----------------------------
+QUALIFICATIONS_NORMATIVES = [
+    "raciste", "racisme", "xénophobe", "xénophobie",
+    "fasciste", "fascisme", "nazi", "nazisme",
+    "extrémiste", "extrémisme", "complotiste", "complotisme",
+    "conspirationniste", "révisionniste", "populiste", "démagogue",
+    "islamophobe", "antisémite", "homophobe", "transphobe",
+    "misogyne", "sexiste", "suprémaciste", "identitaire",
+    "radical", "fanatique", "toxique", "dangereux", "haineux",
+    "criminel", "immoral", "pseudo-scientifique", "charlatan",
+    "fake news", "infox", "désinformation", "propagande",
+    "endoctrinement", "délire", "paranoïa", "hystérique",
+]
+
+JUDGMENT_MARKERS = [
+    "clairement", "évidemment", "manifestement",
+    "incontestablement", "indéniablement",
+    "sans conteste", "sans aucun doute",
+    "de toute évidence", "il est évident que",
+    "notoirement", "tristement célèbre",
+    "bien connu pour", "réputé pour",
+    "qualifié de", "considéré comme",
+    "assimilé à", "associé à", "accusé de",
+]
+
+
+def detect_normative_charges(text: str):
+    if not text or not text.strip():
+        return {
+            "score": 0.0,
+            "normative_terms": [],
+            "judgment_markers": [],
+            "interpretation": "Aucune qualification normative détectée."
+        }
+
+    t = text.lower()
+
+    normative_hits = unique_keep_order(
+        [term for term in QUALIFICATIONS_NORMATIVES if contains_term(t, term)]
+    )
+    marker_hits = unique_keep_order(
+        [term for term in JUDGMENT_MARKERS if contains_term(t, term)]
+    )
+
+    raw_score = len(normative_hits) * 1.5 + len(marker_hits) * 0.8
+    score = min(raw_score / 10, 1.0)
+
+    if score < 0.15:
+        interpretation = "Le texte reste principalement descriptif."
+    elif score < 0.35:
+        interpretation = "Quelques qualifications normatives sont détectées."
+    elif score < 0.55:
+        interpretation = "Le texte mélange faits et jugements de valeur."
+    elif score < 0.75:
+        interpretation = "Le texte présente plusieurs jugements comme des évidences."
+    else:
+        interpretation = "Le texte est saturé de qualifications normatives présentées comme des faits."
+
+    return {
+        "score": round(score, 3),
+        "normative_terms": normative_hits,
+        "judgment_markers": marker_hits,
+        "interpretation": interpretation,
+    }
+
+
+# -----------------------------
+# Prémisses idéologiques implicites
+# -----------------------------
+IDEOLOGICAL_PREMISE_MARKERS = [
+    "il est évident que",
+    "il est clair que",
+    "il est bien connu que",
+    "il est largement admis",
+    "il est généralement admis",
+    "largement considéré comme",
+    "considéré comme",
+    "la plupart des experts",
+    "les experts s'accordent",
+    "le consensus scientifique",
+    "selon les spécialistes",
+    "il ne fait aucun doute que",
+    "de toute évidence",
+    "it is widely accepted",
+    "it is widely believed",
+    "experts agree",
+    "scientific consensus",
+    "it is clear that",
+]
+
+
+def detect_ideological_premises(text: str):
+    if not text or not text.strip():
+        return {
+            "score": 0.0,
+            "markers": [],
+            "interpretation": "Aucune prémisse implicite détectée."
+        }
+
+    t = text.lower()
+
+    hits = unique_keep_order(
+        [m for m in IDEOLOGICAL_PREMISE_MARKERS if contains_term(t, m)]
+    )
+
+    score = min(len(hits) / 6, 1.0)
+
+    if score < 0.2:
+        interpretation = "Peu de prémisses implicites détectées."
+    elif score < 0.4:
+        interpretation = "Le texte contient quelques prémisses implicites."
+    elif score < 0.7:
+        interpretation = "Le texte repose partiellement sur des prémisses présentées comme évidentes."
+    else:
+        interpretation = "Le texte repose fortement sur des prémisses idéologiques implicites."
+
+    return {
+        "score": round(score, 3),
+        "markers": hits,
+        "interpretation": interpretation,
+    }
+
+
+# -----------------------------
+# Propagande narrative
+# -----------------------------
+PROPAGANDA_ENEMY_MARKERS = [
+    "ennemi du peuple", "traîtres", "traître",
+    "élite corrompue", "système corrompu",
+    "complot mondial", "deep state", "globalistes",
+    "invasion", "submersion", "remplacement",
+]
+
+PROPAGANDA_URGENCY_MARKERS = [
+    "urgence absolue", "il est presque trop tard",
+    "avant qu'il ne soit trop tard", "maintenant ou jamais",
+    "danger imminent", "menace imminente",
+    "point de non-retour", "survie",
+]
+
+PROPAGANDA_CERTAINTY_MARKERS = [
+    "tout le monde sait", "personne ne peut nier",
+    "il est évident que", "sans aucun doute",
+    "la vérité est que", "cela prouve que",
+]
+
+PROPAGANDA_EMOTIONAL_MARKERS = [
+    "honte", "trahison", "scandale", "crime",
+    "catastrophe", "effondrement", "panique",
+    "massacre", "destruction",
+]
+
+
+def detect_propaganda_narrative(text: str):
+    if not text or not text.strip():
+        return {
+            "score": 0.0,
+            "enemy_terms": [],
+            "urgency_terms": [],
+            "certainty_terms": [],
+            "emotional_terms": [],
+            "interpretation": "Aucune structure narrative propagandiste saillante détectée.",
+        }
+
+    t = text.lower()
+
+    enemy_hits = unique_keep_order([term for term in PROPAGANDA_ENEMY_MARKERS if contains_term(t, term)])
+    urgency_hits = unique_keep_order([term for term in PROPAGANDA_URGENCY_MARKERS if contains_term(t, term)])
+    certainty_hits = unique_keep_order([term for term in PROPAGANDA_CERTAINTY_MARKERS if contains_term(t, term)])
+    emotional_hits = unique_keep_order([term for term in PROPAGANDA_EMOTIONAL_MARKERS if contains_term(t, term)])
+
+    raw_score = (
+        len(enemy_hits) * 1.5 +
+        len(urgency_hits) * 1.4 +
+        len(certainty_hits) * 1.4 +
+        len(emotional_hits) * 1.0
+    )
+
+    score = min(raw_score / 10, 1.0)
+
+    if score < 0.15:
+        interpretation = "Le texte présente peu de structures propagandistes."
+    elif score < 0.35:
+        interpretation = "Le texte contient quelques procédés narratifs orientés."
+    elif score < 0.55:
+        interpretation = "Le texte présente une structuration narrative orientée notable."
+    elif score < 0.75:
+        interpretation = "Le texte combine plusieurs procédés typiques de propagande narrative."
+    else:
+        interpretation = "Le texte est fortement structuré par des mécanismes de propagande narrative."
+
+    return {
+        "score": round(score, 3),
+        "enemy_terms": enemy_hits,
+        "urgency_terms": urgency_hits,
+        "certainty_terms": certainty_hits,
+        "emotional_terms": emotional_hits,
+        "interpretation": interpretation,
+    }
+
 def analyze_claim(sentence: str) -> Claim:
     has_number = bool(re.search(r"\d+", sentence))
     has_date = bool(
