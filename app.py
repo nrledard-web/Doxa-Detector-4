@@ -1622,16 +1622,6 @@ def analyze_article(text: str) -> Dict:
     if sum(1 for c in claims if c.status == T["very_fragile"]) >= 2:
         weaknesses.append(T["multiple_claims_very_fragile"])
 
-    if emotional >= 2:
-        weaknesses.append(T["notable_emotional_sensational_charge"])
-    if source_markers == 0 and citation_like == 0:
-        weaknesses.append(T["almost_total_absence_of_verifiable_elements"])
-    if article_length < 80:
-        weaknesses.append(T["text_too_short"])
-    weaknesses.extend(red_flags)
-    if sum(1 for c in claims if c.status == T["very_fragile"]) >= 2:
-        weaknesses.append(T["multiple_claims_very_fragile"])
-
     ling = compute_linguistic_suspicion(text)
     L = ling["L"]
 
