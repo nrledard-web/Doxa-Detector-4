@@ -1330,6 +1330,10 @@ def analyze_article(text: str) -> Dict:
     G = clamp(source_markers * 1.5 + citation_like * 0.5, 0, 10)
     N = clamp(nuance_markers * 2 + (article_length / 100), 0, 10)
 
+    normative_analysis = detect_normative_charges(text)
+    premise_analysis = detect_ideological_premises(text)
+    propaganda_analysis = detect_propaganda_narrative(text)
+
     certainty = len(re.findall(r"certain|absolument|prouvé|évident|incontestable", text.lower()))
     emotional = len(re.findall(r"|".join(re.escape(w) for w in EMOTIONAL_WORDS), text.lower()))
 
