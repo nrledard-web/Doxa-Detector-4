@@ -1427,6 +1427,21 @@ def analyze_article(text: str) -> Dict:
         "ME_base": ME_base,
         "ME": ME,
         "L": L,
+        "normative_score": normative_analysis["score"],
+        "normative_terms": normative_analysis["normative_terms"],
+        "normative_judgment_markers": normative_analysis["judgment_markers"],
+        "normative_interpretation": normative_analysis["interpretation"],
+
+        "premise_score": premise_analysis["score"],
+        "premise_markers": premise_analysis["markers"],
+        "premise_interpretation": premise_analysis["interpretation"],
+
+        "propaganda_score": propaganda_analysis["score"],
+        "propaganda_enemy_terms": propaganda_analysis["enemy_terms"],
+        "propaganda_urgency_terms": propaganda_analysis["urgency_terms"],
+        "propaganda_certainty_terms": propaganda_analysis["certainty_terms"],
+        "propaganda_emotional_terms": propaganda_analysis["emotional_terms"],
+        "propaganda_interpretation": propaganda_analysis["interpretation"],
         
         "linguistic_trigger_count": ling["trigger_count"],
         "linguistic_pressure_hits": ling["rhetorical_pressure"],
