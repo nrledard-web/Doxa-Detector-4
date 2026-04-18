@@ -2350,6 +2350,149 @@ if result:
     st.subheader("Profil discursif global")
     st.write(discursive_profile)
 
+    st.divider()
+    st.subheader("Cartographie discursive complémentaire")
+    st.caption(
+        "Ces trois jauges affinent l'analyse en distinguant : "
+        "les jugements présentés comme des faits, "
+        "les prémisses implicites non démontrées, "
+        "et la structuration narrative propagandiste."
+    )
+
+    col1, col2, col3 = st.columns(3)
+
+    # -----------------------------
+    # 1) Qualifications normatives
+    # -----------------------------
+    with col1:
+        st.markdown("### Qualification normative")
+        st.caption("Jugements de valeur présentés comme des faits.")
+
+        normative_value = result["normative_score"]
+
+        if normative_value < 0.20:
+            normative_label, normative_color = "Faible", "#16a34a"
+        elif normative_value < 0.40:
+            normative_label, normative_color = "Modérée", "#ca8a04"
+        elif normative_value < 0.70:
+            normative_label, normative_color = "Élevée", "#f97316"
+        else:
+            normative_label, normative_color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(normative_value, normative_color)
+
+        st.markdown(
+            f"<b style='color:{normative_color}'>{normative_label}</b> — {round(normative_value * 100, 1)}%",
+            unsafe_allow_html=True
+        )
+        st.caption(result["normative_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            normative_terms = result.get("normative_terms", [])
+            judgment_markers = result.get("normative_judgment_markers", [])
+
+            if not normative_terms and not judgment_markers:
+                st.info("Aucun marqueur saillant détecté.")
+            else:
+                if normative_terms:
+                    st.markdown("**Termes normatifs**")
+                    for term in normative_terms:
+                        st.error(term)
+                if judgment_markers:
+                    st.markdown("**Marqueurs de jugement**")
+                    for term in judgment_markers:
+                        st.warning(term)
+
+    # -----------------------------
+    # 2) Prémisses idéologiques implicites
+    # -----------------------------
+    with col2:
+        st.markdown("### Prémisses implicites")
+        st.caption("Idées présentées comme évidentes sans démonstration.")
+
+        premise_value = result["premise_score"]
+
+        if premise_value < 0.20:
+            premise_label, premise_color = "Faible", "#16a34a"
+        elif premise_value < 0.40:
+            premise_label, premise_color = "Modérée", "#ca8a04"
+        elif premise_value < 0.70:
+            premise_label, premise_color = "Élevée", "#f97316"
+        else:
+            premise_label, premise_color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(premise_value, premise_color)
+
+        st.markdown(
+            f"<b style='color:{premise_color}'>{premise_label}</b> — {round(premise_value * 100, 1)}%",
+            unsafe_allow_html=True
+        )
+        st.caption(result["premise_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            premise_markers = result.get("premise_markers", [])
+
+            if not premise_markers:
+                st.info("Aucune prémisse implicite saillante détectée.")
+            else:
+                for marker in premise_markers:
+                    st.warning(marker)
+
+    # -----------------------------
+    # 3) Propagande narrative
+    # -----------------------------
+    with col3:
+        st.markdown("### Narration propagandiste")
+        st.caption("Urgence, ennemi abstrait, certitude et charge émotionnelle.")
+
+        propaganda_value = result["propaganda_score"]
+
+        if propaganda_value < 0.20:
+            propaganda_label, propaganda_color = "Faible", "#16a34a"
+        elif propaganda_value < 0.40:
+            propaganda_label, propaganda_color = "Modérée", "#ca8a04"
+        elif propaganda_value < 0.70:
+            propaganda_label, propaganda_color = "Élevée", "#f97316"
+        else:
+            propaganda_label, propaganda_color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(propaganda_value, propaganda_color)
+
+        st.markdown(
+            f"<b style='color:{propaganda_color}'>{propaganda_label}</b> — {round(propaganda_value * 100, 1)}%",
+            unsafe_allow_html=True
+        )
+        st.caption(result["propaganda_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            enemy_terms = result.get("propaganda_enemy_terms", [])
+            urgency_terms = result.get("propaganda_urgency_terms", [])
+            certainty_terms = result.get("propaganda_certainty_terms", [])
+            emotional_terms = result.get("propaganda_emotional_terms", [])
+
+            if not any([enemy_terms, urgency_terms, certainty_terms, emotional_terms]):
+                st.info("Aucun marqueur narratif saillant détecté.")
+            else:
+                if enemy_terms:
+                    st.markdown("**Ennemi / bloc adverse**")
+                    for term in enemy_terms:
+                        st.error(term)
+
+                if urgency_terms:
+                    st.markdown("**Urgence / menace**")
+                    for term in urgency_terms:
+                        st.warning(term)
+
+                if certainty_terms:
+                    st.markdown("**Certitude absolue**")
+                    for term in certainty_terms:
+                        st.warning(term)
+
+                if emotional_terms:
+                    st.markdown("**Charge émotionnelle**")
+                    for term in emotional_terms:
+                        st.error(term)
+
     with st.expander("Voir les manœuvres discursives détectées", expanded=False):
         if result["political_pattern_score"] == 0:
             st.info("Aucun marqueur rhétorique politique saillant détecté.")
