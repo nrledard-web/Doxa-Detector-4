@@ -1637,7 +1637,12 @@ def compute_logic_confusion(text: str):
 
 def compute_scientific_simulation(text: str):
     if not text or not text.strip():
-        return {"score": 0.0, "details": {}, "markers": [], "interpretation": "Aucune simulation scientifique saillante détectée."}
+        return {
+            "score": 0.0,
+            "details": {},
+            "markers": [],
+            "interpretation": "Aucune simulation scientifique saillante détectée."
+        }
 
     t = text.lower()
     score = 0
@@ -1645,10 +1650,18 @@ def compute_scientific_simulation(text: str):
     markers = []
 
     for category, terms in SCIENTIFIC_SIMULATION_MARKERS.items():
-        hits = [term for term in terms if term in t]
+        hits = [term for term in terms if contains_term(t, term) or term in t]
         details[category] = len(hits)
         markers.extend(hits)
         score += len(hits)
+
+    percent_matches = re.findall(r"\b\d+(?:[.,]\d+)?\s*%", text)
+    if percent_matches:
+        details["pourcentages"] = len(percent_matches)
+        markers.extend([f"pourcentage sans source explicite : {p}" for p in percent_matches[:5]])
+        score += min(len(percent_matches), 3)
+    else:
+        details["pourcentages"] = 0
 
     score = min(score * 2, 20)
     ratio = score / 20
