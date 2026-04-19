@@ -1541,7 +1541,6 @@ def analyze_claim(sentence: str) -> Claim:
         status=status,
     )
 
-
 def analyze_article(text: str) -> Dict:
     words = text.split()
     sentences = [s.strip() for s in re.split(r"[.!?]+", text) if len(s.strip()) > 10]
