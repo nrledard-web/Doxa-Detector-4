@@ -1956,6 +1956,60 @@ def compute_emotional_intensity(text: str):
         "markers": hits,
         "interpretation": interpretation,
     }
+
+def compute_generalization(text: str):
+
+    text_lower = text.lower()
+
+    hits = [t for t in GENERALIZATION_TERMS if t in text_lower]
+
+    score = min(len(hits) * 2 / 10, 1.0)
+
+    if score < 0.2:
+        interpretation = "Peu de généralisation détectée."
+    elif score < 0.5:
+        interpretation = "Quelques généralisations apparaissent."
+    else:
+        interpretation = "Le discours simplifie le réel par catégories globales."
+
+    return score, interpretation, hits
+
+
+def compute_abstract_enemy(text: str):
+
+    text_lower = text.lower()
+
+    hits = [t for t in ABSTRACT_ENEMY_TERMS if t in text_lower]
+
+    score = min(len(hits) * 2.5 / 10, 1.0)
+
+    if score < 0.2:
+        interpretation = "Pas de désignation d'ennemi abstrait."
+    elif score < 0.5:
+        interpretation = "Quelques adversaires flous apparaissent."
+    else:
+        interpretation = "Le discours construit un adversaire abstrait."
+
+    return score, interpretation, hits
+
+
+def compute_certainty(text: str):
+
+    text_lower = text.lower()
+
+    hits = [t for t in CERTAINTY_TERMS if t in text_lower]
+
+    score = min(len(hits) * 2.5 / 10, 1.0)
+
+    if score < 0.2:
+        interpretation = "Discours relativement nuancé."
+    elif score < 0.5:
+        interpretation = "Certitude rhétorique modérée."
+    else:
+        interpretation = "Certitude absolue fortement affirmée."
+
+    return score, interpretation, hits
+    
 def analyze_claim(sentence: str) -> Claim:
     s = sentence.lower()
 
