@@ -1552,9 +1552,20 @@ CAUSAL_OVERREACH_TERMS = [
     "la preuve que",
     "c'est pour cela que",
     "donc forcément",
+    "depuis que",
+    "suite à",
+    "à cause de",
+    "en raison de",
+    "cela explique",
+    "ce qui explique que",
+    "ce qui entraîne",
+    "ce qui conduit à",
+    "ce qui provoque",
     "therefore",
     "this proves that",
-    "this shows that"
+    "this shows that",
+    "this leads to",
+    "which explains",
 ]
 
 VAGUE_AUTHORITY_TERMS = [
