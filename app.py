@@ -1575,10 +1575,27 @@ VAGUE_AUTHORITY_TERMS = [
     "des experts affirment",
     "des études montrent",
     "plusieurs études",
+    "selon une étude récente",
+    "selon certaines études",
+    "selon plusieurs études",
+    "selon des chercheurs",
+    "selon certains chercheurs",
+    "selon plusieurs chercheurs",
+    "plusieurs chercheurs",
+    "plusieurs experts",
+    "certains experts",
+    "de nombreux experts",
+    "de nombreux spécialistes",
+    "plusieurs analystes",
+    "des rapports suggèrent",
+    "les données montrent",
+    "les données indiquent",
+    "le consensus scientifique",
     "according to experts",
     "experts say",
     "studies show",
-    "research suggests"
+    "research suggests",
+    "scientific consensus",
 ]
 
 EMOTIONAL_INTENSITY_TERMS = [
