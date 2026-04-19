@@ -2675,6 +2675,37 @@ def analyze_article(text: str) -> Dict:
 
     ME = round((ME_base * L) + discursive_boost, 2)
 
+claims = [analyze_claim(sentence) for sentence in sentences]
+
+# -----------------------------
+# Calcul du cerveau global
+# -----------------------------
+brain = compute_brain_indices({
+    "G": G,
+    "N": N,
+    "D": D,
+    "M": M,
+    "ME": ME,
+    "normative_score": normative_analysis["score"],
+    "propaganda_score": propaganda_analysis["score"],
+    "emotional_intensity_score": emotional_intensity_analysis["score"],
+    "certainty_score": certainty_analysis[0],
+    "false_consensus_score": false_consensus_analysis[0],
+    "binary_opposition_score": binary_opposition_analysis[0],
+    "threat_amplification_score": threat_amplification_analysis[0],
+    "vague_authority_score": vague_authority_analysis["score"],
+    "logic_confusion_score": logic_confusion_analysis["score"],
+    "causal_overreach_score": causal_overreach_analysis["score"],
+    "factual_overinterpretation_score": factual_overinterpretation_analysis["score"],
+    "false_analogy_score": false_analogy_analysis["score"],
+    "internal_dissonance_score": internal_dissonance_analysis["score"],
+    "scientific_simulation_score": scientific_simulation_analysis["score"],
+    "premise_score": premise_analysis["score"],
+    "ideological_premise_score": ideological_premise_analysis["score"],
+    "semantic_shift_score": semantic_shift_analysis["score"],
+    "doxic_rigidity_score": doxic_rigidity_analysis["score"],
+    "narrative_overdetermination_score": narrative_overdetermination_analysis["score"],
+})    
     return {
         "words": len(words),
         "sentences": len(sentences),
