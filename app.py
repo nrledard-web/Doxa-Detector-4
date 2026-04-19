@@ -3717,6 +3717,105 @@ if result:
             else:
                 for marker in markers:
                     st.warning(marker)
+
+        # -----------------------------
+    # 16) Glissement sémantique
+    # -----------------------------
+    with row6_col1:
+        st.markdown("### Glissement sémantique")
+        st.caption("Recadrage lexical stratégique du réel par des termes orientés.")
+
+        semantic_value = result["semantic_shift_score"]
+
+        if semantic_value < 0.20:
+            semantic_label, semantic_color = "Faible", "#16a34a"
+        elif semantic_value < 0.40:
+            semantic_label, semantic_color = "Modérée", "#ca8a04"
+        elif semantic_value < 0.70:
+            semantic_label, semantic_color = "Élevée", "#f97316"
+        else:
+            semantic_label, semantic_color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(semantic_value, semantic_color)
+
+        st.markdown(
+            f"<b style='color:{semantic_color}'>{semantic_label}</b> — {round(semantic_value * 100, 1)}%",
+            unsafe_allow_html=True
+        )
+        st.caption(result["semantic_shift_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("semantic_shift_markers", [])
+            if not markers:
+                st.info("Aucun glissement sémantique notable détecté.")
+            else:
+                for marker in markers:
+                    st.warning(marker)
+
+        # -----------------------------
+    # 17) Prémisses idéologiques implicites
+    # -----------------------------
+    with row6_col2:
+        st.markdown("### Prémisses idéologiques")
+        st.caption("Présupposés idéologiques présentés comme allant de soi.")
+
+        ideological_value = result["ideological_premise_score"]
+
+        if ideological_value < 0.20:
+            ideological_label, ideological_color = "Faible", "#16a34a"
+        elif ideological_value < 0.40:
+            ideological_label, ideological_color = "Modérée", "#ca8a04"
+        elif ideological_value < 0.70:
+            ideological_label, ideological_color = "Élevée", "#f97316"
+        else:
+            ideological_label, ideological_color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(ideological_value, ideological_color)
+
+        st.markdown(
+            f"<b style='color:{ideological_color}'>{ideological_label}</b> — {round(ideological_value * 100, 1)}%",
+            unsafe_allow_html=True
+        )
+        st.caption(result["ideological_premise_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("ideological_premise_markers", [])
+            if not markers:
+                st.info("Aucune prémisse idéologique saillante détectée.")
+            else:
+                for marker in markers:
+                    st.warning(marker)
+
+        # -----------------------------
+    # 18) Clôture cognitive
+    # -----------------------------
+    with row6_col3:
+        st.markdown("### Clôture cognitive")
+        st.caption("Degré de verrouillage du discours par excès de certitude.")
+
+        closure_local = (
+            (result["D"] * (1 + len(result["red_flags"]) / 5)) / (result["G"] + result["N"])
+            if (result["G"] + result["N"]) > 0 else 10
+        )
+
+        closure_value = min(closure_local / 1.5, 1.0)
+
+        if closure_local < 0.40:
+            closure_label, closure_color = "Ouverte", "#16a34a"
+        elif closure_local < 0.75:
+            closure_label, closure_color = "Modérée", "#ca8a04"
+        elif closure_local < 1.10:
+            closure_label, closure_color = "Élevée", "#f97316"
+        else:
+            closure_label, closure_color = "Critique", "#dc2626"
+
+        render_custom_gauge(closure_value, closure_color)
+
+        st.markdown(
+            f"<b style='color:{closure_color}'>{closure_label}</b> — {round(closure_local, 2)}",
+            unsafe_allow_html=True
+        )
+        st.caption("Plus la certitude domine G + N, plus le texte se ferme.")
                 
     with st.expander("Voir les manœuvres discursives détectées", expanded=False):
         if result["political_pattern_score"] == 0:
