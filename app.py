@@ -1969,8 +1969,12 @@ def analyze_article(text: str) -> Dict:
     N = clamp(nuance_markers * 2 + (article_length / 100), 0, 10)
 
     normative_analysis = detect_normative_charges(text)
-    premise_analysis = detect_ideological_premises(text)
+    discursive_analysis = compute_discursive_coherence(text)
+    premise_analysis = compute_implicit_premises(text)
+    logic_confusion_analysis = compute_logic_confusion(text)
+    scientific_simulation_analysis = compute_scientific_simulation(text)
     propaganda_analysis = detect_propaganda_narrative(text)
+    short_form_analysis = detect_short_form_mode(text)
 
     certainty = len(re.findall(r"certain|absolument|prouvé|évident|incontestable", text.lower()))
     emotional = len(re.findall(r"|".join(re.escape(w) for w in EMOTIONAL_WORDS), text.lower()))
