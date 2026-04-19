@@ -1024,19 +1024,6 @@ def interpret_discursive_profile(
         return "Discours plutôt sincère ou peu verrouillant"
     else:
         return "Discours ambigu ou mixte"
-    """
-    Verdict global basé sur les 3 jauges discursives.
-    """
-    if propaganda_gauge >= 0.75 and rhetorical_pressure >= 0.60:
-        return "Structure discursive fortement propagandiste"
-    elif lie_gauge >= 0.65 and rhetorical_pressure >= 0.45:
-        return "Structure discursive manipulatoire probable"
-    elif propaganda_gauge >= 0.45 or rhetorical_pressure >= 0.45:
-        return "Discours fortement orienté"
-    elif lie_gauge < 0.40 and rhetorical_pressure < 0.35:
-        return "Discours plutôt sincère ou peu verrouillant"
-    else:
-        return "Discours ambigu ou mixte"
 
 def interpret_closure_gauge(value: float):
     """
