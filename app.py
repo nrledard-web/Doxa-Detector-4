@@ -2376,6 +2376,10 @@ def analyze_article(text: str) -> Dict:
         "semantic_shift_markers": semantic_shift_analysis["markers"],
         "semantic_shift_interpretation": semantic_shift_analysis["interpretation"],
 
+        "ideological_premise_score": ideological_premise_analysis["score"],
+        "ideological_premise_markers": ideological_premise_analysis["markers"],
+        "ideological_premise_interpretation": ideological_premise_analysis["interpretation"],
+
         "discursive_coherence_score": discursive_analysis["score"],
         "discursive_coherence_label": discursive_analysis["label"],
         "discursive_coherence_details": discursive_analysis,
