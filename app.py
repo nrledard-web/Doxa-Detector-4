@@ -2604,6 +2604,10 @@ if result:
     st.subheader(f"{couleur} {T['credibility_gauge']} : {etiquette}")
     st.progress(score / 20)
     st.caption(f"{T['score']} : {score}/20 — {message}")
+    
+    if result.get("short_form_mode"):
+        st.info(f"{result['short_form_label']} — {result['short_form_interpretation']}")
+        
     st.caption("Sur cette échelle, un texte véritablement crédible se situe généralement dans la zone robuste.")
 
     st.subheader("Diagnostic cognitif")
