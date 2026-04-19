@@ -3555,6 +3555,110 @@ if result:
             else:
                 for marker in markers:
                     st.warning(marker)
+
+        # -----------------------------
+    # 13) Faux consensus
+    # -----------------------------
+    with row5_col1:
+        st.markdown("### Faux consensus")
+        st.caption("Simulation d’un accord collectif présenté comme évident.")
+
+        false_consensus_value = result["false_consensus_score"]
+
+        if false_consensus_value < 0.15:
+            false_consensus_label, false_consensus_color = "Faible", "#16a34a"
+        elif false_consensus_value < 0.35:
+            false_consensus_label, false_consensus_color = "Modérée", "#ca8a04"
+        elif false_consensus_value < 0.60:
+            false_consensus_label, false_consensus_color = "Élevée", "#f97316"
+        else:
+            false_consensus_label, false_consensus_color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(false_consensus_value, false_consensus_color)
+
+        st.markdown(
+            f"<b style='color:{false_consensus_color}'>{false_consensus_label}</b> — {round(false_consensus_value * 100, 1)}%",
+            unsafe_allow_html=True
+        )
+        st.caption(result["false_consensus_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("false_consensus_markers", [])
+            if not markers:
+                st.info("Aucun faux consensus notable détecté.")
+            else:
+                for marker in markers:
+                    st.warning(marker)
+
+
+    # -----------------------------
+    # 14) Opposition binaire
+    # -----------------------------
+    with row5_col2:
+        st.markdown("### Opposition binaire")
+        st.caption("Découpage du discours en camps antagonistes.")
+
+        binary_value = result["binary_opposition_score"]
+
+        if binary_value < 0.15:
+            binary_label, binary_color = "Faible", "#16a34a"
+        elif binary_value < 0.35:
+            binary_label, binary_color = "Modérée", "#ca8a04"
+        elif binary_value < 0.60:
+            binary_label, binary_color = "Élevée", "#f97316"
+        else:
+            binary_label, binary_color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(binary_value, binary_color)
+
+        st.markdown(
+            f"<b style='color:{binary_color}'>{binary_label}</b> — {round(binary_value * 100, 1)}%",
+            unsafe_allow_html=True
+        )
+        st.caption(result["binary_opposition_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("binary_opposition_markers", [])
+            if not markers:
+                st.info("Aucune opposition binaire notable détectée.")
+            else:
+                for marker in markers:
+                    st.warning(marker)
+
+
+    # -----------------------------
+    # 15) Amplification de menace
+    # -----------------------------
+    with row5_col3:
+        st.markdown("### Amplification de menace")
+        st.caption("Exagération dramatique du danger ou de la gravité.")
+
+        threat_value = result["threat_amplification_score"]
+
+        if threat_value < 0.15:
+            threat_label, threat_color = "Faible", "#16a34a"
+        elif threat_value < 0.35:
+            threat_label, threat_color = "Modérée", "#ca8a04"
+        elif threat_value < 0.60:
+            threat_label, threat_color = "Élevée", "#f97316"
+        else:
+            threat_label, threat_color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(threat_value, threat_color)
+
+        st.markdown(
+            f"<b style='color:{threat_color}'>{threat_label}</b> — {round(threat_value * 100, 1)}%",
+            unsafe_allow_html=True
+        )
+        st.caption(result["threat_amplification_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("threat_amplification_markers", [])
+            if not markers:
+                st.info("Aucune amplification de menace notable détectée.")
+            else:
+                for marker in markers:
+                    st.warning(marker)
                 
     with st.expander("Voir les manœuvres discursives détectées", expanded=False):
         if result["political_pattern_score"] == 0:
