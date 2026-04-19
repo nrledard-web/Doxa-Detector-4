@@ -2964,6 +2964,115 @@ if result:
                     for term in emotional_terms:
                         st.error(term)
 
+        # -----------------------------
+    # 4) Cohérence discursive
+    # -----------------------------
+    with row2_col1:
+        st.markdown("### Cohérence discursive")
+        st.caption("Solidité interne du texte, indépendamment de sa vérifiabilité.")
+
+        coherence_value = result["discursive_coherence_score"] / 20
+
+        if coherence_value < 0.20:
+            coherence_label, coherence_color = "Faible", "#dc2626"
+        elif coherence_value < 0.40:
+            coherence_label, coherence_color = "Limitée", "#f97316"
+        elif coherence_value < 0.65:
+            coherence_label, coherence_color = "Correcte", "#ca8a04"
+        elif coherence_value < 0.85:
+            coherence_label, coherence_color = "Solide", "#84cc16"
+        else:
+            coherence_label, coherence_color = "Très forte", "#16a34a"
+
+        render_custom_gauge(coherence_value, coherence_color)
+
+        st.markdown(
+            f"<b style='color:{coherence_color}'>{coherence_label}</b> — {result['discursive_coherence_score']}/20",
+            unsafe_allow_html=True
+        )
+        st.caption(result["discursive_coherence_label"])
+
+        with st.expander("Voir le détail", expanded=False):
+            d = result["discursive_coherence_details"]
+            st.write(f"**Logique discursive** : {d['logic_score']}/5")
+            st.write(f"**Stabilité thématique** : {d['stability_score']}/4")
+            st.write(f"**Longueur utile** : {d['length_score']}/5")
+            st.write(f"**Cohérence entre paragraphes** : {d['paragraph_score']}/4")
+            st.write(f"**Pénalité de contradiction** : -{d['contradiction_penalty']}")
+            st.write(f"**Pénalité de rupture thématique** : -{d['topic_shift_penalty']}")
+            if d["top_keywords"]:
+                st.write("**Mots-clés dominants**")
+                for word, count in d["top_keywords"]:
+                    st.write(f"- {word} ({count})")
+
+    # -----------------------------
+    # 5) Confusion logique
+    # -----------------------------
+    with row2_col2:
+        st.markdown("### Confusion logique")
+        st.caption("Causalité abusive, extrapolation, prédiction absolue.")
+
+        logic_value = result["logic_confusion_score"]
+
+        if logic_value < 0.20:
+            logic_label, logic_color = "Faible", "#16a34a"
+        elif logic_value < 0.40:
+            logic_label, logic_color = "Modérée", "#ca8a04"
+        elif logic_value < 0.70:
+            logic_label, logic_color = "Élevée", "#f97316"
+        else:
+            logic_label, logic_color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(logic_value, logic_color)
+
+        st.markdown(
+            f"<b style='color:{logic_color}'>{logic_label}</b> — {round(logic_value * 100, 1)}%",
+            unsafe_allow_html=True
+        )
+        st.caption(result["logic_confusion_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("logic_confusion_markers", [])
+            if not markers:
+                st.info("Aucune confusion logique saillante détectée.")
+            else:
+                for marker in markers:
+                    st.warning(marker)
+
+    # -----------------------------
+    # 6) Scientificité rhétorique
+    # -----------------------------
+    with row2_col3:
+        st.markdown("### Scientificité rhétorique")
+        st.caption("Simulation d’objectivité scientifique sans base identifiable.")
+
+        sim_value = result["scientific_simulation_score"]
+
+        if sim_value < 0.20:
+            sim_label, sim_color = "Faible", "#16a34a"
+        elif sim_value < 0.40:
+            sim_label, sim_color = "Modérée", "#ca8a04"
+        elif sim_value < 0.70:
+            sim_label, sim_color = "Élevée", "#f97316"
+        else:
+            sim_label, sim_color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(sim_value, sim_color)
+
+        st.markdown(
+            f"<b style='color:{sim_color}'>{sim_label}</b> — {round(sim_value * 100, 1)}%",
+            unsafe_allow_html=True
+        )
+        st.caption(result["scientific_simulation_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("scientific_simulation_markers", [])
+            if not markers:
+                st.info("Aucun marqueur de scientificité rhétorique détecté.")
+            else:
+                for marker in markers:
+                    st.warning(marker)
+
     with st.expander("Voir les manœuvres discursives détectées", expanded=False):
         if result["political_pattern_score"] == 0:
             st.info("Aucun marqueur rhétorique politique saillant détecté.")
