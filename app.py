@@ -1961,6 +1961,9 @@ def analyze_article(text: str) -> Dict:
     scientific_simulation_analysis = compute_scientific_simulation(text)
     propaganda_analysis = detect_propaganda_narrative(text)
     short_form_analysis = detect_short_form_mode(text)
+    causal_overreach_analysis = compute_causal_overreach(text)
+    vague_authority_analysis = compute_vague_authority(text)
+    emotional_intensity_analysis = compute_emotional_intensity(text)
 
     certainty = len(re.findall(r"certain|absolument|prouvé|évident|incontestable", text.lower()))
     emotional = len(re.findall(r"|".join(re.escape(w) for w in EMOTIONAL_WORDS), text.lower()))
