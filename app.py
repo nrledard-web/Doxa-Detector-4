@@ -1150,6 +1150,13 @@ def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict
 # Jauge mécroyance / mensonge
 # -----------------------------
 def compute_lie_gauge(M: float, ME: float):
+    """
+    Axe unique :
+    0.0 = mécroyance maximale
+    0.5 = zone ambiguë / mixte
+    1.0 = mensonge maximal
+    """
+
     delta = ME - M
     amp = 8.0
     strength = min(abs(delta) / amp, 1.0)
@@ -1176,7 +1183,18 @@ def compute_lie_gauge(M: float, ME: float):
             label = "Mensonge extrême"
             color = "#991b1b"
 
-    return round(gauge, 3), label, color, round(ME, 2)
+    if gauge <= 0.5:
+        intensity = (0.5 - gauge) / 0.5
+    else:
+        intensity = (gauge - 0.5) / 0.5
+
+    return {
+        "gauge": round(gauge, 3),
+        "label": label,
+        "color": color,
+        "ME": round(ME, 2),
+        "intensity": round(intensity, 3),
+    }
     
 @dataclass
 class Claim:
