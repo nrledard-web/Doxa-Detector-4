@@ -2877,7 +2877,7 @@ if result:
     # -----------------------------
     # 2) Prémisses idéologiques implicites
     # -----------------------------
-    with col2:
+    with row1_col2:
         st.markdown("### Prémisses implicites")
         st.caption("Idées présentées comme évidentes sans démonstration.")
 
@@ -2912,7 +2912,7 @@ if result:
     # -----------------------------
     # 3) Propagande narrative
     # -----------------------------
-    with col3:
+    with row1_col3:
         st.markdown("### Narration propagandiste")
         st.caption("Urgence, ennemi abstrait, certitude et charge émotionnelle.")
 
