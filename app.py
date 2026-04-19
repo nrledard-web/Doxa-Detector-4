@@ -2015,6 +2015,11 @@ def analyze_article(text: str) -> Dict:
     else:
         verdict = T["strong_credibility"]
 
+    if short_form_analysis["is_short_form"]:
+        hard_fact_score = max(hard_fact_score, 8.0)
+        if hard_fact_score < 10:
+            verdict = T["prudent_credibility"]
+
     strengths = []
     if source_markers >= 2:
         strengths.append(T["presence_of_source_markers"])
