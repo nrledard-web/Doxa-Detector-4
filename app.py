@@ -2831,6 +2831,7 @@ if result:
 
     row1_col1, row1_col2, row1_col3 = st.columns(3)
     row2_col1, row2_col2, row2_col3 = st.columns(3)
+    row3_col1, row3_col2, row3_col3 = st.columns(3)
 
     # -----------------------------
     # 1) Qualifications normatives
