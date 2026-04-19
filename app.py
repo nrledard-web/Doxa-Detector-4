@@ -1785,7 +1785,88 @@ def detect_propaganda_narrative(text: str):
         "emotional_terms": emotional_hits,
         "interpretation": interpretation,
     }
+def compute_causal_overreach(text: str):
+    if not text or not text.strip():
+        return {
+            "score": 0.0,
+            "markers": [],
+            "interpretation": "Aucune causalité abusive saillante détectée."
+        }
 
+    t = text.lower()
+    hits = unique_keep_order([term for term in CAUSAL_OVERREACH_TERMS if contains_term(t, term)])
+    score = min(len(hits) * 2 / 10, 1.0)
+
+    if score < 0.20:
+        interpretation = "Peu de glissements causaux détectés."
+    elif score < 0.40:
+        interpretation = "Le texte contient quelques raccourcis causaux."
+    elif score < 0.70:
+        interpretation = "Le texte présente plusieurs liens causaux fragiles."
+    else:
+        interpretation = "Le texte repose fortement sur des causalités affirmées sans démonstration suffisante."
+
+    return {
+        "score": round(score, 3),
+        "markers": hits,
+        "interpretation": interpretation,
+    }
+
+
+def compute_vague_authority(text: str):
+    if not text or not text.strip():
+        return {
+            "score": 0.0,
+            "markers": [],
+            "interpretation": "Aucune autorité vague saillante détectée."
+        }
+
+    t = text.lower()
+    hits = unique_keep_order([term for term in VAGUE_AUTHORITY_TERMS if contains_term(t, term)])
+    score = min(len(hits) * 2 / 10, 1.0)
+
+    if score < 0.20:
+        interpretation = "Peu d'autorités vagues détectées."
+    elif score < 0.40:
+        interpretation = "Le texte invoque quelques autorités imprécises."
+    elif score < 0.70:
+        interpretation = "Le texte s'appuie nettement sur des autorités non spécifiées."
+    else:
+        interpretation = "Le texte repose fortement sur des autorités vagues ou non traçables."
+
+    return {
+        "score": round(score, 3),
+        "markers": hits,
+        "interpretation": interpretation,
+    }
+
+
+def compute_emotional_intensity(text: str):
+    if not text or not text.strip():
+        return {
+            "score": 0.0,
+            "markers": [],
+            "interpretation": "Aucune charge émotionnelle saillante détectée."
+        }
+
+    t = text.lower()
+    hits = unique_keep_order([term for term in EMOTIONAL_INTENSITY_TERMS if contains_term(t, term)])
+    score = min(len(hits) * 1.5 / 10, 1.0)
+
+    if score < 0.15:
+        interpretation = "Le texte reste peu chargé émotionnellement."
+    elif score < 0.35:
+        interpretation = "Le texte contient quelques marqueurs émotionnels."
+    elif score < 0.60:
+        interpretation = "Le texte mobilise une charge émotionnelle notable."
+    else:
+        interpretation = "Le texte repose fortement sur une intensité émotionnelle orientant la lecture."
+
+    return {
+        "score": round(score, 3),
+        "markers": hits,
+        "interpretation": interpretation,
+    }
 def analyze_claim(sentence: str) -> Claim:
     s = sentence.lower()
 
