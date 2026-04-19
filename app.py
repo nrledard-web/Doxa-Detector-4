@@ -2365,6 +2365,18 @@ def analyze_article(text: str) -> Dict:
         "certainty_score": certainty_analysis[0],
         "certainty_interpretation": certainty_analysis[1],
         "certainty_markers": certainty_analysis[2],
+        
+        "false_consensus_score": false_consensus_analysis[0],
+        "false_consensus_interpretation": false_consensus_analysis[1],
+        "false_consensus_markers": false_consensus_analysis[2],
+
+        "binary_opposition_score": binary_opposition_analysis[0],
+        "binary_opposition_interpretation": binary_opposition_analysis[1],
+        "binary_opposition_markers": binary_opposition_analysis[2],
+
+        "threat_amplification_score": threat_amplification_analysis[0],
+        "threat_amplification_interpretation": threat_amplification_analysis[1],
+        "threat_amplification_markers": threat_amplification_analysis[2],
 
         "short_form_mode": short_form_analysis["is_short_form"],
         "short_form_label": short_form_analysis["label"],
