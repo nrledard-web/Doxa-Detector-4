@@ -3074,6 +3074,108 @@ if result:
                 for marker in markers:
                     st.warning(marker)
 
+        # -----------------------------
+    # 7) Fausse causalité
+    # -----------------------------
+    with row3_col1:
+        st.markdown("### Fausse causalité")
+        st.caption("Liens causaux affirmés plus vite qu'ils ne sont démontrés.")
+
+        causal_value = result["causal_overreach_score"]
+
+        if causal_value < 0.20:
+            causal_label, causal_color = "Faible", "#16a34a"
+        elif causal_value < 0.40:
+            causal_label, causal_color = "Modérée", "#ca8a04"
+        elif causal_value < 0.70:
+            causal_label, causal_color = "Élevée", "#f97316"
+        else:
+            causal_label, causal_color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(causal_value, causal_color)
+
+        st.markdown(
+            f"<b style='color:{causal_color}'>{causal_label}</b> — {round(causal_value * 100, 1)}%",
+            unsafe_allow_html=True
+        )
+        st.caption(result["causal_overreach_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("causal_overreach_markers", [])
+            if not markers:
+                st.info("Aucun marqueur de causalité abusive détecté.")
+            else:
+                for marker in markers:
+                    st.warning(marker)
+
+    # -----------------------------
+    # 8) Autorité vague
+    # -----------------------------
+    with row3_col2:
+        st.markdown("### Autorité vague")
+        st.caption("Appels à des experts, études ou spécialistes sans source précise.")
+
+        vague_auth_value = result["vague_authority_score"]
+
+        if vague_auth_value < 0.20:
+            vague_auth_label, vague_auth_color = "Faible", "#16a34a"
+        elif vague_auth_value < 0.40:
+            vague_auth_label, vague_auth_color = "Modérée", "#ca8a04"
+        elif vague_auth_value < 0.70:
+            vague_auth_label, vague_auth_color = "Élevée", "#f97316"
+        else:
+            vague_auth_label, vague_auth_color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(vague_auth_value, vague_auth_color)
+
+        st.markdown(
+            f"<b style='color:{vague_auth_color}'>{vague_auth_label}</b> — {round(vague_auth_value * 100, 1)}%",
+            unsafe_allow_html=True
+        )
+        st.caption(result["vague_authority_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("vague_authority_markers", [])
+            if not markers:
+                st.info("Aucun marqueur d'autorité vague détecté.")
+            else:
+                for marker in markers:
+                    st.warning(marker)
+
+    # -----------------------------
+    # 9) Charge émotionnelle
+    # -----------------------------
+    with row3_col3:
+        st.markdown("### Charge émotionnelle")
+        st.caption("Intensité affective du lexique utilisé pour orienter la lecture.")
+
+        emotional_value = result["emotional_intensity_score"]
+
+        if emotional_value < 0.15:
+            emotional_label, emotional_color = "Faible", "#16a34a"
+        elif emotional_value < 0.35:
+            emotional_label, emotional_color = "Modérée", "#ca8a04"
+        elif emotional_value < 0.60:
+            emotional_label, emotional_color = "Élevée", "#f97316"
+        else:
+            emotional_label, emotional_color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(emotional_value, emotional_color)
+
+        st.markdown(
+            f"<b style='color:{emotional_color}'>{emotional_label}</b> — {round(emotional_value * 100, 1)}%",
+            unsafe_allow_html=True
+        )
+        st.caption(result["emotional_intensity_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("emotional_intensity_markers", [])
+            if not markers:
+                st.info("Aucun marqueur émotionnel notable détecté.")
+            else:
+                for marker in markers:
+                    st.warning(marker)
+
     with st.expander("Voir les manœuvres discursives détectées", expanded=False):
         if result["political_pattern_score"] == 0:
             st.info("Aucun marqueur rhétorique politique saillant détecté.")
