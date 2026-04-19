@@ -1682,15 +1682,15 @@ def analyze_article(text: str) -> Dict:
     political_pattern_score, political_results, matched_terms = detect_political_patterns(text)
     rhetorical_pressure = compute_rhetorical_pressure(political_results)
 
-ME_base = max(0, (2 * D) - (G + N))
+    ME_base = max(0, (2 * D) - (G + N))
 
-discursive_boost = (
-    normative_analysis["score"] * 2.0 +
-    premise_analysis["score"] * 1.5 +
-    propaganda_analysis["score"] * 2.5
-)
+    discursive_boost = (
+        normative_analysis["score"] * 2.0 +
+        premise_analysis["score"] * 1.5 +
+        propaganda_analysis["score"] * 2.5
+    )
 
-ME = round((ME_base * L) + discursive_boost, 2)
+    ME = round((ME_base * L) + discursive_boost, 2)
 
     return {
         "words": len(words),
@@ -1717,7 +1717,7 @@ ME = round((ME_base * L) + discursive_boost, 2)
         "propaganda_certainty_terms": propaganda_analysis["certainty_terms"],
         "propaganda_emotional_terms": propaganda_analysis["emotional_terms"],
         "propaganda_interpretation": propaganda_analysis["interpretation"],
-        
+
         "linguistic_trigger_count": ling["trigger_count"],
         "linguistic_pressure_hits": ling["rhetorical_pressure"],
         "absolute_claims": ling["absolute_claims"],
