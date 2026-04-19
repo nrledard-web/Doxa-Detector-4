@@ -2107,6 +2107,9 @@ def analyze_article(text: str) -> Dict:
     causal_overreach_analysis = compute_causal_overreach(text)
     vague_authority_analysis = compute_vague_authority(text)
     emotional_intensity_analysis = compute_emotional_intensity(text)
+    generalization_analysis = compute_generalization(text)
+    abstract_enemy_analysis = compute_abstract_enemy(text)
+    certainty_analysis = compute_certainty(text)
 
     certainty = len(re.findall(r"certain|absolument|prouvé|évident|incontestable", text.lower()))
     emotional = len(re.findall(r"|".join(re.escape(w) for w in EMOTIONAL_WORDS), text.lower()))
