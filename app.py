@@ -1319,6 +1319,365 @@ def contains_term(text: str, term: str) -> bool:
         pattern = rf"\b{escaped}\b"
     return re.search(pattern, text.lower()) is not None
 
+# -----------------------------
+# Cohérence discursive / nouveaux modules
+# -----------------------------
+LOGICAL_CONNECTORS = [
+    "car", "donc", "ainsi", "puisque", "parce que",
+    "cependant", "pourtant", "toutefois", "néanmoins",
+    "en effet", "or", "alors", "mais",
+    "de plus", "en outre", "par conséquent", "dès lors"
+]
+
+DISCURSIVE_CONTRADICTION_PATTERNS = [
+    r"\btoujours\b.*\bjamais\b",
+    r"\bjamais\b.*\btoujours\b",
+    r"\btout\b.*\bsauf\b",
+    r"\brien\b.*\bmais\b",
+    r"\baucun\b.*\bmais\b",
+    r"\bobligatoire\b.*\bfacultatif\b",
+    r"\bimpossible\b.*\bpossible\b"
+]
+
+STOPWORDS_FR_EXTENDED = {
+    "le", "la", "les", "un", "une", "des", "du", "de", "d", "et", "ou",
+    "à", "au", "aux", "en", "dans", "sur", "pour", "par", "avec", "sans",
+    "ce", "cet", "cette", "ces", "qui", "que", "quoi", "dont", "où",
+    "je", "tu", "il", "elle", "nous", "vous", "ils", "elles",
+    "est", "sont", "était", "être", "a", "ont", "avait", "avoir",
+    "ne", "pas", "plus", "se", "sa", "son", "ses", "leur", "leurs",
+    "comme", "dans", "sur", "sous", "entre", "vers", "chez", "après",
+    "avant", "aussi", "encore", "très", "moins", "tout", "tous",
+    "toute", "toutes", "cela", "celui", "celle", "ceux", "celles",
+    "ainsi", "alors", "donc", "mais", "or"
+}
+
+IMPLICIT_PREMISE_MARKERS = {
+    "generalisation": [
+        "toujours", "jamais", "tout le monde", "personne", "tous", "aucun",
+        "inévitablement", "nécessairement", "everyone knows", "nobody can deny"
+    ],
+    "naturalisation": [
+        "il est évident que", "il est clair que", "de toute évidence",
+        "on sait que", "l'histoire montre que", "la réalité est simple",
+        "it is clear that", "it is obvious that", "history shows that"
+    ],
+    "autorite_vague": [
+        "les experts", "les spécialistes", "les chercheurs",
+        "selon des experts", "selon certains spécialistes",
+        "des études montrent", "le consensus scientifique",
+        "experts say", "studies show", "scientific consensus"
+    ],
+    "conclusion_forcee": [
+        "donc", "ainsi", "par conséquent", "dès lors",
+        "cela prouve que", "cela montre que", "ce qui démontre que",
+        "therefore", "this proves that", "this shows that"
+    ]
+}
+
+LOGIC_CONFUSION_MARKERS = {
+    "causalite_abusive": [
+        "cela prouve que", "cela montre que", "c'est pourquoi",
+        "ce qui explique que", "ce qui démontre que", "donc la cause",
+        "this proves that", "this shows that", "that is why"
+    ],
+    "extrapolation": [
+        "donc tous", "donc toujours", "donc jamais",
+        "par conséquent tout", "il faut en conclure que",
+        "therefore all", "therefore always", "necessarily all"
+    ],
+    "prediction_absolue": [
+        "inévitablement", "forcément", "il est certain que",
+        "il est impossible que", "finira par", "conduira nécessairement à",
+        "inevitably", "certainly", "it is impossible that"
+    ]
+}
+
+SCIENTIFIC_SIMULATION_MARKERS = {
+    "references_vagues": [
+        "des études montrent", "la science prouve", "les chercheurs disent",
+        "les scientifiques ont démontré", "plusieurs recherches montrent",
+        "according to studies", "science proves", "research shows"
+    ],
+    "technicite_rhetorique": [
+        "système", "structure", "dynamique", "modèle",
+        "mécanisme", "processus", "paradigme",
+        "system", "structure", "dynamics", "model", "mechanism", "process"
+    ],
+    "chiffres_sans_source": [
+        "%", "pour cent", "une étude récente", "plusieurs recherches",
+        "des statistiques montrent", "70 %", "80 %", "90 %",
+        "recent study", "statistics show"
+    ]
+}
+
+def tokenize_words(text: str):
+    return re.findall(r"\b[\wÀ-ÿ'-]+\b", text.lower())
+
+def split_paragraphs(text: str):
+    parts = [p.strip() for p in re.split(r"\n\s*\n", text) if p.strip()]
+    if not parts and text.strip():
+        parts = [text.strip()]
+    return parts
+
+def extract_content_words(words):
+    return [w for w in words if w not in STOPWORDS_FR_EXTENDED and len(w) > 3]
+
+def top_keywords_from_text(text: str, n: int = 8):
+    words = tokenize_words(text)
+    content_words = extract_content_words(words)
+    freq = Counter(content_words)
+    return [w for w, _ in freq.most_common(n)]
+
+def interpret_discursive_coherence(score: float) -> str:
+    if score < 5:
+        return "Cohérence discursive faible"
+    elif score < 9:
+        return "Cohérence discursive limitée"
+    elif score < 13:
+        return "Cohérence discursive correcte"
+    elif score < 17:
+        return "Cohérence discursive solide"
+    return "Cohérence discursive très forte"
+
+def paragraph_overlap_score(paragraphs):
+    if len(paragraphs) < 2:
+        return 2.0
+
+    overlaps = []
+    para_keywords = [set(top_keywords_from_text(p, 8)) for p in paragraphs]
+
+    for i in range(len(para_keywords) - 1):
+        a = para_keywords[i]
+        b = para_keywords[i + 1]
+        if not a or not b:
+            overlaps.append(0)
+            continue
+
+        inter = len(a.intersection(b))
+        union = len(a.union(b))
+        overlaps.append(inter / union if union else 0)
+
+    avg_overlap = sum(overlaps) / len(overlaps) if overlaps else 0
+
+    if avg_overlap >= 0.35:
+        return 4.0
+    elif avg_overlap >= 0.20:
+        return 3.0
+    elif avg_overlap >= 0.10:
+        return 2.0
+    elif avg_overlap > 0:
+        return 1.0
+    return 0.0
+
+def topic_shift_penalty(paragraphs):
+    if len(paragraphs) < 2:
+        return 0.0
+
+    penalties = 0.0
+    para_keywords = [set(top_keywords_from_text(p, 8)) for p in paragraphs]
+
+    for i in range(len(para_keywords) - 1):
+        a = para_keywords[i]
+        b = para_keywords[i + 1]
+
+        if not a or not b:
+            penalties += 1.0
+            continue
+
+        common = len(a.intersection(b))
+        if common == 0:
+            penalties += 1.5
+        elif common == 1:
+            penalties += 0.5
+
+    return min(penalties, 4.0)
+
+def compute_discursive_coherence(text: str):
+    if not text or not text.strip():
+        return {
+            "score": 0.0,
+            "label": "Cohérence discursive faible",
+            "logic_score": 0.0,
+            "stability_score": 0.0,
+            "length_score": 0.0,
+            "paragraph_score": 0.0,
+            "contradiction_penalty": 0.0,
+            "topic_shift_penalty": 0.0,
+            "top_keywords": []
+        }
+
+    text_lower = text.lower().strip()
+    words = tokenize_words(text_lower)
+    word_count = len(words)
+    paragraphs = split_paragraphs(text)
+
+    logic_hits = sum(1 for connector in LOGICAL_CONNECTORS if contains_term(text_lower, connector))
+    logic_score = min(logic_hits * 1.2, 5.0)
+
+    content_words = extract_content_words(words)
+    freq = Counter(content_words)
+    top_keywords = freq.most_common(6)
+    repeated_keywords = sum(1 for _, count in top_keywords if count >= 2)
+    stability_score = min(repeated_keywords * 1.2, 4.0)
+
+    if word_count < 40:
+        length_score = 0.8
+    elif word_count < 80:
+        length_score = 2.0
+    elif word_count < 140:
+        length_score = 3.0
+    elif word_count < 220:
+        length_score = 4.0
+    else:
+        length_score = 5.0
+
+    paragraph_score = paragraph_overlap_score(paragraphs)
+
+    contradiction_hits = 0
+    for pattern in DISCURSIVE_CONTRADICTION_PATTERNS:
+        if re.search(pattern, text_lower, flags=re.DOTALL):
+            contradiction_hits += 1
+    contradiction_penalty = min(contradiction_hits * 2.0, 4.0)
+
+    shift_penalty = topic_shift_penalty(paragraphs)
+
+    raw_score = logic_score + stability_score + length_score + paragraph_score - contradiction_penalty - shift_penalty
+    score = clamp(raw_score, 0.0, 20.0)
+
+    return {
+        "score": round(score, 1),
+        "label": interpret_discursive_coherence(score),
+        "logic_score": round(logic_score, 1),
+        "stability_score": round(stability_score, 1),
+        "length_score": round(length_score, 1),
+        "paragraph_score": round(paragraph_score, 1),
+        "contradiction_penalty": round(contradiction_penalty, 1),
+        "topic_shift_penalty": round(shift_penalty, 1),
+        "top_keywords": top_keywords,
+    }
+
+def compute_implicit_premises(text: str):
+    if not text or not text.strip():
+        return {"score": 0.0, "details": {}, "markers": [], "interpretation": "Aucune prémisse implicite détectée."}
+
+    t = text.lower()
+    score = 0
+    details = {}
+    markers = []
+
+    for category, terms in IMPLICIT_PREMISE_MARKERS.items():
+        hits = [term for term in terms if contains_term(t, term)]
+        details[category] = len(hits)
+        markers.extend(hits)
+        score += len(hits)
+
+    score = min(score * 2, 20)
+    ratio = score / 20
+
+    if ratio < 0.20:
+        interpretation = "Peu de prémisses implicites détectées."
+    elif ratio < 0.40:
+        interpretation = "Le texte contient quelques prémisses implicites."
+    elif ratio < 0.70:
+        interpretation = "Le texte repose partiellement sur des prémisses présentées comme évidentes."
+    else:
+        interpretation = "Le texte repose fortement sur des prémisses implicites non démontrées."
+
+    return {
+        "score": round(ratio, 3),
+        "details": details,
+        "markers": unique_keep_order(markers),
+        "interpretation": interpretation,
+    }
+
+def compute_logic_confusion(text: str):
+    if not text or not text.strip():
+        return {"score": 0.0, "details": {}, "markers": [], "interpretation": "Aucune confusion logique saillante détectée."}
+
+    t = text.lower()
+    score = 0
+    details = {}
+    markers = []
+
+    for category, terms in LOGIC_CONFUSION_MARKERS.items():
+        hits = [term for term in terms if contains_term(t, term)]
+        details[category] = len(hits)
+        markers.extend(hits)
+        score += len(hits)
+
+    score = min(score * 2, 20)
+    ratio = score / 20
+
+    if ratio < 0.20:
+        interpretation = "Peu de confusions logiques détectées."
+    elif ratio < 0.40:
+        interpretation = "Le texte présente quelques simplifications logiques."
+    elif ratio < 0.70:
+        interpretation = "Le texte présente plusieurs confusions logiques notables."
+    else:
+        interpretation = "Le texte repose fortement sur des inférences fragiles ou abusives."
+
+    return {
+        "score": round(ratio, 3),
+        "details": details,
+        "markers": unique_keep_order(markers),
+        "interpretation": interpretation,
+    }
+
+def compute_scientific_simulation(text: str):
+    if not text or not text.strip():
+        return {"score": 0.0, "details": {}, "markers": [], "interpretation": "Aucune simulation scientifique saillante détectée."}
+
+    t = text.lower()
+    score = 0
+    details = {}
+    markers = []
+
+    for category, terms in SCIENTIFIC_SIMULATION_MARKERS.items():
+        hits = [term for term in terms if term in t]
+        details[category] = len(hits)
+        markers.extend(hits)
+        score += len(hits)
+
+    score = min(score * 2, 20)
+    ratio = score / 20
+
+    if ratio < 0.20:
+        interpretation = "Peu de marqueurs de scientificité rhétorique détectés."
+    elif ratio < 0.40:
+        interpretation = "Le texte mobilise quelques codes d’objectivité scientifique."
+    elif ratio < 0.70:
+        interpretation = "Le texte utilise nettement une scientificité rhétorique."
+    else:
+        interpretation = "Le texte simule fortement l’objectivité scientifique sans support identifiable."
+
+    return {
+        "score": round(ratio, 3),
+        "details": details,
+        "markers": unique_keep_order(markers),
+        "interpretation": interpretation,
+    }
+
+def detect_short_form_mode(text: str):
+    words = tokenize_words(text)
+    word_count = len(words)
+
+    if word_count < 25:
+        return {
+            "is_short_form": True,
+            "word_count": word_count,
+            "label": "Mode aphorisme / texte court",
+            "interpretation": "Texte très court : les métriques factuelles et discursives doivent être lues avec prudence."
+        }
+
+    return {
+        "is_short_form": False,
+        "word_count": word_count,
+        "label": "Texte standard",
+        "interpretation": "Longueur suffisante pour une lecture discursive plus stable."
+    }
+
 
 # -----------------------------
 # Qualifications normatives
