@@ -424,7 +424,7 @@ def compute_linguistic_suspicion(text: str) -> dict:
     ]
 
     def count_hits(terms):
-        return sum(1 for term in terms if term in t)
+        return sum(1 for term in terms if contains_term(t, term))
 
     rhetorical_pressure = count_hits(rhetorical_pressure_terms)
     absolute_claims = count_hits(absolute_claim_terms)
