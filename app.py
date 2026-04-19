@@ -3992,6 +3992,186 @@ if result:
                     st.warning(marker)
 
         # -----------------------------
+    # 19) Fausse analogie
+    # -----------------------------
+    with row7_col1:
+        st.markdown("### Fausse analogie")
+        st.caption("Comparaisons trompeuses qui court-circuitent l’analyse.")
+
+        value = result["false_analogy_score"]
+
+        if value < 0.15:
+            label, color = "Faible", "#16a34a"
+        elif value < 0.35:
+            label, color = "Modérée", "#ca8a04"
+        elif value < 0.60:
+            label, color = "Élevée", "#f97316"
+        else:
+            label, color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(value, color)
+        st.markdown(f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%", unsafe_allow_html=True)
+        st.caption(result["false_analogy_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("false_analogy_markers", [])
+            if not markers:
+                st.info("Aucune fausse analogie notable détectée.")
+            else:
+                for marker in markers:
+                    st.warning(marker)
+
+    # -----------------------------
+    # 20) Surinterprétation factuelle
+    # -----------------------------
+    with row7_col2:
+        st.markdown("### Surinterprétation factuelle")
+        st.caption("Conclusions excessives tirées à partir d’indices partiels.")
+
+        value = result["factual_overinterpretation_score"]
+
+        if value < 0.15:
+            label, color = "Faible", "#16a34a"
+        elif value < 0.35:
+            label, color = "Modérée", "#ca8a04"
+        elif value < 0.60:
+            label, color = "Élevée", "#f97316"
+        else:
+            label, color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(value, color)
+        st.markdown(f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%", unsafe_allow_html=True)
+        st.caption(result["factual_overinterpretation_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("factual_overinterpretation_markers", [])
+            if not markers:
+                st.info("Aucune surinterprétation factuelle notable détectée.")
+            else:
+                for marker in markers:
+                    st.warning(marker)
+
+    # -----------------------------
+    # 21) Dissonance interne
+    # -----------------------------
+    with row7_col3:
+        st.markdown("### Dissonance interne")
+        st.caption("Contradictions ou incompatibilités au sein du même discours.")
+
+        value = result["internal_dissonance_score"]
+
+        if value < 0.15:
+            label, color = "Faible", "#16a34a"
+        elif value < 0.35:
+            label, color = "Modérée", "#ca8a04"
+        elif value < 0.60:
+            label, color = "Élevée", "#f97316"
+        else:
+            label, color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(value, color)
+        st.markdown(f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%", unsafe_allow_html=True)
+        st.caption(result["internal_dissonance_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("internal_dissonance_markers", [])
+            if not markers:
+                st.info("Aucune dissonance interne notable détectée.")
+            else:
+                for marker in markers:
+                    st.warning(marker)
+
+    # -----------------------------
+    # 22) Saturation normative
+    # -----------------------------
+    with row8_col1:
+        st.markdown("### Saturation normative")
+        st.caption("Accumulation de jugements moraux à la place de l’analyse.")
+
+        value = result["normative_saturation_score"]
+
+        if value < 0.15:
+            label, color = "Faible", "#16a34a"
+        elif value < 0.35:
+            label, color = "Modérée", "#ca8a04"
+        elif value < 0.60:
+            label, color = "Élevée", "#f97316"
+        else:
+            label, color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(value, color)
+        st.markdown(f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%", unsafe_allow_html=True)
+        st.caption(result["normative_saturation_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("normative_saturation_markers", [])
+            if not markers:
+                st.info("Aucune saturation normative notable détectée.")
+            else:
+                for marker in markers:
+                    st.warning(marker)
+
+    # -----------------------------
+    # 23) Rigidité doxique
+    # -----------------------------
+    with row8_col2:
+        st.markdown("### Rigidité doxique")
+        st.caption("Degré de fermeture du texte par excès de certitude partagée.")
+
+        value = result["doxic_rigidity_score"]
+
+        if value < 0.15:
+            label, color = "Faible", "#16a34a"
+        elif value < 0.35:
+            label, color = "Modérée", "#ca8a04"
+        elif value < 0.60:
+            label, color = "Élevée", "#f97316"
+        else:
+            label, color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(value, color)
+        st.markdown(f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%", unsafe_allow_html=True)
+        st.caption(result["doxic_rigidity_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("doxic_rigidity_markers", [])
+            if not markers:
+                st.info("Aucune rigidité doxique notable détectée.")
+            else:
+                for marker in markers:
+                    st.warning(marker)
+
+    # -----------------------------
+    # 24) Surdétermination narrative
+    # -----------------------------
+    with row8_col3:
+        st.markdown("### Surdétermination narrative")
+        st.caption("Réduction du réel à un récit unique supposé tout expliquer.")
+
+        value = result["narrative_overdetermination_score"]
+
+        if value < 0.15:
+            label, color = "Faible", "#16a34a"
+        elif value < 0.35:
+            label, color = "Modérée", "#ca8a04"
+        elif value < 0.60:
+            label, color = "Élevée", "#f97316"
+        else:
+            label, color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(value, color)
+        st.markdown(f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%", unsafe_allow_html=True)
+        st.caption(result["narrative_overdetermination_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("narrative_overdetermination_markers", [])
+            if not markers:
+                st.info("Aucune surdétermination narrative notable détectée.")
+            else:
+                for marker in markers:
+                    st.warning(marker)
+
+        # -----------------------------
     # 16) Glissement sémantique
     # -----------------------------
     with row6_col1:
