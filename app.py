@@ -1541,7 +1541,48 @@ def detect_short_form_mode(text: str):
         "label": "Texte standard",
         "interpretation": "Longueur suffisante pour une lecture discursive plus stable."
     }
+# -----------------------------
+# Nouvelles bibliothèques rhétoriques
+# -----------------------------
+CAUSAL_OVERREACH_TERMS = [
+    "donc",
+    "par conséquent",
+    "ce qui prouve que",
+    "cela montre que",
+    "la preuve que",
+    "c'est pour cela que",
+    "donc forcément",
+    "therefore",
+    "this proves that",
+    "this shows that"
+]
 
+VAGUE_AUTHORITY_TERMS = [
+    "selon des experts",
+    "selon des spécialistes",
+    "des scientifiques disent",
+    "des experts affirment",
+    "des études montrent",
+    "plusieurs études",
+    "according to experts",
+    "experts say",
+    "studies show",
+    "research suggests"
+]
+
+EMOTIONAL_INTENSITY_TERMS = [
+    "scandale",
+    "honte",
+    "catastrophe",
+    "désastre",
+    "trahison",
+    "danger",
+    "peur",
+    "panic",
+    "scandal",
+    "outrage",
+    "fear"
+]
 
 # -----------------------------
 # Qualifications normatives
