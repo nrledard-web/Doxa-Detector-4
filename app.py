@@ -1504,6 +1504,8 @@ def detect_propaganda_narrative(text: str):
     }
 
 def analyze_claim(sentence: str) -> Claim:
+    s = sentence.lower()
+
     has_number = bool(re.search(r"\d+", sentence))
     has_date = bool(
         re.search(
@@ -1513,13 +1515,48 @@ def analyze_claim(sentence: str) -> Claim:
         )
     )
     has_named_entity = bool(re.search(r"[A-Z][a-z]+ [A-Z][a-z]+|[A-Z]{2,}", sentence))
-    has_source_cue = any(cue in sentence.lower() for cue in SOURCE_CUES)
+    has_source_cue = any(cue in s for cue in SOURCE_CUES)
 
-    absolutism = sum(1 for word in ABSOLUTIST_WORDS if word in sentence.lower())
-    emotional_charge = sum(1 for word in EMOTIONAL_WORDS if word in sentence.lower())
+    absolutism = sum(1 for word in ABSOLUTIST_WORDS if word in s)
+    emotional_charge = sum(1 for word in EMOTIONAL_WORDS if word in s)
 
-    v_score = clamp((has_number * 5) + (has_date * 5) + (has_named_entity * 5) + (has_source_cue * 5), 0, 20)
+    # Vérifiabilité brute
+    v_score = clamp(
+        (has_number * 5) +
+        (has_date * 5) +
+        (has_named_entity * 5) +
+        (has_source_cue * 5),
+        0,
+        20
+    )
+
+    # Risque rhétorique
     r_score = clamp((absolutism * 7) + (emotional_charge * 7), 0, 20)
+
+    # Pénalité normative
+    normative_hits = sum(
+        1 for term in QUALIFICATIONS_NORMATIVES
+        if contains_term(s, term)
+    )
+
+    judgment_hits = sum(
+        1 for term in JUDGMENT_MARKERS
+        if contains_term(s, term)
+    )
+
+    premise_hits = sum(
+        1 for term in IDEOLOGICAL_PREMISE_MARKERS
+        if contains_term(s, term)
+    )
+
+    normative_penalty = min(
+        normative_hits * 2.5 +
+        judgment_hits * 1.5 +
+        premise_hits * 1.5,
+        10
+    )
+
+    v_score = clamp(v_score - normative_penalty, 0, 20)
 
     if v_score < 5:
         status = T["very_fragile"]
