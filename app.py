@@ -1001,41 +1001,43 @@ def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict
 def compute_lie_gauge(M: float, ME: float):
     """
     Axe unique :
-    0.0 = mécroyance maximale
-    0.5 = zone ambiguë / mixte
-    1.0 = mensonge maximal
+    0.0 = mécroyance forte
+    0.5 = zone ambiguë
+    1.0 = mensonge fort
+
+    M et ME sont d'abord normalisés pour éviter
+    qu'un seul indice n'écrase artificiellement l'autre.
     """
 
-    delta = ME - M
-    amp = 8.0
-    strength = min(abs(delta) / amp, 1.0)
+    # M : spectre théorique approximatif de -10 à +20
+    m_norm = max(0.0, min(1.0, (M + 10) / 30))
 
-    if delta <= 0:
-        gauge = 0.5 * (1 - strength)
+    # ME : compressé sur 0..20
+    me_norm = max(0.0, min(1.0, ME / 20))
 
-        if gauge > 0.35:
-            label = "Mécroyance modérée"
-            color = "#ca8a04"
-        else:
-            label = "Mécroyance forte"
-            color = "#a16207"
+    # Plus ME monte et plus M baisse, plus on va vers le mensonge
+    delta = me_norm - (1 - m_norm)
+
+    gauge = 0.5 + (delta * 0.8)
+    gauge = max(0.0, min(1.0, gauge))
+
+    if gauge < 0.20:
+        label = "Mécroyance forte"
+        color = "#a16207"
+    elif gauge < 0.40:
+        label = "Mécroyance modérée"
+        color = "#ca8a04"
+    elif gauge < 0.60:
+        label = "Zone ambiguë"
+        color = "#f59e0b"
+    elif gauge < 0.80:
+        label = "Mensonge probable"
+        color = "#dc2626"
     else:
-        gauge = 0.5 + (0.5 * strength)
+        label = "Mensonge extrême"
+        color = "#991b1b"
 
-        if gauge < 0.65:
-            label = "Mensonge possible"
-            color = "#f97316"
-        elif gauge < 0.85:
-            label = "Mensonge probable"
-            color = "#dc2626"
-        else:
-            label = "Mensonge extrême"
-            color = "#991b1b"
-
-    if gauge <= 0.5:
-        intensity = (0.5 - gauge) / 0.5
-    else:
-        intensity = (gauge - 0.5) / 0.5
+    intensity = abs(gauge - 0.5) * 2
 
     return {
         "gauge": round(gauge, 3),
