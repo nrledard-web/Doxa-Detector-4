@@ -2039,6 +2039,79 @@ def compute_certainty(text: str):
         interpretation = "Certitude absolue fortement affirmée."
 
     return score, interpretation, hits
+
+def compute_false_consensus(text: str):
+    text_lower = text.lower()
+
+    hits = [t for t in CONSENSUS_TERMS if contains_term(text_lower, t)]
+
+    score = min(len(hits) * 2.5 / 10, 1.0)
+
+    if score < 0.15:
+        interpretation = "Aucun faux consensus significatif détecté."
+    elif score < 0.35:
+        interpretation = "Le texte suggère légèrement une adhésion collective implicite."
+    elif score < 0.60:
+        interpretation = "Le texte met en scène un consensus supposé."
+    else:
+        interpretation = "Le texte s'appuie fortement sur un faux consensus rhétorique."
+
+    return score, interpretation, hits
+
+
+def compute_binary_opposition(text: str):
+    text_lower = text.lower()
+
+    hits = [t for t in BINARY_OPPOSITION_TERMS if contains_term(text_lower, t)]
+
+    score = min(len(hits) * 3 / 10, 1.0)
+
+    if score < 0.15:
+        interpretation = "Aucune opposition binaire significative détectée."
+    elif score < 0.35:
+        interpretation = "Tendance légère à structurer le discours en camps opposés."
+    elif score < 0.60:
+        interpretation = "Opposition binaire marquée entre groupes."
+    else:
+        interpretation = "Discours fortement structuré en camps antagonistes."
+
+    return score, interpretation, hits
+
+
+THREAT_AMPLIFICATION_TERMS = [
+    "menace existentielle",
+    "danger extrême",
+    "danger mortel",
+    "catastrophe imminente",
+    "effondrement total",
+    "destruction du pays",
+    "survie nationale",
+    "point de non-retour",
+    "invasion massive",
+    "submersion totale",
+    "chaos généralisé",
+    "crise terminale",
+    "menace historique",
+    "danger absolu",
+]
+
+def compute_threat_amplification(text: str):
+    text_lower = text.lower()
+
+    hits = [t for t in THREAT_AMPLIFICATION_TERMS if contains_term(text_lower, t)]
+
+    score = min(len(hits) * 3 / 10, 1.0)
+
+    if score < 0.15:
+        interpretation = "Aucune amplification de menace significative détectée."
+    elif score < 0.35:
+        interpretation = "Le texte contient quelques formulations alarmistes."
+    elif score < 0.60:
+        interpretation = "Le texte amplifie notablement la perception de menace."
+    else:
+        interpretation = "Le discours repose fortement sur une amplification dramatique de la menace."
+
+    return score, interpretation, hits
     
 def analyze_claim(sentence: str) -> Claim:
     s = sentence.lower()
