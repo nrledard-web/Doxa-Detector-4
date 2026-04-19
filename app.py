@@ -1688,6 +1688,22 @@ CONSENSUS_TERMS = [
 ]
 
 # -----------------------------
+# Opposition binaire
+# -----------------------------
+BINARY_OPPOSITION_TERMS = [
+    "eux contre nous",
+    "nous contre eux",
+    "le peuple contre",
+    "les élites contre",
+    "les honnêtes contre",
+    "les patriotes contre",
+    "les traîtres",
+    "les ennemis du peuple",
+    "ceux qui sont avec nous",
+    "ceux qui sont contre nous"
+]
+
+# -----------------------------
 # Qualifications normatives
 # -----------------------------
 QUALIFICATIONS_NORMATIVES = [
