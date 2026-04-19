@@ -2839,7 +2839,7 @@ if result:
     st.divider()
     st.subheader("Cartographie discursive complémentaire")
     st.caption(
-        "Ces trois jauges affinent l'analyse en distinguant : "
+        "Ces six jauges affinent l'analyse en distinguant les jugements de valeur, les prémisses implicites, la narration propagandiste, la cohérence discursive, les confusions logiques et la scientificité rhétorique."
         "les jugements présentés comme des faits, "
         "les prémisses implicites non démontrées, "
         "et la structuration narrative propagandiste."
