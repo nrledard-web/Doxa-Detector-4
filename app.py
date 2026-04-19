@@ -2039,9 +2039,15 @@ def analyze_article(text: str) -> Dict:
         verdict = T["strong_credibility"]
 
     if short_form_analysis["is_short_form"]:
-        hard_fact_score = max(hard_fact_score, 8.0)
-        if hard_fact_score < 10:
-            verdict = T["prudent_credibility"]
+        hard_fact_score = round(clamp(hard_fact_score - 1.5, 0, 20), 1)
+    if hard_fact_score < 6:
+        verdict = T["low_credibility"]
+    elif hard_fact_score < 10:
+        verdict = T["prudent_credibility"]
+    elif hard_fact_score < 15:
+        verdict = T["rather_credible"]
+    else:
+        verdict = T["strong_credibility"]
 
     strengths = []
     if source_markers >= 2:
