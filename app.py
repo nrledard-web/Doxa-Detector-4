@@ -2248,6 +2248,17 @@ def analyze_article(text: str) -> Dict:
         "emotional_intensity_score": emotional_intensity_analysis["score"],
         "emotional_intensity_markers": emotional_intensity_analysis["markers"],
         "emotional_intensity_interpretation": emotional_intensity_analysis["interpretation"],
+        "generalization_score": generalization_analysis[0],
+        "generalization_interpretation": generalization_analysis[1],
+        "generalization_markers": generalization_analysis[2],
+
+        "abstract_enemy_score": abstract_enemy_analysis[0],
+        "abstract_enemy_interpretation": abstract_enemy_analysis[1],
+        "abstract_enemy_markers": abstract_enemy_analysis[2],
+
+        "certainty_score": certainty_analysis[0],
+        "certainty_interpretation": certainty_analysis[1],
+        "certainty_markers": certainty_analysis[2],
 
         "short_form_mode": short_form_analysis["is_short_form"],
         "short_form_label": short_form_analysis["label"],
