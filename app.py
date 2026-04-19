@@ -3438,6 +3438,8 @@ if result:
     row4_col1, row4_col2, row4_col3 = st.columns(3)
     row5_col1, row5_col2, row5_col3 = st.columns(3)
     row6_col1, row6_col2, row6_col3 = st.columns(3)
+    row7_col1, row7_col2, row7_col3 = st.columns(3)
+    row8_col1, row8_col2, row8_col3 = st.columns(3)
     
 
     # -----------------------------
