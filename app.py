@@ -2864,10 +2864,10 @@ if result:
     st.divider()
     st.subheader("Cartographie discursive complémentaire")
     st.caption(
-        "Ces six jauges affinent l'analyse en distinguant les jugements de valeur, les prémisses implicites, la narration propagandiste, la cohérence discursive, les confusions logiques et la scientificité rhétorique."
-        "les jugements présentés comme des faits, "
-        "les prémisses implicites non démontrées, "
-        "et la structuration narrative propagandiste."
+    "Ces neuf jauges affinent l’analyse en distinguant les jugements de valeur, "
+    "les prémisses implicites, la narration propagandiste, la cohérence discursive, "
+    "les confusions logiques, la scientificité rhétorique, la fausse causalité, "
+    "l’autorité vague et la charge émotionnelle."
     )
 
     row1_col1, row1_col2, row1_col3 = st.columns(3)
