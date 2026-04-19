@@ -2848,7 +2848,7 @@ if result:
     # -----------------------------
     # 1) Qualifications normatives
     # -----------------------------
-    with col1:
+    with row1_col1:
         st.markdown("### Qualification normative")
         st.caption("Jugements de valeur présentés comme des faits.")
 
