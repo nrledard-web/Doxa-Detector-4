@@ -2077,6 +2077,29 @@ def analyze_article(text: str) -> Dict:
         "normative_terms": normative_analysis["normative_terms"],
         "normative_judgment_markers": normative_analysis["judgment_markers"],
         "normative_interpretation": normative_analysis["interpretation"],
+        "discursive_coherence_score": discursive_analysis["score"],
+        "discursive_coherence_label": discursive_analysis["label"],
+        "discursive_coherence_details": discursive_analysis,
+
+        "premise_score": premise_analysis["score"],
+        "premise_markers": premise_analysis["markers"],
+        "premise_interpretation": premise_analysis["interpretation"],
+        "premise_details": premise_analysis["details"],
+
+        "logic_confusion_score": logic_confusion_analysis["score"],
+        "logic_confusion_markers": logic_confusion_analysis["markers"],
+        "logic_confusion_interpretation": logic_confusion_analysis["interpretation"],
+        "logic_confusion_details": logic_confusion_analysis["details"],
+
+        "scientific_simulation_score": scientific_simulation_analysis["score"],
+        "scientific_simulation_markers": scientific_simulation_analysis["markers"],
+        "scientific_simulation_interpretation": scientific_simulation_analysis["interpretation"],
+        "scientific_simulation_details": scientific_simulation_analysis["details"],
+
+        "short_form_mode": short_form_analysis["is_short_form"],
+        "short_form_label": short_form_analysis["label"],
+        "short_form_interpretation": short_form_analysis["interpretation"],
+        "word_count_precise": short_form_analysis["word_count"],
 
         "premise_score": premise_analysis["score"],
         "premise_markers": premise_analysis["markers"],
