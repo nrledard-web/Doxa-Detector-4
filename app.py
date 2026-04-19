@@ -2567,10 +2567,21 @@ if result:
             labels = {
                 "certitude": "Certitude performative",
                 "autorite": "Autorité vague institutionnelle",
+                "autorite_academique": "Autorité académique vague",
                 "dramatisation": "Dramatisation politique",
                 "generalisation": "Généralisation abusive",
                 "naturalisation": "Naturalisation idéologique",
                 "ennemi": "Ennemi abstrait",
+                "victimisation": "Victimisation discursive",
+                "moralisation": "Moralisation politique",
+                "moralisation_discours": "Moralisation du discours",
+                "urgence": "Urgence injonctive",
+                "promesse": "Promesse excessive",
+                "populisme": "Populisme anti-élite",
+                "progressisme_identitaire": "Progressisme identitaire",
+                "socialisme_communisme": "Cadre socialiste / communiste",
+                "delegitimation": "Délégitimation adverse",
+                "dilution": "Dilution de responsabilité",
                 "causalite": "Causalité implicite ou non démontrée",
             }
 
