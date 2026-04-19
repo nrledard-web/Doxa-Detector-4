@@ -3074,7 +3074,7 @@ if result:
                 for marker in markers:
                     st.warning(marker)
 
-        # -----------------------------
+    # -----------------------------
     # 7) Fausse causalité
     # -----------------------------
     with row3_col1:
