@@ -3160,6 +3160,8 @@ if result:
     row3_col1, row3_col2, row3_col3 = st.columns(3)
     row4_col1, row4_col2, row4_col3 = st.columns(3)
     row5_col1, row5_col2, row5_col3 = st.columns(3)
+    row6_col1, row6_col2, row6_col3 = st.columns(3)
+    
 
     # -----------------------------
     # 1) Qualifications normatives
