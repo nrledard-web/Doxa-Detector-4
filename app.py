@@ -3098,7 +3098,7 @@ if result:
     st.divider()
     st.subheader("Cartographie discursive complémentaire")
     st.caption(
-        "Ces douze jauges affinent l’analyse en distinguant les jugements de valeur, "
+        "Ces quinze jauges affinent l’analyse en distinguant les jugements de valeur, "
         "les prémisses implicites, la narration propagandiste, la cohérence discursive, "
         "les confusions logiques, la scientificité rhétorique, la fausse causalité, "
         "l’autorité vague, la charge émotionnelle, la généralisation abusive, "
