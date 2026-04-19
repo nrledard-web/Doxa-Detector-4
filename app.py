@@ -2091,6 +2091,18 @@ def analyze_article(text: str) -> Dict:
         "scientific_simulation_interpretation": scientific_simulation_analysis["interpretation"],
         "scientific_simulation_details": scientific_simulation_analysis["details"],
 
+        "causal_overreach_score": causal_overreach_analysis["score"],
+        "causal_overreach_markers": causal_overreach_analysis["markers"],
+        "causal_overreach_interpretation": causal_overreach_analysis["interpretation"],
+
+        "vague_authority_score": vague_authority_analysis["score"],
+        "vague_authority_markers": vague_authority_analysis["markers"],
+        "vague_authority_interpretation": vague_authority_analysis["interpretation"],
+
+        "emotional_intensity_score": emotional_intensity_analysis["score"],
+        "emotional_intensity_markers": emotional_intensity_analysis["markers"],
+        "emotional_intensity_interpretation": emotional_intensity_analysis["interpretation"],
+
         "short_form_mode": short_form_analysis["is_short_form"],
         "short_form_label": short_form_analysis["label"],
         "short_form_interpretation": short_form_analysis["interpretation"],
