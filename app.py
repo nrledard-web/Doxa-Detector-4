@@ -1412,9 +1412,12 @@ SCIENTIFIC_SIMULATION_MARKERS = {
         "system", "structure", "dynamics", "model", "mechanism", "process"
     ],
     "chiffres_sans_source": [
-        "%", "pour cent", "une étude récente", "plusieurs recherches",
-        "des statistiques montrent", "70 %", "80 %", "90 %",
-        "recent study", "statistics show"
+        "pour cent",
+        "une étude récente",
+        "plusieurs recherches",
+        "des statistiques montrent",
+        "recent study",
+        "statistics show"
     ]
 }
 
