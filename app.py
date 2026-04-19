@@ -2500,6 +2500,13 @@ def analyze_article(text: str) -> Dict:
     semantic_shift_analysis = detect_semantic_shift(text)
     ideological_premise_analysis = detect_ideological_premises(text)
 
+    false_analogy_analysis = compute_false_analogy(text)
+    factual_overinterpretation_analysis = compute_factual_overinterpretation(text)
+    internal_dissonance_analysis = compute_internal_dissonance(text)
+    normative_saturation_analysis = compute_normative_saturation(text)
+    doxic_rigidity_analysis = compute_doxic_rigidity(text)
+    narrative_overdetermination_analysis = compute_narrative_overdetermination(text)
+
     certainty = len(re.findall(r"certain|absolument|prouvé|évident|incontestable", text.lower()))
     emotional = len(re.findall(r"|".join(re.escape(w) for w in EMOTIONAL_WORDS), text.lower()))
 
