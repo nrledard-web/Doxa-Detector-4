@@ -2393,6 +2393,81 @@ def compute_narrative_overdetermination(text: str):
         "markers": hits,
         "interpretation": interpretation,
     }
+
+def compute_brain_indices(result: dict) -> dict:
+    def clamp01(x):
+        return max(0.0, min(1.0, x))
+
+    G = result["G"]
+    N = result["N"]
+    D = result["D"]
+    M = result["M"]
+    ME = result["ME"]
+
+    closure_raw = (D / (G + N)) if (G + N) > 0 else 2.0
+    closure_gauge = clamp01(closure_raw / 1.5)
+
+    IR = (
+        result["normative_score"] * 1.2 +
+        result["propaganda_score"] * 1.4 +
+        result["emotional_intensity_score"] * 1.2 +
+        result["certainty_score"] * 1.3 +
+        result["false_consensus_score"] * 1.1 +
+        result["binary_opposition_score"] * 1.1 +
+        result["threat_amplification_score"] * 1.3 +
+        result["vague_authority_score"] * 1.0
+    ) / 9.6
+
+    IL = (
+        result["logic_confusion_score"] * 1.4 +
+        result["causal_overreach_score"] * 1.3 +
+        result["factual_overinterpretation_score"] * 1.3 +
+        result["false_analogy_score"] * 1.1 +
+        result["internal_dissonance_score"] * 1.2 +
+        result["scientific_simulation_score"] * 1.0
+    ) / 7.3
+
+    IC = (
+        result["premise_score"] * 1.2 +
+        result["ideological_premise_score"] * 1.3 +
+        result["semantic_shift_score"] * 1.2 +
+        result["doxic_rigidity_score"] * 1.5 +
+        result["narrative_overdetermination_score"] * 1.4 +
+        closure_gauge * 1.6
+    ) / 8.2
+
+    strategic_index = clamp01(
+        (ME / 20) * 0.40 +
+        IR * 0.20 +
+        IL * 0.20 +
+        IC * 0.20
+    )
+
+    closure_index = clamp01(
+        IC * 0.50 +
+        (D / 10) * 0.30 +
+        (1 - min((G + N) / 20, 1.0)) * 0.20
+    )
+
+    if strategic_index < 0.30 and closure_index < 0.35 and M > 0:
+        profile = "Discours équilibré"
+    elif strategic_index < 0.45 and closure_index >= 0.35 and M <= 3:
+        profile = "Mécroyance probable"
+    elif strategic_index >= 0.45 and strategic_index < 0.70 and IR >= 0.45:
+        profile = "Manipulation rhétorique"
+    elif strategic_index >= 0.70 and IC >= 0.50 and IL >= 0.45:
+        profile = "Mensonge stratégique"
+    else:
+        profile = "Structure mixte ou ambiguë"
+
+    return {
+        "IR": round(IR, 3),
+        "IL": round(IL, 3),
+        "IC": round(IC, 3),
+        "strategic_index": round(strategic_index, 3),
+        "closure_index": round(closure_index, 3),
+        "brain_profile": profile,
+    }
     
 def analyze_claim(sentence: str) -> Claim:
     s = sentence.lower()
