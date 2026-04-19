@@ -2323,7 +2323,7 @@ if result:
     """, unsafe_allow_html=True)
 
     st.markdown(
-        f"<b style='color:{gauge_color}'>{gauge_label}</b> — {round(gauge_value*100,1)}%",
+        f"<b style='color:{gauge_color}'>{gauge_label}</b> — intensité : {round(gauge_intensity*100,1)}%",
         unsafe_allow_html=True
     )
 
