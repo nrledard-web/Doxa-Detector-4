@@ -2101,10 +2101,6 @@ def analyze_article(text: str) -> Dict:
         "short_form_interpretation": short_form_analysis["interpretation"],
         "word_count_precise": short_form_analysis["word_count"],
 
-        "premise_score": premise_analysis["score"],
-        "premise_markers": premise_analysis["markers"],
-        "premise_interpretation": premise_analysis["interpretation"],
-
         "propaganda_score": propaganda_analysis["score"],
         "propaganda_enemy_terms": propaganda_analysis["enemy_terms"],
         "propaganda_urgency_terms": propaganda_analysis["urgency_terms"],
