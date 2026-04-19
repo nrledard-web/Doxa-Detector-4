@@ -754,7 +754,7 @@ def detect_political_patterns(text: str):
     total_score = 0
 
     for name, terms in categories.items():
-        hits = [term for term in terms if term in t]
+        hits = [term for term in terms if contains_term(t, term)]
         results[name] = len(hits)
         matched_terms[name] = hits
         total_score += len(hits)
