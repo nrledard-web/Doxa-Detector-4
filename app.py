@@ -1597,6 +1597,54 @@ VAGUE_AUTHORITY_TERMS = [
     "research suggests",
     "scientific consensus",
 ]
+# -----------------------------
+# Généralisation abusive
+# -----------------------------
+GENERALIZATION_TERMS = [
+    "les médias",
+    "les politiciens",
+    "les scientifiques",
+    "les experts",
+    "les immigrés",
+    "les élites",
+    "les journalistes",
+    "les gouvernements",
+    "ils veulent",
+    "ils disent",
+    "ils savent",
+    "tout le monde sait",
+    "tout le monde voit"
+]
+
+# -----------------------------
+# Ennemi abstrait
+# -----------------------------
+ABSTRACT_ENEMY_TERMS = [
+    "le système",
+    "les élites",
+    "l'oligarchie",
+    "les puissants",
+    "les globalistes",
+    "les forces en place",
+    "l'establishment",
+    "les intérêts financiers",
+    "les dirigeants"
+]
+
+# -----------------------------
+# Certitude absolue
+# -----------------------------
+CERTAINTY_TERMS = [
+    "il est évident que",
+    "il est clair que",
+    "c'est indiscutable",
+    "sans aucun doute",
+    "la vérité est que",
+    "il est certain que",
+    "personne ne peut nier",
+    "il est incontestable",
+    "la preuve que"
+]
 
 EMOTIONAL_INTENSITY_TERMS = [
     "scandale",
