@@ -2287,9 +2287,13 @@ if result:
     st.subheader("Diagnostic cognitif")
     st.write(diagnosis)
 
-    gauge_value, gauge_label, gauge_color, ME_gauge = compute_lie_gauge(
-        result["M"], result["ME"]
-    )
+    lie_result = compute_lie_gauge(result["M"], result["ME"])
+
+    gauge_value = lie_result["gauge"]
+    gauge_label = lie_result["label"]
+    gauge_color = lie_result["color"]
+    ME_gauge = lie_result["ME"]
+    gauge_intensity = lie_result["intensity"]
 
     st.write("Tension cognitive (mécroyance vs mensonge)")
     st.caption(
