@@ -2369,6 +2369,11 @@ def analyze_article(text: str) -> Dict:
         "normative_terms": normative_analysis["normative_terms"],
         "normative_judgment_markers": normative_analysis["judgment_markers"],
         "normative_interpretation": normative_analysis["interpretation"],
+        
+        "semantic_shift_score": semantic_shift_analysis["score"],
+        "semantic_shift_markers": semantic_shift_analysis["markers"],
+        "semantic_shift_interpretation": semantic_shift_analysis["interpretation"],
+
         "discursive_coherence_score": discursive_analysis["score"],
         "discursive_coherence_label": discursive_analysis["label"],
         "discursive_coherence_details": discursive_analysis,
