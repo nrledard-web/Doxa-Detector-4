@@ -2677,6 +2677,34 @@ def analyze_article(text: str) -> Dict:
         "threat_amplification_interpretation": threat_amplification_analysis[1],
         "threat_amplification_markers": threat_amplification_analysis[2],
 
+                "ideological_premise_score": ideological_premise_analysis["score"],
+        "ideological_premise_markers": ideological_premise_analysis["markers"],
+        "ideological_premise_interpretation": ideological_premise_analysis["interpretation"],
+
+        "false_analogy_score": false_analogy_analysis["score"],
+        "false_analogy_markers": false_analogy_analysis["markers"],
+        "false_analogy_interpretation": false_analogy_analysis["interpretation"],
+
+        "factual_overinterpretation_score": factual_overinterpretation_analysis["score"],
+        "factual_overinterpretation_markers": factual_overinterpretation_analysis["markers"],
+        "factual_overinterpretation_interpretation": factual_overinterpretation_analysis["interpretation"],
+
+        "internal_dissonance_score": internal_dissonance_analysis["score"],
+        "internal_dissonance_markers": internal_dissonance_analysis["markers"],
+        "internal_dissonance_interpretation": internal_dissonance_analysis["interpretation"],
+
+        "normative_saturation_score": normative_saturation_analysis["score"],
+        "normative_saturation_markers": normative_saturation_analysis["markers"],
+        "normative_saturation_interpretation": normative_saturation_analysis["interpretation"],
+
+        "doxic_rigidity_score": doxic_rigidity_analysis["score"],
+        "doxic_rigidity_markers": doxic_rigidity_analysis["markers"],
+        "doxic_rigidity_interpretation": doxic_rigidity_analysis["interpretation"],
+
+        "narrative_overdetermination_score": narrative_overdetermination_analysis["score"],
+        "narrative_overdetermination_markers": narrative_overdetermination_analysis["markers"],
+        "narrative_overdetermination_interpretation": narrative_overdetermination_analysis["interpretation"],
+
         "short_form_mode": short_form_analysis["is_short_form"],
         "short_form_label": short_form_analysis["label"],
         "short_form_interpretation": short_form_analysis["interpretation"],
