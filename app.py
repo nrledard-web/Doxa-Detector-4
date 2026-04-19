@@ -1672,6 +1672,20 @@ EMOTIONAL_INTENSITY_TERMS = [
     "crisis",
     "urgent",
 ]
+# -----------------------------
+# Faux consensus
+# -----------------------------
+CONSENSUS_TERMS = [
+    "tout le monde sait",
+    "tout le monde comprend",
+    "il est clair pour tous",
+    "personne ne doute",
+    "personne ne peut nier",
+    "chacun sait",
+    "il est évident pour tous",
+    "les experts s'accordent",
+    "tout le monde voit bien",
+]
 
 # -----------------------------
 # Qualifications normatives
