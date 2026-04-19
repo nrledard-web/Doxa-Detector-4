@@ -2261,6 +2261,8 @@ def analyze_article(text: str) -> Dict:
     false_consensus_analysis = compute_false_consensus(text)
     binary_opposition_analysis = compute_binary_opposition(text)
     threat_amplification_analysis = compute_threat_amplification(text)
+    semantic_shift_analysis = detect_semantic_shift(text)
+    ideological_premise_analysis = detect_ideological_premises(text)
 
     certainty = len(re.findall(r"certain|absolument|prouvé|évident|incontestable", text.lower()))
     emotional = len(re.findall(r"|".join(re.escape(w) for w in EMOTIONAL_WORDS), text.lower()))
