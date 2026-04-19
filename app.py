@@ -3335,108 +3335,110 @@ if result:
                 for marker in markers:
                     st.warning(marker)
 
-        # -----------------------------
-    # 10) Généralisation abusive
-    # -----------------------------
-    with row4_col1:
-        st.markdown("### Généralisation abusive")
-        st.caption("Simplification du réel par catégories globales.")
+# -----------------------------
+# 10) Généralisation abusive
+# -----------------------------
+with row4_col1:
+    st.markdown("### Généralisation abusive")
+    st.caption("Simplification du réel par catégories globales.")
 
-        generalization_value = result["generalization_score"]
+    generalization_value = result["generalization_score"]
 
-        if generalization_value < 0.20:
-            generalization_label, generalization_color = "Faible", "#16a34a"
-        elif generalization_value < 0.40:
-            generalization_label, generalization_color = "Modérée", "#ca8a04"
-        elif generalization_value < 0.70:
-            generalization_label, generalization_color = "Élevée", "#f97316"
+    if generalization_value < 0.20:
+        generalization_label, generalization_color = "Faible", "#16a34a"
+    elif generalization_value < 0.40:
+        generalization_label, generalization_color = "Modérée", "#ca8a04"
+    elif generalization_value < 0.70:
+        generalization_label, generalization_color = "Élevée", "#f97316"
+    else:
+        generalization_label, generalization_color = "Très élevée", "#dc2626"
+
+    render_custom_gauge(generalization_value, generalization_color)
+
+    st.markdown(
+        f"<b style='color:{generalization_color}'>{generalization_label}</b> — {round(generalization_value * 100, 1)}%",
+        unsafe_allow_html=True
+    )
+    st.caption(result["generalization_interpretation"])
+
+    with st.expander("Voir les marqueurs", expanded=False):
+        markers = result.get("generalization_markers", [])
+        if not markers:
+            st.info("Aucune généralisation abusive notable détectée.")
         else:
-            generalization_label, generalization_color = "Très élevée", "#dc2626"
+            for marker in markers:
+                st.warning(marker)
 
-        render_custom_gauge(generalization_value, generalization_color)
 
-        st.markdown(
-            f"<b style='color:{generalization_color}'>{generalization_label}</b> — {round(generalization_value * 100, 1)}%",
-            unsafe_allow_html=True
-        )
-        st.caption(result["generalization_interpretation"])
+# -----------------------------
+# 11) Ennemi abstrait
+# -----------------------------
+with row4_col2:
+    st.markdown("### Ennemi abstrait")
+    st.caption("Construction d’un adversaire flou ou globalisant.")
 
-        with st.expander("Voir les marqueurs", expanded=False):
-            markers = result.get("generalization_markers", [])
-            if not markers:
-                st.info("Aucune généralisation abusive notable détectée.")
-            else:
-                for marker in markers:
-                    st.warning(marker)
+    abstract_enemy_value = result["abstract_enemy_score"]
 
-    # -----------------------------
-    # 11) Ennemi abstrait
-    # -----------------------------
-    with row4_col2:
-        st.markdown("### Ennemi abstrait")
-        st.caption("Construction d’un adversaire flou ou globalisant.")
+    if abstract_enemy_value < 0.20:
+        abstract_enemy_label, abstract_enemy_color = "Faible", "#16a34a"
+    elif abstract_enemy_value < 0.40:
+        abstract_enemy_label, abstract_enemy_color = "Modérée", "#ca8a04"
+    elif abstract_enemy_value < 0.70:
+        abstract_enemy_label, abstract_enemy_color = "Élevée", "#f97316"
+    else:
+        abstract_enemy_label, abstract_enemy_color = "Très élevée", "#dc2626"
 
-        abstract_enemy_value = result["abstract_enemy_score"]
+    render_custom_gauge(abstract_enemy_value, abstract_enemy_color)
 
-        if abstract_enemy_value < 0.20:
-            abstract_enemy_label, abstract_enemy_color = "Faible", "#16a34a"
-        elif abstract_enemy_value < 0.40:
-            abstract_enemy_label, abstract_enemy_color = "Modérée", "#ca8a04"
-        elif abstract_enemy_value < 0.70:
-            abstract_enemy_label, abstract_enemy_color = "Élevée", "#f97316"
+    st.markdown(
+        f"<b style='color:{abstract_enemy_color}'>{abstract_enemy_label}</b> — {round(abstract_enemy_value * 100, 1)}%",
+        unsafe_allow_html=True
+    )
+    st.caption(result["abstract_enemy_interpretation"])
+
+    with st.expander("Voir les marqueurs", expanded=False):
+        markers = result.get("abstract_enemy_markers", [])
+        if not markers:
+            st.info("Aucun ennemi abstrait notable détecté.")
         else:
-            abstract_enemy_label, abstract_enemy_color = "Très élevée", "#dc2626"
+            for marker in markers:
+                st.warning(marker)
 
-        render_custom_gauge(abstract_enemy_value, abstract_enemy_color)
 
-        st.markdown(
-            f"<b style='color:{abstract_enemy_color}'>{abstract_enemy_label}</b> — {round(abstract_enemy_value * 100, 1)}%",
-            unsafe_allow_html=True
-        )
-        st.caption(result["abstract_enemy_interpretation"])
+# -----------------------------
+# 12) Certitude absolue
+# -----------------------------
+with row4_col3:
+    st.markdown("### Certitude absolue")
+    st.caption("Rigidité rhétorique et fermeture interprétative.")
 
-        with st.expander("Voir les marqueurs", expanded=False):
-            markers = result.get("abstract_enemy_markers", [])
-            if not markers:
-                st.info("Aucun ennemi abstrait notable détecté.")
-            else:
-                for marker in markers:
-                    st.warning(marker)
+    certainty_value = result["certainty_score"]
 
-    # -----------------------------
-    # 12) Certitude absolue
-    # -----------------------------
-    with row4_col3:
-        st.markdown("### Certitude absolue")
-        st.caption("Rigidité rhétorique et fermeture interprétative.")
+    if certainty_value < 0.20:
+        certainty_label, certainty_color = "Faible", "#16a34a"
+    elif certainty_value < 0.40:
+        certainty_label, certainty_color = "Modérée", "#ca8a04"
+    elif certainty_value < 0.70:
+        certainty_label, certainty_color = "Élevée", "#f97316"
+    else:
+        certainty_label, certainty_color = "Très élevée", "#dc2626"
 
-        certainty_value = result["certainty_score"]
+    render_custom_gauge(certainty_value, certainty_color)
 
-        if certainty_value < 0.20:
-            certainty_label, certainty_color = "Faible", "#16a34a"
-        elif certainty_value < 0.40:
-            certainty_label, certainty_color = "Modérée", "#ca8a04"
-        elif certainty_value < 0.70:
-            certainty_label, certainty_color = "Élevée", "#f97316"
+    st.markdown(
+        f"<b style='color:{certainty_color}'>{certainty_label}</b> — {round(certainty_value * 100, 1)}%",
+        unsafe_allow_html=True
+    )
+    st.caption(result["certainty_interpretation"])
+
+    with st.expander("Voir les marqueurs", expanded=False):
+        markers = result.get("certainty_markers", [])
+        if not markers:
+            st.info("Aucun marqueur fort de certitude absolue détecté.")
         else:
-            certainty_label, certainty_color = "Très élevée", "#dc2626"
-
-        render_custom_gauge(certainty_value, certainty_color)
-
-        st.markdown(
-            f"<b style='color:{certainty_color}'>{certainty_label}</b> — {round(certainty_value * 100, 1)}%",
-            unsafe_allow_html=True
-        )
-        st.caption(result["certainty_interpretation"])
-
-        with st.expander("Voir les marqueurs", expanded=False):
-            markers = result.get("certainty_markers", [])
-            if not markers:
-                st.info("Aucun marqueur fort de certitude absolue détecté.")
-            else:
-                for marker in markers:
-                    st.warning(marker)
-
+            for marker in markers:
+                st.warning(marker)
+                
     with st.expander("Voir les manœuvres discursives détectées", expanded=False):
         if result["political_pattern_score"] == 0:
             st.info("Aucun marqueur rhétorique politique saillant détecté.")
