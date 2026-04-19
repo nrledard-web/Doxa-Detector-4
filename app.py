@@ -2585,12 +2585,38 @@ def analyze_article(text: str) -> Dict:
     certainty = len(re.findall(r"certain|absolument|prouvé|évident|incontestable", text.lower()))
     emotional = len(re.findall(r"|".join(re.escape(w) for w in EMOTIONAL_WORDS), text.lower()))
 
-    D = clamp(certainty * 2 + emotional * 1.5, 0, 10)
+    # -----------------------------
+    # Nouvelle Doxa (D) recalibrée
+    # -----------------------------
+    D_raw = (
+        certainty_analysis[0] * 0.30 +
+        doxic_rigidity_analysis["score"] * 0.30 +
+        normative_saturation_analysis["score"] * 0.15 +
+        emotional_intensity_analysis["score"] * 0.15 +
+        false_consensus_analysis[0] * 0.10
+    )
+
+    D = clamp(D_raw * 10, 0, 10)
+
+    # -----------------------------
+    # Indices dérivés
+    # -----------------------------
     M = round((G + N) - D, 1)
     V = clamp(G * 0.8 + N * 0.2, 0, 10)
-    R = clamp(D * 0.7 + (emotional * 1.2), 0, 10)
+    R = clamp(
+        (
+            D * 0.50 +
+            emotional_intensity_analysis["score"] * 10 * 0.25 +
+            propaganda_analysis["score"] * 10 * 0.25
+        ),
+        0,
+        10
+    )
     improved = round((G + N + V) - (D + R), 1)
 
+    # -----------------------------
+    # Claims
+    # -----------------------------
     claims = [analyze_claim(s) for s in sentences[:15]]
     avg_claim_verifiability = sum(c.verifiability for c in claims) / len(claims) if claims else 0
     avg_claim_risk = sum(c.risk for c in claims) / len(claims) if claims else 0
