@@ -2157,6 +2157,242 @@ def compute_threat_amplification(text: str):
         interpretation = "Le discours repose fortement sur une amplification dramatique de la menace."
 
     return score, interpretation, hits
+
+
+# -----------------------------
+# 19) Fausse analogie
+# -----------------------------
+FALSE_ANALOGY_TERMS = [
+    "comme si", "c'est comme", "de la même manière que",
+    "exactement comme", "rien de différent de",
+    "comparable à", "similaire à", "équivalent à",
+    "just like", "exactly like", "similar to", "equivalent to"
+]
+
+def compute_false_analogy(text: str):
+    if not text or not text.strip():
+        return {
+            "score": 0.0,
+            "markers": [],
+            "interpretation": "Aucune fausse analogie saillante détectée."
+        }
+
+    text_lower = text.lower()
+    hits = [t for t in FALSE_ANALOGY_TERMS if contains_term(text_lower, t)]
+    score = min(len(hits) * 2.5 / 10, 1.0)
+
+    if score < 0.15:
+        interpretation = "Peu d’analogies douteuses détectées."
+    elif score < 0.35:
+        interpretation = "Le texte contient quelques rapprochements simplificateurs."
+    elif score < 0.60:
+        interpretation = "Le texte s’appuie sur plusieurs analogies fragiles."
+    else:
+        interpretation = "Le discours repose fortement sur des analogies trompeuses."
+
+    return {
+        "score": round(score, 3),
+        "markers": hits,
+        "interpretation": interpretation,
+    }
+
+
+# -----------------------------
+# 20) Surinterprétation factuelle
+# -----------------------------
+FACTUAL_OVERINTERPRETATION_TERMS = [
+    "cela prouve que", "cela démontre que", "cela montre bien que",
+    "la preuve que", "on voit bien que", "il faut en conclure que",
+    "ce simple fait prouve", "ce fait montre que",
+    "this proves that", "this demonstrates that", "this clearly shows that"
+]
+
+def compute_factual_overinterpretation(text: str):
+    if not text or not text.strip():
+        return {
+            "score": 0.0,
+            "markers": [],
+            "interpretation": "Aucune surinterprétation factuelle saillante détectée."
+        }
+
+    text_lower = text.lower()
+    hits = [t for t in FACTUAL_OVERINTERPRETATION_TERMS if contains_term(text_lower, t)]
+    score = min(len(hits) * 2.5 / 10, 1.0)
+
+    if score < 0.15:
+        interpretation = "Peu de surinterprétation factuelle détectée."
+    elif score < 0.35:
+        interpretation = "Le texte tire quelques conclusions un peu rapides."
+    elif score < 0.60:
+        interpretation = "Le texte surinterprète plusieurs éléments factuels."
+    else:
+        interpretation = "Le discours transforme fortement des faits partiels en conclusions globales."
+
+    return {
+        "score": round(score, 3),
+        "markers": hits,
+        "interpretation": interpretation,
+    }
+
+
+# -----------------------------
+# 21) Dissonance interne
+# -----------------------------
+INTERNAL_DISSONANCE_PATTERNS = [
+    r"\bil n'y a pas de preuve\b.*\bc'est certain\b",
+    r"\bon ne sait pas\b.*\bil est évident\b",
+    r"\bjamais\b.*\btoujours\b",
+    r"\btoujours\b.*\bjamais\b",
+    r"\baucun\b.*\btous\b",
+    r"\btous\b.*\baucun\b",
+    r"\bimpossible\b.*\bpossible\b",
+    r"\bpossible\b.*\bimpossible\b",
+]
+
+def compute_internal_dissonance(text: str):
+    if not text or not text.strip():
+        return {
+            "score": 0.0,
+            "markers": [],
+            "interpretation": "Aucune dissonance interne saillante détectée."
+        }
+
+    text_lower = text.lower()
+    hits = []
+
+    for pattern in INTERNAL_DISSONANCE_PATTERNS:
+        if re.search(pattern, text_lower, flags=re.DOTALL):
+            hits.append(pattern)
+
+    score = min(len(hits) * 3 / 10, 1.0)
+
+    if score < 0.15:
+        interpretation = "Peu de contradictions internes détectées."
+    elif score < 0.35:
+        interpretation = "Le texte contient quelques tensions internes."
+    elif score < 0.60:
+        interpretation = "Le texte présente plusieurs contradictions ou incohérences."
+    else:
+        interpretation = "Le discours est fortement traversé par des contradictions internes."
+
+    return {
+        "score": round(score, 3),
+        "markers": hits,
+        "interpretation": interpretation,
+    }
+
+
+# -----------------------------
+# 22) Saturation normative
+# -----------------------------
+SATURATION_NORMATIVE_TERMS = [
+    "scandaleux", "inacceptable", "honteux", "immoral", "criminel",
+    "odieux", "abject", "indigne", "dangereux", "toxique",
+    "scandalous", "unacceptable", "shameful", "immoral", "criminal"
+]
+
+def compute_normative_saturation(text: str):
+    if not text or not text.strip():
+        return {
+            "score": 0.0,
+            "markers": [],
+            "interpretation": "Aucune saturation normative saillante détectée."
+        }
+
+    text_lower = text.lower()
+    hits = [t for t in SATURATION_NORMATIVE_TERMS if contains_term(text_lower, t)]
+    score = min(len(hits) * 2.2 / 10, 1.0)
+
+    if score < 0.15:
+        interpretation = "Le texte reste peu saturé de jugements normatifs."
+    elif score < 0.35:
+        interpretation = "Le texte contient quelques jugements moraux appuyés."
+    elif score < 0.60:
+        interpretation = "Le texte est nettement saturé de qualifications normatives."
+    else:
+        interpretation = "Le discours remplace largement l’analyse par le jugement moral."
+
+    return {
+        "score": round(score, 3),
+        "markers": hits,
+        "interpretation": interpretation,
+    }
+
+
+# -----------------------------
+# 23) Rigidité doxique
+# -----------------------------
+DOXIC_RIGIDITY_TERMS = [
+    "il est évident que", "il est clair que", "sans aucun doute",
+    "personne ne peut nier", "tout le monde sait", "c'est incontestable",
+    "cela ne fait aucun doute", "il est absolument certain",
+    "it is obvious", "there is no doubt", "everyone knows"
+]
+
+def compute_doxic_rigidity(text: str):
+    if not text or not text.strip():
+        return {
+            "score": 0.0,
+            "markers": [],
+            "interpretation": "Aucune rigidité doxique saillante détectée."
+        }
+
+    text_lower = text.lower()
+    hits = [t for t in DOXIC_RIGIDITY_TERMS if contains_term(text_lower, t)]
+    score = min(len(hits) * 2.5 / 10, 1.0)
+
+    if score < 0.15:
+        interpretation = "Le discours reste relativement révisable."
+    elif score < 0.35:
+        interpretation = "Le texte montre quelques marqueurs de rigidité assertive."
+    elif score < 0.60:
+        interpretation = "Le texte présente une rigidité doxique notable."
+    else:
+        interpretation = "Le discours apparaît fortement verrouillé par ses certitudes."
+
+    return {
+        "score": round(score, 3),
+        "markers": hits,
+        "interpretation": interpretation,
+    }
+
+
+# -----------------------------
+# 24) Surdétermination narrative
+# -----------------------------
+NARRATIVE_OVERDETERMINATION_TERMS = [
+    "tout s'explique par", "tout vient de", "tout est lié à",
+    "tout cela fait partie du plan", "rien n'arrive par hasard",
+    "la cause de tout", "la clé de tout", "c'est toujours la même logique",
+    "everything is explained by", "nothing happens by chance", "part of the plan"
+]
+
+def compute_narrative_overdetermination(text: str):
+    if not text or not text.strip():
+        return {
+            "score": 0.0,
+            "markers": [],
+            "interpretation": "Aucune surdétermination narrative saillante détectée."
+        }
+
+    text_lower = text.lower()
+    hits = [t for t in NARRATIVE_OVERDETERMINATION_TERMS if contains_term(text_lower, t)]
+    score = min(len(hits) * 3 / 10, 1.0)
+
+    if score < 0.15:
+        interpretation = "Le texte ne repose pas sur un récit totalisant marqué."
+    elif score < 0.35:
+        interpretation = "Le texte propose quelques explications globalisantes."
+    elif score < 0.60:
+        interpretation = "Le discours tend à ramener des faits multiples à un récit unique."
+    else:
+        interpretation = "Le texte repose fortement sur une narration totalisante."
+
+    return {
+        "score": round(score, 3),
+        "markers": hits,
+        "interpretation": interpretation,
+    }
     
 def analyze_claim(sentence: str) -> Claim:
     s = sentence.lower()
