@@ -1769,6 +1769,8 @@ def detect_normative_charges(text: str):
         "judgment_markers": marker_hits,
         "interpretation": interpretation,
     }
+
+
 # -----------------------------
 # Glissement sémantique
 # -----------------------------
@@ -1781,16 +1783,22 @@ SEMANTIC_SHIFT_MARKERS = [
     "système corrompu",
     "oligarchie",
     "propagande officielle",
-    "mensonge d'état"
+    "mensonge d'état",
 ]
 
-def detect_semantic_shift(text: str) -> Dict:
+def detect_semantic_shift(text: str):
+    if not text or not text.strip():
+        return {
+            "score": 0.0,
+            "markers": [],
+            "interpretation": "Aucun glissement sémantique détecté."
+        }
+
     text_lower = text.lower()
 
-    markers = [
-        w for w in SEMANTIC_SHIFT_MARKERS
-        if w in text_lower
-    ]
+    markers = unique_keep_order(
+        [w for w in SEMANTIC_SHIFT_MARKERS if contains_term(text_lower, w)]
+    )
 
     score = clamp(len(markers) * 2, 0, 20)
 
@@ -1802,10 +1810,11 @@ def detect_semantic_shift(text: str) -> Dict:
         interpretation = "Le texte utilise plusieurs recadrages lexicaux stratégiques."
 
     return {
-        "score": score,
+        "score": round(score / 20, 3),
         "markers": markers,
         "interpretation": interpretation
     }
+
 
 # -----------------------------
 # Prémisses idéologiques implicites
