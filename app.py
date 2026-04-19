@@ -1864,7 +1864,7 @@ def compute_vague_authority(text: str):
 
     t = text.lower()
     hits = unique_keep_order([term for term in VAGUE_AUTHORITY_TERMS if contains_term(t, term)])
-    score = min(len(hits) * 2 / 10, 1.0)
+    score = min(len(hits) * 2.5 / 10, 1.0)
 
     if score < 0.20:
         interpretation = "Peu d'autorités vagues détectées."
