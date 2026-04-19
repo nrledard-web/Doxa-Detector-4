@@ -2823,7 +2823,11 @@ if result:
     discursive_profile = interpret_discursive_profile(
         lie_gauge=gauge_value,
         rhetorical_pressure=rp,
-        propaganda_gauge=propaganda_value
+        propaganda_gauge=propaganda_value,
+        premise_score=result["premise_score"],
+        logic_confusion_score=result["logic_confusion_score"],
+        scientific_simulation_score=result["scientific_simulation_score"],
+        discursive_coherence_score=result["discursive_coherence_score"],
     )
 
     st.subheader("Profil discursif global")
