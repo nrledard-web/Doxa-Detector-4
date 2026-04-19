@@ -1002,8 +1002,28 @@ def interpret_propaganda_gauge(value: float):
 def interpret_discursive_profile(
     lie_gauge: float,
     rhetorical_pressure: float,
-    propaganda_gauge: float
+    propaganda_gauge: float,
+    premise_score: float = 0.0,
+    logic_confusion_score: float = 0.0,
+    scientific_simulation_score: float = 0.0,
+    discursive_coherence_score: float = 0.0,
 ) -> str:
+    if propaganda_gauge >= 0.75 and rhetorical_pressure >= 0.60:
+        return "Structure discursive fortement propagandiste"
+    elif logic_confusion_score >= 0.55 and premise_score >= 0.45:
+        return "Discours cohérent reposant sur des prémisses fragiles"
+    elif scientific_simulation_score >= 0.50 and premise_score >= 0.35:
+        return "Discours pseudo-objectif ou pseudo-scientifique"
+    elif lie_gauge >= 0.65 and rhetorical_pressure >= 0.45:
+        return "Structure discursive manipulatoire probable"
+    elif discursive_coherence_score >= 13 and premise_score < 0.20 and logic_confusion_score < 0.20:
+        return "Discours plutôt cohérent et peu verrouillant"
+    elif propaganda_gauge >= 0.45 or rhetorical_pressure >= 0.45:
+        return "Discours fortement orienté"
+    elif lie_gauge < 0.40 and rhetorical_pressure < 0.35:
+        return "Discours plutôt sincère ou peu verrouillant"
+    else:
+        return "Discours ambigu ou mixte"
     """
     Verdict global basé sur les 3 jauges discursives.
     """
