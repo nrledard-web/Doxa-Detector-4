@@ -1606,10 +1606,23 @@ EMOTIONAL_INTENSITY_TERMS = [
     "trahison",
     "danger",
     "peur",
+    "menace",
+    "crise",
+    "urgent",
+    "incroyable",
+    "terrible",
+    "révolution",
+    "effondrement",
+    "panique",
+    "massacre",
+    "destruction",
     "panic",
     "scandal",
     "outrage",
-    "fear"
+    "fear",
+    "collapse",
+    "crisis",
+    "urgent",
 ]
 
 # -----------------------------
