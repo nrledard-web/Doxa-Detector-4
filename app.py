@@ -2490,10 +2490,10 @@ def analyze_claim(sentence: str) -> Claim:
 
     # Vérifiabilité brute
     v_score = clamp(
-        (has_number * 5) +
-        (has_date * 5) +
-        (has_named_entity * 5) +
-        (has_source_cue * 5),
+        (has_number * 3) +
+        (has_date * 4) +
+        (has_named_entity * 2.5) +
+        (has_source_cue * 3),
         0,
         20
     )
