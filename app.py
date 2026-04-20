@@ -3156,6 +3156,7 @@ def analyze_article(text: str) -> Dict:
     # Claims
     # -----------------------------
     claims = [analyze_claim(s) for s in sentences[:15]]
+    syllogisms = detect_syllogisms_from_claims(claims)
     avg_claim_verifiability = sum(c.verifiability for c in claims) / len(claims) if claims else 0
     avg_claim_risk = sum(c.risk for c in claims) / len(claims) if claims else 0
     source_quality = clamp(
