@@ -2603,8 +2603,11 @@ def analyze_claim(sentence: str) -> Claim:
     has_named_entity = bool(re.search(r"[A-Z][a-z]+ [A-Z][a-z]+|[A-Z]{2,}", sentence))
     has_source_cue = any(cue in s for cue in SOURCE_CUES)
 
-    absolutism = sum(1 for word in ABSOLUTIST_WORDS if word in s)
-    emotional_charge = sum(1 for word in EMOTIONAL_WORDS if word in s)
+    absolutism = sum(1 for word in ABSOLUTIST_WORDS if contains_term(s, word))
+    emotional_charge = sum(1 for word in EMOTIONAL_WORDS if contains_term(s, word))
+
+    claim_types = classify_claim_type(sentence)
+    sentence_red_flags = compute_sentence_red_flags(sentence)
 
     # Vérifiabilité brute
     v_score = clamp(
@@ -2642,7 +2645,20 @@ def analyze_claim(sentence: str) -> Claim:
         10
     )
 
-    v_score = clamp(v_score - normative_penalty, 0, 20)
+    # On ne pénalise plus de la même manière les énoncés
+    # normatifs / interprétatifs / testimoniaux
+    if not any(t in claim_types for t in ["normative", "interpretative", "testimonial"]):
+        v_score = clamp(v_score - normative_penalty, 0, 20)
+
+    # Correctif petites phrases non mensongères
+    short_adjustment, epistemic_note = small_claim_epistemic_adjustment(
+        sentence,
+        claim_types,
+        sentence_red_flags,
+        absolutism
+    )
+
+    v_score = clamp(v_score + short_adjustment, 0, 20)
 
     if v_score < 5:
         status = T["very_fragile"]
@@ -2662,6 +2678,9 @@ def analyze_claim(sentence: str) -> Claim:
         verifiability=v_score,
         risk=r_score,
         status=status,
+        claim_types=claim_types,
+        epistemic_note=epistemic_note,
+        short_adjustment=short_adjustment,
     )
 
 def compute_red_flag_penalties(metrics: dict) -> dict:
