@@ -3002,12 +3002,6 @@ def analyze_article(text: str) -> Dict:
         1
     )
 
-if short_form_analysis["is_short_form"] and short_form_analysis["word_count"] < 25:
-    hard_fact_score = round(
-        clamp(hard_fact_score_raw + 8 + short_text_bonus["bonus"], 0, 20),
-        1
-    )
-
     if short_form_analysis["is_short_form"] and short_form_analysis["word_count"] < 25:
         hard_fact_score = round(clamp(hard_fact_score - 1.5, 0, 20), 1)
 
