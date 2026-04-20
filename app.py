@@ -3503,9 +3503,18 @@ def analyze_article(text: str) -> Dict:
         "strengths": strengths,
         "weaknesses": weaknesses,
         "claims": claims,
+        "inference_patterns": inference_patterns,
         "syllogisms": syllogisms,
         "enthymemes": enthymemes,
         "fallacies": fallacies,
+
+        "syllogism_signal": syllogism_signal,
+        "syllogism_label": syllogism_label,
+        "enthymeme_signal": enthymeme_signal,
+        "enthymeme_label": enthymeme_label,
+        "fallacy_signal": fallacy_signal,
+        "fallacy_label": fallacy_label,
+
         "red_flags": [flag["name"] for flag in penalties["flags"]],
         "weighted_red_flags": penalties["flags"],
         "credibility_penalty_total": penalties["credibility_penalty"],
