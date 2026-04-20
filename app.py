@@ -1421,10 +1421,11 @@ def detect_syllogistic_fallacies(syllogisms: List[Dict]) -> List[Dict]:
         figure = s.get("figure", "")
         status = s.get("status", "")
 
-        # Si le syllogisme est reconnu comme valide, il ne doit jamais être classé comme sophisme
+        # 1) Si le syllogisme est reconnu comme valide, aucun sophisme
         if status in valid_statuses:
             continue
 
+        # 2) Aucun terme moyen partagé
         if status == "no_middle_term_detected":
             fallacies.append({
                 "type": "missing_middle_term",
@@ -1433,45 +1434,22 @@ def detect_syllogistic_fallacies(syllogisms: List[Dict]) -> List[Dict]:
             })
             continue
 
+        # 3) Conclusion mal reliée aux extrêmes
         if status == "weak_conclusion_link":
             fallacies.append({
                 "type": "weak_conclusion_link",
-                "description": "La conclusion ne reprend pas clairement les extrêmes des prémisses.",
+                "description": "La conclusion ne reprend pas correctement les extrêmes des prémisses.",
                 "syllogism": s
             })
             continue
 
-        if status == "possible_syllogism" and not figure:
-            fallacies.append({
-                "type": "undetermined_figure",
-                "description": "Le raisonnement ressemble à un syllogisme mais sa structure reste fragile ou incomplète.",
-                "syllogism": s
-            })
-            continue
-
-        invalid_forms = [
-            "AAI",
-            "AEA",
-            "IAA",
-            "OAA"
-        ]
-
-        compact_form = form.replace("-", "")
-
-        if compact_form in invalid_forms:
-            fallacies.append({
-                "type": "invalid_form",
-                "description": "La forme syllogistique n'est pas valide dans la logique aristotélicienne.",
-                "syllogism": s
-            })
-            continue
-
-        if compact_form.startswith("I") and compact_form.endswith("A"):
-            fallacies.append({
-                "type": "illicit_strengthening",
-                "description": "La conclusion est plus forte que les prémisses.",
-                "syllogism": s
-            })
+        # 4) Toute structure syllogistique non reconnue comme valide
+        # doit, pour l’instant, être considérée comme sophistique ou invalide
+        fallacies.append({
+            "type": "invalid_or_unvalidated_form",
+            "description": f"Forme syllogistique non validée : {form} / {figure if figure else 'figure indéterminée'}.",
+            "syllogism": s
+        })
 
     return fallacies
 
