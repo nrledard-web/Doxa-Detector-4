@@ -1227,6 +1227,32 @@ def normalize_term(term: Optional[str]) -> Optional[str]:
     t = " ".join(normalized_words).strip()
     return t if t else None
 
+# -----------------------------
+# Extraction sujet / prédicat
+# -----------------------------
+
+def extract_categorical_terms(sentence: str):
+    s = sentence.lower().strip()
+    s = re.sub(r"[^\wÀ-ÿ'\- ]", " ", s)
+    s = re.sub(r"\s+", " ", s).strip()
+
+    patterns = [
+        r"^(tous les|toutes les|tous|toutes|chaque)\s+(.+?)\s+sont\s+(.+)$",
+        r"^(aucun|nul)\s+(.+?)\s+n[’']?est\s+(.+)$",
+        r"^(aucun|nul)\s+(.+?)\s+ne\s+sont\s+pas\s+(.+)$",
+        r"^(certains|quelques|plusieurs)\s+(.+?)\s+sont\s+(.+)$",
+        r"^(certains|quelques|plusieurs)\s+(.+?)\s+ne\s+sont\s+pas\s+(.+)$",
+    ]
+
+    for pattern in patterns:
+        m = re.match(pattern, s)
+        if m:
+            subject = normalize_term(m.group(2))
+            predicate = normalize_term(m.group(3))
+            return subject, predicate
+
+    return None, None
+
 def classify_claim_type(sentence: str) -> List[str]:
     s = sentence.lower().strip()
     claim_types = []
