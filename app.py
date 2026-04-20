@@ -1384,6 +1384,49 @@ def detect_syllogisms_from_claims(claims: List[Claim]) -> List[Dict]:
 
     return syllogisms
 
+
+# -----------------------------
+# Détection enthymèmes
+# -----------------------------
+
+def detect_enthymemes_from_claims(claims: List[Claim]) -> List[Dict]:
+    enthymemes = []
+
+    conclusion_markers = [
+        "donc",
+        "par conséquent",
+        "ainsi",
+        "il s'ensuit que",
+        "il s’ensuit que",
+        "cela montre que",
+        "cela prouve que"
+    ]
+
+    for i, c in enumerate(claims):
+        text_lower = c.text.lower().strip()
+
+        has_conclusion_marker = any(
+            contains_term(text_lower, marker) or text_lower.startswith(marker + " ")
+            for marker in conclusion_markers
+        )
+
+        if not has_conclusion_marker:
+            continue
+
+        if c.aristotelian_type or c.subject_term or c.predicate_term:
+            context_before = claims[max(0, i - 2):i]
+
+            enthymemes.append({
+                "conclusion": c.text,
+                "form": c.aristotelian_type if c.aristotelian_type else "-",
+                "subject": c.subject_term if c.subject_term else "-",
+                "predicate": c.predicate_term if c.predicate_term else "-",
+                "context": [x.text for x in context_before],
+                "status": "possible_enthymeme",
+            })
+
+    return enthymemes
+
 def classify_claim_type(sentence: str) -> List[str]:
     s = sentence.lower().strip()
     claim_types = []
