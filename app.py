@@ -2810,7 +2810,6 @@ def analyze_article(text: str) -> Dict:
     logic_confusion_analysis = compute_logic_confusion(text)
     scientific_simulation_analysis = compute_scientific_simulation(text)
     propaganda_analysis = detect_propaganda_narrative(text)
-    short_form_analysis = detect_short_form_mode(text)
     causal_overreach_analysis = compute_causal_overreach(text)
     vague_authority_analysis = compute_vague_authority(text)
     emotional_intensity_analysis = compute_emotional_intensity(text)
