@@ -2714,7 +2714,21 @@ def analyze_claim(sentence: str) -> Claim:
         absolutism
     )
 
-    v_score = clamp(v_score + short_adjustment, 0, 20)
+    # Bonus de sobriété factuelle
+    sobriety_bonus, sobriety_note = compute_factual_sobriety_bonus(
+        sentence,
+        claim_types,
+        r_score,
+        sentence_red_flags
+    )
+
+    total_adjustment = round(short_adjustment + sobriety_bonus, 2)
+    v_score = clamp(v_score + total_adjustment, 0, 20)
+
+    if epistemic_note and sobriety_note:
+        epistemic_note = epistemic_note + " " + sobriety_note
+    elif sobriety_note:
+        epistemic_note = sobriety_note
 
     if v_score < 5:
         status = T["very_fragile"]
@@ -2736,7 +2750,7 @@ def analyze_claim(sentence: str) -> Claim:
         status=status,
         claim_types=claim_types,
         epistemic_note=epistemic_note,
-        short_adjustment=short_adjustment,
+        short_adjustment=total_adjustment,
     )
 
 def compute_red_flag_penalties(metrics: dict) -> dict:
