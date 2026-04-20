@@ -4223,6 +4223,7 @@ if result:
     row6_col1, row6_col2, row6_col3 = st.columns(3)
     row7_col1, row7_col2, row7_col3 = st.columns(3)
     row8_col1, row8_col2, row8_col3 = st.columns(3)
+    row9_col1, row9_col2, row9_col3 = st.columns(3)
     
 
     # -----------------------------
