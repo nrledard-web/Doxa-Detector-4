@@ -2192,7 +2192,7 @@ def compute_certainty(text: str):
 
     text_lower = text.lower()
 
-    hits = [t for t in CERTAINTY_TERMS if t in text_lower]
+    hits = [t for t in CERTAINTY_TERMS if contains_term(text_lower, t)]
 
     score = min(len(hits) * 2.5 / 10, 1.0)
 
