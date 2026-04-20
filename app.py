@@ -3252,7 +3252,7 @@ def analyze_article(text: str) -> Dict:
     
     fallacies = detect_syllogistic_fallacies(syllogisms)
 
-        print("=== DEBUG CLAIMS ===")
+    print("=== DEBUG CLAIMS ===")
     for c in claims:
         print({
             "text": c.text,
