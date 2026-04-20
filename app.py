@@ -1078,6 +1078,22 @@ SYLLOGISTIC_MARKERS = {
     "I": ["certains", "quelques", "plusieurs"],
     "O": ["certains", "quelques"]
 }
+# -----------------------------
+# Normalisation pluriels irréguliers
+# -----------------------------
+
+IRREGULAR_NORMALIZATIONS = {
+    "animaux": "animal",
+    "chevaux": "cheval",
+    "travaux": "travail",
+    "journaux": "journal",
+    "médias": "média",
+    "reptiles": "reptile",
+    "serpents": "serpent",
+    "chiens": "chien",
+    "mammifères": "mammifère",
+    "hommes": "homme",
+}
 
 ABSOLUTIST_WORDS = [
     "toujours", "jamais", "absolument", "certain", "certaine",
