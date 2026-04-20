@@ -2864,6 +2864,10 @@ def analyze_claim(sentence: str) -> Claim:
         claim_types=claim_types,
         epistemic_note=epistemic_note,
         short_adjustment=total_adjustment,
+        aristotelian_type=aristotelian_type,
+        subject_term=subject_term,
+        predicate_term=predicate_term,
+        middle_term_candidate=None,
     )
 
 def compute_red_flag_penalties(metrics: dict) -> dict:
