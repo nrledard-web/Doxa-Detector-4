@@ -4713,18 +4713,6 @@ la fiabilité ne sont pas présentes dans le texte analysé**.
 Dans ce cas, l’assertion est classée comme **épistémiquement douteuse
 par nécessité méthodologique**.
 
-### Modèle d’analyse cognitive
-
-L’analyse s’appuie sur la structure suivante :
-
-**M = (G + N) − D**
-
-où :
-
-- **G** représente les éléments de connaissance mobilisés dans le discours (faits, données, sources)
-- **N** représente l’intégration explicative et contextuelle
-- **D** représente le degré d’affirmation ou de certitude exprimé
-
 Lorsque le niveau d’affirmation dépasse les éléments disponibles pour soutenir l’énoncé,
 la structure discursive devient fragile et peut correspondre à une **configuration
 de mécroyance, à une affirmation non démontrée ou à un mensonge probable**.
