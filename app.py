@@ -5125,7 +5125,7 @@ if result:
         st.markdown("### Syllogismes détectés")
         st.caption("Structures logiques explicites repérées dans le texte.")
 
-        value = min(result["syllogism_signal"] / 4, 1.0)
+        value = min(result["syllogism_signal"] / 2, 1.0)
 
         if result["syllogism_signal"] == 0:
             label, color = "Aucun signal", "#16a34a"
@@ -5175,7 +5175,7 @@ if result:
         st.markdown("### Sophismes syllogistiques")
         st.caption("Failles formelles ou conclusions invalides dans les raisonnements.")
 
-        value = min(result["fallacy_signal"] / 4, 1.0)
+        value = min(result["fallacy_signal"] / 2, 1.0)
 
         if result["fallacy_signal"] == 0:
             label, color = "Aucun signal", "#16a34a"
