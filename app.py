@@ -1283,6 +1283,107 @@ def detect_aristotelian_proposition(sentence: str) -> Optional[str]:
 
     return None
 
+
+# -----------------------------
+# Détection syllogismes simples
+# -----------------------------
+
+def detect_syllogisms_from_claims(claims: List[Claim]) -> List[Dict]:
+    syllogisms = []
+
+    conclusion_markers = [
+        "donc",
+        "par conséquent",
+        "ainsi",
+        "il s'ensuit que",
+        "il s’ensuit que",
+        "cela montre que",
+        "cela prouve que"
+    ]
+
+    for i in range(len(claims) - 2):
+        c1 = claims[i]
+        c2 = claims[i + 1]
+        c3 = claims[i + 2]
+
+        c3_lower = c3.text.lower().strip()
+        if not any(contains_term(c3_lower, marker) or c3_lower.startswith(marker + " ") for marker in conclusion_markers):
+            continue
+
+        if not all([
+            c1.subject_term, c1.predicate_term,
+            c2.subject_term, c2.predicate_term,
+            c3.subject_term, c3.predicate_term
+        ]):
+            continue
+
+        p1s, p1p = normalize_term(c1.subject_term), normalize_term(c1.predicate_term)
+        p2s, p2p = normalize_term(c2.subject_term), normalize_term(c2.predicate_term)
+        cs, cp = normalize_term(c3.subject_term), normalize_term(c3.predicate_term)
+
+        terms_p1 = {p1s, p1p}
+        terms_p2 = {p2s, p2p}
+        common_terms = {t for t in terms_p1.intersection(terms_p2) if t}
+
+        if not common_terms:
+            syllogisms.append({
+                "premise_1": c1.text,
+                "premise_2": c2.text,
+                "conclusion": c3.text,
+                "middle_term": None,
+                "figure": None,
+                "form": f"{c1.aristotelian_type or '-'}-{c2.aristotelian_type or '-'}-{c3.aristotelian_type or '-'}",
+                "status": "no_middle_term_detected"
+            })
+            continue
+
+        middle_term = sorted(common_terms, key=len, reverse=True)[0]
+
+        figure = None
+        if p1s == middle_term and p2p == middle_term:
+            figure = "Figure 1 probable"
+        elif p1p == middle_term and p2p == middle_term:
+            figure = "Figure 2 probable"
+        elif p1s == middle_term and p2s == middle_term:
+            figure = "Figure 3 probable"
+        elif p1p == middle_term and p2s == middle_term:
+            figure = "Figure 4 probable"
+
+        form = f"{c1.aristotelian_type or '-'}-{c2.aristotelian_type or '-'}-{c3.aristotelian_type or '-'}"
+
+        status = "possible_syllogism"
+        if form == "A-A-A" and figure == "Figure 1 probable":
+            status = "valid_like_barbara"
+        elif form == "E-A-E" and figure == "Figure 1 probable":
+            status = "valid_like_celarent"
+        elif form == "A-I-I" and figure == "Figure 1 probable":
+            status = "valid_like_darii"
+        elif form == "E-I-O" and figure == "Figure 1 probable":
+            status = "valid_like_ferio"
+
+        conclusion_terms = {cs, cp}
+        premise_extremes = {t for t in {p1s, p1p, p2s, p2p} if t != middle_term}
+
+        if not cs or not cp:
+            status = "weak_conclusion_link"
+        elif not conclusion_terms.intersection(premise_extremes):
+            status = "weak_conclusion_link"
+
+        syllogisms.append({
+            "premise_1": c1.text,
+            "premise_2": c2.text,
+            "conclusion": c3.text,
+            "middle_term": middle_term,
+            "figure": figure,
+            "form": form,
+            "status": status,
+            "p1_terms": {"subject": p1s, "predicate": p1p},
+            "p2_terms": {"subject": p2s, "predicate": p2p},
+            "c_terms": {"subject": cs, "predicate": cp},
+        })
+
+    return syllogisms
+
 def classify_claim_type(sentence: str) -> List[str]:
     s = sentence.lower().strip()
     claim_types = []
