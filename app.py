@@ -2773,6 +2773,11 @@ def analyze_article(text: str) -> Dict:
             "short_form_interpretation": short_form_analysis["interpretation"],
             "word_count_precise": short_form_analysis["word_count"],
 
+            "short_text_bonus": short_text_bonus["bonus"],
+            "short_text_bonus_label": short_text_bonus["label"],
+            "short_text_bonus_interpretation": short_text_bonus["interpretation"],
+            "short_text_bonus_details": short_text_bonus["details"],
+
             "normative_score": 0.0,
             "normative_terms": [],
             "normative_judgment_markers": [],
