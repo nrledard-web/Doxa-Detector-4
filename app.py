@@ -1219,8 +1219,13 @@ def classify_claim_type(sentence: str) -> List[str]:
 
     # généralisant
     generalizing_terms = [
-        "toujours", "jamais", "tous", "tout le monde", "personne",
-        "aucun", "les médias", "les élites", "les politiciens"
+        "toujours",
+        "jamais",
+        "tout le monde",
+        "personne",
+        "aucun",
+        "tous les",
+        "toutes les"
     ]
     if any(contains_term(s, term) for term in generalizing_terms):
         claim_types.append("generalizing")
