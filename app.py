@@ -1472,28 +1472,6 @@ def detect_enthymemes_from_claims(claims: List[Claim]) -> List[Dict]:
 
     return enthymemes
 
-st.divider()
-st.subheader("Sophismes syllogistiques")
-
-if result.get("fallacies"):
-    for i, f in enumerate(result["fallacies"], start=1):
-        with st.expander(f"Sophisme détecté {i}", expanded=False):
-            st.write(f"**Type** : {f['type']}")
-            st.write(f"**Description** : {f['description']}")
-
-            s = f["syllogism"]
-
-            st.write("**Prémisse 1**")
-            st.write(s["premise_1"])
-
-            st.write("**Prémisse 2**")
-            st.write(s["premise_2"])
-
-            st.write("**Conclusion**")
-            st.write(s["conclusion"])
-else:
-    st.info("Aucun sophisme syllogistique détecté.")
-
 def classify_claim_type(sentence: str) -> List[str]:
     s = sentence.lower().strip()
     claim_types = []
