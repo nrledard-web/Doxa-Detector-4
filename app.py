@@ -2734,6 +2734,7 @@ def analyze_article(text: str) -> Dict:
     article_length = len(words)
 
     short_form_analysis = detect_short_form_mode(text)
+    short_text_bonus = compute_short_text_bonus(text)
 
     if short_form_analysis["is_blocked"]:
         return {
