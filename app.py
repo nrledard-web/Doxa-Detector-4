@@ -2904,15 +2904,6 @@ def analyze_article(text: str) -> Dict:
     else:
         verdict = T["strong_credibility"]
 
-    if hard_fact_score < 6:
-        verdict = T["low_credibility"]
-    elif hard_fact_score < 10:
-        verdict = T["prudent_credibility"]
-    elif hard_fact_score < 15:
-        verdict = T["rather_credible"]
-    else:
-        verdict = T["strong_credibility"]
-
     strengths = []
     if source_markers >= 2:
         strengths.append(T["presence_of_source_markers"])
