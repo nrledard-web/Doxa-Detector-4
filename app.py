@@ -3712,6 +3712,12 @@ if result:
     
     if result.get("short_form_mode"):
         st.info(f"{result['short_form_label']} — {result['short_form_interpretation']}")
+        if result.get("short_text_bonus", 0) > 0:
+        st.success(
+            f"Bonus texte court : +{result['short_text_bonus']} — "
+            f"{result['short_text_bonus_label']}"
+        )
+        st.caption(result["short_text_bonus_interpretation"])    
         
     st.caption("Sur cette échelle, un texte véritablement crédible se situe généralement dans la zone robuste.")
 
