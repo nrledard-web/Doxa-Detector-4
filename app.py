@@ -3475,6 +3475,7 @@ if result:
     col3.metric(T["hard_fact_score"], result["hard_fact_score"], help=T["help_hard_fact_score"])
 
     score = result["hard_fact_score"]
+
     if score <= 6:
         couleur, etiquette, message = "🔴", T["fragile"], T["fragile_message"]
     elif score <= 11:
@@ -3483,6 +3484,23 @@ if result:
         couleur, etiquette, message = "🟡", T["plausible"], T["plausible_message"]
     else:
         couleur, etiquette, message = "🟢", T["robust"], T["robust_message"]
+
+    # Ajustement spécial pour les phrases très courtes
+    if result.get("word_count_precise", 0) < 30 and result.get("short_phrase_doubt_index") is not None:
+        doubt_idx = result["short_phrase_doubt_index"]
+
+        if doubt_idx >= 70:
+            couleur = "🔴"
+            etiquette = "Douteux"
+            message = "Phrase très courte : forte probabilité structurelle d’erreur."
+        elif doubt_idx <= 30:
+            couleur = "🟡"
+            etiquette = "Plausible léger"
+            message = "Phrase très courte : assertion structurellement plus plausible que douteuse."
+        else:
+            couleur = "🟠"
+            etiquette = "Intermédiaire"
+            message = "Phrase très courte : assertion encore insuffisamment étayée."
 
     st.subheader(f"{couleur} {T['credibility_gauge']} : {etiquette}")
     st.progress(score / 20)
