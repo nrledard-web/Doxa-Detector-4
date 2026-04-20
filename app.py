@@ -5053,6 +5053,81 @@ if result:
             unsafe_allow_html=True
         )
         st.caption("Plus la certitude domine G + N, plus le texte se ferme.")
+
+        # -----------------------------
+    # 25) Syllogismes détectés
+    # -----------------------------
+    with row9_col1:
+        st.markdown("### Syllogismes détectés")
+        st.caption("Structures logiques explicites repérées dans le texte.")
+
+        value = min(result["syllogism_signal"] / 4, 1.0)
+
+        if result["syllogism_signal"] == 0:
+            label, color = "Aucun signal", "#16a34a"
+        elif result["syllogism_signal"] == 1:
+            label, color = "Signal faible", "#ca8a04"
+        elif result["syllogism_signal"] <= 3:
+            label, color = "Signal modéré", "#f97316"
+        else:
+            label, color = "Signal fort", "#dc2626"
+
+        render_custom_gauge(value, color)
+        st.markdown(
+            f"<b style='color:{color}'>{result['syllogism_label']}</b> — {result['syllogism_signal']} repéré(s)",
+            unsafe_allow_html=True
+        )
+        st.caption("Détection de prémisses et conclusion enchaînées.")
+
+    # -----------------------------
+    # 26) Enthymèmes détectés
+    # -----------------------------
+    with row9_col2:
+        st.markdown("### Enthymèmes détectés")
+        st.caption("Raisonnements incomplets ou implicites repérés dans le texte.")
+
+        value = min(result["enthymeme_signal"] / 4, 1.0)
+
+        if result["enthymeme_signal"] == 0:
+            label, color = "Aucun signal", "#16a34a"
+        elif result["enthymeme_signal"] == 1:
+            label, color = "Signal faible", "#ca8a04"
+        elif result["enthymeme_signal"] <= 3:
+            label, color = "Signal modéré", "#f97316"
+        else:
+            label, color = "Signal fort", "#dc2626"
+
+        render_custom_gauge(value, color)
+        st.markdown(
+            f"<b style='color:{color}'>{result['enthymeme_label']}</b> — {result['enthymeme_signal']} repéré(s)",
+            unsafe_allow_html=True
+        )
+        st.caption("Conclusion présente, prémisse partiellement implicite.")
+
+    # -----------------------------
+    # 27) Sophismes syllogistiques
+    # -----------------------------
+    with row9_col3:
+        st.markdown("### Sophismes syllogistiques")
+        st.caption("Failles formelles ou conclusions invalides dans les raisonnements.")
+
+        value = min(result["fallacy_signal"] / 4, 1.0)
+
+        if result["fallacy_signal"] == 0:
+            label, color = "Aucun signal", "#16a34a"
+        elif result["fallacy_signal"] == 1:
+            label, color = "Signal faible", "#ca8a04"
+        elif result["fallacy_signal"] <= 3:
+            label, color = "Signal modéré", "#f97316"
+        else:
+            label, color = "Signal fort", "#dc2626"
+
+        render_custom_gauge(value, color)
+        st.markdown(
+            f"<b style='color:{color}'>{result['fallacy_label']}</b> — {result['fallacy_signal']} repéré(s)",
+            unsafe_allow_html=True
+        )
+        st.caption("Terme moyen absent, forme invalide ou conclusion trop forte.")
                 
     with st.expander("Voir les manœuvres discursives détectées", expanded=False):
         if result["political_pattern_score"] == 0:
