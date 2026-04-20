@@ -2746,9 +2746,6 @@ def analyze_article(text: str) -> Dict:
     if article_length < 50:
         red_flags.append("Format indigent")
 
-    short_phrase_interpretation = None
-    short_phrase_doubt_index = None
-
     hard_fact_score_raw = (
         (0.18 * G + 0.12 * N + 0.20 * V + 0.22 * source_quality + 0.18 * avg_claim_verifiability)
         - (0.16 * D + 0.12 * R + 0.18 * avg_claim_risk + penalties["credibility_penalty"])
@@ -2764,9 +2761,8 @@ def analyze_article(text: str) -> Dict:
     else:
         verdict = T["strong_credibility"]
 
-    if short_form_analysis["word_count"] < 25:
+    if short_form_analysis["is_short_form"]:
         hard_fact_score = round(clamp(hard_fact_score - 1.5, 0, 20), 1)
-
     if hard_fact_score < 6:
         verdict = T["low_credibility"]
     elif hard_fact_score < 10:
@@ -2775,38 +2771,6 @@ def analyze_article(text: str) -> Dict:
         verdict = T["rather_credible"]
     else:
         verdict = T["strong_credibility"]
-
-    if short_form_analysis["word_count"] < 30:
-        short_phrase_doubt_index = round(((20 - hard_fact_score) / 20) * 100, 1)
-
-        if short_phrase_doubt_index >= 70:
-            short_phrase_interpretation = (
-                "Phrase très courte : l’indice de doute est élevé. "
-                "Cela indique une forte probabilité structurelle d’erreur, "
-                "car l’affirmation n’est pas suffisamment étayée."
-            )
-        elif short_phrase_doubt_index <= 30:
-            short_phrase_interpretation = (
-                "Phrase très courte : l’indice de doute est faible. "
-                "L’assertion apparaît structurellement plus plausible que douteuse, "
-                "sans que le texte fournisse pour autant une démonstration complète."
-            )
-        else:
-            short_phrase_interpretation = (
-                "Phrase très courte : l’assertion reste dans une zone intermédiaire. "
-                "Elle n’est ni clairement fragile ni suffisamment étayée."
-            )
-        elif short_phrase_doubt_index <= 30:
-            short_phrase_interpretation = (
-                "Phrase très courte : l’indice de doute est faible. "
-                "L’assertion apparaît structurellement plus plausible que douteuse, "
-                "sans que le texte fournisse pour autant une démonstration complète."
-            )
-        else:
-            short_phrase_interpretation = (
-                "Phrase très courte : l’assertion reste dans une zone intermédiaire. "
-                "Elle n’est ni clairement fragile ni suffisamment étayée."
-            )
 
     strengths = []
     if source_markers >= 2:
@@ -3014,8 +2978,7 @@ def analyze_article(text: str) -> Dict:
         "avg_claim_verifiability": avg_claim_verifiability,
         "hard_fact_score": hard_fact_score,
         "verdict": verdict,
-        "short_phrase_interpretation": short_phrase_interpretation,
-        "short_phrase_doubt_index": short_phrase_doubt_index,
+        "profil_solidite": verdict,
         "strengths": strengths,
         "weaknesses": weaknesses,
         "claims": claims,
@@ -3484,7 +3447,6 @@ if result:
     col3.metric(T["hard_fact_score"], result["hard_fact_score"], help=T["help_hard_fact_score"])
 
     score = result["hard_fact_score"]
-
     if score <= 6:
         couleur, etiquette, message = "🔴", T["fragile"], T["fragile_message"]
     elif score <= 11:
@@ -3493,23 +3455,6 @@ if result:
         couleur, etiquette, message = "🟡", T["plausible"], T["plausible_message"]
     else:
         couleur, etiquette, message = "🟢", T["robust"], T["robust_message"]
-
-    # Ajustement spécial pour les phrases très courtes
-    if result.get("word_count_precise", 0) < 30 and result.get("short_phrase_doubt_index") is not None:
-        doubt_idx = result["short_phrase_doubt_index"]
-
-        if doubt_idx >= 70:
-            couleur = "🔴"
-            etiquette = "Douteux"
-            message = "Phrase très courte : forte probabilité structurelle d’erreur."
-        elif doubt_idx <= 30:
-            couleur = "🟡"
-            etiquette = "Plausible léger"
-            message = "Phrase très courte : assertion structurellement plus plausible que douteuse."
-        else:
-            couleur = "🟠"
-            etiquette = "Intermédiaire"
-            message = "Phrase très courte : assertion encore insuffisamment étayée."
 
     st.subheader(f"{couleur} {T['credibility_gauge']} : {etiquette}")
     st.progress(score / 20)
@@ -4742,39 +4687,6 @@ if show_method:
         f"- **{T['cognitive_closure']}** : `(D * S) / (G + N)`\n\n"
         f"{T['disclaimer']}"
     )
-
-with st.expander("Principe épistémique de l'analyse", expanded=False):
-
-    st.markdown("""
-Cette application n’a pas pour objectif de déterminer la vérité absolue d’un énoncé.
-Elle analyse la **structure cognitive et discursive d’un texte** afin d’identifier
-certaines configurations associées aux discours fragiles ou trompeurs :
-affirmation non étayée, mécroyance, manipulation rhétorique, mensonge probable
-ou, dans certains cas, mensonge avéré.
-
-L’analyse ne juge donc pas directement la vérité des propositions.
-Elle évalue **dans quelle mesure les affirmations sont soutenues par des éléments vérifiables**.
-
-### Principe méthodologique
-
-Une affirmation brève qui ne présente **ni sources, ni données vérifiables,
-ni contexte explicatif suffisant** ne peut pas être considérée comme crédible
-du point de vue de l’analyse épistémique.
-
-Cela ne signifie pas que l’assertion est fausse.
-Cela signifie simplement que **les informations nécessaires pour en évaluer
-la fiabilité ne sont pas présentes dans le texte analysé**.
-
-Dans ce cas, l’assertion est classée comme **épistémiquement douteuse
-par nécessité méthodologique**.
-
-Lorsque le niveau d’affirmation dépasse les éléments disponibles pour soutenir l’énoncé,
-la structure discursive devient fragile et peut correspondre à une **configuration
-de mécroyance, à une affirmation non démontrée ou à un mensonge probable**.
-
-Dans certains cas, lorsque l’assertion contredit directement des faits établis
-et vérifiables, l’analyse peut également signaler **un mensonge avéré**.
-""")
 
 
 # -----------------------------
