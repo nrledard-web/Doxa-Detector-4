@@ -3408,6 +3408,7 @@ def analyze_article(text: str) -> Dict:
         "strengths": strengths,
         "weaknesses": weaknesses,
         "claims": claims,
+        "syllogisms": syllogisms,
         "red_flags": [flag["name"] for flag in penalties["flags"]],
         "weighted_red_flags": penalties["flags"],
         "credibility_penalty_total": penalties["credibility_penalty"],
