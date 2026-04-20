@@ -1198,6 +1198,35 @@ def contains_term(text: str, term: str) -> bool:
         pattern = rf"\b{escaped}\b"
     return re.search(pattern, text.lower()) is not None
 
+
+# -----------------------------
+# Normalisation des termes
+# -----------------------------
+
+def normalize_term(term: Optional[str]) -> Optional[str]:
+    if not term:
+        return None
+
+    t = term.lower().strip()
+    t = re.sub(r"[^\wÀ-ÿ'\- ]", " ", t)
+    t = re.sub(r"\s+", " ", t).strip()
+
+    # enlever articles fréquents
+    t = re.sub(r"^(les|des|du|de la|de l|de|la|le|l|un|une)\s+", "", t)
+
+    words = t.split()
+    normalized_words = []
+
+    for w in words:
+        if w in IRREGULAR_NORMALIZATIONS:
+            w = IRREGULAR_NORMALIZATIONS[w]
+        elif len(w) > 4 and w.endswith("s"):
+            w = w[:-1]
+        normalized_words.append(w)
+
+    t = " ".join(normalized_words).strip()
+    return t if t else None
+
 def classify_claim_type(sentence: str) -> List[str]:
     s = sentence.lower().strip()
     claim_types = []
