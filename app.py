@@ -1384,6 +1384,51 @@ def detect_syllogisms_from_claims(claims: List[Claim]) -> List[Dict]:
 
     return syllogisms
 
+# -----------------------------
+# Détection sophismes syllogistiques
+# -----------------------------
+
+def detect_syllogistic_fallacies(syllogisms: List[Dict]) -> List[Dict]:
+    fallacies = []
+
+    for s in syllogisms:
+
+        if s["status"] == "no_middle_term_detected":
+            fallacies.append({
+                "type": "missing_middle_term",
+                "description": "Le raisonnement ne partage aucun terme moyen entre les prémisses.",
+                "syllogism": s
+            })
+            continue
+
+        form = s.get("form", "")
+        figure = s.get("figure", "")
+
+        # conclusion trop forte
+        if form.startswith("I") and form.endswith("A"):
+            fallacies.append({
+                "type": "illicit_strengthening",
+                "description": "La conclusion est plus forte que les prémisses.",
+                "syllogism": s
+            })
+
+        # formes connues invalides
+        invalid_forms = [
+            "A-A-I",
+            "A-E-A",
+            "I-A-A",
+            "O-A-A"
+        ]
+
+        if form.replace("-", "") in invalid_forms:
+            fallacies.append({
+                "type": "invalid_form",
+                "description": "La forme syllogistique n'est pas valide dans la logique aristotélicienne.",
+                "syllogism": s
+            })
+
+    return fallacies
+
 
 # -----------------------------
 # Détection enthymèmes
