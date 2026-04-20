@@ -2746,6 +2746,9 @@ def analyze_article(text: str) -> Dict:
     if article_length < 50:
         red_flags.append("Format indigent")
 
+    short_phrase_interpretation = None
+    short_phrase_doubt_index = None
+
     hard_fact_score_raw = (
         (0.18 * G + 0.12 * N + 0.20 * V + 0.22 * source_quality + 0.18 * avg_claim_verifiability)
         - (0.16 * D + 0.12 * R + 0.18 * avg_claim_risk + penalties["credibility_penalty"])
