@@ -1068,6 +1068,16 @@ SOURCE_CUES = [
     "selon", "affirme", "déclare", "rapport", "étude", "expert",
     "source", "dit", "écrit", "publié", "annonce", "confirme", "révèle",
 ]
+# -----------------------------
+# Marqueurs propositions aristotéliciennes
+# -----------------------------
+
+SYLLOGISTIC_MARKERS = {
+    "A": ["tous", "tout", "chaque"],
+    "E": ["aucun", "nul"],
+    "I": ["certains", "quelques", "plusieurs"],
+    "O": ["certains", "quelques"]
+}
 
 ABSOLUTIST_WORDS = [
     "toujours", "jamais", "absolument", "certain", "certaine",
