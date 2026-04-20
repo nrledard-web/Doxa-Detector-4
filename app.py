@@ -3251,6 +3251,28 @@ def analyze_article(text: str) -> Dict:
     inference_patterns = detect_syllogisms(sentences)
     
     fallacies = detect_syllogistic_fallacies(syllogisms)
+
+        syllogism_signal = len(syllogisms)
+    enthymeme_signal = len(enthymemes)
+    fallacy_signal = len(fallacies)
+
+    syllogism_label = "Aucun signal" if syllogism_signal == 0 else (
+        "Signal faible" if syllogism_signal == 1 else
+        "Signal modéré" if syllogism_signal <= 3 else
+        "Signal fort"
+    )
+
+    enthymeme_label = "Aucun signal" if enthymeme_signal == 0 else (
+        "Signal faible" if enthymeme_signal == 1 else
+        "Signal modéré" if enthymeme_signal <= 3 else
+        "Signal fort"
+    )
+
+    fallacy_label = "Aucun signal" if fallacy_signal == 0 else (
+        "Signal faible" if fallacy_signal == 1 else
+        "Signal modéré" if fallacy_signal <= 3 else
+        "Signal fort"
+    )
     
     avg_claim_verifiability = sum(c.verifiability for c in claims) / len(claims) if claims else 0
     avg_claim_risk = sum(c.risk for c in claims) / len(claims) if claims else 0
