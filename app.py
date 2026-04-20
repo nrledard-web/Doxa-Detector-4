@@ -1211,8 +1211,8 @@ def classify_claim_type(sentence: str) -> List[str]:
 
     # prédictif
     predictive_terms = [
-        "va", "va être", "sera", "seront", "d'ici", "bientôt",
-        "finira par", "dans les années à venir"
+        "va être", "vont être", "sera", "seront", "d'ici", "bientôt",
+        "finira par", "dans les années à venir", "à l'avenir", "dans le futur"
     ]
     if any(contains_term(s, term) for term in predictive_terms):
         claim_types.append("predictive")
