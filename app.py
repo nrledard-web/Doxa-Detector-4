@@ -1603,7 +1603,7 @@ def compute_short_text_bonus(text: str) -> dict:
     density_bonus = 0.20 if 25 <= word_count <= 40 else 0.0
 
     raw_bonus = anchor_score - risk_penalty + density_bonus
-    bonus = round(clamp(raw_bonus, 0.0, 1.5), 2)
+    bonus = round(clamp(raw_bonus, 0.0, 0.4), 2)
 
     if bonus == 0:
         label = "Aucun bonus"
