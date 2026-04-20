@@ -1485,17 +1485,42 @@ def detect_enthymemes_from_claims(claims: List[Claim]) -> List[Dict]:
         if not has_conclusion_marker:
             continue
 
-        if c.aristotelian_type or c.subject_term or c.predicate_term:
-            context_before = claims[max(0, i - 2):i]
+        context_before = claims[max(0, i - 2):i]
 
-            enthymemes.append({
-                "conclusion": c.text,
-                "form": c.aristotelian_type if c.aristotelian_type else "-",
-                "subject": c.subject_term if c.subject_term else "-",
-                "predicate": c.predicate_term if c.predicate_term else "-",
-                "context": [x.text for x in context_before],
-                "status": "possible_enthymeme",
-            })
+        if len(context_before) == 0:
+            continue
+
+        explicit_premises = sum(
+            1 for x in context_before
+            if x.aristotelian_type or x.subject_term or x.predicate_term
+        )
+
+        # Si deux prémisses explicites précèdent déjà la conclusion,
+        # ce n’est probablement pas un enthymème
+        if explicit_premises >= 2:
+            continue
+
+        weak_logical_shape = (
+            c.aristotelian_type is not None
+            or c.subject_term is not None
+            or c.predicate_term is not None
+            or " doit " in f" {text_lower} "
+            or " doivent " in f" {text_lower} "
+            or " est " in f" {text_lower} "
+            or " sont " in f" {text_lower} "
+        )
+
+        if not weak_logical_shape:
+            continue
+
+        enthymemes.append({
+            "conclusion": c.text,
+            "form": c.aristotelian_type if c.aristotelian_type else "-",
+            "subject": c.subject_term if c.subject_term else "-",
+            "predicate": c.predicate_term if c.predicate_term else "-",
+            "context": [x.text for x in context_before],
+            "status": "possible_enthymeme",
+        })
 
     return enthymemes
 
