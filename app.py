@@ -3014,10 +3014,7 @@ if short_form_analysis["is_short_form"] and short_form_analysis["word_count"] < 
     if hard_fact_score < 6:
         verdict = T["low_credibility"]
     elif hard_fact_score < 10:
-        if short_form_analysis["word_count"] <= 120:
-            verdict = "Non démontré"
-        else:
-            verdict = "Non démontré"
+        verdict = "Non démontré"
     elif hard_fact_score < 15:
         verdict = T["rather_credible"]
     else:
