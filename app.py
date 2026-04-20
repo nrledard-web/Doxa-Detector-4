@@ -3500,6 +3500,7 @@ def analyze_article(text: str) -> Dict:
         "claims": claims,
         "syllogisms": syllogisms,
         "enthymemes": enthymemes,
+        "fallacies": fallacies,
         "red_flags": [flag["name"] for flag in penalties["flags"]],
         "weighted_red_flags": penalties["flags"],
         "credibility_penalty_total": penalties["credibility_penalty"],
