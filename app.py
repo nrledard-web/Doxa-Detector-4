@@ -2795,7 +2795,7 @@ def analyze_article(text: str) -> Dict:
         propaganda_analysis["score"] * 2.5
     )
 
-    ME = round((ME_base * L) + discursive_boost, 2)
+    ME = round((ME_base * L) + discursive_boost + penalties["lie_boost"], 2)
 
     claims = [analyze_claim(sentence) for sentence in sentences[:15]]
 
