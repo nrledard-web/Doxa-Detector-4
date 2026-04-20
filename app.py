@@ -1402,11 +1402,23 @@ def detect_syllogisms_from_claims(claims: List[Claim]) -> List[Dict]:
 def detect_syllogistic_fallacies(syllogisms: List[Dict]) -> List[Dict]:
     fallacies = []
 
+    valid_statuses = {
+        "valid_like_barbara",
+        "valid_like_celarent",
+        "valid_like_darii",
+        "valid_like_ferio",
+    }
+
     for s in syllogisms:
         form = s.get("form", "")
         figure = s.get("figure", "")
+        status = s.get("status", "")
 
-        if s["status"] == "no_middle_term_detected":
+        # Si le syllogisme est reconnu comme valide, il ne doit jamais être classé comme sophisme
+        if status in valid_statuses:
+            continue
+
+        if status == "no_middle_term_detected":
             fallacies.append({
                 "type": "missing_middle_term",
                 "description": "Le raisonnement ne partage aucun terme moyen entre les prémisses.",
@@ -1414,7 +1426,7 @@ def detect_syllogistic_fallacies(syllogisms: List[Dict]) -> List[Dict]:
             })
             continue
 
-        if s["status"] == "weak_conclusion_link":
+        if status == "weak_conclusion_link":
             fallacies.append({
                 "type": "weak_conclusion_link",
                 "description": "La conclusion ne reprend pas clairement les extrêmes des prémisses.",
@@ -1422,7 +1434,7 @@ def detect_syllogistic_fallacies(syllogisms: List[Dict]) -> List[Dict]:
             })
             continue
 
-        if s["status"] == "possible_syllogism" and not figure:
+        if status == "possible_syllogism" and not figure:
             fallacies.append({
                 "type": "undetermined_figure",
                 "description": "Le raisonnement ressemble à un syllogisme mais sa structure reste fragile ou incomplète.",
@@ -1431,10 +1443,10 @@ def detect_syllogistic_fallacies(syllogisms: List[Dict]) -> List[Dict]:
             continue
 
         invalid_forms = [
-            "A-A-I",
-            "A-E-A",
-            "I-A-A",
-            "O-A-A"
+            "AAI",
+            "AEA",
+            "IAA",
+            "OAA"
         ]
 
         compact_form = form.replace("-", "")
@@ -1447,7 +1459,7 @@ def detect_syllogistic_fallacies(syllogisms: List[Dict]) -> List[Dict]:
             })
             continue
 
-        if form.startswith("I") and form.endswith("A"):
+        if compact_form.startswith("I") and compact_form.endswith("A"):
             fallacies.append({
                 "type": "illicit_strengthening",
                 "description": "La conclusion est plus forte que les prémisses.",
