@@ -3252,6 +3252,21 @@ def analyze_article(text: str) -> Dict:
     
     fallacies = detect_syllogistic_fallacies(syllogisms)
 
+        print("=== DEBUG CLAIMS ===")
+    for c in claims:
+        print({
+            "text": c.text,
+            "form": c.aristotelian_type,
+            "subject": c.subject_term,
+            "predicate": c.predicate_term
+        })
+
+    print("=== DEBUG SYLLOGISMS ===")
+    print(syllogisms)
+
+    print("=== DEBUG FALLACIES ===")
+    print(fallacies)
+
     syllogism_signal = len(syllogisms)
     enthymeme_signal = len(enthymemes)
     fallacy_signal = len(fallacies)
