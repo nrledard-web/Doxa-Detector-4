@@ -1292,6 +1292,32 @@ def small_claim_epistemic_adjustment(sentence: str, claim_types: List[str], sent
 
     return 0.0, ""
 
+def detect_syllogisms(sentences: List[str]) -> List[Dict]:
+    syllogisms = []
+
+    conclusion_markers = [
+        "donc",
+        "par conséquent",
+        "ainsi",
+        "il s'ensuit que",
+        "cela montre que",
+        "cela prouve que"
+    ]
+
+    for i, s in enumerate(sentences):
+        s_lower = s.lower()
+
+        if any(contains_term(s_lower, marker) for marker in conclusion_markers):
+            context = sentences[max(0, i - 2): i + 1]
+
+            syllogisms.append({
+                "type": "inference_possible",
+                "conclusion": s,
+                "context": context
+            })
+
+    return syllogisms
+
 # -----------------------------
 # Cohérence discursive / nouveaux modules
 # -----------------------------
