@@ -3252,7 +3252,7 @@ def analyze_article(text: str) -> Dict:
     
     fallacies = detect_syllogistic_fallacies(syllogisms)
 
-        syllogism_signal = len(syllogisms)
+    syllogism_signal = len(syllogisms)
     enthymeme_signal = len(enthymemes)
     fallacy_signal = len(fallacies)
 
