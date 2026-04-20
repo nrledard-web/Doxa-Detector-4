@@ -1059,6 +1059,9 @@ class Claim:
     verifiability: float
     risk: float
     status: str
+    claim_types: List[str]
+    epistemic_note: str
+    short_adjustment: float
 
 
 SOURCE_CUES = [
