@@ -5203,6 +5203,28 @@ if result:
         st.info("Aucun enthymème détecté.")
 
     st.divider()
+st.subheader("Sophismes syllogistiques")
+
+if result.get("fallacies"):
+    for i, f in enumerate(result["fallacies"], start=1):
+        with st.expander(f"Sophisme détecté {i}", expanded=False):
+            st.write(f"**Type** : {f['type']}")
+            st.write(f"**Description** : {f['description']}")
+
+            s = f["syllogism"]
+
+            st.write("**Prémisse 1**")
+            st.write(s["premise_1"])
+
+            st.write("**Prémisse 2**")
+            st.write(s["premise_2"])
+
+            st.write("**Conclusion**")
+            st.write(s["conclusion"])
+else:
+    st.info("Aucun sophisme syllogistique détecté.")
+
+    st.divider()
     st.subheader(T["ai_module"])
     st.caption(T["ai_module_caption"])
 
