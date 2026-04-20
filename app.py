@@ -1532,108 +1532,16 @@ def detect_short_form_mode(text: str):
     if word_count < 25:
         return {
             "is_short_form": True,
-            "is_blocked": True,
             "word_count": word_count,
-            "label": "Texte trop court pour analyse",
-            "interpretation": (
-                "Moins de 25 mots : l’analyse est refusée. "
-                "Toute affirmation non étayée est considérée comme douteuse "
-                "par nécessité épistémique."
-            )
+            "label": "Mode aphorisme / texte court",
+            "interpretation": "Texte très court : les métriques factuelles et discursives doivent être lues avec prudence."
         }
 
     return {
         "is_short_form": False,
-        "is_blocked": False,
         "word_count": word_count,
         "label": "Texte standard",
         "interpretation": "Longueur suffisante pour une lecture discursive plus stable."
-    }
-
-def compute_short_text_bonus(text: str) -> dict:
-    words = tokenize_words(text)
-    word_count = len(words)
-
-    # Ne s'applique qu'aux textes courts mais exploitables
-    if word_count < 25 or word_count > 120:
-        return {
-            "active": False,
-            "bonus": 0.0,
-            "label": "Hors zone bonus",
-            "interpretation": "Bonus court inactif.",
-            "details": {}
-        }
-
-    text_lower = text.lower()
-
-    has_number = bool(re.search(r"\d+", text))
-    has_date = bool(
-        re.search(
-            r"\d{4}|janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre",
-            text,
-            re.I,
-        )
-    )
-    has_named_entity = bool(re.search(r"[A-Z][a-z]+(?:\s+[A-Z][a-z]+)+|[A-Z]{2,}", text))
-    has_source_cue = any(cue in text_lower for cue in SOURCE_CUES)
-
-    nuance_hits = sum(1 for term in NUANCE_MARKERS if contains_term(text_lower, term))
-    certainty_hits = sum(1 for term in CERTAINTY_TERMS if contains_term(text_lower, term))
-    emotional_hits = sum(1 for term in EMOTIONAL_INTENSITY_TERMS if contains_term(text_lower, term))
-    vague_authority_hits = sum(1 for term in VAGUE_AUTHORITY_TERMS if contains_term(text_lower, term))
-
-    anchor_score = 0.0
-    if has_number:
-        anchor_score += 0.30
-    if has_date:
-        anchor_score += 0.30
-    if has_named_entity:
-        anchor_score += 0.20
-    if has_source_cue:
-        anchor_score += 0.30
-    if nuance_hits > 0:
-        anchor_score += min(nuance_hits * 0.15, 0.30)
-
-    risk_penalty = 0.0
-    risk_penalty += min(certainty_hits * 0.20, 0.40)
-    risk_penalty += min(emotional_hits * 0.15, 0.30)
-    risk_penalty += min(vague_authority_hits * 0.15, 0.30)
-
-    # Petit bonus de densité pour les textes entre 25 et 40 mots
-    density_bonus = 0.20 if 25 <= word_count <= 40 else 0.0
-
-    raw_bonus = anchor_score - risk_penalty + density_bonus
-    bonus = round(clamp(raw_bonus, 0.0, 0.4), 2)
-
-    if bonus == 0:
-        label = "Aucun bonus"
-        interpretation = "Texte court, mais ancrage insuffisant pour mériter un rééquilibrage."
-    elif bonus < 0.5:
-        label = "Bonus faible"
-        interpretation = "Quelques indices d’ancrage compensent légèrement la brièveté."
-    elif bonus < 1.0:
-        label = "Bonus modéré"
-        interpretation = "Le texte court présente plusieurs indices minimaux de solidité."
-    else:
-        label = "Bonus fort"
-        interpretation = "Le texte court est bref, mais suffisamment ancré pour mériter un rééquilibrage net."
-
-    return {
-        "active": True,
-        "bonus": bonus,
-        "label": label,
-        "interpretation": interpretation,
-        "details": {
-            "word_count": word_count,
-            "has_number": has_number,
-            "has_date": has_date,
-            "has_named_entity": has_named_entity,
-            "has_source_cue": has_source_cue,
-            "nuance_hits": nuance_hits,
-            "certainty_hits": certainty_hits,
-            "emotional_hits": emotional_hits,
-            "vague_authority_hits": vague_authority_hits,
-        }
     }
 # -----------------------------
 # Nouvelles bibliothèques rhétoriques
@@ -2733,162 +2641,6 @@ def analyze_article(text: str) -> Dict:
     sentences = [s.strip() for s in re.split(r"[.!?]+", text) if len(s.strip()) > 10]
     article_length = len(words)
 
-    short_form_analysis = detect_short_form_mode(text)
-    short_text_bonus = compute_short_text_bonus(text)
-
-    if short_form_analysis["is_blocked"]:
-        return {
-            "words": len(words),
-            "sentences": len(sentences),
-            "G": 0.0,
-            "N": 0.0,
-            "D": 0.0,
-            "M": 0.0,
-            "ME_base": 0.0,
-            "ME": 0.0,
-            "L": 1.0,
-            "V": 0.0,
-            "R": 0.0,
-            "improved": 0.0,
-            "source_quality": 0.0,
-            "avg_claim_risk": 0.0,
-            "avg_claim_verifiability": 0.0,
-            "hard_fact_score": 0.0,
-            "verdict": "Analyse refusée",
-            "profil_solidite": "Analyse refusée",
-            "strengths": [],
-            "weaknesses": [
-                "Texte trop court pour analyse sérieuse.",
-                "Toute affirmation non étayée est considérée comme douteuse par nécessité épistémique."
-            ],
-            "claims": [],
-            "red_flags": ["Format insuffisant"],
-            "weighted_red_flags": [],
-            "credibility_penalty_total": 0.0,
-            "lie_boost_total": 0.0,
-
-            "short_form_mode": short_form_analysis["is_short_form"],
-            "short_form_blocked": short_form_analysis["is_blocked"],
-            "short_form_label": short_form_analysis["label"],
-            "short_form_interpretation": short_form_analysis["interpretation"],
-            "word_count_precise": short_form_analysis["word_count"],
-
-            "short_text_bonus": short_text_bonus["bonus"],
-            "short_text_bonus_label": short_text_bonus["label"],
-            "short_text_bonus_interpretation": short_text_bonus["interpretation"],
-            "short_text_bonus_details": short_text_bonus["details"],
-
-            "normative_score": 0.0,
-            "normative_terms": [],
-            "normative_judgment_markers": [],
-            "normative_interpretation": "",
-
-            "semantic_shift_score": 0.0,
-            "semantic_shift_markers": [],
-            "semantic_shift_interpretation": "",
-
-            "ideological_premise_score": 0.0,
-            "ideological_premise_markers": [],
-            "ideological_premise_interpretation": "",
-
-            "discursive_coherence_score": 0.0,
-            "discursive_coherence_label": "Analyse impossible",
-            "discursive_coherence_details": {},
-
-            "premise_score": 0.0,
-            "premise_markers": [],
-            "premise_interpretation": "",
-            "premise_details": {},
-
-            "logic_confusion_score": 0.0,
-            "logic_confusion_markers": [],
-            "logic_confusion_interpretation": "",
-            "logic_confusion_details": {},
-
-            "scientific_simulation_score": 0.0,
-            "scientific_simulation_markers": [],
-            "scientific_simulation_interpretation": "",
-            "scientific_simulation_details": {},
-
-            "causal_overreach_score": 0.0,
-            "causal_overreach_markers": [],
-            "causal_overreach_interpretation": "",
-
-            "vague_authority_score": 0.0,
-            "vague_authority_markers": [],
-            "vague_authority_interpretation": "",
-
-            "emotional_intensity_score": 0.0,
-            "emotional_intensity_markers": [],
-            "emotional_intensity_interpretation": "",
-
-            "generalization_score": 0.0,
-            "generalization_interpretation": "",
-            "generalization_markers": [],
-
-            "abstract_enemy_score": 0.0,
-            "abstract_enemy_interpretation": "",
-            "abstract_enemy_markers": [],
-
-            "certainty_score": 0.0,
-            "certainty_interpretation": "",
-            "certainty_markers": [],
-
-            "false_consensus_score": 0.0,
-            "false_consensus_interpretation": "",
-            "false_consensus_markers": [],
-
-            "binary_opposition_score": 0.0,
-            "binary_opposition_interpretation": "",
-            "binary_opposition_markers": [],
-
-            "threat_amplification_score": 0.0,
-            "threat_amplification_interpretation": "",
-            "threat_amplification_markers": [],
-
-            "false_analogy_score": 0.0,
-            "false_analogy_markers": [],
-            "false_analogy_interpretation": "",
-
-            "factual_overinterpretation_score": 0.0,
-            "factual_overinterpretation_markers": [],
-            "factual_overinterpretation_interpretation": "",
-
-            "internal_dissonance_score": 0.0,
-            "internal_dissonance_markers": [],
-            "internal_dissonance_interpretation": "",
-
-            "normative_saturation_score": 0.0,
-            "normative_saturation_markers": [],
-            "normative_saturation_interpretation": "",
-
-            "doxic_rigidity_score": 0.0,
-            "doxic_rigidity_markers": [],
-            "doxic_rigidity_interpretation": "",
-
-            "narrative_overdetermination_score": 0.0,
-            "narrative_overdetermination_markers": [],
-            "narrative_overdetermination_interpretation": "",
-
-            "propaganda_score": 0.0,
-            "propaganda_enemy_terms": [],
-            "propaganda_urgency_terms": [],
-            "propaganda_certainty_terms": [],
-            "propaganda_emotional_terms": [],
-            "propaganda_interpretation": "",
-
-            "linguistic_trigger_count": 0,
-            "linguistic_pressure_hits": 0,
-            "absolute_claims": 0,
-            "vague_authority": 0,
-            "dramatic_framing": 0,
-            "lack_of_nuance": 0,
-            "political_pattern_score": 0,
-            "political_results": {},
-            "matched_terms": {},
-            "rhetorical_pressure": 0.0,
-        }
-
     source_markers = len(re.findall(r"|".join(re.escape(c) for c in SOURCE_CUES), text.lower()))
     citation_like = len(re.findall(r'"|\'|«|»', text))
     nuance_markers = len(re.findall(r"|".join(re.escape(c) for c in NUANCE_MARKERS), text.lower()))
@@ -2902,6 +2654,7 @@ def analyze_article(text: str) -> Dict:
     logic_confusion_analysis = compute_logic_confusion(text)
     scientific_simulation_analysis = compute_scientific_simulation(text)
     propaganda_analysis = detect_propaganda_narrative(text)
+    short_form_analysis = detect_short_form_mode(text)
     causal_overreach_analysis = compute_causal_overreach(text)
     vague_authority_analysis = compute_vague_authority(text)
     emotional_intensity_analysis = compute_emotional_intensity(text)
@@ -2997,18 +2750,23 @@ def analyze_article(text: str) -> Dict:
         (0.18 * G + 0.12 * N + 0.20 * V + 0.22 * source_quality + 0.18 * avg_claim_verifiability)
         - (0.16 * D + 0.12 * R + 0.18 * avg_claim_risk + penalties["credibility_penalty"])
     )
-    hard_fact_score = round(
-        clamp(hard_fact_score_raw + 8 + short_text_bonus["bonus"], 0, 20),
-        1
-    )
-
-    if short_form_analysis["is_short_form"] and short_form_analysis["word_count"] < 25:
-        hard_fact_score = round(clamp(hard_fact_score - 1.5, 0, 20), 1)
+    hard_fact_score = round(clamp(hard_fact_score_raw + 8, 0, 20), 1)
 
     if hard_fact_score < 6:
         verdict = T["low_credibility"]
     elif hard_fact_score < 10:
-        verdict = "Non démontré"
+        verdict = T["prudent_credibility"]
+    elif hard_fact_score < 15:
+        verdict = T["rather_credible"]
+    else:
+        verdict = T["strong_credibility"]
+
+    if short_form_analysis["is_short_form"]:
+        hard_fact_score = round(clamp(hard_fact_score - 1.5, 0, 20), 1)
+    if hard_fact_score < 6:
+        verdict = T["low_credibility"]
+    elif hard_fact_score < 10:
+        verdict = T["prudent_credibility"]
     elif hard_fact_score < 15:
         verdict = T["rather_credible"]
     else:
@@ -3679,11 +3437,8 @@ if analyze_submitted:
     st.session_state.last_result = analyze_article(article)
     st.session_state.last_article = article
 
-result = st.session_state.get("last_result", None)
-article_for_analysis = st.session_state.get("last_article", "")
-
-if not isinstance(result, dict):
-    result = None
+result = st.session_state.last_result
+article_for_analysis = st.session_state.last_article
 
 if result:
     col1, col2, col3 = st.columns(3)
@@ -3707,12 +3462,6 @@ if result:
     
     if result.get("short_form_mode"):
         st.info(f"{result['short_form_label']} — {result['short_form_interpretation']}")
-        if result.get("short_text_bonus", 0) > 0:
-            st.success(
-            f"Bonus texte court : +{result['short_text_bonus']} — "
-            f"{result['short_text_bonus_label']}"
-        )
-        st.caption(result["short_text_bonus_interpretation"])    
         
     st.caption("Sur cette échelle, un texte véritablement crédible se situe généralement dans la zone robuste.")
 
@@ -4103,25 +3852,18 @@ if result:
         )
         st.caption(result["discursive_coherence_label"])
 
-with st.expander("Voir le détail", expanded=False):
-    d = result.get("discursive_coherence_details", {})
-
-    st.write(f"**Logique discursive** : {d.get('logic_score', 0)}/5")
-    st.write(f"**Stabilité thématique** : {d.get('stability_score', 0)}/4")
-    st.write(f"**Longueur utile** : {d.get('length_score', 0)}/5")
-    st.write(f"**Cohérence entre paragraphes** : {d.get('paragraph_score', 0)}/4")
-    st.write(f"**Pénalité de contradiction** : -{d.get('contradiction_penalty', 0)}")
-    st.write(f"**Pénalité de rupture thématique** : -{d.get('topic_shift_penalty', 0)}")
-
-    top_keywords = d.get("top_keywords", [])
-    if top_keywords:
-        st.write("**Mots-clés dominants**")
-        for item in top_keywords:
-            if isinstance(item, (list, tuple)) and len(item) == 2:
-                word, count = item
-                st.write(f"- {word} ({count})")
-    else:
-        st.info("Aucun mot-clé dominant disponible.")
+        with st.expander("Voir le détail", expanded=False):
+            d = result["discursive_coherence_details"]
+            st.write(f"**Logique discursive** : {d['logic_score']}/5")
+            st.write(f"**Stabilité thématique** : {d['stability_score']}/4")
+            st.write(f"**Longueur utile** : {d['length_score']}/5")
+            st.write(f"**Cohérence entre paragraphes** : {d['paragraph_score']}/4")
+            st.write(f"**Pénalité de contradiction** : -{d['contradiction_penalty']}")
+            st.write(f"**Pénalité de rupture thématique** : -{d['topic_shift_penalty']}")
+            if d["top_keywords"]:
+                st.write("**Mots-clés dominants**")
+                for word, count in d["top_keywords"]:
+                    st.write(f"- {word} ({count})")
 
     # -----------------------------
     # 5) Confusion logique
@@ -4713,7 +4455,7 @@ with st.expander("Voir le détail", expanded=False):
                 for marker in markers:
                     st.warning(marker)
 
-    # -----------------------------
+        # -----------------------------
     # 17) Prémisses idéologiques implicites
     # -----------------------------
     with row6_col2:
@@ -4747,7 +4489,7 @@ with st.expander("Voir le détail", expanded=False):
                 for marker in markers:
                     st.warning(marker)
 
-    # -----------------------------
+        # -----------------------------
     # 18) Clôture cognitive
     # -----------------------------
     with row6_col3:
@@ -4777,7 +4519,7 @@ with st.expander("Voir le détail", expanded=False):
             unsafe_allow_html=True
         )
         st.caption("Plus la certitude domine G + N, plus le texte se ferme.")
-
+                
     with st.expander("Voir les manœuvres discursives détectées", expanded=False):
         if result["political_pattern_score"] == 0:
             st.info("Aucun marqueur rhétorique politique saillant détecté.")
@@ -4840,7 +4582,6 @@ with st.expander("Voir le détail", expanded=False):
     c3, c4 = st.columns(2)
     c3.metric(T["revisability"], round(revisability, 2))
     c4.metric(T["cognitive_closure"], round(closure, 2))
-
     st.divider()
     st.subheader("Jauge de clôture cognitive")
 
@@ -4856,11 +4597,12 @@ with st.expander("Voir le détail", expanded=False):
     render_custom_gauge(closure_gauge, closure_color)
 
     st.markdown(
-        f"<b style='color:{closure_color}'>{closure_label}</b> — {round(closure, 2)}",
+        f"<b style='color:{closure_color}'>{closure_label}</b> — {round(closure,2)}",
         unsafe_allow_html=True
     )
 
     st.caption("Ouverture cognitive ⟵⟶ Clôture cognitive")
+
     st.caption(closure_text)
     st.markdown(f"**{T['interpretation']} :** {cog.interpret()}")
 
@@ -4903,17 +4645,14 @@ with st.expander("Voir le détail", expanded=False):
         st.divider()
         st.subheader(T["external_corroboration_module"])
         st.caption(T["external_corroboration_caption"])
-
         with st.spinner(T["corroboration_in_progress"]):
             corroboration = corroborate_claims(article_for_analysis, max_claims=5, max_results_per_claim=3)
-
         if corroboration:
             for i, item in enumerate(corroboration, start=1):
                 title_preview = item["claim"][:140] + ("..." if len(item["claim"]) > 140 else "")
                 with st.expander(f"{T['claim']} {i} : {title_preview}", expanded=(i == 1)):
                     st.markdown(f"**{T['corroboration_verdict']} :** {display_corroboration_verdict(item['verdict'])}")
                     st.markdown(f"**{T['generated_query']} :** `{item['query']}`")
-
                     if item["matches"]:
                         for match in item["matches"]:
                             st.markdown(f"**[{match['title']}]({match['url']})**")
@@ -4927,6 +4666,8 @@ with st.expander("Voir le détail", expanded=False):
                         st.warning(T["no_strong_sources_found"])
         else:
             st.info(T["no_corroboration_found"])
+else:
+    st.info(T["paste_text_or_load_url"])
 
 # -----------------------------
 # Méthode
@@ -4946,51 +4687,6 @@ if show_method:
         f"- **{T['cognitive_closure']}** : `(D * S) / (G + N)`\n\n"
         f"{T['disclaimer']}"
     )
-
-with st.expander("Principe épistémique de l'analyse", expanded=False):
-
-    st.markdown("""
-Cette application n’a pas pour objectif de déterminer la vérité absolue d’un énoncé.
-Elle analyse la **structure cognitive et discursive d’un texte** afin d’identifier
-certaines configurations associées aux discours fragiles ou trompeurs :
-affirmation non étayée, mécroyance, manipulation rhétorique, mensonge probable
-ou, dans certains cas, mensonge avéré.
-
-L’analyse ne juge donc pas directement la vérité des propositions.
-Elle évalue **dans quelle mesure les affirmations sont soutenues par des éléments vérifiables**.
-
-### Principe méthodologique
-
-Une affirmation brève qui ne présente **ni sources, ni données vérifiables,
-ni contexte explicatif suffisant** ne peut pas être considérée comme crédible
-du point de vue de l’analyse épistémique.
-
-Cela ne signifie pas que l’assertion est fausse.
-Cela signifie simplement que **les informations nécessaires pour en évaluer
-la fiabilité ne sont pas présentes dans le texte analysé**.
-
-Dans ce cas, l’assertion est classée comme **épistémiquement douteuse
-par nécessité méthodologique**.
-
-### Modèle d’analyse cognitive
-
-L’analyse s’appuie sur la structure suivante :
-
-**M = (G + N) − D**
-
-où :
-
-- **G** représente les éléments de connaissance mobilisés dans le discours (faits, données, sources)
-- **N** représente l’intégration explicative et contextuelle
-- **D** représente le degré d’affirmation ou de certitude exprimé
-
-Lorsque le niveau d’affirmation dépasse les éléments disponibles pour soutenir l’énoncé,
-la structure discursive devient fragile et peut correspondre à une **configuration
-de mécroyance, à une affirmation non démontrée ou à un mensonge probable**.
-
-Dans certains cas, lorsque l’assertion contredit directement des faits établis
-et vérifiables, l’analyse peut également signaler **un mensonge avéré**.
-""")
 
 
 # -----------------------------
