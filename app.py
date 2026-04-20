@@ -2924,10 +2924,6 @@ def analyze_article(text: str) -> Dict:
         "threat_amplification_interpretation": threat_amplification_analysis[1],
         "threat_amplification_markers": threat_amplification_analysis[2],
 
-                "ideological_premise_score": ideological_premise_analysis["score"],
-        "ideological_premise_markers": ideological_premise_analysis["markers"],
-        "ideological_premise_interpretation": ideological_premise_analysis["interpretation"],
-
         "false_analogy_score": false_analogy_analysis["score"],
         "false_analogy_markers": false_analogy_analysis["markers"],
         "false_analogy_interpretation": false_analogy_analysis["interpretation"],
