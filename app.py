@@ -1318,6 +1318,31 @@ def detect_syllogisms(sentences: List[str]) -> List[Dict]:
 
     return syllogisms
 
+def compute_factual_sobriety_bonus(sentence: str, claim_types: List[str], risk: float, red_flags: List[str]):
+    words = len(sentence.split())
+
+    toxic_flags = {
+        "generalization",
+        "false_causality",
+        "absolute_certainty",
+        "hidden_intent",
+        "propaganda",
+    }
+
+    if words > 22:
+        return 0.0, ""
+
+    if any(flag in toxic_flags for flag in red_flags):
+        return 0.0, ""
+
+    if risk >= 7:
+        return 0.0, ""
+
+    if "quantitative" in claim_types or "factual_or_undetermined" in claim_types:
+        return 1.8, "Affirmation courte et sobre : peu de signaux rhétoriques ou manipulatoires."
+
+    return 0.0, ""
+
 # -----------------------------
 # Cohérence discursive / nouveaux modules
 # -----------------------------
