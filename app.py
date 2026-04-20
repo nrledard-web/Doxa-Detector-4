@@ -1549,6 +1549,92 @@ def detect_short_form_mode(text: str):
         "label": "Texte standard",
         "interpretation": "Longueur suffisante pour une lecture discursive plus stable."
     }
+
+def compute_short_text_bonus(text: str) -> dict:
+    words = tokenize_words(text)
+    word_count = len(words)
+
+    # Ne s'applique qu'aux textes courts mais exploitables
+    if word_count < 25 or word_count > 120:
+        return {
+            "active": False,
+            "bonus": 0.0,
+            "label": "Hors zone bonus",
+            "interpretation": "Bonus court inactif.",
+            "details": {}
+        }
+
+    text_lower = text.lower()
+
+    has_number = bool(re.search(r"\d+", text))
+    has_date = bool(
+        re.search(
+            r"\d{4}|janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre",
+            text,
+            re.I,
+        )
+    )
+    has_named_entity = bool(re.search(r"[A-Z][a-z]+(?:\s+[A-Z][a-z]+)+|[A-Z]{2,}", text))
+    has_source_cue = any(cue in text_lower for cue in SOURCE_CUES)
+
+    nuance_hits = sum(1 for term in NUANCE_MARKERS if contains_term(text_lower, term))
+    certainty_hits = sum(1 for term in CERTAINTY_TERMS if contains_term(text_lower, term))
+    emotional_hits = sum(1 for term in EMOTIONAL_INTENSITY_TERMS if contains_term(text_lower, term))
+    vague_authority_hits = sum(1 for term in VAGUE_AUTHORITY_TERMS if contains_term(text_lower, term))
+
+    anchor_score = 0.0
+    if has_number:
+        anchor_score += 0.30
+    if has_date:
+        anchor_score += 0.30
+    if has_named_entity:
+        anchor_score += 0.20
+    if has_source_cue:
+        anchor_score += 0.30
+    if nuance_hits > 0:
+        anchor_score += min(nuance_hits * 0.15, 0.30)
+
+    risk_penalty = 0.0
+    risk_penalty += min(certainty_hits * 0.20, 0.40)
+    risk_penalty += min(emotional_hits * 0.15, 0.30)
+    risk_penalty += min(vague_authority_hits * 0.15, 0.30)
+
+    # Petit bonus de densité pour les textes entre 25 et 40 mots
+    density_bonus = 0.20 if 25 <= word_count <= 40 else 0.0
+
+    raw_bonus = anchor_score - risk_penalty + density_bonus
+    bonus = round(clamp(raw_bonus, 0.0, 1.5), 2)
+
+    if bonus == 0:
+        label = "Aucun bonus"
+        interpretation = "Texte court, mais ancrage insuffisant pour mériter un rééquilibrage."
+    elif bonus < 0.5:
+        label = "Bonus faible"
+        interpretation = "Quelques indices d’ancrage compensent légèrement la brièveté."
+    elif bonus < 1.0:
+        label = "Bonus modéré"
+        interpretation = "Le texte court présente plusieurs indices minimaux de solidité."
+    else:
+        label = "Bonus fort"
+        interpretation = "Le texte court est bref, mais suffisamment ancré pour mériter un rééquilibrage net."
+
+    return {
+        "active": True,
+        "bonus": bonus,
+        "label": label,
+        "interpretation": interpretation,
+        "details": {
+            "word_count": word_count,
+            "has_number": has_number,
+            "has_date": has_date,
+            "has_named_entity": has_named_entity,
+            "has_source_cue": has_source_cue,
+            "nuance_hits": nuance_hits,
+            "certainty_hits": certainty_hits,
+            "emotional_hits": emotional_hits,
+            "vague_authority_hits": vague_authority_hits,
+        }
+    }
 # -----------------------------
 # Nouvelles bibliothèques rhétoriques
 # -----------------------------
