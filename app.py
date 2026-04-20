@@ -2647,6 +2647,156 @@ def analyze_article(text: str) -> Dict:
     sentences = [s.strip() for s in re.split(r"[.!?]+", text) if len(s.strip()) > 10]
     article_length = len(words)
 
+    short_form_analysis = detect_short_form_mode(text)
+
+    if short_form_analysis["is_blocked"]:
+        return {
+            "words": len(words),
+            "sentences": len(sentences),
+            "G": 0.0,
+            "N": 0.0,
+            "D": 0.0,
+            "M": 0.0,
+            "ME_base": 0.0,
+            "ME": 0.0,
+            "L": 1.0,
+            "V": 0.0,
+            "R": 0.0,
+            "improved": 0.0,
+            "source_quality": 0.0,
+            "avg_claim_risk": 0.0,
+            "avg_claim_verifiability": 0.0,
+            "hard_fact_score": 0.0,
+            "verdict": "Analyse refusée",
+            "profil_solidite": "Analyse refusée",
+            "strengths": [],
+            "weaknesses": [
+                "Texte trop court pour analyse sérieuse.",
+                "Toute affirmation non étayée est considérée comme douteuse par nécessité épistémique."
+            ],
+            "claims": [],
+            "red_flags": ["Format insuffisant"],
+            "weighted_red_flags": [],
+            "credibility_penalty_total": 0.0,
+            "lie_boost_total": 0.0,
+
+            "short_form_mode": short_form_analysis["is_short_form"],
+            "short_form_blocked": short_form_analysis["is_blocked"],
+            "short_form_label": short_form_analysis["label"],
+            "short_form_interpretation": short_form_analysis["interpretation"],
+            "word_count_precise": short_form_analysis["word_count"],
+
+            "normative_score": 0.0,
+            "normative_terms": [],
+            "normative_judgment_markers": [],
+            "normative_interpretation": "",
+
+            "semantic_shift_score": 0.0,
+            "semantic_shift_markers": [],
+            "semantic_shift_interpretation": "",
+
+            "ideological_premise_score": 0.0,
+            "ideological_premise_markers": [],
+            "ideological_premise_interpretation": "",
+
+            "discursive_coherence_score": 0.0,
+            "discursive_coherence_label": "Analyse impossible",
+            "discursive_coherence_details": {},
+
+            "premise_score": 0.0,
+            "premise_markers": [],
+            "premise_interpretation": "",
+            "premise_details": {},
+
+            "logic_confusion_score": 0.0,
+            "logic_confusion_markers": [],
+            "logic_confusion_interpretation": "",
+            "logic_confusion_details": {},
+
+            "scientific_simulation_score": 0.0,
+            "scientific_simulation_markers": [],
+            "scientific_simulation_interpretation": "",
+            "scientific_simulation_details": {},
+
+            "causal_overreach_score": 0.0,
+            "causal_overreach_markers": [],
+            "causal_overreach_interpretation": "",
+
+            "vague_authority_score": 0.0,
+            "vague_authority_markers": [],
+            "vague_authority_interpretation": "",
+
+            "emotional_intensity_score": 0.0,
+            "emotional_intensity_markers": [],
+            "emotional_intensity_interpretation": "",
+
+            "generalization_score": 0.0,
+            "generalization_interpretation": "",
+            "generalization_markers": [],
+
+            "abstract_enemy_score": 0.0,
+            "abstract_enemy_interpretation": "",
+            "abstract_enemy_markers": [],
+
+            "certainty_score": 0.0,
+            "certainty_interpretation": "",
+            "certainty_markers": [],
+
+            "false_consensus_score": 0.0,
+            "false_consensus_interpretation": "",
+            "false_consensus_markers": [],
+
+            "binary_opposition_score": 0.0,
+            "binary_opposition_interpretation": "",
+            "binary_opposition_markers": [],
+
+            "threat_amplification_score": 0.0,
+            "threat_amplification_interpretation": "",
+            "threat_amplification_markers": [],
+
+            "false_analogy_score": 0.0,
+            "false_analogy_markers": [],
+            "false_analogy_interpretation": "",
+
+            "factual_overinterpretation_score": 0.0,
+            "factual_overinterpretation_markers": [],
+            "factual_overinterpretation_interpretation": "",
+
+            "internal_dissonance_score": 0.0,
+            "internal_dissonance_markers": [],
+            "internal_dissonance_interpretation": "",
+
+            "normative_saturation_score": 0.0,
+            "normative_saturation_markers": [],
+            "normative_saturation_interpretation": "",
+
+            "doxic_rigidity_score": 0.0,
+            "doxic_rigidity_markers": [],
+            "doxic_rigidity_interpretation": "",
+
+            "narrative_overdetermination_score": 0.0,
+            "narrative_overdetermination_markers": [],
+            "narrative_overdetermination_interpretation": "",
+
+            "propaganda_score": 0.0,
+            "propaganda_enemy_terms": [],
+            "propaganda_urgency_terms": [],
+            "propaganda_certainty_terms": [],
+            "propaganda_emotional_terms": [],
+            "propaganda_interpretation": "",
+
+            "linguistic_trigger_count": 0,
+            "linguistic_pressure_hits": 0,
+            "absolute_claims": 0,
+            "vague_authority": 0,
+            "dramatic_framing": 0,
+            "lack_of_nuance": 0,
+            "political_pattern_score": 0,
+            "political_results": {},
+            "matched_terms": {},
+            "rhetorical_pressure": 0.0,
+        }
+
     source_markers = len(re.findall(r"|".join(re.escape(c) for c in SOURCE_CUES), text.lower()))
     citation_like = len(re.findall(r'"|\'|«|»', text))
     nuance_markers = len(re.findall(r"|".join(re.escape(c) for c in NUANCE_MARKERS), text.lower()))
