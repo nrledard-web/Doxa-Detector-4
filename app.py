@@ -2775,6 +2775,8 @@ def analyze_claim(sentence: str) -> Claim:
 
     claim_types = classify_claim_type(sentence)
     sentence_red_flags = compute_sentence_red_flags(sentence)
+    aristotelian_type = detect_aristotelian_proposition(sentence)
+    subject_term, predicate_term = extract_categorical_terms(sentence)
 
     # Vérifiabilité brute
     v_score = clamp(
