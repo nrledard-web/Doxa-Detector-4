@@ -2730,7 +2730,7 @@ def analyze_article(text: str) -> Dict:
 
     hard_fact_score_raw = (
         (0.18 * G + 0.12 * N + 0.20 * V + 0.22 * source_quality + 0.18 * avg_claim_verifiability)
-        - (0.16 * D + 0.12 * R + 0.18 * avg_claim_risk + 0.9 * len(red_flags))
+        - (0.16 * D + 0.12 * R + 0.18 * avg_claim_risk + penalties["credibility_penalty"])
     )
     hard_fact_score = round(clamp(hard_fact_score_raw + 8, 0, 20), 1)
 
