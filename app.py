@@ -2865,6 +2865,11 @@ def analyze_article(text: str) -> Dict:
     improved = round((G + N + V) - (D + R), 1)
 
     # -----------------------------
+    # Syllogismes / inférences
+    # -----------------------------
+    syllogisms = detect_syllogisms(sentences)
+
+    # -----------------------------
     # Claims
     # -----------------------------
     claims = [analyze_claim(s) for s in sentences[:15]]
