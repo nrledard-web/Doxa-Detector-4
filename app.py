@@ -5153,7 +5153,7 @@ if result:
     else:
         st.info(T["paste_longer_text"])
 
-        st.divider()
+    st.divider()
     st.subheader("Analyse syllogistique")
 
     if result.get("syllogisms"):
@@ -5181,7 +5181,7 @@ if result:
     else:
         st.info("Aucun syllogisme détecté.")
 
-        st.divider()
+    st.divider()
     st.subheader("Enthymèmes détectés")
 
     if result.get("enthymemes"):
@@ -5203,26 +5203,26 @@ if result:
         st.info("Aucun enthymème détecté.")
 
     st.divider()
-st.subheader("Sophismes syllogistiques")
+    st.subheader("Sophismes syllogistiques")
 
-if result.get("fallacies"):
-    for i, f in enumerate(result["fallacies"], start=1):
-        with st.expander(f"Sophisme détecté {i}", expanded=False):
-            st.write(f"**Type** : {f['type']}")
-            st.write(f"**Description** : {f['description']}")
+    if result.get("fallacies"):
+        for i, f in enumerate(result["fallacies"], start=1):
+            with st.expander(f"Sophisme détecté {i}", expanded=False):
+                st.write(f"**Type** : {f['type']}")
+                st.write(f"**Description** : {f['description']}")
 
-            s = f["syllogism"]
+                s = f["syllogism"]
 
-            st.write("**Prémisse 1**")
-            st.write(s["premise_1"])
+                st.write("**Prémisse 1**")
+                st.write(s["premise_1"])
 
-            st.write("**Prémisse 2**")
-            st.write(s["premise_2"])
+                st.write("**Prémisse 2**")
+                st.write(s["premise_2"])
 
-            st.write("**Conclusion**")
-            st.write(s["conclusion"])
-else:
-    st.info("Aucun sophisme syllogistique détecté.")
+                st.write("**Conclusion**")
+                st.write(s["conclusion"])
+    else:
+        st.info("Aucun sophisme syllogistique détecté.")
 
     st.divider()
     st.subheader(T["ai_module"])
