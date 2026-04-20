@@ -3679,8 +3679,11 @@ if analyze_submitted:
     st.session_state.last_result = analyze_article(article)
     st.session_state.last_article = article
 
-result = st.session_state.last_result
-article_for_analysis = st.session_state.last_article
+result = st.session_state.get("last_result", None)
+article_for_analysis = st.session_state.get("last_article", "")
+
+if not isinstance(result, dict):
+    result = None
 
 if result:
     col1, col2, col3 = st.columns(3)
