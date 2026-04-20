@@ -1240,6 +1240,13 @@ def extract_categorical_terms(sentence: str):
     s = re.sub(r"[^\wÀ-ÿ'\- ]", " ", s)
     s = re.sub(r"\s+", " ", s).strip()
 
+    # enlever les marqueurs conclusifs en tête de phrase
+    s = re.sub(
+        r"^(donc|ainsi|par conséquent|il s'ensuit que|il s’ensuit que|cela montre que|cela prouve que)\s+",
+        "",
+        s
+    )
+
     patterns = [
         r"^(tous les|toutes les|tous|toutes|chaque)\s+(.+?)\s+sont\s+(.+)$",
         r"^(aucun|nul)\s+(.+?)\s+n[’']?est\s+(.+)$",
