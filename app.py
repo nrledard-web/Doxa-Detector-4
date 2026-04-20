@@ -2618,6 +2618,18 @@ def compute_red_flag_penalties(metrics: dict) -> dict:
             "Le lexique oriente l’interprétation en amont de la preuve."
         )
 
+    if (
+        metrics["vague_authority_score"] >= 0.30
+        and metrics["factual_overinterpretation_score"] >= 0.30
+        and metrics["certainty_score"] >= 0.20
+    ):
+        add_flag(
+            "Projection spectaculaire fragile",
+            2.2,
+            1.5,
+            "Le texte avance une projection forte à partir d’un ancrage documentaire insuffisant."
+        )
+
     return {
         "flags": red_flags,
         "credibility_penalty": round(min(credibility_penalty, 8.0), 2),
