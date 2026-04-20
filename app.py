@@ -1307,19 +1307,30 @@ def detect_syllogisms_from_claims(claims: List[Claim]) -> List[Dict]:
         c3 = claims[i + 2]
 
         c3_lower = c3.text.lower().strip()
-        if not any(contains_term(c3_lower, marker) or c3_lower.startswith(marker + " ") for marker in conclusion_markers):
-            continue
 
+        has_conclusion_marker = any(
+            contains_term(c3_lower, marker) or c3_lower.startswith(marker + " ")
+            for marker in conclusion_markers
+        )
+
+        # On accepte aussi les triplets catégoriques même sans "donc"
+        if not has_conclusion_marker:
+            if not (c1.aristotelian_type and c2.aristotelian_type and c3.aristotelian_type):
+                continue
+
+        # Il faut au moins les deux prémisses bien extraites
         if not all([
             c1.subject_term, c1.predicate_term,
-            c2.subject_term, c2.predicate_term,
-            c3.subject_term, c3.predicate_term
+            c2.subject_term, c2.predicate_term
         ]):
             continue
 
-        p1s, p1p = normalize_term(c1.subject_term), normalize_term(c1.predicate_term)
-        p2s, p2p = normalize_term(c2.subject_term), normalize_term(c2.predicate_term)
-        cs, cp = normalize_term(c3.subject_term), normalize_term(c3.predicate_term)
+        p1s = normalize_term(c1.subject_term)
+        p1p = normalize_term(c1.predicate_term)
+        p2s = normalize_term(c2.subject_term)
+        p2p = normalize_term(c2.predicate_term)
+        cs = normalize_term(c3.subject_term) if c3.subject_term else None
+        cp = normalize_term(c3.predicate_term) if c3.predicate_term else None
 
         terms_p1 = {p1s, p1p}
         terms_p2 = {p2s, p2p}
