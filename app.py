@@ -2766,6 +2766,7 @@ def analyze_article(text: str) -> Dict:
 
     if short_form_analysis["word_count"] < 25:
         hard_fact_score = round(clamp(hard_fact_score - 1.5, 0, 20), 1)
+
     if hard_fact_score < 6:
         verdict = T["low_credibility"]
     elif hard_fact_score < 10:
@@ -2775,9 +2776,6 @@ def analyze_article(text: str) -> Dict:
     else:
         verdict = T["strong_credibility"]
 
-        short_phrase_interpretation = None
-    short_phrase_doubt_index = None
-
     if short_form_analysis["word_count"] < 30:
         short_phrase_doubt_index = round(((20 - hard_fact_score) / 20) * 100, 1)
 
@@ -2786,6 +2784,17 @@ def analyze_article(text: str) -> Dict:
                 "Phrase très courte : l’indice de doute est élevé. "
                 "Cela indique une forte probabilité structurelle d’erreur, "
                 "car l’affirmation n’est pas suffisamment étayée."
+            )
+        elif short_phrase_doubt_index <= 30:
+            short_phrase_interpretation = (
+                "Phrase très courte : l’indice de doute est faible. "
+                "L’assertion apparaît structurellement plus plausible que douteuse, "
+                "sans que le texte fournisse pour autant une démonstration complète."
+            )
+        else:
+            short_phrase_interpretation = (
+                "Phrase très courte : l’assertion reste dans une zone intermédiaire. "
+                "Elle n’est ni clairement fragile ni suffisamment étayée."
             )
         elif short_phrase_doubt_index <= 30:
             short_phrase_interpretation = (
