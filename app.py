@@ -2729,12 +2729,12 @@ def analyze_article(text: str) -> Dict:
     avg_claim_verifiability = sum(c.verifiability for c in claims) / len(claims) if claims else 0
     avg_claim_risk = sum(c.risk for c in claims) / len(claims) if claims else 0
     source_quality = clamp(
-    source_markers * 2
-    - (emotional * 2)
-    - (vague_authority_analysis["score"] * 8),
-    0,
-    20
-)
+        source_markers * 2
+        - (emotional * 2)
+        - (vague_authority_analysis["score"] * 8),
+        0,
+        20
+    )
 
     red_flags = []
     if D > 8:
