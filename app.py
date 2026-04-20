@@ -4752,9 +4752,12 @@ if result:
         [
             {
                 T["claim"]: c.text,
+                "Type": ", ".join(c.claim_types),
                 T["status"]: c.status,
                 f"{T['verifiability']} /20": c.verifiability,
                 f"{T['risk']} /20": c.risk,
+                "Ajustement": c.short_adjustment,
+                "Note épistémique": c.epistemic_note,
                 T["number"]: T["yes"] if c.has_number else T["no"],
                 T["date"]: T["yes"] if c.has_date else T["no"],
                 T["named_entity"]: T["yes"] if c.has_named_entity else T["no"],
