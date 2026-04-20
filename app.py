@@ -4710,7 +4710,7 @@ with st.expander("Voir le détail", expanded=False):
                 for marker in markers:
                     st.warning(marker)
 
-        # -----------------------------
+    # -----------------------------
     # 17) Prémisses idéologiques implicites
     # -----------------------------
     with row6_col2:
@@ -4744,7 +4744,7 @@ with st.expander("Voir le détail", expanded=False):
                 for marker in markers:
                     st.warning(marker)
 
-        # -----------------------------
+    # -----------------------------
     # 18) Clôture cognitive
     # -----------------------------
     with row6_col3:
@@ -4774,7 +4774,7 @@ with st.expander("Voir le détail", expanded=False):
             unsafe_allow_html=True
         )
         st.caption("Plus la certitude domine G + N, plus le texte se ferme.")
-                
+
     with st.expander("Voir les manœuvres discursives détectées", expanded=False):
         if result["political_pattern_score"] == 0:
             st.info("Aucun marqueur rhétorique politique saillant détecté.")
@@ -4837,6 +4837,7 @@ with st.expander("Voir le détail", expanded=False):
     c3, c4 = st.columns(2)
     c3.metric(T["revisability"], round(revisability, 2))
     c4.metric(T["cognitive_closure"], round(closure, 2))
+
     st.divider()
     st.subheader("Jauge de clôture cognitive")
 
@@ -4852,12 +4853,11 @@ with st.expander("Voir le détail", expanded=False):
     render_custom_gauge(closure_gauge, closure_color)
 
     st.markdown(
-        f"<b style='color:{closure_color}'>{closure_label}</b> — {round(closure,2)}",
+        f"<b style='color:{closure_color}'>{closure_label}</b> — {round(closure, 2)}",
         unsafe_allow_html=True
     )
 
     st.caption("Ouverture cognitive ⟵⟶ Clôture cognitive")
-
     st.caption(closure_text)
     st.markdown(f"**{T['interpretation']} :** {cog.interpret()}")
 
@@ -4900,14 +4900,17 @@ with st.expander("Voir le détail", expanded=False):
         st.divider()
         st.subheader(T["external_corroboration_module"])
         st.caption(T["external_corroboration_caption"])
+
         with st.spinner(T["corroboration_in_progress"]):
             corroboration = corroborate_claims(article_for_analysis, max_claims=5, max_results_per_claim=3)
+
         if corroboration:
             for i, item in enumerate(corroboration, start=1):
                 title_preview = item["claim"][:140] + ("..." if len(item["claim"]) > 140 else "")
                 with st.expander(f"{T['claim']} {i} : {title_preview}", expanded=(i == 1)):
                     st.markdown(f"**{T['corroboration_verdict']} :** {display_corroboration_verdict(item['verdict'])}")
                     st.markdown(f"**{T['generated_query']} :** `{item['query']}`")
+
                     if item["matches"]:
                         for match in item["matches"]:
                             st.markdown(f"**[{match['title']}]({match['url']})**")
