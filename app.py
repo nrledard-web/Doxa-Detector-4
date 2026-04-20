@@ -2546,6 +2546,84 @@ def analyze_claim(sentence: str) -> Claim:
         status=status,
     )
 
+def compute_red_flag_penalties(metrics: dict) -> dict:
+    red_flags = []
+    credibility_penalty = 0.0
+    lie_boost = 0.0
+
+    def add_flag(name, cred, lie, reason):
+        nonlocal credibility_penalty, lie_boost
+        red_flags.append({
+            "name": name,
+            "cred_penalty": cred,
+            "lie_boost": lie,
+            "reason": reason,
+        })
+        credibility_penalty += cred
+        lie_boost += lie
+
+    if metrics["G"] < 2 and metrics["vague_authority_score"] >= 0.30:
+        add_flag(
+            "Autorité sans ancrage",
+            1.8,
+            0.8,
+            "Le texte invoque des experts ou études sans base documentaire suffisante."
+        )
+
+    if metrics["certainty_score"] >= 0.35 and metrics["doxic_rigidity_score"] >= 0.35:
+        add_flag(
+            "Certitude saturée",
+            1.6,
+            1.2,
+            "Le discours affirme plus qu’il ne démontre."
+        )
+
+    if metrics["causal_overreach_score"] >= 0.35 and metrics["factual_overinterpretation_score"] >= 0.35:
+        add_flag(
+            "Causalité surinterprétée",
+            1.8,
+            1.4,
+            "Des conclusions causales sont tirées trop vite."
+        )
+
+    if metrics["propaganda_score"] >= 0.40 and metrics["emotional_intensity_score"] >= 0.35:
+        add_flag(
+            "Pression émotionnelle orientée",
+            1.5,
+            1.5,
+            "La charge émotionnelle soutient une structure orientée."
+        )
+
+    if metrics["false_consensus_score"] >= 0.30 and metrics["binary_opposition_score"] >= 0.30:
+        add_flag(
+            "Polarisation artificielle",
+            1.2,
+            1.3,
+            "Le texte fabrique des camps et un consensus supposé."
+        )
+
+    if metrics["internal_dissonance_score"] >= 0.30:
+        add_flag(
+            "Contradiction interne",
+            2.0,
+            1.8,
+            "Le texte contient des tensions ou contradictions internes."
+        )
+
+    if metrics["semantic_shift_score"] >= 0.30 and metrics["ideological_premise_score"] >= 0.30:
+        add_flag(
+            "Recadrage idéologique",
+            1.4,
+            1.1,
+            "Le lexique oriente l’interprétation en amont de la preuve."
+        )
+
+    return {
+        "flags": red_flags,
+        "credibility_penalty": round(min(credibility_penalty, 8.0), 2),
+        "lie_boost": round(min(lie_boost, 6.0), 2),
+    }
+
 def analyze_article(text: str) -> Dict:
     words = text.split()
     sentences = [s.strip() for s in re.split(r"[.!?]+", text) if len(s.strip()) > 10]
