@@ -2633,8 +2633,8 @@ def analyze_article(text: str) -> Dict:
     citation_like = len(re.findall(r'"|\'|«|»', text))
     nuance_markers = len(re.findall(r"|".join(re.escape(c) for c in NUANCE_MARKERS), text.lower()))
 
-    G = clamp(source_markers * 1.5 + citation_like * 0.5, 0, 10)
-    N = clamp(nuance_markers * 2 + (article_length / 100), 0, 10)
+    G = clamp(source_markers * 1.1 + citation_like * 0.2, 0, 10)
+    N = clamp(nuance_markers * 1.4 + (article_length / 140), 0, 10)
 
     normative_analysis = detect_normative_charges(text)
     discursive_analysis = compute_discursive_coherence(text)
