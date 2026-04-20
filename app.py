@@ -1062,6 +1062,10 @@ class Claim:
     claim_types: List[str]
     epistemic_note: str
     short_adjustment: float
+    aristotelian_type: Optional[str]
+    subject_term: Optional[str]
+    predicate_term: Optional[str]
+    middle_term_candidate: Optional[str]
 
 
 SOURCE_CUES = [
