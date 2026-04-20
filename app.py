@@ -1403,6 +1403,8 @@ def detect_syllogistic_fallacies(syllogisms: List[Dict]) -> List[Dict]:
     fallacies = []
 
     for s in syllogisms:
+        form = s.get("form", "")
+        figure = s.get("figure", "")
 
         if s["status"] == "no_middle_term_detected":
             fallacies.append({
@@ -1412,18 +1414,22 @@ def detect_syllogistic_fallacies(syllogisms: List[Dict]) -> List[Dict]:
             })
             continue
 
-        form = s.get("form", "")
-        figure = s.get("figure", "")
-
-        # conclusion trop forte
-        if form.startswith("I") and form.endswith("A"):
+        if s["status"] == "weak_conclusion_link":
             fallacies.append({
-                "type": "illicit_strengthening",
-                "description": "La conclusion est plus forte que les prémisses.",
+                "type": "weak_conclusion_link",
+                "description": "La conclusion ne reprend pas clairement les extrêmes des prémisses.",
                 "syllogism": s
             })
+            continue
 
-        # formes connues invalides
+        if s["status"] == "possible_syllogism" and not figure:
+            fallacies.append({
+                "type": "undetermined_figure",
+                "description": "Le raisonnement ressemble à un syllogisme mais sa structure reste fragile ou incomplète.",
+                "syllogism": s
+            })
+            continue
+
         invalid_forms = [
             "A-A-I",
             "A-E-A",
@@ -1431,10 +1437,20 @@ def detect_syllogistic_fallacies(syllogisms: List[Dict]) -> List[Dict]:
             "O-A-A"
         ]
 
-        if form.replace("-", "") in invalid_forms:
+        compact_form = form.replace("-", "")
+
+        if compact_form in invalid_forms:
             fallacies.append({
                 "type": "invalid_form",
                 "description": "La forme syllogistique n'est pas valide dans la logique aristotélicienne.",
+                "syllogism": s
+            })
+            continue
+
+        if form.startswith("I") and form.endswith("A"):
+            fallacies.append({
+                "type": "illicit_strengthening",
+                "description": "La conclusion est plus forte que les prémisses.",
                 "syllogism": s
             })
 
