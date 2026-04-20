@@ -2888,6 +2888,12 @@ def analyze_article(text: str) -> Dict:
         - (0.16 * D + 0.12 * R + 0.18 * avg_claim_risk + penalties["credibility_penalty"])
     )
     hard_fact_score = round(clamp(hard_fact_score_raw + 8, 0, 20), 1)
+    short_epistemic_bonus = 0.0
+    if claims:
+        short_epistemic_bonus = sum(c.short_adjustment for c in claims) / len(claims)
+        short_epistemic_bonus = min(short_epistemic_bonus, 1.5)
+
+    hard_fact_score = round(clamp(hard_fact_score + short_epistemic_bonus, 0, 20), 1)
 
     if hard_fact_score < 6:
         verdict = T["low_credibility"]
