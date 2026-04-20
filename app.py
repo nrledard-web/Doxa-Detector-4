@@ -1253,6 +1253,32 @@ def extract_categorical_terms(sentence: str):
 
     return None, None
 
+
+# -----------------------------
+# Détection proposition aristotélicienne
+# -----------------------------
+
+def detect_aristotelian_proposition(sentence: str) -> Optional[str]:
+    s = sentence.lower().strip()
+
+    # E : universelle négative
+    if any(contains_term(s, w) for w in SYLLOGISTIC_MARKERS["E"]):
+        return "E"
+
+    # O : particulière négative
+    if any(contains_term(s, w) for w in SYLLOGISTIC_MARKERS["O"]) and " pas " in f" {s} ":
+        return "O"
+
+    # I : particulière affirmative
+    if any(contains_term(s, w) for w in SYLLOGISTIC_MARKERS["I"]):
+        return "I"
+
+    # A : universelle affirmative
+    if any(contains_term(s, w) for w in SYLLOGISTIC_MARKERS["A"]) and " pas " not in f" {s} ":
+        return "A"
+
+    return None
+
 def classify_claim_type(sentence: str) -> List[str]:
     s = sentence.lower().strip()
     claim_types = []
