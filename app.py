@@ -2662,7 +2662,7 @@ def analyze_article(text: str) -> Dict:
     doxic_rigidity_analysis = compute_doxic_rigidity(text)
     narrative_overdetermination_analysis = compute_narrative_overdetermination(text)
 
-        penalties = compute_red_flag_penalties({
+    penalties = compute_red_flag_penalties({
         "G": G,
         "vague_authority_score": vague_authority_analysis["score"],
         "certainty_score": certainty_analysis[0],
