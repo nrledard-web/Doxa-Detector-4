@@ -1532,13 +1532,19 @@ def detect_short_form_mode(text: str):
     if word_count < 25:
         return {
             "is_short_form": True,
+            "is_blocked": True,
             "word_count": word_count,
-            "label": "Mode aphorisme / texte court",
-            "interpretation": "Texte très court : les métriques factuelles et discursives doivent être lues avec prudence."
+            "label": "Texte trop court pour analyse",
+            "interpretation": (
+                "Moins de 25 mots : l’analyse est refusée. "
+                "Toute affirmation non étayée est considérée comme douteuse "
+                "par nécessité épistémique."
+            )
         }
 
     return {
         "is_short_form": False,
+        "is_blocked": False,
         "word_count": word_count,
         "label": "Texte standard",
         "interpretation": "Longueur suffisante pour une lecture discursive plus stable."
