@@ -4688,6 +4688,51 @@ if show_method:
         f"{T['disclaimer']}"
     )
 
+with st.expander("Principe épistémique de l'analyse", expanded=False):
+
+    st.markdown("""
+Cette application n’a pas pour objectif de déterminer la vérité absolue d’un énoncé.
+Elle analyse la **structure cognitive et discursive d’un texte** afin d’identifier
+certaines configurations associées aux discours fragiles ou trompeurs :
+affirmation non étayée, mécroyance, manipulation rhétorique, mensonge probable
+ou, dans certains cas, mensonge avéré.
+
+L’analyse ne juge donc pas directement la vérité des propositions.
+Elle évalue **dans quelle mesure les affirmations sont soutenues par des éléments vérifiables**.
+
+### Principe méthodologique
+
+Une affirmation brève qui ne présente **ni sources, ni données vérifiables,
+ni contexte explicatif suffisant** ne peut pas être considérée comme crédible
+du point de vue de l’analyse épistémique.
+
+Cela ne signifie pas que l’assertion est fausse.
+Cela signifie simplement que **les informations nécessaires pour en évaluer
+la fiabilité ne sont pas présentes dans le texte analysé**.
+
+Dans ce cas, l’assertion est classée comme **épistémiquement douteuse
+par nécessité méthodologique**.
+
+### Modèle d’analyse cognitive
+
+L’analyse s’appuie sur la structure suivante :
+
+**M = (G + N) − D**
+
+où :
+
+- **G** représente les éléments de connaissance mobilisés dans le discours (faits, données, sources)
+- **N** représente l’intégration explicative et contextuelle
+- **D** représente le degré d’affirmation ou de certitude exprimé
+
+Lorsque le niveau d’affirmation dépasse les éléments disponibles pour soutenir l’énoncé,
+la structure discursive devient fragile et peut correspondre à une **configuration
+de mécroyance, à une affirmation non démontrée ou à un mensonge probable**.
+
+Dans certains cas, lorsque l’assertion contredit directement des faits établis
+et vérifiables, l’analyse peut également signaler **un mensonge avéré**.
+""")
+
 
 # -----------------------------
 # Laboratoire interactif
