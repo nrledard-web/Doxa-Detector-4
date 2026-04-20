@@ -1172,6 +1172,121 @@ def contains_term(text: str, term: str) -> bool:
         pattern = rf"\b{escaped}\b"
     return re.search(pattern, text.lower()) is not None
 
+def classify_claim_type(sentence: str) -> List[str]:
+    s = sentence.lower().strip()
+    claim_types = []
+
+    # normatif
+    normative_terms = [
+        "injuste", "immoral", "honteux", "scandaleux", "légitime",
+        "illégitime", "dangereux", "toxique", "acceptable", "inacceptable",
+        "raciste", "xénophobe", "fasciste", "complotiste"
+    ]
+    if any(contains_term(s, term) for term in normative_terms):
+        claim_types.append("normative")
+
+    # interprétatif
+    interpretative_terms = [
+        "révèle", "montre que", "signifie", "traduit", "témoigne de",
+        "indique que", "laisse penser", "semble montrer", "suggère que"
+    ]
+    if any(contains_term(s, term) for term in interpretative_terms):
+        claim_types.append("interpretative")
+
+    # testimonial
+    testimonial_patterns = [
+        r"\bje\b", r"\bj'ai\b", r"\bmon quartier\b", r"\bchez moi\b",
+        r"\bnous avons vu\b", r"\bj'ai vu\b", r"\bj'ai constaté\b"
+    ]
+    if any(re.search(p, s) for p in testimonial_patterns):
+        claim_types.append("testimonial")
+
+    # causal
+    causal_terms = [
+        "à cause de", "en raison de", "provoque", "entraîne",
+        "explique", "cause", "responsable de", "conduit à"
+    ]
+    if any(contains_term(s, term) for term in causal_terms):
+        claim_types.append("causal")
+
+    # prédictif
+    predictive_terms = [
+        "va", "va être", "sera", "seront", "d'ici", "bientôt",
+        "finira par", "dans les années à venir"
+    ]
+    if any(contains_term(s, term) for term in predictive_terms):
+        claim_types.append("predictive")
+
+    # généralisant
+    generalizing_terms = [
+        "toujours", "jamais", "tous", "tout le monde", "personne",
+        "aucun", "les médias", "les élites", "les politiciens"
+    ]
+    if any(contains_term(s, term) for term in generalizing_terms):
+        claim_types.append("generalizing")
+
+    # factuel quantifié
+    if re.search(r"\d+(?:[.,]\d+)?%?", s):
+        claim_types.append("quantitative")
+
+    # si rien
+    if not claim_types:
+        claim_types.append("factual_or_undetermined")
+
+    return unique_keep_order(claim_types)
+
+
+def compute_sentence_red_flags(sentence: str) -> List[str]:
+    s = sentence.lower()
+    flags = []
+
+    if any(contains_term(s, t) for t in ["toujours", "jamais", "tout le monde", "aucun"]):
+        flags.append("generalization")
+
+    if any(contains_term(s, t) for t in ["cela prouve que", "cela montre que", "à cause de", "donc forcément"]):
+        flags.append("false_causality")
+
+    if any(contains_term(s, t) for t in ["il est évident que", "sans aucun doute", "il est certain que"]):
+        flags.append("absolute_certainty")
+
+    if any(contains_term(s, t) for t in ["on nous cache", "ils veulent", "complot", "plan caché"]):
+        flags.append("hidden_intent")
+
+    if any(contains_term(s, t) for t in ["invasion", "submersion", "trahison", "ennemi du peuple"]):
+        flags.append("propaganda")
+
+    return unique_keep_order(flags)
+
+
+def small_claim_epistemic_adjustment(sentence: str, claim_types: List[str], sentence_red_flags: List[str], absolutism: int) -> tuple[float, str]:
+    words = len(sentence.split())
+
+    severe_flags = {
+        "generalization",
+        "false_causality",
+        "absolute_certainty",
+        "hidden_intent",
+        "propaganda",
+    }
+
+    if words > 18:
+        return 0.0, ""
+
+    if any(flag in severe_flags for flag in sentence_red_flags):
+        return 0.0, ""
+
+    if absolutism >= 2:
+        return 0.0, ""
+
+    if "normative" in claim_types:
+        return 2.0, "Jugement normatif : ne doit pas être pénalisé comme un fait brut."
+    if "interpretative" in claim_types:
+        return 1.5, "Affirmation interprétative : demande contexte et pluralité de lectures."
+    if "testimonial" in claim_types:
+        return 1.2, "Affirmation testimoniale : valeur vécue reconnue, sans portée générale automatique."
+
+    return 0.0, ""
+
 # -----------------------------
 # Cohérence discursive / nouveaux modules
 # -----------------------------
