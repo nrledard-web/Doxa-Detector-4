@@ -5061,6 +5061,34 @@ if result:
     else:
         st.info(T["paste_longer_text"])
 
+        st.divider()
+    st.subheader("Analyse syllogistique")
+
+    if result.get("syllogisms"):
+        for i, s in enumerate(result["syllogisms"], start=1):
+            with st.expander(f"Syllogisme potentiel {i}", expanded=False):
+                st.write(f"**Forme** : {s['form']}")
+                st.write(f"**Terme moyen** : {s['middle_term'] if s['middle_term'] else '-'}")
+                st.write(f"**Figure** : {s['figure'] if s['figure'] else '-'}")
+                st.write(f"**Statut** : {s['status']}")
+
+                st.write("**Prémisse 1**")
+                st.write(s["premise_1"])
+                if "p1_terms" in s:
+                    st.caption(f"Sujet : {s['p1_terms']['subject']} | Prédicat : {s['p1_terms']['predicate']}")
+
+                st.write("**Prémisse 2**")
+                st.write(s["premise_2"])
+                if "p2_terms" in s:
+                    st.caption(f"Sujet : {s['p2_terms']['subject']} | Prédicat : {s['p2_terms']['predicate']}")
+
+                st.write("**Conclusion**")
+                st.write(s["conclusion"])
+                if "c_terms" in s:
+                    st.caption(f"Sujet : {s['c_terms']['subject']} | Prédicat : {s['c_terms']['predicate']}")
+    else:
+        st.info("Aucun syllogisme détecté.")
+
     st.divider()
     st.subheader(T["ai_module"])
     st.caption(T["ai_module_caption"])
