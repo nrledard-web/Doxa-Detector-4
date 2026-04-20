@@ -5134,6 +5134,27 @@ if result:
     else:
         st.info("Aucun syllogisme détecté.")
 
+        st.divider()
+    st.subheader("Enthymèmes détectés")
+
+    if result.get("enthymemes"):
+        for i, e in enumerate(result["enthymemes"], start=1):
+            with st.expander(f"Enthymème potentiel {i}", expanded=False):
+                st.write(f"**Forme** : {e['form']}")
+                st.write(f"**Sujet** : {e['subject']}")
+                st.write(f"**Prédicat** : {e['predicate']}")
+                st.write(f"**Statut** : {e['status']}")
+
+                st.write("**Conclusion**")
+                st.write(e["conclusion"])
+
+                if e["context"]:
+                    st.write("**Contexte précédent**")
+                    for line in e["context"]:
+                        st.write(f"- {line}")
+    else:
+        st.info("Aucun enthymème détecté.")
+
     st.divider()
     st.subheader(T["ai_module"])
     st.caption(T["ai_module_caption"])
