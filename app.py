@@ -4936,6 +4936,9 @@ if result:
             {
                 T["claim"]: c.text,
                 "Type": ", ".join(c.claim_types),
+                "Forme": c.aristotelian_type if c.aristotelian_type else "-",
+                "Sujet": c.subject_term if c.subject_term else "-",
+                "Prédicat": c.predicate_term if c.predicate_term else "-",
                 T["status"]: c.status,
                 f"{T['verifiability']} /20": c.verifiability,
                 f"{T['risk']} /20": c.risk,
