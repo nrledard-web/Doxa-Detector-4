@@ -3713,7 +3713,7 @@ if result:
     if result.get("short_form_mode"):
         st.info(f"{result['short_form_label']} — {result['short_form_interpretation']}")
         if result.get("short_text_bonus", 0) > 0:
-        st.success(
+            st.success(
             f"Bonus texte court : +{result['short_text_bonus']} — "
             f"{result['short_text_bonus_label']}"
         )
