@@ -4100,18 +4100,25 @@ if result:
         )
         st.caption(result["discursive_coherence_label"])
 
-        with st.expander("Voir le détail", expanded=False):
-            d = result["discursive_coherence_details"]
-            st.write(f"**Logique discursive** : {d['logic_score']}/5")
-            st.write(f"**Stabilité thématique** : {d['stability_score']}/4")
-            st.write(f"**Longueur utile** : {d['length_score']}/5")
-            st.write(f"**Cohérence entre paragraphes** : {d['paragraph_score']}/4")
-            st.write(f"**Pénalité de contradiction** : -{d['contradiction_penalty']}")
-            st.write(f"**Pénalité de rupture thématique** : -{d['topic_shift_penalty']}")
-            if d["top_keywords"]:
-                st.write("**Mots-clés dominants**")
-                for word, count in d["top_keywords"]:
-                    st.write(f"- {word} ({count})")
+with st.expander("Voir le détail", expanded=False):
+    d = result.get("discursive_coherence_details", {})
+
+    st.write(f"**Logique discursive** : {d.get('logic_score', 0)}/5")
+    st.write(f"**Stabilité thématique** : {d.get('stability_score', 0)}/4")
+    st.write(f"**Longueur utile** : {d.get('length_score', 0)}/5")
+    st.write(f"**Cohérence entre paragraphes** : {d.get('paragraph_score', 0)}/4")
+    st.write(f"**Pénalité de contradiction** : -{d.get('contradiction_penalty', 0)}")
+    st.write(f"**Pénalité de rupture thématique** : -{d.get('topic_shift_penalty', 0)}")
+
+    top_keywords = d.get("top_keywords", [])
+    if top_keywords:
+        st.write("**Mots-clés dominants**")
+        for item in top_keywords:
+            if isinstance(item, (list, tuple)) and len(item) == 2:
+                word, count = item
+                st.write(f"- {word} ({count})")
+    else:
+        st.info("Aucun mot-clé dominant disponible.")
 
     # -----------------------------
     # 5) Confusion logique
