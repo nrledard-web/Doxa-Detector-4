@@ -5461,19 +5461,19 @@ if result:
                     st.warning(marker)
 
         with row11_col2:
-        st.markdown("### Faux dilemme")
-        st.caption("Réduction artificielle du réel à deux options.")
+            st.markdown("### Faux dilemme")
+            st.caption("Réduction artificielle du réel à deux options.")
 
-        value = result["false_dilemma_score"]
+            value = result["false_dilemma_score"]
 
-        if value < 0.15:
-            label, color = "Faible", "#16a34a"
-        elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
-        elif value < 0.60:
-            label, color = "Élevée", "#f97316"
-        else:
-            label, color = "Très élevée", "#dc2626"
+            if value < 0.15:
+                label, color = "Faible", "#16a34a"
+            elif value < 0.35:
+                label, color = "Modérée", "#ca8a04"
+            elif value < 0.60:
+                label, color = "Élevée", "#f97316"
+            else:
+                label, color = "Très élevée", "#dc2626"
 
         render_custom_gauge(value, color)
         st.markdown(f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%", unsafe_allow_html=True)
