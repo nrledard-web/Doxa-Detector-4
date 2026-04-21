@@ -5434,19 +5434,19 @@ if result:
                     st.warning(marker)
 
         with row11_col1:
-        st.markdown("### Autorité vague (simple)")
-        st.caption("Autorité invoquée sans source clairement traçable.")
+            st.markdown("### Autorité vague (simple)")
+            st.caption("Autorité invoquée sans source clairement traçable.")
 
-        value = result["vague_authority_basic_score"]
+            value = result["vague_authority_basic_score"]
 
-        if value < 0.15:
-            label, color = "Faible", "#16a34a"
-        elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
-        elif value < 0.60:
-            label, color = "Élevée", "#f97316"
-        else:
-            label, color = "Très élevée", "#dc2626"
+            if value < 0.15:
+                label, color = "Faible", "#16a34a"
+            elif value < 0.35:
+                label, color = "Modérée", "#ca8a04"
+            elif value < 0.60:
+                label, color = "Élevée", "#f97316"
+            else:
+                label, color = "Très élevée", "#dc2626"
 
         render_custom_gauge(value, color)
         st.markdown(f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%", unsafe_allow_html=True)
