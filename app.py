@@ -3049,6 +3049,55 @@ def detect_false_dilemma(text: str):
         "interpretation": "Réduction artificielle du réel à deux options." if matches else "Aucun faux dilemme saillant détecté."
     }
 
+def detect_ad_hominem(text: str):
+    text_lower = text.lower()
+    matches = [p for p in AD_HOMINEM_PATTERNS if p in text_lower]
+    return {
+        "score": min(len(matches) * 0.5, 1.0),
+        "matches": matches,
+        "interpretation": "Attaque contre la personne plutôt que contre l’argument." if matches else "Aucun ad hominem saillant détecté."
+    }
+
+
+def detect_argument_from_ignorance(text: str):
+    text_lower = text.lower()
+    matches = [p for p in IGNORANCE_PATTERNS if p in text_lower]
+    return {
+        "score": min(len(matches) * 0.5, 1.0),
+        "matches": matches,
+        "interpretation": "Conclusion tirée de l’absence de preuve." if matches else "Aucun argument d’ignorance détecté."
+    }
+
+
+def detect_slippery_slope(text: str):
+    text_lower = text.lower()
+    matches = [p for p in SLIPPERY_SLOPE_PATTERNS if p in text_lower]
+    return {
+        "score": min(len(matches) * 0.4, 1.0),
+        "matches": matches,
+        "interpretation": "Projection catastrophiste en chaîne." if matches else "Aucune pente glissante détectée."
+    }
+
+
+def detect_fear_appeal(text: str):
+    text_lower = text.lower()
+    matches = [p for p in FEAR_APPEAL_PATTERNS if p in text_lower]
+    return {
+        "score": min(len(matches) * 0.3, 1.0),
+        "matches": matches,
+        "interpretation": "Argument basé sur la peur plutôt que sur l’analyse." if matches else "Aucun appel à la peur détecté."
+    }
+
+
+def detect_false_analogy_strong(text: str):
+    text_lower = text.lower()
+    matches = [p for p in FALSE_ANALOGY_STRONG_PATTERNS if p in text_lower]
+    return {
+        "score": min(len(matches) * 0.4, 1.0),
+        "matches": matches,
+        "interpretation": "Comparaison trompeuse servant de raccourci argumentatif." if matches else "Aucune analogie trompeuse détectée."
+    }
+
 def detect_aristotelian_fallacies(text: str):
     petition = detect_petition_principii(text)
     false_causality = detect_false_causality_basic(text)
