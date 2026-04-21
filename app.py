@@ -4445,6 +4445,8 @@ if result:
     row7_col1, row7_col2, row7_col3 = st.columns(3)
     row8_col1, row8_col2, row8_col3 = st.columns(3)
     row9_col1, row9_col2, row9_col3 = st.columns(3)
+    row10_col1, row10_col2, row10_col3 = st.columns(3)
+    row11_col1, row11_col2, row11_col3 = st.columns(3)
     
 
     # -----------------------------
