@@ -3871,6 +3871,26 @@ def analyze_article(text: str) -> Dict:
         "false_dilemma_markers": aristotelian_fallacies["false_dilemma"]["matches"],
         "false_dilemma_interpretation": aristotelian_fallacies["false_dilemma"]["interpretation"],
 
+        "normative_qualification_score": aristotelian_fallacies["normative_qualification"]["score"],
+        "normative_qualification_markers": aristotelian_fallacies["normative_qualification"]["matches"],
+        "normative_qualification_interpretation": aristotelian_fallacies["normative_qualification"]["interpretation"],
+
+        "ideological_premise_sophism_score": aristotelian_fallacies["ideological_premise"]["score"],
+        "ideological_premise_sophism_markers": aristotelian_fallacies["ideological_premise"]["matches"],
+        "ideological_premise_sophism_interpretation": aristotelian_fallacies["ideological_premise"]["interpretation"],
+
+        "false_consensus_strong_score": aristotelian_fallacies["false_consensus_strong"]["score"],
+        "false_consensus_strong_markers": aristotelian_fallacies["false_consensus_strong"]["matches"],
+        "false_consensus_strong_interpretation": aristotelian_fallacies["false_consensus_strong"]["interpretation"],
+
+        "argument_from_nature_score": aristotelian_fallacies["argument_from_nature"]["score"],
+        "argument_from_nature_markers": aristotelian_fallacies["argument_from_nature"]["matches"],
+        "argument_from_nature_interpretation": aristotelian_fallacies["argument_from_nature"]["interpretation"],
+
+        "descriptive_normative_confusion_score": aristotelian_fallacies["descriptive_normative_confusion"]["score"],
+        "descriptive_normative_confusion_markers": aristotelian_fallacies["descriptive_normative_confusion"]["matches"],
+        "descriptive_normative_confusion_interpretation": aristotelian_fallacies["descriptive_normative_confusion"]["interpretation"],
+
         "scientific_simulation_score": scientific_simulation_analysis["score"],
         "scientific_simulation_markers": scientific_simulation_analysis["markers"],
         "scientific_simulation_interpretation": scientific_simulation_analysis["interpretation"],
