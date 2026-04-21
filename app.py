@@ -3004,6 +3004,55 @@ FALSE_DILEMMA_PATTERNS = [
     "vous devez choisir",
 ]
 
+# -----------------------------
+# Sophismes axiologiques / idéologiques
+# -----------------------------
+
+NORMATIVE_QUALIFICATION_PATTERNS = [
+    "complotiste",
+    "raciste",
+    "xénophobe",
+    "extrémiste",
+    "antiscientifique",
+    "populiste",
+    "fasciste",
+    "réactionnaire",
+    "haineux",
+    "dangereux",
+]
+
+IDEOLOGICAL_PREMISE_PATTERNS = [
+    "il est évident que",
+    "il est clair que",
+    "tout le monde sait que",
+    "il va de soi que",
+    "il est largement admis que",
+]
+
+FALSE_CONSENSUS_STRONG_PATTERNS = [
+    "tout le monde sait que",
+    "tout le monde comprend que",
+    "personne ne peut nier que",
+    "il est évident pour tous que",
+    "chacun sait que",
+]
+
+ARGUMENT_FROM_NATURE_PATTERNS = [
+    "c'est naturel donc",
+    "contre-nature",
+    "contraire à la nature",
+    "naturellement",
+    "ce qui est naturel est",
+]
+
+DESCRIPTIVE_NORMATIVE_CONFUSION_PATTERNS = [
+    "donc il faut",
+    "donc nous devons",
+    "cela prouve qu'il faut",
+    "cela montre qu'il faut",
+    "par conséquent nous devons",
+]
+
 def detect_petition_principii(text: str):
     text_lower = text.lower()
     matches = [p for p in PETITION_PATTERNS if contains_term(text_lower, p) or p in text_lower]
