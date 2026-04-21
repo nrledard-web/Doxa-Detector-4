@@ -5769,6 +5769,156 @@ if result:
             else:
                 for marker in markers:
                     st.warning(marker)
+
+        with row12_col1:
+        st.markdown("### Qualification normative")
+        st.caption("Usage de jugements de valeur comme substitut d’argument.")
+
+        value = result["normative_qualification_score"]
+
+        if value < 0.15:
+            label, color = "Faible", "#16a34a"
+        elif value < 0.35:
+            label, color = "Modérée", "#ca8a04"
+        elif value < 0.60:
+            label, color = "Élevée", "#f97316"
+        else:
+            label, color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(value, color)
+        st.markdown(
+            f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%",
+            unsafe_allow_html=True
+        )
+        st.caption(result["normative_qualification_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("normative_qualification_markers", [])
+            if not markers:
+                st.info("Aucune qualification normative notable détectée.")
+            else:
+                for marker in markers:
+                    st.warning(marker)
+
+    with row12_col2:
+        st.markdown("### Prémisse idéologique implicite")
+        st.caption("Présupposé idéologique utilisé comme point de départ du raisonnement.")
+
+        value = result["ideological_premise_sophism_score"]
+
+        if value < 0.15:
+            label, color = "Faible", "#16a34a"
+        elif value < 0.35:
+            label, color = "Modérée", "#ca8a04"
+        elif value < 0.60:
+            label, color = "Élevée", "#f97316"
+        else:
+            label, color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(value, color)
+        st.markdown(
+            f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%",
+            unsafe_allow_html=True
+        )
+        st.caption(result["ideological_premise_sophism_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("ideological_premise_sophism_markers", [])
+            if not markers:
+                st.info("Aucune prémisse idéologique implicite notable détectée.")
+            else:
+                for marker in markers:
+                    st.warning(marker)
+
+    with row12_col3:
+        st.markdown("### Faux consensus renforcé")
+        st.caption("Simulation d’un accord collectif présenté comme preuve.")
+
+        value = result["false_consensus_strong_score"]
+
+        if value < 0.15:
+            label, color = "Faible", "#16a34a"
+        elif value < 0.35:
+            label, color = "Modérée", "#ca8a04"
+        elif value < 0.60:
+            label, color = "Élevée", "#f97316"
+        else:
+            label, color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(value, color)
+        st.markdown(
+            f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%",
+            unsafe_allow_html=True
+        )
+        st.caption(result["false_consensus_strong_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("false_consensus_strong_markers", [])
+            if not markers:
+                st.info("Aucun faux consensus renforcé notable détecté.")
+            else:
+                for marker in markers:
+                    st.warning(marker)
+
+    with row13_col1:
+        st.markdown("### Argument de nature")
+        st.caption("Le caractère naturel est utilisé comme argument de vérité ou de valeur.")
+
+        value = result["argument_from_nature_score"]
+
+        if value < 0.15:
+            label, color = "Faible", "#16a34a"
+        elif value < 0.35:
+            label, color = "Modérée", "#ca8a04"
+        elif value < 0.60:
+            label, color = "Élevée", "#f97316"
+        else:
+            label, color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(value, color)
+        st.markdown(
+            f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%",
+            unsafe_allow_html=True
+        )
+        st.caption(result["argument_from_nature_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("argument_from_nature_markers", [])
+            if not markers:
+                st.info("Aucun argument de nature notable détecté.")
+            else:
+                for marker in markers:
+                    st.warning(marker)
+
+    with row13_col2:
+        st.markdown("### Confusion descriptif / normatif")
+        st.caption("Glissement d’une description vers une injonction sans justification suffisante.")
+
+        value = result["descriptive_normative_confusion_score"]
+
+        if value < 0.15:
+            label, color = "Faible", "#16a34a"
+        elif value < 0.35:
+            label, color = "Modérée", "#ca8a04"
+        elif value < 0.60:
+            label, color = "Élevée", "#f97316"
+        else:
+            label, color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(value, color)
+        st.markdown(
+            f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%",
+            unsafe_allow_html=True
+        )
+        st.caption(result["descriptive_normative_confusion_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("descriptive_normative_confusion_markers", [])
+            if not markers:
+                st.info("Aucune confusion descriptif / normatif notable détectée.")
+            else:
+                for marker in markers:
+                    st.warning(marker)
                 
     with st.expander("Voir les manœuvres discursives détectées", expanded=False):
         if result["political_pattern_score"] == 0:
