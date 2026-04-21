@@ -5380,19 +5380,19 @@ if result:
                     st.warning(marker)
 
         with row10_col2:
-        st.markdown("### Fausse causalité (simple)")
-        st.caption("Lien causal affirmé sans démonstration suffisante.")
+            st.markdown("### Fausse causalité (simple)")
+            st.caption("Lien causal affirmé sans démonstration suffisante.")
 
-        value = result["false_causality_basic_score"]
+            value = result["false_causality_basic_score"]
 
-        if value < 0.15:
-            label, color = "Faible", "#16a34a"
-        elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
-        elif value < 0.60:
-            label, color = "Élevée", "#f97316"
-        else:
-            label, color = "Très élevée", "#dc2626"
+            if value < 0.15:
+                label, color = "Faible", "#16a34a"
+            elif value < 0.35:
+                label, color = "Modérée", "#ca8a04"
+            elif value < 0.60:
+                label, color = "Élevée", "#f97316"
+            else:
+                label, color = "Très élevée", "#dc2626"
 
         render_custom_gauge(value, color)
         st.markdown(f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%", unsafe_allow_html=True)
