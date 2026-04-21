@@ -3104,40 +3104,41 @@ def detect_aristotelian_fallacies(text: str):
     generalization = detect_hasty_generalization(text)
     vague_authority = detect_vague_authority_basic(text)
     false_dilemma = detect_false_dilemma(text)
+
     ad_hominem = detect_ad_hominem(text)
     ignorance = detect_argument_from_ignorance(text)
     slippery_slope = detect_slippery_slope(text)
     fear_appeal = detect_fear_appeal(text)
     false_analogy_strong = detect_false_analogy_strong(text)
 
-score = (
-    petition["score"]
-    + false_causality["score"]
-    + generalization["score"]
-    + vague_authority["score"]
-    + false_dilemma["score"]
-    + ad_hominem["score"]
-    + ignorance["score"]
-    + slippery_slope["score"]
-    + fear_appeal["score"]
-    + false_analogy_strong["score"]
-) / 10
+    score = (
+        petition["score"]
+        + false_causality["score"]
+        + generalization["score"]
+        + vague_authority["score"]
+        + false_dilemma["score"]
+        + ad_hominem["score"]
+        + ignorance["score"]
+        + slippery_slope["score"]
+        + fear_appeal["score"]
+        + false_analogy_strong["score"]
+    ) / 10
 
-return {
-    "score": round(score, 3),
+    return {
+        "score": round(score, 3),
 
-    "petition": petition,
-    "false_causality": false_causality,
-    "generalization": generalization,
-    "vague_authority": vague_authority,
-    "false_dilemma": false_dilemma,
+        "petition": petition,
+        "false_causality": false_causality,
+        "generalization": generalization,
+        "vague_authority": vague_authority,
+        "false_dilemma": false_dilemma,
 
-    "ad_hominem": ad_hominem,
-    "ignorance": ignorance,
-    "slippery_slope": slippery_slope,
-    "fear_appeal": fear_appeal,
-    "false_analogy_strong": false_analogy_strong,
-}
+        "ad_hominem": ad_hominem,
+        "ignorance": ignorance,
+        "slippery_slope": slippery_slope,
+        "fear_appeal": fear_appeal,
+        "false_analogy_strong": false_analogy_strong,
+    }
 
 def compute_brain_indices(result: dict) -> dict:
     def clamp01(x):
