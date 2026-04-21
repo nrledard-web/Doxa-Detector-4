@@ -2947,6 +2947,48 @@ GENERALIZATION_PATTERNS = [
     "personne ne",
 ]
 
+
+# -----------------------------
+# Sophismes supplémentaires
+# -----------------------------
+
+AD_HOMINEM_PATTERNS = [
+    "cet idiot",
+    "cet incapable",
+    "il est stupide",
+    "il est ridicule",
+    "on ne peut pas faire confiance à",
+]
+
+IGNORANCE_PATTERNS = [
+    "personne n'a prouvé que",
+    "on ne peut pas prouver que",
+    "il n'existe aucune preuve que",
+    "rien ne prouve que le contraire",
+]
+
+SLIPPERY_SLOPE_PATTERNS = [
+    "si on accepte",
+    "alors bientôt",
+    "cela mènera à",
+    "on finira par",
+]
+
+FEAR_APPEAL_PATTERNS = [
+    "danger",
+    "menace",
+    "catastrophe",
+    "désastre",
+    "nous allons tous subir",
+]
+
+FALSE_ANALOGY_STRONG_PATTERNS = [
+    "c'est comme",
+    "exactement comme",
+    "de la même manière que",
+    "tout comme",
+]
+
 VAGUE_AUTHORITY_PATTERNS = [
     "les experts",
     "les scientifiques disent",
