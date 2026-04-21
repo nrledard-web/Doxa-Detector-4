@@ -5770,7 +5770,7 @@ if result:
                 for marker in markers:
                     st.warning(marker)
 
-        with row12_col1:
+    with row12_col1:
         st.markdown("### Qualification normative")
         st.caption("Usage de jugements de valeur comme substitut d’argument.")
 
