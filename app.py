@@ -5356,7 +5356,7 @@ if result:
             st.markdown("### Pétition de principe")
             st.caption("Conclusion répétée comme si elle constituait une preuve.")
 
-            value = result["petition_score"]
+        value = result["petition_score"]
 
             if value < 0.15:
                 label, color = "Faible", "#16a34a"
