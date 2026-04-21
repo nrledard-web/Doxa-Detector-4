@@ -3560,6 +3560,27 @@ def analyze_article(text: str) -> Dict:
         "factual_overinterpretation_score": factual_overinterpretation_analysis["score"],
         "false_analogy_score": false_analogy_analysis["score"],
         "internal_dissonance_score": internal_dissonance_analysis["score"],
+        "aristotelian_fallacies_score": aristotelian_fallacies["score"],
+
+        "petition_score": aristotelian_fallacies["petition"]["score"],
+        "petition_markers": aristotelian_fallacies["petition"]["matches"],
+        "petition_interpretation": aristotelian_fallacies["petition"]["interpretation"],
+
+        "false_causality_basic_score": aristotelian_fallacies["false_causality"]["score"],
+        "false_causality_basic_markers": aristotelian_fallacies["false_causality"]["matches"],
+        "false_causality_basic_interpretation": aristotelian_fallacies["false_causality"]["interpretation"],
+
+        "hasty_generalization_score": aristotelian_fallacies["generalization"]["score"],
+        "hasty_generalization_markers": aristotelian_fallacies["generalization"]["matches"],
+        "hasty_generalization_interpretation": aristotelian_fallacies["generalization"]["interpretation"],
+
+        "vague_authority_basic_score": aristotelian_fallacies["vague_authority"]["score"],
+        "vague_authority_basic_markers": aristotelian_fallacies["vague_authority"]["matches"],
+        "vague_authority_basic_interpretation": aristotelian_fallacies["vague_authority"]["interpretation"],
+
+        "false_dilemma_score": aristotelian_fallacies["false_dilemma"]["score"],
+        "false_dilemma_markers": aristotelian_fallacies["false_dilemma"]["matches"],
+        "false_dilemma_interpretation": aristotelian_fallacies["false_dilemma"]["interpretation"],
         "scientific_simulation_score": scientific_simulation_analysis["score"],
         "premise_score": premise_analysis["score"],
         "ideological_premise_score": ideological_premise_analysis["score"],
