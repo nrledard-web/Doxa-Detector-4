@@ -3529,6 +3529,7 @@ def analyze_article(text: str) -> Dict:
         normative_analysis["score"] * 2.0 +
         premise_analysis["score"] * 1.5 +
         logic_confusion_analysis["score"] * 1.5 +
+        aristotelian_fallacies["score"] * 1.5 +
         scientific_simulation_analysis["score"] * 1.2 +
         propaganda_analysis["score"] * 2.5
     )
