@@ -4453,16 +4453,30 @@ if st.session_state.get("loaded_url"):
 # Analyse principale
 # -----------------------------
 if analyze_submitted:
-    word_count = len(re.findall(r"\b[\wà-ÿ'-]+\b", article.lower()))
+    STOPWORDS = {
+        "le", "la", "les", "l", "un", "une", "des",
+        "de", "du", "d", "à", "au", "aux",
+        "et", "ou", "mais", "donc", "or", "ni", "car",
+        "est", "sont", "était", "étaient", "etre", "être", "sera", "seront",
+        "a", "ont", "avait", "avaient", "avoir",
+        "dans", "sur", "sous", "avec", "sans", "pour", "par", "chez",
+        "ce", "cet", "cette", "ces", "se", "sa", "son", "ses",
+        "je", "tu", "il", "elle", "on", "nous", "vous", "ils", "elles",
+        "ne", "n", "pas", "plus", "moins", "très", "tres",
+        "y", "en", "que", "qui", "quoi", "dont", "où", "ou"
+    }
 
-    if word_count <= 2:
+    words = re.findall(r"\b[\wà-ÿ'-]+\b", article.lower())
+    semantic_words = [w for w in words if w not in STOPWORDS]
+
+    if len(semantic_words) < 3:
         st.session_state.last_result = None
         st.session_state.last_article = article
 
         st.error("Analyse impossible")
         st.info(
-            "Le moteur nécessite au moins trois propositions pour analyser un raisonnement.\n"
-            "Le texte fourni est une affirmation isolée."
+            "Le moteur nécessite au moins trois mots porteurs de sens pour analyser une affirmation.\n"
+            "Le texte fourni est trop court ou insuffisamment structuré."
         )
         st.stop()
 
