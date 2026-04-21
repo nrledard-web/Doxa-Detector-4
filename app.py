@@ -5353,19 +5353,19 @@ if result:
         st.caption("Terme moyen absent, forme invalide ou conclusion trop forte.")
 
         with row10_col1:
-        st.markdown("### Pétition de principe")
-        st.caption("Conclusion répétée comme si elle constituait une preuve.")
+            st.markdown("### Pétition de principe")
+            st.caption("Conclusion répétée comme si elle constituait une preuve.")
 
-        value = result["petition_score"]
+            value = result["petition_score"]
 
-        if value < 0.15:
-            label, color = "Faible", "#16a34a"
-        elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
-        elif value < 0.60:
-            label, color = "Élevée", "#f97316"
-        else:
-            label, color = "Très élevée", "#dc2626"
+            if value < 0.15:
+                label, color = "Faible", "#16a34a"
+            elif value < 0.35:
+                label, color = "Modérée", "#ca8a04"
+            elif value < 0.60:
+                label, color = "Élevée", "#f97316"
+            else:
+                label, color = "Très élevée", "#dc2626"
 
         render_custom_gauge(value, color)
         st.markdown(f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%", unsafe_allow_html=True)
