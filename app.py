@@ -2919,6 +2919,118 @@ def compute_narrative_overdetermination(text: str):
         "interpretation": interpretation,
     }
 
+# -----------------------------
+# Sophismes aristotéliciens de base
+# -----------------------------
+PETITION_PATTERNS = [
+    "c'est vrai parce que",
+    "c'est vrai car",
+    "c'est la vérité",
+    "cela prouve que c'est vrai",
+    "c'est évident parce que c'est évident",
+]
+
+CAUSALITY_PATTERNS = [
+    "depuis que",
+    "à cause de",
+    "est responsable de",
+    "a provoqué",
+    "a causé",
+    "est la cause de",
+]
+
+GENERALIZATION_PATTERNS = [
+    "tous les",
+    "toujours",
+    "jamais",
+    "tout le monde",
+    "personne ne",
+]
+
+VAGUE_AUTHORITY_PATTERNS = [
+    "les experts",
+    "les scientifiques disent",
+    "des études montrent",
+    "certains spécialistes",
+    "les chercheurs disent",
+]
+
+FALSE_DILEMMA_PATTERNS = [
+    "soit",
+    "il n'y a que deux choix",
+    "avec nous ou contre nous",
+    "vous devez choisir",
+]
+
+def detect_petition_principii(text: str):
+    text_lower = text.lower()
+    matches = [p for p in PETITION_PATTERNS if contains_term(text_lower, p) or p in text_lower]
+    return {
+        "score": min(len(matches) * 0.5, 1.0),
+        "matches": matches,
+        "interpretation": "Répétition circulaire d’une idée présentée comme preuve." if matches else "Aucune pétition de principe saillante détectée."
+    }
+
+def detect_false_causality_basic(text: str):
+    text_lower = text.lower()
+    matches = [p for p in CAUSALITY_PATTERNS if contains_term(text_lower, p) or p in text_lower]
+    return {
+        "score": min(len(matches) * 0.4, 1.0),
+        "matches": matches,
+        "interpretation": "Lien causal affirmé plus vite qu’il n’est démontré." if matches else "Aucune fausse causalité saillante détectée."
+    }
+
+def detect_hasty_generalization(text: str):
+    text_lower = text.lower()
+    matches = [p for p in GENERALIZATION_PATTERNS if contains_term(text_lower, p) or p in text_lower]
+    return {
+        "score": min(len(matches) * 0.3, 1.0),
+        "matches": matches,
+        "interpretation": "Passage abusif de quelques cas à une règle générale." if matches else "Aucune généralisation abusive saillante détectée."
+    }
+
+def detect_vague_authority_basic(text: str):
+    text_lower = text.lower()
+    matches = [p for p in VAGUE_AUTHORITY_PATTERNS if contains_term(text_lower, p) or p in text_lower]
+    return {
+        "score": min(len(matches) * 0.5, 1.0),
+        "matches": matches,
+        "interpretation": "Autorité invoquée sans source précise." if matches else "Aucune autorité vague saillante détectée."
+    }
+
+def detect_false_dilemma(text: str):
+    text_lower = text.lower()
+    matches = [p for p in FALSE_DILEMMA_PATTERNS if contains_term(text_lower, p) or p in text_lower]
+    return {
+        "score": min(len(matches) * 0.5, 1.0),
+        "matches": matches,
+        "interpretation": "Réduction artificielle du réel à deux options." if matches else "Aucun faux dilemme saillant détecté."
+    }
+
+def detect_aristotelian_fallacies(text: str):
+    petition = detect_petition_principii(text)
+    false_causality = detect_false_causality_basic(text)
+    generalization = detect_hasty_generalization(text)
+    vague_authority = detect_vague_authority_basic(text)
+    false_dilemma = detect_false_dilemma(text)
+
+    score = (
+        petition["score"]
+        + false_causality["score"]
+        + generalization["score"]
+        + vague_authority["score"]
+        + false_dilemma["score"]
+    ) / 5
+
+    return {
+        "score": round(score, 3),
+        "petition": petition,
+        "false_causality": false_causality,
+        "generalization": generalization,
+        "vague_authority": vague_authority,
+        "false_dilemma": false_dilemma,
+    }
+
 def compute_brain_indices(result: dict) -> dict:
     def clamp01(x):
         return max(0.0, min(1.0, x))
