@@ -3110,13 +3110,18 @@ def detect_aristotelian_fallacies(text: str):
     fear_appeal = detect_fear_appeal(text)
     false_analogy_strong = detect_false_analogy_strong(text)
 
-    score = (
-        petition["score"]
-        + false_causality["score"]
-        + generalization["score"]
-        + vague_authority["score"]
-        + false_dilemma["score"]
-    ) / 5
+score = (
+    petition["score"]
+    + false_causality["score"]
+    + generalization["score"]
+    + vague_authority["score"]
+    + false_dilemma["score"]
+    + ad_hominem["score"]
+    + ignorance["score"]
+    + slippery_slope["score"]
+    + fear_appeal["score"]
+    + false_analogy_strong["score"]
+) / 10
 
     return {
         "score": round(score, 3),
