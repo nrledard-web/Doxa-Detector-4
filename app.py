@@ -3209,6 +3209,12 @@ def detect_aristotelian_fallacies(text: str):
     fear_appeal = detect_fear_appeal(text)
     false_analogy_strong = detect_false_analogy_strong(text)
 
+    normative_qualification = detect_normative_qualification(text)
+    ideological_premise = detect_ideological_premise(text)
+    false_consensus_strong = detect_false_consensus_strong(text)
+    argument_from_nature = detect_argument_from_nature(text)
+    descriptive_normative_confusion = detect_descriptive_normative_confusion(text)
+
     score = (
         petition["score"]
         + false_causality["score"]
@@ -3220,7 +3226,12 @@ def detect_aristotelian_fallacies(text: str):
         + slippery_slope["score"]
         + fear_appeal["score"]
         + false_analogy_strong["score"]
-    ) / 10
+        + normative_qualification["score"]
+        + ideological_premise["score"]
+        + false_consensus_strong["score"]
+        + argument_from_nature["score"]
+        + descriptive_normative_confusion["score"]
+    ) / 15
 
     return {
         "score": round(score, 3),
@@ -3236,8 +3247,13 @@ def detect_aristotelian_fallacies(text: str):
         "slippery_slope": slippery_slope,
         "fear_appeal": fear_appeal,
         "false_analogy_strong": false_analogy_strong,
-    }
 
+        "normative_qualification": normative_qualification,
+        "ideological_premise": ideological_premise,
+        "false_consensus_strong": false_consensus_strong,
+        "argument_from_nature": argument_from_nature,
+        "descriptive_normative_confusion": descriptive_normative_confusion,
+    }
 def compute_brain_indices(result: dict) -> dict:
     def clamp01(x):
         return max(0.0, min(1.0, x))
