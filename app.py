@@ -3123,14 +3123,21 @@ score = (
     + false_analogy_strong["score"]
 ) / 10
 
-    return {
-        "score": round(score, 3),
-        "petition": petition,
-        "false_causality": false_causality,
-        "generalization": generalization,
-        "vague_authority": vague_authority,
-        "false_dilemma": false_dilemma,
-    }
+return {
+    "score": round(score, 3),
+
+    "petition": petition,
+    "false_causality": false_causality,
+    "generalization": generalization,
+    "vague_authority": vague_authority,
+    "false_dilemma": false_dilemma,
+
+    "ad_hominem": ad_hominem,
+    "ignorance": ignorance,
+    "slippery_slope": slippery_slope,
+    "fear_appeal": fear_appeal,
+    "false_analogy_strong": false_analogy_strong,
+}
 
 def compute_brain_indices(result: dict) -> dict:
     def clamp01(x):
