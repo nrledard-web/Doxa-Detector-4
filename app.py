@@ -3104,6 +3104,11 @@ def detect_aristotelian_fallacies(text: str):
     generalization = detect_hasty_generalization(text)
     vague_authority = detect_vague_authority_basic(text)
     false_dilemma = detect_false_dilemma(text)
+    ad_hominem = detect_ad_hominem(text)
+    ignorance = detect_argument_from_ignorance(text)
+    slippery_slope = detect_slippery_slope(text)
+    fear_appeal = detect_fear_appeal(text)
+    false_analogy_strong = detect_false_analogy_strong(text)
 
     score = (
         petition["score"]
