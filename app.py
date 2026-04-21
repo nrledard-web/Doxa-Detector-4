@@ -4456,6 +4456,9 @@ if analyze_submitted:
     word_count = len(re.findall(r"\b[\wà-ÿ'-]+\b", article.lower()))
 
     if word_count <= 2:
+        st.session_state.last_result = None
+        st.session_state.last_article = article
+
         st.error("Analyse impossible")
         st.info(
             "Le moteur nécessite au moins trois propositions pour analyser un raisonnement.\n"
