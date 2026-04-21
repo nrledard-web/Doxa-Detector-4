@@ -3147,6 +3147,55 @@ def detect_false_analogy_strong(text: str):
         "interpretation": "Comparaison trompeuse servant de raccourci argumentatif." if matches else "Aucune analogie trompeuse détectée."
     }
 
+def detect_normative_qualification(text: str):
+    text_lower = text.lower()
+    matches = [p for p in NORMATIVE_QUALIFICATION_PATTERNS if contains_term(text_lower, p) or p in text_lower]
+    return {
+        "score": min(len(matches) * 0.35, 1.0),
+        "matches": matches,
+        "interpretation": "Des qualifications normatives servent de substitut à l’argumentation." if matches else "Aucune qualification normative déguisée détectée."
+    }
+
+
+def detect_ideological_premise(text: str):
+    text_lower = text.lower()
+    matches = [p for p in IDEOLOGICAL_PREMISE_PATTERNS if contains_term(text_lower, p) or p in text_lower]
+    return {
+        "score": min(len(matches) * 0.4, 1.0),
+        "matches": matches,
+        "interpretation": "Le raisonnement repose sur des prémisses idéologiques implicites." if matches else "Aucune prémisse idéologique implicite détectée."
+    }
+
+
+def detect_false_consensus_strong(text: str):
+    text_lower = text.lower()
+    matches = [p for p in FALSE_CONSENSUS_STRONG_PATTERNS if contains_term(text_lower, p) or p in text_lower]
+    return {
+        "score": min(len(matches) * 0.45, 1.0),
+        "matches": matches,
+        "interpretation": "Le texte met en scène un consensus supposé comme preuve." if matches else "Aucun faux consensus renforcé détecté."
+    }
+
+
+def detect_argument_from_nature(text: str):
+    text_lower = text.lower()
+    matches = [p for p in ARGUMENT_FROM_NATURE_PATTERNS if contains_term(text_lower, p) or p in text_lower]
+    return {
+        "score": min(len(matches) * 0.4, 1.0),
+        "matches": matches,
+        "interpretation": "Le caractère naturel ou contre-naturel est utilisé comme argument de vérité ou de valeur." if matches else "Aucun argument de nature détecté."
+    }
+
+
+def detect_descriptive_normative_confusion(text: str):
+    text_lower = text.lower()
+    matches = [p for p in DESCRIPTIVE_NORMATIVE_CONFUSION_PATTERNS if contains_term(text_lower, p) or p in text_lower]
+    return {
+        "score": min(len(matches) * 0.45, 1.0),
+        "matches": matches,
+        "interpretation": "Le texte glisse d’une description vers une injonction sans justification suffisante." if matches else "Aucune confusion descriptif / normatif détectée."
+    }
+
 def detect_aristotelian_fallacies(text: str):
     petition = detect_petition_principii(text)
     false_causality = detect_false_causality_basic(text)
