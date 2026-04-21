@@ -4453,6 +4453,16 @@ if st.session_state.get("loaded_url"):
 # Analyse principale
 # -----------------------------
 if analyze_submitted:
+    word_count = len(re.findall(r"\b[\wà-ÿ'-]+\b", article.lower()))
+
+    if word_count <= 2:
+        st.error("Analyse impossible")
+        st.info(
+            "Le moteur nécessite au moins trois propositions pour analyser un raisonnement.\n"
+            "Le texte fourni est une affirmation isolée."
+        )
+        st.stop()
+
     st.session_state.last_result = analyze_article(article)
     st.session_state.last_article = article
 
