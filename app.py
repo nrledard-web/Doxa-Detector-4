@@ -5346,7 +5346,7 @@ if result:
             label, color = "Signal fort", "#dc2626"
 
         render_custom_gauge(value, color)
-        st.markdown(
+            st.markdown(
             f"<b style='color:{color}'>{result['fallacy_label']}</b> — {result['fallacy_signal']} repéré(s)",
             unsafe_allow_html=True
         )
