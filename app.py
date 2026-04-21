@@ -5374,23 +5374,27 @@ if result:
         )
         st.caption("Terme moyen absent, forme invalide ou conclusion trop forte.")
 
-        with row10_col1:
-            st.markdown("### Pétition de principe")
-            st.caption("Conclusion répétée comme si elle constituait une preuve.")
+        
+    with row10_col1:
+        st.markdown("### Pétition de principe")
+        st.caption("Conclusion répétée comme si elle constituait une preuve.")
 
         value = result["petition_score"]
 
-            if value < 0.15:
-                label, color = "Faible", "#16a34a"
-            elif value < 0.35:
-                label, color = "Modérée", "#ca8a04"
-            elif value < 0.60:
-                label, color = "Élevée", "#f97316"
-            else:
-                label, color = "Très élevée", "#dc2626"
+        if value < 0.15:
+            label, color = "Faible", "#16a34a"
+        elif value < 0.35:
+            label, color = "Modérée", "#ca8a04"
+        elif value < 0.60:
+            label, color = "Élevée", "#f97316"
+        else:
+            label, color = "Très élevée", "#dc2626"
 
         render_custom_gauge(value, color)
-        st.markdown(f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%", unsafe_allow_html=True)
+        st.markdown(
+            f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%",
+            unsafe_allow_html=True
+        )
         st.caption(result["petition_interpretation"])
 
         with st.expander("Voir les marqueurs", expanded=False):
@@ -5401,23 +5405,26 @@ if result:
                 for marker in markers:
                     st.warning(marker)
 
-        with row10_col2:
-            st.markdown("### Fausse causalité (simple)")
-            st.caption("Lien causal affirmé sans démonstration suffisante.")
+    with row10_col2:
+        st.markdown("### Fausse causalité (simple)")
+        st.caption("Lien causal affirmé sans démonstration suffisante.")
 
-            value = result["false_causality_basic_score"]
+        value = result["false_causality_basic_score"]
 
-            if value < 0.15:
-                label, color = "Faible", "#16a34a"
-            elif value < 0.35:
-                label, color = "Modérée", "#ca8a04"
-            elif value < 0.60:
-                label, color = "Élevée", "#f97316"
-            else:
-                label, color = "Très élevée", "#dc2626"
+        if value < 0.15:
+            label, color = "Faible", "#16a34a"
+        elif value < 0.35:
+            label, color = "Modérée", "#ca8a04"
+        elif value < 0.60:
+            label, color = "Élevée", "#f97316"
+        else:
+            label, color = "Très élevée", "#dc2626"
 
         render_custom_gauge(value, color)
-        st.markdown(f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%", unsafe_allow_html=True)
+        st.markdown(
+            f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%",
+            unsafe_allow_html=True
+        )
         st.caption(result["false_causality_basic_interpretation"])
 
         with st.expander("Voir les marqueurs", expanded=False):
@@ -5428,23 +5435,26 @@ if result:
                 for marker in markers:
                     st.warning(marker)
 
-        with row10_col3:
-            st.markdown("### Généralisation abusive")
-            st.caption("Passage abusif de cas particuliers à une règle générale.")
+    with row10_col3:
+        st.markdown("### Généralisation abusive")
+        st.caption("Passage abusif de cas particuliers à une règle générale.")
 
-            value = result["hasty_generalization_score"]
+        value = result["hasty_generalization_score"]
 
-            if value < 0.15:
-                label, color = "Faible", "#16a34a"
-            elif value < 0.35:
-                label, color = "Modérée", "#ca8a04"
-            elif value < 0.60:
-                label, color = "Élevée", "#f97316"
-            else:
-                label, color = "Très élevée", "#dc2626"
+        if value < 0.15:
+            label, color = "Faible", "#16a34a"
+        elif value < 0.35:
+            label, color = "Modérée", "#ca8a04"
+        elif value < 0.60:
+            label, color = "Élevée", "#f97316"
+        else:
+            label, color = "Très élevée", "#dc2626"
 
         render_custom_gauge(value, color)
-        st.markdown(f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%", unsafe_allow_html=True)
+        st.markdown(
+            f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%",
+            unsafe_allow_html=True
+        )
         st.caption(result["hasty_generalization_interpretation"])
 
         with st.expander("Voir les marqueurs", expanded=False):
@@ -5455,23 +5465,26 @@ if result:
                 for marker in markers:
                     st.warning(marker)
 
-        with row11_col1:
-            st.markdown("### Autorité vague (simple)")
-            st.caption("Autorité invoquée sans source clairement traçable.")
+    with row11_col1:
+        st.markdown("### Autorité vague (simple)")
+        st.caption("Autorité invoquée sans source clairement traçable.")
 
-            value = result["vague_authority_basic_score"]
+        value = result["vague_authority_basic_score"]
 
-            if value < 0.15:
-                label, color = "Faible", "#16a34a"
-            elif value < 0.35:
-                label, color = "Modérée", "#ca8a04"
-            elif value < 0.60:
-                label, color = "Élevée", "#f97316"
-            else:
-                label, color = "Très élevée", "#dc2626"
+        if value < 0.15:
+            label, color = "Faible", "#16a34a"
+        elif value < 0.35:
+            label, color = "Modérée", "#ca8a04"
+        elif value < 0.60:
+            label, color = "Élevée", "#f97316"
+        else:
+            label, color = "Très élevée", "#dc2626"
 
         render_custom_gauge(value, color)
-        st.markdown(f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%", unsafe_allow_html=True)
+        st.markdown(
+            f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%",
+            unsafe_allow_html=True
+        )
         st.caption(result["vague_authority_basic_interpretation"])
 
         with st.expander("Voir les marqueurs", expanded=False):
@@ -5482,23 +5495,26 @@ if result:
                 for marker in markers:
                     st.warning(marker)
 
-        with row11_col2:
-            st.markdown("### Faux dilemme")
-            st.caption("Réduction artificielle du réel à deux options.")
+    with row11_col2:
+        st.markdown("### Faux dilemme")
+        st.caption("Réduction artificielle du réel à deux options.")
 
-            value = result["false_dilemma_score"]
+        value = result["false_dilemma_score"]
 
-            if value < 0.15:
-                label, color = "Faible", "#16a34a"
-            elif value < 0.35:
-                label, color = "Modérée", "#ca8a04"
-            elif value < 0.60:
-                label, color = "Élevée", "#f97316"
-            else:
-                label, color = "Très élevée", "#dc2626"
+        if value < 0.15:
+            label, color = "Faible", "#16a34a"
+        elif value < 0.35:
+            label, color = "Modérée", "#ca8a04"
+        elif value < 0.60:
+            label, color = "Élevée", "#f97316"
+        else:
+            label, color = "Très élevée", "#dc2626"
 
         render_custom_gauge(value, color)
-        st.markdown(f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%", unsafe_allow_html=True)
+        st.markdown(
+            f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%",
+            unsafe_allow_html=True
+        )
         st.caption(result["false_dilemma_interpretation"])
 
         with st.expander("Voir les marqueurs", expanded=False):
