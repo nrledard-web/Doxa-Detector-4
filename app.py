@@ -14,6 +14,22 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 # -----------------------------
+# Mots grammaticaux ignorés
+# -----------------------------
+STOPWORDS = {
+    "le","la","les","l","un","une","des",
+    "de","du","d","à","au","aux",
+    "et","ou","mais","donc","or","ni","car",
+    "est","sont","était","étaient","etre","être",
+    "a","ont","avait","avaient","avoir",
+    "dans","sur","sous","avec","sans","pour","par","chez",
+    "ce","cet","cette","ces","se","sa","son","ses",
+    "je","tu","il","elle","on","nous","vous","ils","elles",
+    "ne","n","pas","plus","moins","très","tres",
+    "y","en","que","qui","quoi","dont","où","ou"
+}
+
+# -----------------------------
 # Sources presse française
 # -----------------------------
 FRENCH_NEWS_DOMAINS = [
