@@ -4599,6 +4599,9 @@ if result:
     st.caption(f"Score : {score}/20 — {message}")
     st.caption("Augmentez votre raisonnement pour rendre la barre robuste.")
 
+    # =============================
+    # Diagnostic cognitif rapide
+    # =============================
     st.subheader("Diagnostic cognitif")
     life_score = round((result["hard_fact_score"] / 20) * 100, 1)
     mecroyance_bar = max(0.0, min(1.0, (result["M"] + 10) / 30))
@@ -4630,6 +4633,10 @@ if result:
     m8.metric("F", len(result["red_flags"]))
 
     st.divider()
+
+    # =============================
+    # Triangle cognitif
+    # =============================
     st.subheader("Triangle cognitif G-N-D")
     st.caption("Le texte est placé dans l’espace de la cognition : savoir articulé, compréhension intégrée, et certitude assertive.")
     fig_triangle = plot_cognitive_triangle_3d(result["G"], result["N"], result["D"])
@@ -4642,6 +4649,9 @@ if result:
     with col2:
         st.metric("Indice de mensonge (ME)", round(result["ME"], 2))
 
+    # =============================
+    # Nouvelles jauges : dérives cognitives
+    # =============================
     st.subheader("Dérives cognitives")
 
     dr1, dr2, dr3 = st.columns(3)
@@ -4730,6 +4740,9 @@ if result:
     )
     st.caption(result["cognitive_drift_interpretation"])
 
+    # =============================
+    # Suite du diagnostic
+    # =============================
     delta_mm = round(result["M"] - result["ME"], 2)
     st.caption(f"Écart cognitif (M − ME) : {delta_mm}")
 
