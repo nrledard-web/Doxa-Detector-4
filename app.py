@@ -3549,6 +3549,39 @@ def compute_red_flag_penalties(metrics: dict) -> dict:
         "lie_boost": round(min(lie_boost, 6.0), 2),
     }
 
+def compute_cognitive_drifts(G, N, D):
+    drift_mecroyance = max(0, D - (G + N))
+    drift_pseudo_savoir = max(0, (G + D) - N)
+    drift_intuition_dogmatique = max(0, (N + D) - G)
+
+    global_drift = round(
+        (drift_mecroyance + drift_pseudo_savoir + drift_intuition_dogmatique) / 3,
+        2
+    )
+
+    values = {
+        "mecroyance": round(drift_mecroyance, 2),
+        "pseudo_savoir": round(drift_pseudo_savoir, 2),
+        "intuition_dogmatique": round(drift_intuition_dogmatique, 2),
+    }
+
+    dominant = max(values, key=values.get)
+
+    if dominant == "mecroyance":
+        interpretation = "Dérive dominante : mécroyance."
+    elif dominant == "pseudo_savoir":
+        interpretation = "Dérive dominante : pseudo-savoir."
+    else:
+        interpretation = "Dérive dominante : intuition dogmatique."
+
+    return {
+        "drift_mecroyance": values["mecroyance"],
+        "drift_pseudo_savoir": values["pseudo_savoir"],
+        "drift_intuition_dogmatique": values["intuition_dogmatique"],
+        "global_cognitive_drift": global_drift,
+        "cognitive_drift_interpretation": interpretation,
+    }
+
 def analyze_article(text: str) -> Dict:
     words = text.split()
     sentences = [s.strip() for s in re.split(r"[.!?]+", text) if len(s.strip()) > 10]
