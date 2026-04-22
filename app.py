@@ -4603,6 +4603,16 @@ if result:
     with col2:
         st.metric("Indice de mensonge (ME)", round(result["ME"], 2))
 
+    st.subheader("Dérives cognitives")
+
+    d1, d2, d3 = st.columns(3)
+    d1.metric("Mécroyance", result["drift_mecroyance"])
+    d2.metric("Pseudo-savoir", result["drift_pseudo_savoir"])
+    d3.metric("Intuition dogmatique", result["drift_intuition_dogmatique"])
+
+    st.metric("Indice global de dérive cognitive", result["global_cognitive_drift"])
+    st.caption(result["cognitive_drift_interpretation"])
+
     delta_mm = round(result["M"] - result["ME"], 2)
     st.caption(f"Écart cognitif (M − ME) : {delta_mm}")
 
