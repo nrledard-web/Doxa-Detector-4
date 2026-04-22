@@ -3657,7 +3657,7 @@ def analyze_article(text: str) -> Dict:
     # Indices dérivés
     # -----------------------------
     M = round((G + N) - D, 1)
-        drifts = compute_cognitive_drifts(G, N, D)
+    drifts = compute_cognitive_drifts(G, N, D)
     V = clamp(G * 0.8 + N * 0.2, 0, 10)
     R = clamp(
         (
