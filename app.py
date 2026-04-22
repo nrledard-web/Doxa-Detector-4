@@ -4453,18 +4453,6 @@ if st.session_state.get("loaded_url"):
 # Analyse principale
 # -----------------------------
 if analyze_submitted:
-    STOPWORDS = {
-        "le", "la", "les", "l", "un", "une", "des",
-        "de", "du", "d", "à", "au", "aux",
-        "et", "ou", "mais", "donc", "or", "ni", "car",
-        "est", "sont", "était", "étaient", "etre", "être", "sera", "seront",
-        "a", "ont", "avait", "avaient", "avoir",
-        "dans", "sur", "sous", "avec", "sans", "pour", "par", "chez",
-        "ce", "cet", "cette", "ces", "se", "sa", "son", "ses",
-        "je", "tu", "il", "elle", "on", "nous", "vous", "ils", "elles",
-        "ne", "n", "pas", "plus", "moins", "très", "tres",
-        "y", "en", "que", "qui", "quoi", "dont", "où", "ou"
-    }
 
     words = re.findall(r"\b[\wà-ÿ'-]+\b", article.lower())
     semantic_words = [w for w in words if w not in STOPWORDS]
@@ -4473,10 +4461,15 @@ if analyze_submitted:
         st.session_state.last_result = None
         st.session_state.last_article = article
 
-        st.error("Analyse impossible")
+        st.warning("⚠️ Analyse impossible")
+        st.caption("Le texte est trop court pour permettre une analyse fiable.")
         st.info(
-            "Le moteur nécessite au moins trois mots porteurs de sens pour analyser une affirmation.\n"
-            "Le texte fourni est trop court ou insuffisamment structuré."
+            "DOXA Detector n’utilise pas de dictionnaire encyclopédique : "
+            "il analyse la structure des raisonnements "
+            "(logique, sources, contradictions, causalités, degré de certitude).\n\n"
+            "Pour lancer l’analyse, le texte doit contenir au moins trois mots "
+            "porteurs de sens formant une relation minimale.\n\n"
+            "Veuillez saisir une affirmation plus développée."
         )
         st.stop()
 
