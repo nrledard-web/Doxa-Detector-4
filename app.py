@@ -4642,93 +4642,93 @@ if result:
     with col2:
         st.metric("Indice de mensonge (ME)", round(result["ME"], 2))
 
-st.subheader("Dérives cognitives")
+    st.subheader("Dérives cognitives")
 
-dr1, dr2, dr3 = st.columns(3)
+    dr1, dr2, dr3 = st.columns(3)
 
-with dr1:
-    st.markdown("### Mécroyance")
-    st.caption("La certitude dépasse le savoir et la compréhension.")
+    with dr1:
+        st.markdown("### Mécroyance")
+        st.caption("La certitude dépasse le savoir et la compréhension.")
 
-    value = min(result["drift_mecroyance"] / 10, 1.0)
+        value = min(result["drift_mecroyance"] / 10, 1.0)
 
-    if result["drift_mecroyance"] < 1:
-        label, color = "Faible", "#16a34a"
-    elif result["drift_mecroyance"] < 3:
-        label, color = "Modérée", "#ca8a04"
-    elif result["drift_mecroyance"] < 6:
-        label, color = "Élevée", "#f97316"
+        if result["drift_mecroyance"] < 1:
+            label, color = "Faible", "#16a34a"
+        elif result["drift_mecroyance"] < 3:
+            label, color = "Modérée", "#ca8a04"
+        elif result["drift_mecroyance"] < 6:
+            label, color = "Élevée", "#f97316"
+        else:
+            label, color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(value, color)
+        st.markdown(
+            f"<b style='color:{color}'>{label}</b> — {result['drift_mecroyance']}",
+            unsafe_allow_html=True
+        )
+
+    with dr2:
+        st.markdown("### Pseudo-savoir")
+        st.caption("Accumulation de savoirs mal intégrés ou mal compris.")
+
+        value = min(result["drift_pseudo_savoir"] / 10, 1.0)
+
+        if result["drift_pseudo_savoir"] < 1:
+            label, color = "Faible", "#16a34a"
+        elif result["drift_pseudo_savoir"] < 3:
+            label, color = "Modérée", "#ca8a04"
+        elif result["drift_pseudo_savoir"] < 6:
+            label, color = "Élevée", "#f97316"
+        else:
+            label, color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(value, color)
+        st.markdown(
+            f"<b style='color:{color}'>{label}</b> — {result['drift_pseudo_savoir']}",
+            unsafe_allow_html=True
+        )
+
+    with dr3:
+        st.markdown("### Intuition dogmatique")
+        st.caption("Conviction forte sans base de savoir suffisante.")
+
+        value = min(result["drift_intuition_dogmatique"] / 10, 1.0)
+
+        if result["drift_intuition_dogmatique"] < 1:
+            label, color = "Faible", "#16a34a"
+        elif result["drift_intuition_dogmatique"] < 3:
+            label, color = "Modérée", "#ca8a04"
+        elif result["drift_intuition_dogmatique"] < 6:
+            label, color = "Élevée", "#f97316"
+        else:
+            label, color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(value, color)
+        st.markdown(
+            f"<b style='color:{color}'>{label}</b> — {result['drift_intuition_dogmatique']}",
+            unsafe_allow_html=True
+        )
+
+    st.markdown("### Indice global de dérive cognitive")
+    st.caption("Synthèse des trois dérives cognitives.")
+
+    global_value = min(result["global_cognitive_drift"] / 10, 1.0)
+
+    if result["global_cognitive_drift"] < 1:
+        global_label, global_color = "Faible", "#16a34a"
+    elif result["global_cognitive_drift"] < 3:
+        global_label, global_color = "Modérée", "#ca8a04"
+    elif result["global_cognitive_drift"] < 6:
+        global_label, global_color = "Élevée", "#f97316"
     else:
-        label, color = "Très élevée", "#dc2626"
+        global_label, global_color = "Très élevée", "#dc2626"
 
-    render_custom_gauge(value, color)
+    render_custom_gauge(global_value, global_color)
     st.markdown(
-        f"<b style='color:{color}'>{label}</b> — {result['drift_mecroyance']}",
+        f"<b style='color:{global_color}'>{global_label}</b> — {result['global_cognitive_drift']}",
         unsafe_allow_html=True
     )
-
-with dr2:
-    st.markdown("### Pseudo-savoir")
-    st.caption("Accumulation de savoirs mal intégrés ou mal compris.")
-
-    value = min(result["drift_pseudo_savoir"] / 10, 1.0)
-
-    if result["drift_pseudo_savoir"] < 1:
-        label, color = "Faible", "#16a34a"
-    elif result["drift_pseudo_savoir"] < 3:
-        label, color = "Modérée", "#ca8a04"
-    elif result["drift_pseudo_savoir"] < 6:
-        label, color = "Élevée", "#f97316"
-    else:
-        label, color = "Très élevée", "#dc2626"
-
-    render_custom_gauge(value, color)
-    st.markdown(
-        f"<b style='color:{color}'>{label}</b> — {result['drift_pseudo_savoir']}",
-        unsafe_allow_html=True
-    )
-
-with dr3:
-    st.markdown("### Intuition dogmatique")
-    st.caption("Conviction forte sans base de savoir suffisante.")
-
-    value = min(result["drift_intuition_dogmatique"] / 10, 1.0)
-
-    if result["drift_intuition_dogmatique"] < 1:
-        label, color = "Faible", "#16a34a"
-    elif result["drift_intuition_dogmatique"] < 3:
-        label, color = "Modérée", "#ca8a04"
-    elif result["drift_intuition_dogmatique"] < 6:
-        label, color = "Élevée", "#f97316"
-    else:
-        label, color = "Très élevée", "#dc2626"
-
-    render_custom_gauge(value, color)
-    st.markdown(
-        f"<b style='color:{color}'>{label}</b> — {result['drift_intuition_dogmatique']}",
-        unsafe_allow_html=True
-    )
-
-st.markdown("### Indice global de dérive cognitive")
-st.caption("Synthèse des trois dérives cognitives.")
-
-global_value = min(result["global_cognitive_drift"] / 10, 1.0)
-
-if result["global_cognitive_drift"] < 1:
-    global_label, global_color = "Faible", "#16a34a"
-elif result["global_cognitive_drift"] < 3:
-    global_label, global_color = "Modérée", "#ca8a04"
-elif result["global_cognitive_drift"] < 6:
-    global_label, global_color = "Élevée", "#f97316"
-else:
-    global_label, global_color = "Très élevée", "#dc2626"
-
-render_custom_gauge(global_value, global_color)
-st.markdown(
-    f"<b style='color:{global_color}'>{global_label}</b> — {result['global_cognitive_drift']}",
-    unsafe_allow_html=True
-)
-st.caption(result["cognitive_drift_interpretation"])
+    st.caption(result["cognitive_drift_interpretation"])
 
     delta_mm = round(result["M"] - result["ME"], 2)
     st.caption(f"Écart cognitif (M − ME) : {delta_mm}")
