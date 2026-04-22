@@ -246,12 +246,32 @@ def plot_cognitive_triangle_3d(G: float, N: float, D: float):
     ax = fig.add_subplot(111, projection="3d")
 
     verts = [[G_pt, N_pt, D_pt]]
-    tri = Poly3DCollection(verts, alpha=0.18, edgecolor="black", linewidths=1.5)
+    tri = Poly3DCollection(
+        verts,
+        alpha=0.18,
+        edgecolor="black",
+        linewidths=1.5
+    )
     ax.add_collection3d(tri)
 
-    ax.plot([G_pt[0], N_pt[0]], [G_pt[1], N_pt[1]], [G_pt[2], N_pt[2]], linewidth=2)
-    ax.plot([N_pt[0], D_pt[0]], [N_pt[1], D_pt[1]], [N_pt[2], D_pt[2]], linewidth=2)
-    ax.plot([D_pt[0], G_pt[0]], [D_pt[1], G_pt[1]], [D_pt[2], G_pt[2]], linewidth=2)
+    ax.plot(
+        [G_pt[0], N_pt[0]],
+        [G_pt[1], N_pt[1]],
+        [G_pt[2], N_pt[2]],
+        linewidth=2
+    )
+    ax.plot(
+        [N_pt[0], D_pt[0]],
+        [N_pt[1], D_pt[1]],
+        [N_pt[2], D_pt[2]],
+        linewidth=2
+    )
+    ax.plot(
+        [D_pt[0], G_pt[0]],
+        [D_pt[1], G_pt[1]],
+        [D_pt[2], G_pt[2]],
+        linewidth=2
+    )
 
     ax.scatter(*G_pt, s=80)
     ax.scatter(*N_pt, s=80)
@@ -279,41 +299,41 @@ def plot_cognitive_triangle_3d(G: float, N: float, D: float):
     ax.set_title("Triangle cognitif 3D")
     ax.view_init(elev=24, azim=35)
 
-        # -----------------------------
+    # -----------------------------
     # Zones cognitives dérivées
     # -----------------------------
     ax.text(
-        -0.8, 2.0, 8.8,
+        0.2, 1.0, 8.5,
         "Mécroyance",
         fontsize=10,
         fontweight="bold"
     )
     ax.text(
-        -0.8, 1.2, 8.1,
+        0.2, 0.4, 7.8,
         "Certitude > savoir + compréhension",
         fontsize=8
     )
 
     ax.text(
-        8.0, 1.5, 6.2,
+        7.0, 1.0, 5.8,
         "Pseudo-savoir",
         fontsize=10,
         fontweight="bold"
     )
     ax.text(
-        8.0, 0.8, 5.5,
+        7.0, 0.3, 5.0,
         "Savoir accumulé,\nmais mal intégré",
         fontsize=8
     )
 
     ax.text(
-        1.0, 8.0, 6.2,
+        1.0, 7.0, 5.8,
         "Intuition dogmatique",
         fontsize=10,
         fontweight="bold"
     )
     ax.text(
-        1.0, 7.1, 5.5,
+        1.0, 6.2, 5.0,
         "Conviction forte\nsans base de savoir",
         fontsize=8
     )
