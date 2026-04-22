@@ -279,6 +279,45 @@ def plot_cognitive_triangle_3d(G: float, N: float, D: float):
     ax.set_title("Triangle cognitif 3D")
     ax.view_init(elev=24, azim=35)
 
+        # -----------------------------
+    # Zones cognitives dérivées
+    # -----------------------------
+    ax.text(
+        -0.8, 2.0, 8.8,
+        "Mécroyance",
+        fontsize=10,
+        fontweight="bold"
+    )
+    ax.text(
+        -0.8, 1.2, 8.1,
+        "Certitude > savoir + compréhension",
+        fontsize=8
+    )
+
+    ax.text(
+        8.0, 1.5, 6.2,
+        "Pseudo-savoir",
+        fontsize=10,
+        fontweight="bold"
+    )
+    ax.text(
+        8.0, 0.8, 5.5,
+        "Savoir accumulé,\nmais mal intégré",
+        fontsize=8
+    )
+
+    ax.text(
+        1.0, 8.0, 6.2,
+        "Intuition dogmatique",
+        fontsize=10,
+        fontweight="bold"
+    )
+    ax.text(
+        1.0, 7.1, 5.5,
+        "Conviction forte\nsans base de savoir",
+        fontsize=8
+    )
+
     return fig
 
 
