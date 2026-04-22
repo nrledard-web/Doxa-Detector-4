@@ -4496,29 +4496,52 @@ result = st.session_state.last_result
 article_for_analysis = st.session_state.last_article
 
 if result:
-    col1, col2, col3 = st.columns(3)
-    col1.metric(T["classic_score"], result["M"], help=T["help_classic_score"])
-    col2.metric(T["improved_score"], result["improved"], help=T["help_improved_score"])
-    col3.metric(T["hard_fact_score"], result["hard_fact_score"], help=T["help_hard_fact_score"])
+    # =============================
+    # Crédibilité globale
+    # =============================
+    st.subheader("Crédibilité globale")
 
-    score = result["hard_fact_score"]
-    if score <= 6:
-        couleur, etiquette, message = "🔴", T["fragile"], T["fragile_message"]
-    elif score <= 11:
-        couleur, etiquette, message = "🟠", T["doubtful"], T["doubtful_message"]
-    elif score <= 15:
-        couleur, etiquette, message = "🟡", T["plausible"], T["plausible_message"]
+    if st.session_state.get("semantic_mode", False):
+        semantic_score = result.get("semantic_score", None)
+
+        if semantic_score is not None:
+            credibility_score = round((result["hard_fact_score"] + semantic_score) / 2, 1)
+            st.progress(credibility_score / 20)
+            st.caption(f"Score : {credibility_score}/20 — Raisonnement + sémantique")
+        else:
+            st.info("Analyse sémantique activée, mais aucun score sémantique n’est encore calculé.")
     else:
-        couleur, etiquette, message = "🟢", T["robust"], T["robust_message"]
+        st.info("Crédibilité partielle : activez l’analyse sémantique pour compléter l’évaluation.")
+        st.caption("Crédibilité = raisonnement + sémantique.")
 
-    st.subheader(f"{couleur} {T['credibility_gauge']} : {etiquette}")
+    st.divider()
+
+    # =============================
+    # Résumé chiffré
+    # =============================
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Indice classique", result["M"], help=T["help_classic_score"])
+    col2.metric("Indice ajusté", result["improved"], help=T["help_improved_score"])
+    col3.metric("Score de raisonnement", result["hard_fact_score"], help=T["help_hard_fact_score"])
+
+    # =============================
+    # Barre de raisonnement
+    # =============================
+    score = result["hard_fact_score"]
+
+    if score <= 6:
+        couleur, etiquette, message = "🔴", "Faible", "Le raisonnement reste peu développé ou peu étayé."
+    elif score <= 11:
+        couleur, etiquette, message = "🟠", "Médiocre", "Le texte contient quelques éléments de raisonnement, mais reste insuffisant."
+    elif score <= 15:
+        couleur, etiquette, message = "🟡", "Correct", "Le raisonnement est présent mais encore partiellement fragile."
+    else:
+        couleur, etiquette, message = "🟢", "Robuste", "Le raisonnement est solidement structuré."
+
+    st.subheader(f"{couleur} Barre de raisonnement : {etiquette}")
     st.progress(score / 20)
-    st.caption(f"{T['score']} : {score}/20 — {message}")
-    
-    if result.get("short_form_mode"):
-        st.info(f"{result['short_form_label']} — {result['short_form_interpretation']}")
-        
-    st.caption("Sur cette échelle, un texte véritablement crédible se situe généralement dans la zone robuste.")
+    st.caption(f"Score : {score}/20 — {message}")
+    st.caption("Augmentez votre raisonnement pour rendre la barre robuste.")
 
     st.subheader("Diagnostic cognitif")
     life_score = round((result["hard_fact_score"] / 20) * 100, 1)
