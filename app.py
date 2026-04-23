@@ -368,11 +368,11 @@ st.markdown(
     """
 **DOXA Detector analyse la structure cognitive des discours grâce à un moteur analytique fondé sur des équations, des heuristiques linguistiques et des fonctions de calcul.**
 
-**Le cœur du modèle repose sur l’équation cognitive : M = (G + N) − D.**
+**Basé entièrement sur du calcul, le cœur du modèle repose sur l’équation cognitive : M = (G + N) − D.**
 
 **Dans la tradition logique inaugurée par Aristote — qui distinguait prémisses, raisonnements et sophismes —**
 
-**L’application identifie les différentes formes de sophismes et autres procédés de persuasion présents dans un texte.**
+**L’application identifie les différentes formes de sophismes et autres procédés de persuasion présents dans un texte sans avoir besoin de connaître la définition des mots, celle-ci n’étant utilisée qu’à titre optionnel via une analyse sémantique complémentaire.**
 
 **Ces structures constituent souvent l’empreinte des biais du langage et permettent d’en révéler les mécanismes, aussi bien dans l’analyse des publications médiatiques que pour s’exercer à ne pas les reproduire.**
 
