@@ -5081,34 +5081,34 @@ if result:
     st.caption(f"Score : {score}/20 — {message}")
     st.caption("Augmentez votre raisonnement pour rendre la barre robuste.")
 
-# =============================
-# Résumé rapide
-# =============================
+    # =============================
+    # Résumé rapide
+    # =============================
 
-mini1, mini2, mini3 = st.columns(3)
+    mini1, mini2, mini3 = st.columns(3)
 
-mini1.metric("Raisonnement", f"{result['hard_fact_score']}/20")
-mini2.metric("M", round(result["M"], 2))
-mini3.metric("ME", round(result["ME"], 2))
+    mini1.metric("Raisonnement", f"{result['hard_fact_score']}/20")
+    mini2.metric("M", round(result["M"], 2))
+    mini3.metric("ME", round(result["ME"], 2))
 
-with st.popover("🧠 Voir le résumé complet", use_container_width=True):
+    with st.popover("🧠 Voir le résumé complet", use_container_width=True):
 
-    st.markdown("### Résultats essentiels")
+        st.markdown("### Résultats essentiels")
 
-    st.metric("Barre de raisonnement", f"{result['hard_fact_score']}/20")
+        st.metric("Barre de raisonnement", f"{result['hard_fact_score']}/20")
 
-    col1, col2 = st.columns(2)
+        col1, col2 = st.columns(2)
 
-    with col1:
-        st.metric("Indice M", round(result["M"], 2))
+        with col1:
+            st.metric("Indice M", round(result["M"], 2))
 
-    with col2:
-        st.metric("Indice ME", round(result["ME"], 2))
+        with col2:
+            st.metric("Indice ME", round(result["ME"], 2))
 
-    st.metric(
-        "Dérive dominante",
-        result.get("cognitive_drift_interpretation", "—")
-    )
+        st.metric(
+            "Dérive dominante",
+            result.get("cognitive_drift_interpretation", "—")
+        )
 
     # -------------------------
     # Cerveau DOXA
