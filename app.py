@@ -377,8 +377,11 @@ st.caption(
 
 st.caption(
     "Dans la tradition logique inaugurée par Aristote — qui distinguait prémisses, "
-    "raisonnements et sophismes — l’application examine comment un texte construit "
-    "sa démonstration et son degré de certitude."
+    "raisonnements et sophismes — l’application identifie les différentes formes de "
+    "sophismes et autres procédés de persuasion présents dans un texte. Ces structures "
+    "constituent souvent l’empreinte des biais du langage et permettent d’en révéler "
+    "les mécanismes, aussi bien dans l’analyse des publications médiatiques que pour "
+    "s’exercer à ne pas les reproduire."
 )
 
 st.caption(
