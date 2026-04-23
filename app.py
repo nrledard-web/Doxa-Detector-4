@@ -6292,7 +6292,46 @@ if result:
             else:
                 for marker in markers:
                     st.warning(marker)
-                
+
+    with row13_col3:
+        st.markdown("### Cherry Picking")
+        st.caption("Sélection biaisée d’exemples, de cas ou de preuves allant dans un seul sens.")
+
+        value = result["cherry_picking_score"]
+
+        if value < 0.15:
+            label, color = "Faible", "#16a34a"
+        elif value < 0.35:
+            label, color = "Modérée", "#ca8a04"
+        elif value < 0.60:
+            label, color = "Élevée", "#f97316"
+        else:
+            label, color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(value, color)
+        st.markdown(
+            f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%",
+            unsafe_allow_html=True
+        )
+        st.caption(result["cherry_picking_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("cherry_picking_markers", [])
+            omissions = result.get("cherry_picking_omission_markers", [])
+
+            if not markers and not omissions:
+                st.info("Aucune sélection biaisée notable détectée.")
+            else:
+                if markers:
+                    st.markdown("**Exemples isolés / preuves uniques**")
+                    for marker in markers:
+                        st.warning(marker)
+
+                if omissions:
+                    st.markdown("**Indices d’omission stratégique**")
+                    for marker in omissions:
+                        st.error(marker)
+
     with st.expander("Voir les manœuvres discursives détectées", expanded=False):
         if result["political_pattern_score"] == 0:
             st.info("Aucun marqueur rhétorique politique saillant détecté.")
