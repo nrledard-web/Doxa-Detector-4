@@ -5181,19 +5181,55 @@ if result:
     else:
         couleur, etiquette, message = "🟢", "Robuste", "Le raisonnement est solidement structuré."
 
-    st.subheader(f"{couleur} Barre de raisonnement : {etiquette}")
-    st.progress(score / 20)
-    st.caption(f"Score : {score}/20 — {message}")
-    st.caption("Augmentez votre raisonnement pour rendre la barre robuste.")
+st.subheader(f"{couleur} Barre de raisonnement : {etiquette}")
+st.progress(score / 20)
+st.caption(f"Score : {score}/20 — {message}")
+st.caption("Augmentez votre raisonnement pour rendre la barre robuste.")
 
-    # =============================
-    # Résumé rapide
-    # =============================
-    mini1, mini2, mini3 = st.columns(3)
+# =============================
+# Pénalités appliquées
+# =============================
+st.subheader("Pénalités appliquées")
 
-    mini1.metric("M", round(result["M"], 2))
-    mini2.metric("ME", round(result["ME"], 2))
-    mini3.metric("Raisonnement", f"{result['hard_fact_score']}/20")
+colp1, colp2, colp3 = st.columns(3)
+
+with colp1:
+    st.metric(
+        "Pénalité crédibilité",
+        result.get("credibility_penalty", 0)
+    )
+
+with colp2:
+    st.metric(
+        "Boost mensonge",
+        result.get("lie_boost_total", 0)
+    )
+
+with colp3:
+    st.metric(
+        "Score final",
+        f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
+    )
+
+st.caption(
+    "Les pénalités corrigent le score lorsque le texte accumule des signaux "
+    "de fermeture cognitive, de manipulation ou de raisonnement fragile."
+)
+
+with st.expander("Voir le détail des pénalités", expanded=False):
+    st.json(result.get("penalty_details", {}))
+
+# =============================
+# Résumé rapide
+# =============================
+mini1, mini2, mini3 = st.columns(3)
+
+mini1.metric("M", round(result["M"], 2))
+mini2.metric("ME", round(result["ME"], 2))
+mini3.metric(
+    "Score final",
+    f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
+)
 
     with st.popover("🧠 Voir le résumé complet", use_container_width=True):
         st.markdown("### Résultats essentiels")
