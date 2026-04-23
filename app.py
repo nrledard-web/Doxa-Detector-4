@@ -4318,6 +4318,18 @@ def analyze_article(text: str) -> Dict:
         "propaganda_certainty_terms": propaganda_analysis["certainty_terms"],
         "propaganda_emotional_terms": propaganda_analysis["emotional_terms"],
         "propaganda_interpretation": propaganda_analysis["interpretation"],
+        
+        "victimization_score": victimization_analysis["score"],
+        "victimization_markers": victimization_analysis["markers"],
+        "victimization_interpretation": victimization_analysis["interpretation"],
+
+        "moral_polarization_score": moral_polarization_analysis["score"],
+        "moral_polarization_markers": moral_polarization_analysis["markers"],
+        "moral_polarization_interpretation": moral_polarization_analysis["interpretation"],
+
+        "strategic_simplification_score": strategic_simplification_analysis["score"],
+        "strategic_simplification_markers": strategic_simplification_analysis["markers"],
+        "strategic_simplification_interpretation": strategic_simplification_analysis["interpretation"],
 
         "linguistic_trigger_count": ling["trigger_count"],
         "linguistic_pressure_hits": ling["rhetorical_pressure"],
