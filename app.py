@@ -5167,7 +5167,6 @@ if result:
     col2.metric("Indice ajusté", result["improved"], help=T["help_improved_score"])
     col3.metric("Score de raisonnement", result["hard_fact_score"], help=T["help_hard_fact_score"])
 
-if result: 
     # =============================
     # Barre de raisonnement
     # =============================
@@ -5187,109 +5186,120 @@ if result:
     st.caption(f"Score : {score}/20 — {message}")
     st.caption("Augmentez votre raisonnement pour rendre la barre robuste.")
 
-# =============================
-# Pénalités appliquées
-# =============================
-st.subheader("Pénalités appliquées")
+    # =============================
+    # Pénalités appliquées
+    # =============================
+    st.subheader("Pénalités appliquées")
 
-colp1, colp2, colp3 = st.columns(3)
+    colp1, colp2, colp3 = st.columns(3)
 
-with colp1:
-    st.metric(
-        "Pénalité crédibilité",
-        result.get("credibility_penalty", 0)
-    )
+    with colp1:
+        st.metric(
+            "Pénalité crédibilité",
+            result.get("credibility_penalty", 0)
+        )
 
-with colp2:
-    st.metric(
-        "Boost mensonge",
-        result.get("lie_boost_total", 0)
-    )
+    with colp2:
+        st.metric(
+            "Boost mensonge",
+            result.get("lie_boost_total", 0)
+        )
 
-with colp3:
-    st.metric(
-        "Score final",
-        f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
-    )
+    with colp3:
+        st.metric(
+            "Score final",
+            f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
+        )
 
-st.caption(
-    "Les pénalités corrigent le score lorsque le texte accumule des signaux "
-    "de fermeture cognitive, de manipulation ou de raisonnement fragile."
-)
+    st.caption(
+        "Les pénalités corrigent le score lorsque le texte accumule des signaux "
+        "de fermeture cognitive, de manipulation ou de raisonnement fragile."
+        )
 
-with st.expander("Voir le détail des pénalités", expanded=False):
-    st.json(result.get("penalty_details", {}))
+    with colp3:
+        st.metric(
+            "Score final",
+            f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
+        )
+
+    st.caption(
+        "Les pénalités corrigent le score lorsque le texte accumule des signaux "
+        "de fermeture cognitive, de manipulation ou de raisonnement fragile."
+        )
+
+    with st.expander("Voir le détail des pénalités", expanded=False):
+        st.json(result.get("penalty_details", {}))
 
 # =============================
 # Résumé rapide
 # =============================
-mini1, mini2, mini3 = st.columns(3)
+    mini1, mini2, mini3 = st.columns(3)
 
-mini1.metric("M", round(result["M"], 2))
-mini2.metric("ME", round(result["ME"], 2))
-mini3.metric(
-    "Score final",
-    f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
-)
-
-with st.popover("🧠 Voir le résumé complet", use_container_width=True):
-
-    st.markdown("### Résultats essentiels")
-
-    st.metric(
-        "Barre de raisonnement",
+    mini1.metric("M", round(result["M"], 2))
+    mini2.metric("ME", round(result["ME"], 2))
+    mini3.metric(
+        "Score final",
         f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
     )
 
-    col1, col2 = st.columns(2)
+    with st.popover("🧠 Voir le résumé complet", use_container_width=True):
 
-    with col1:
-        st.metric("Indice M", round(result["M"], 2))
+        st.markdown("### Résultats essentiels")
+
         st.metric(
-            "Dérive dominante",
-            result.get("cognitive_drift_interpretation", "—")
+            "Barre de raisonnement",
+            f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
         )
 
-    with col2:
-        st.metric("Indice ME", round(result["ME"], 2))
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.metric("Indice M", round(result["M"], 2))
+            st.metric(
+                "Dérive dominante",
+                result.get("cognitive_drift_interpretation", "—")
+            )
+
+        with col2:
+            st.metric("Indice ME", round(result["ME"], 2))
+            st.metric(
+                "Régime cognitif",
+                result.get("cognitive_regime", "—")
+            )
+
+        brain = result.get("brain", {})
+
+        st.markdown("### Profil cognitif")
+
         st.metric(
-            "Régime cognitif",
-            result.get("cognitive_regime", "—")
+            "Profil cognitif",
+            brain.get("brain_profile", "—")
         )
 
-    brain = result.get("brain", {})
+        colb1, colb2, colb3 = st.columns(3)
 
-    st.markdown("### Profil cognitif")
+        with colb1:
+            st.metric("IR", brain.get("IR", "—"))
 
-    st.metric(
-        "Profil cognitif",
-        brain.get("brain_profile", "—")
-    )
+        with colb2:
+            st.metric("IL", brain.get("IL", "—"))
 
-    colb1, colb2, colb3 = st.columns(3)
+        with colb3:
+            st.metric("IC", brain.get("IC", "—"))
 
-    with colb1:
-        st.metric("IR", brain.get("IR", "—"))
+        colb4, colb5 = st.columns(2)
 
-    with colb2:
-        st.metric("IL", brain.get("IL", "—"))
+        with colb4:
+            st.metric(
+                "Indice stratégique",
+                brain.get("strategic_index", "—")
+            )
 
-    with colb3:
-        st.metric("IC", brain.get("IC", "—"))
-
-    colb4, colb5 = st.columns(2)
-
-    with colb4:
-        st.metric(
-            "Indice stratégique",
-            brain.get("strategic_index", "—")
-        )
-
-    with colb5:
-        st.metric(
-            "Indice de clôture",
-            brain.get("closure_index", "—")
-        )
+        with colb5:
+            st.metric(
+                "Indice de clôture",
+                brain.get("closure_index", "—")
+            )
     # -------------------------
     # Cerveau DOXA
     # -------------------------
