@@ -4916,8 +4916,9 @@ if result:
     st.progress(score / 20)
     st.caption(f"Score : {score}/20 — {message}")
     st.caption("Augmentez votre raisonnement pour rendre la barre robuste.")
-    # =============================
-# Résumé rapide (mini tableau)
+    
+# =============================
+# Résumé rapide
 # =============================
 
 mini1, mini2, mini3 = st.columns(3)
@@ -4926,18 +4927,11 @@ mini1.metric("Raisonnement", f"{result['hard_fact_score']}/20")
 mini2.metric("M", round(result["M"], 2))
 mini3.metric("ME", round(result["ME"], 2))
 
-
 with st.popover("🧠 Voir le résumé complet", use_container_width=True):
 
     st.markdown("### Résultats essentiels")
 
     st.metric("Barre de raisonnement", f"{result['hard_fact_score']}/20")
-
-    if st.session_state.get("semantic_mode", False):
-        semantic_score = result.get("semantic_score", None)
-        if semantic_score is not None:
-            credibility_score = round((result["hard_fact_score"] + semantic_score) / 2, 1)
-            st.metric("Crédibilité globale", f"{credibility_score}/20")
 
     col1, col2 = st.columns(2)
 
