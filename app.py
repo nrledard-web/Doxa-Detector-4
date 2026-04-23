@@ -4228,6 +4228,23 @@ penalties = compute_red_flag_penalties({
     )
     improved = round((G + N + V) - (D + R), 1)
 
+    penalties = compute_red_flag_penalties({
+        "G": G,
+        "certainty_score": certainty_analysis[0],
+        "vague_authority_score": vague_authority_analysis["score"],
+        "causal_overreach_score": causal_overreach_analysis["score"],
+        "factual_overinterpretation_score": factual_overinterpretation_analysis["score"],
+        "propaganda_score": propaganda_analysis["score"],
+        "emotional_intensity_score": emotional_intensity_analysis["score"],
+        "false_consensus_score": false_consensus_analysis[0],
+        "binary_opposition_score": binary_opposition_analysis[0],
+        "internal_dissonance_score": internal_dissonance_analysis["score"],
+        "semantic_shift_score": semantic_shift_analysis["score"],
+        "ideological_premise_score": ideological_premise_analysis["score"],
+        "doxic_rigidity_score": doxic_rigidity_analysis["score"],
+        "drift_pseudo_savoir": drifts["drift_pseudo_savoir"],
+    })
+
     # -----------------------------
     # Syllogismes / inférences
     # -----------------------------
