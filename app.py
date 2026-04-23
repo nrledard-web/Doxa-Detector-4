@@ -5129,10 +5129,12 @@ with st.popover("🧠 Voir le résumé complet", use_container_width=True):
     st.metric("Barre de raisonnement", f"{result['hard_fact_score']}/20")
 
     col1, col2 = st.columns(2)
-with col1:
-    st.metric("Indice M", round(result["M"], 2))
-with col2:
-    st.metric("Indice ME", round(result["ME"], 2))
+
+    with col1:
+        st.metric("Indice M", round(result["M"], 2))
+
+    with col2:
+        st.metric("Indice ME", round(result["ME"], 2))
 
     st.metric(
         "Dérive dominante",
@@ -5151,11 +5153,14 @@ with col2:
         brain.get("brain_profile", "—")
     )
 
-    colb1, colb2, colb3 = st.columns(3)
+colb1, colb2, colb3 = st.columns(3)
+
 with colb1:
     st.metric("IR", brain.get("IR", "—"))
+
 with colb2:
     st.metric("IL", brain.get("IL", "—"))
+
 with colb3:
     st.metric("IC", brain.get("IC", "—"))
 
