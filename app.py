@@ -4045,6 +4045,21 @@ def classify_cognitive_regime(result):
 
     result["cognitive_regime"] = regime
 
+def classify_cognitive_regime(result: dict) -> dict:
+    M = result["M"]
+    ME = result["ME"]
+    rp = result["rhetorical_pressure"]
+
+    if ME > 2 and rp > 0.5:
+        regime = "Manipulation stratégique"
+    elif result["drift_pseudo_savoir"] > result["drift_mecroyance"]:
+        regime = "Pseudo-savoir"
+    else:
+        regime = "Mécroyance"
+
+    result["cognitive_regime"] = regime
+    return result
+
 def analyze_article(text: str) -> Dict:
     words = text.split()
     sentences = [s.strip() for s in re.split(r"[.!?]+", text) if len(s.strip()) > 10]
