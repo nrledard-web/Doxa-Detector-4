@@ -2823,8 +2823,29 @@ def compute_factual_overinterpretation(text: str):
         }
 
     text_lower = text.lower()
-    hits = [t for t in FACTUAL_OVERINTERPRETATION_TERMS if contains_term(text_lower, t)]
-    score = min(len(hits) * 2.5 / 10, 1.0)
+
+    hits = [
+        t for t in FACTUAL_OVERINTERPRETATION_TERMS
+        if contains_term(text_lower, t) or t in text_lower
+    ]
+
+    accelerator_terms = [
+        "donc forcément",
+        "cela confirme définitivement",
+        "cela démontre clairement",
+        "on voit bien que",
+        "la preuve absolue",
+    ]
+
+    accel_hits = [
+        t for t in accelerator_terms
+        if contains_term(text_lower, t) or t in text_lower
+    ]
+
+    all_hits = unique_keep_order(hits + accel_hits)
+
+    raw_score = len(hits) * 0.28 + len(accel_hits) * 0.20
+    score = min(raw_score, 1.0)
 
     if score < 0.15:
         interpretation = "Peu de surinterprétation factuelle détectée."
@@ -2837,7 +2858,7 @@ def compute_factual_overinterpretation(text: str):
 
     return {
         "score": round(score, 3),
-        "markers": hits,
+        "markers": all_hits,
         "interpretation": interpretation,
     }
 
