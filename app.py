@@ -5122,17 +5122,17 @@ mini1.metric(...)
 mini2.metric(...)
 mini3.metric(...)
 
-    with st.popover("🧠 Voir le résumé complet", use_container_width=True):
+with st.popover("🧠 Voir le résumé complet", use_container_width=True):
 
-        st.markdown("### Résultats essentiels")
+    st.markdown("### Résultats essentiels")
 
-        st.metric("Barre de raisonnement", f"{result['hard_fact_score']}/20")
+    st.metric("Barre de raisonnement", f"{result['hard_fact_score']}/20")
 
-        col1, col2 = st.columns(2)
-    with col1:
-        st.metric("Indice M", round(result["M"], 2))
-    with col2:
-        st.metric("Indice ME", round(result["ME"], 2))
+    col1, col2 = st.columns(2)
+with col1:
+    st.metric("Indice M", round(result["M"], 2))
+with col2:
+    st.metric("Indice ME", round(result["ME"], 2))
 
     st.metric(
         "Dérive dominante",
@@ -5152,18 +5152,18 @@ mini3.metric(...)
     )
 
         colb1, colb2, colb3 = st.columns(3)
-    with colb1:
-        st.metric("IR", brain.get("IR", "—"))
-    with colb2:
-        st.metric("IL", brain.get("IL", "—"))
-    with colb3:
-        st.metric("IC", brain.get("IC", "—"))
+with colb1:
+    st.metric("IR", brain.get("IR", "—"))
+with colb2:
+    st.metric("IL", brain.get("IL", "—"))
+with colb3:
+    st.metric("IC", brain.get("IC", "—"))
 
-        colb4, colb5 = st.columns(2)
-    with colb4:
-        st.metric("Indice stratégique", brain.get("strategic_index", "—"))
-    with colb5:
-        st.metric("Indice de clôture", brain.get("closure_index", "—"))
+    colb4, colb5 = st.columns(2)
+with colb4:
+    st.metric("Indice stratégique", brain.get("strategic_index", "—"))
+with colb5:
+    st.metric("Indice de clôture", brain.get("closure_index", "—"))
 
 # -------------------------
 # Cerveau DOXA
