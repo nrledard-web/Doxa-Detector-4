@@ -376,8 +376,14 @@ st.caption(
 )
 
 st.caption(
-    "L’intelligence artificielle n’intervient que comme module optionnel d’assistance "
-    "et d’interprétation."
+    "Dans la tradition logique inaugurée par Aristote — qui distinguait prémisses, "
+    "raisonnements et sophismes — l’application examine comment un texte construit "
+    "sa démonstration et son degré de certitude."
+)
+
+st.caption(
+    "L’intelligence artificielle n’intervient que comme module optionnel "
+    "d’assistance et d’interprétation."
 )
 
 st.divider()
@@ -385,6 +391,7 @@ st.divider()
 with st.container(border=True):
 
     st.subheader("Analyser la solidité d’un texte")
+
     st.write(
         "DOXA Detector aide à comprendre si un texte repose sur un raisonnement solide "
         "ou sur une rhétorique persuasive."
