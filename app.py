@@ -4108,9 +4108,12 @@ def analyze_article(text: str) -> Dict:
     normative_saturation_analysis = compute_normative_saturation(text)
     doxic_rigidity_analysis = compute_doxic_rigidity(text)
     narrative_overdetermination_analysis = compute_narrative_overdetermination(text)
+
     victimization_analysis = compute_victimization(text)
     moral_polarization_analysis = compute_moral_polarization(text)
     strategic_simplification_analysis = compute_strategic_simplification(text)
+    frame_shift_analysis = compute_frame_shift(text)
+    argument_asymmetry_analysis = compute_argument_asymmetry(text)
 
     penalties = compute_red_flag_penalties({
         "G": G,
