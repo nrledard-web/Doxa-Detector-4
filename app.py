@@ -2686,11 +2686,18 @@ def compute_certainty(text: str):
     return score, interpretation, hits
 
 def compute_false_consensus(text: str):
+    if not text or not text.strip():
+        return 0.0, "Aucun faux consensus significatif détecté.", []
+
     text_lower = text.lower()
 
-    hits = [t for t in CONSENSUS_TERMS if contains_term(text_lower, t)]
+    base_hits = [t for t in CONSENSUS_TERMS if contains_term(text_lower, t)]
+    strong_hits = [t for t in FALSE_CONSENSUS_STRONG_PATTERNS if contains_term(text_lower, t) or t in text_lower]
 
-    score = min(len(hits) * 2.5 / 10, 1.0)
+    all_hits = unique_keep_order(base_hits + strong_hits)
+
+    raw_score = len(base_hits) * 0.22 + len(strong_hits) * 0.38
+    score = min(raw_score, 1.0)
 
     if score < 0.15:
         interpretation = "Aucun faux consensus significatif détecté."
@@ -2701,7 +2708,7 @@ def compute_false_consensus(text: str):
     else:
         interpretation = "Le texte s'appuie fortement sur un faux consensus rhétorique."
 
-    return score, interpretation, hits
+    return round(score, 3), interpretation, all_hits
 
 
 def compute_binary_opposition(text: str):
