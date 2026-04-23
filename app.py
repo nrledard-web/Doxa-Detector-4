@@ -2782,111 +2782,164 @@ def compute_false_consensus(text: str):
 # =========================================================
 # VICTIMISATION STRATÉGIQUE
 # =========================================================
+def compute_victimization(text: str):
+    if not text or not text.strip():
+        return {
+            "score": 0.0,
+            "markers": [],
+            "interpretation": "Aucune victimisation stratégique détectée."
+        }
 
-def compute_victimization(text):
+    text_lower = text.lower()
+    hits = [term for term in VICTIMIZATION_TERMS if contains_term(text_lower, term) or term in text_lower]
+    score = min(len(hits) * 0.30, 1.0)
 
-    t = text.lower()
-    hits = [term for term in VICTIMIZATION_TERMS if term in t]
-
-    score = min(len(hits) * 0.30, 1)
+    if score < 0.15:
+        interpretation = "Peu de posture victimaire détectée."
+    elif score < 0.35:
+        interpretation = "Le texte suggère une posture de victimisation."
+    elif score < 0.60:
+        interpretation = "La victimisation structure partiellement le discours."
+    else:
+        interpretation = "Le discours repose fortement sur une posture victimaire."
 
     return {
-        "score": score,
-        "markers": hits
+        "score": round(score, 3),
+        "markers": hits,
+        "interpretation": interpretation,
     }
 
 
 # =========================================================
 # POLARISATION MORALE
 # =========================================================
+def compute_polarization(text: str):
+    if not text or not text.strip():
+        return {
+            "score": 0.0,
+            "markers": [],
+            "interpretation": "Aucune polarisation morale détectée."
+        }
 
-def compute_polarization(text):
+    text_lower = text.lower()
+    hits = [term for term in POLARIZATION_TERMS if contains_term(text_lower, term) or term in text_lower]
+    score = min(len(hits) * 0.30, 1.0)
 
-    t = text.lower()
-    hits = [term for term in POLARIZATION_TERMS if term in t]
-
-    score = min(len(hits) * 0.30, 1)
+    if score < 0.15:
+        interpretation = "Peu de polarisation morale détectée."
+    elif score < 0.35:
+        interpretation = "Le texte contient quelques oppositions morales simplifiées."
+    elif score < 0.60:
+        interpretation = "Le texte structure nettement le débat en camps moraux opposés."
+    else:
+        interpretation = "Le discours repose fortement sur une polarisation morale."
 
     return {
-        "score": score,
-        "markers": hits
+        "score": round(score, 3),
+        "markers": hits,
+        "interpretation": interpretation,
     }
 
 
 # =========================================================
 # SIMPLIFICATION STRATÉGIQUE
 # =========================================================
+def compute_simplification(text: str):
+    if not text or not text.strip():
+        return {
+            "score": 0.0,
+            "markers": [],
+            "interpretation": "Aucune simplification stratégique détectée."
+        }
 
-def compute_simplification(text):
+    text_lower = text.lower()
+    hits = [term for term in SIMPLIFICATION_TERMS if contains_term(text_lower, term) or term in text_lower]
+    score = min(len(hits) * 0.30, 1.0)
 
-    t = text.lower()
-    hits = [term for term in SIMPLIFICATION_TERMS if term in t]
-
-    score = min(len(hits) * 0.30, 1)
+    if score < 0.15:
+        interpretation = "Peu de simplification stratégique détectée."
+    elif score < 0.35:
+        interpretation = "Le texte contient quelques raccourcis explicatifs."
+    elif score < 0.60:
+        interpretation = "Le texte réduit plusieurs phénomènes complexes à des causes simples."
+    else:
+        interpretation = "Le discours repose fortement sur une simplification stratégique du réel."
 
     return {
-        "score": score,
-        "markers": hits
+        "score": round(score, 3),
+        "markers": hits,
+        "interpretation": interpretation,
     }
 
 
 # =========================================================
 # FRAME SHIFT
 # =========================================================
+def compute_frame_shift(text: str):
+    if not text or not text.strip():
+        return {
+            "score": 0.0,
+            "markers": [],
+            "interpretation": "Aucun déplacement du cadre argumentatif détecté."
+        }
 
-def compute_frame_shift(text):
+    text_lower = text.lower()
+    hits = [term for term in FRAME_SHIFT_TERMS if contains_term(text_lower, term) or term in text_lower]
+    score = min(len(hits) * 0.35, 1.0)
 
-    t = text.lower()
-    hits = [term for term in FRAME_SHIFT_TERMS if term in t]
-
-    score = min(len(hits) * 0.35, 1)
+    if score < 0.15:
+        interpretation = "Peu de déplacement du cadre argumentatif."
+    elif score < 0.35:
+        interpretation = "Le texte contient quelques tentatives de déplacement du débat."
+    elif score < 0.60:
+        interpretation = "Le discours modifie régulièrement le cadre du débat."
+    else:
+        interpretation = "Le discours repose fortement sur un déplacement du cadre argumentatif."
 
     return {
-        "score": score,
-        "markers": hits
+        "score": round(score, 3),
+        "markers": hits,
+        "interpretation": interpretation,
     }
 
 
 # =========================================================
 # ASYMÉTRIE ARGUMENTATIVE
 # =========================================================
+def compute_argument_asymmetry(text: str):
+    if not text or not text.strip():
+        return {
+            "score": 0.0,
+            "attack_count": 0,
+            "argument_count": 0,
+            "interpretation": "Aucune asymétrie argumentative détectée."
+        }
 
-def compute_argument_asymmetry(text):
-
-    t = text.lower()
-
-    attack_count = sum(t.count(term) for term in ATTACK_TERMS)
-    argument_count = sum(t.count(term) for term in ARGUMENT_TERMS)
-
-    if argument_count == 0:
-        score = min(attack_count * 0.25, 1)
-    else:
-        score = min((attack_count / argument_count) * 0.25, 1)
-
-    return {
-        "score": score,
-        "attack_count": attack_count,
-        "argument_count": argument_count
-    }
-
-
-def compute_binary_opposition(text: str):
     text_lower = text.lower()
 
-    hits = [t for t in BINARY_OPPOSITION_TERMS if contains_term(text_lower, t)]
+    attack_count = sum(text_lower.count(term) for term in ATTACK_TERMS)
+    argument_count = sum(text_lower.count(term) for term in ARGUMENT_TERMS)
 
-    score = min(len(hits) * 3 / 10, 1.0)
+    if argument_count == 0:
+        score = min(attack_count * 0.25, 1.0)
+    else:
+        score = min((attack_count / argument_count) * 0.25, 1.0)
 
     if score < 0.15:
-        interpretation = "Aucune opposition binaire significative détectée."
+        interpretation = "Le texte reste globalement équilibré argumentativement."
     elif score < 0.35:
-        interpretation = "Tendance légère à structurer le discours en camps opposés."
+        interpretation = "L’argumentation montre une légère asymétrie."
     elif score < 0.60:
-        interpretation = "Opposition binaire marquée entre groupes."
+        interpretation = "Le discours privilégie l’attaque plutôt que la démonstration."
     else:
-        interpretation = "Discours fortement structuré en camps antagonistes."
+        interpretation = "Forte asymétrie argumentative : rhétorique d’attaque dominante."
 
-    return score, interpretation, hits
+    return {
+        "score": round(score, 3),
+        "attack_count": attack_count,
+        "argument_count": argument_count,
+        "interpretation": interpretation,
+    }
 
 
 THREAT_AMPLIFICATION_TERMS = [
