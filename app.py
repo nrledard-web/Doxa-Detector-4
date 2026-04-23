@@ -3128,6 +3128,70 @@ DESCRIPTIVE_NORMATIVE_CONFUSION_PATTERNS = [
     "par conséquent nous devons",
 ]
 
+# -----------------------------
+# Cherry Picking / sélection biaisée
+# -----------------------------
+CHERRY_PICKING_PATTERNS = [
+    "une étude montre",
+    "une seule étude montre",
+    "un exemple prouve",
+    "ce cas prouve",
+    "ce seul cas montre",
+    "quelques cas montrent",
+    "certains cas prouvent",
+    "un témoignage prouve",
+    "cet exemple démontre",
+    "la preuve avec ce cas",
+]
+
+CHERRY_PICKING_OMISSION_MARKERS = [
+    "sans parler du reste",
+    "on oublie souvent que",
+    "personne ne mentionne",
+    "les médias cachent",
+    "on ne vous dit pas que",
+]
+
+def detect_cherry_picking(text: str):
+    if not text or not text.strip():
+        return {
+            "score": 0.0,
+            "matches": [],
+            "omission_markers": [],
+            "interpretation": "Aucune sélection biaisée saillante détectée."
+        }
+
+    text_lower = text.lower()
+
+    matches = [
+        p for p in CHERRY_PICKING_PATTERNS
+        if contains_term(text_lower, p) or p in text_lower
+    ]
+
+    omission_hits = [
+        p for p in CHERRY_PICKING_OMISSION_MARKERS
+        if contains_term(text_lower, p) or p in text_lower
+    ]
+
+    raw_score = len(matches) * 0.7 + len(omission_hits) * 0.4
+    score = min(raw_score, 1.0)
+
+    if score < 0.15:
+        interpretation = "Peu de sélection biaisée détectée."
+    elif score < 0.35:
+        interpretation = "Le texte semble s’appuyer sur quelques exemples isolés."
+    elif score < 0.60:
+        interpretation = "Le texte présente plusieurs indices de sélection partielle des faits."
+    else:
+        interpretation = "Le discours semble fortement structuré par une sélection biaisée des exemples ou des preuves."
+
+    return {
+        "score": round(score, 3),
+        "matches": matches,
+        "omission_markers": omission_hits,
+        "interpretation": interpretation,
+    }
+
 def detect_petition_principii(text: str):
     text_lower = text.lower()
     matches = [p for p in PETITION_PATTERNS if contains_term(text_lower, p) or p in text_lower]
