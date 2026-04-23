@@ -3920,18 +3920,17 @@ def compute_red_flag_penalties(metrics: dict) -> dict:
         credibility_penalty += cred
         lie_boost += lie
 
-        # -----------------------------
+    # -----------------------------
     # Pseudo-savoir élevé
     # -----------------------------
-    brain = metrics.get("brain", {})
-    pseudo_savoir = brain.get("IL", 0)
+    pseudo_savoir = metrics.get("drift_pseudo_savoir", 0)
 
     if pseudo_savoir > 5:
         penalty = round((pseudo_savoir - 5) * 0.5, 2)
         add_flag(
-            "pseudo_savoir",
+            "Pseudo-savoir élevé",
             penalty,
-            0,
+            0.3,
             "Accumulation de savoirs mal intégrés ou mal compris."
         )
 
@@ -4177,21 +4176,24 @@ def analyze_article(text: str) -> Dict:
     frame_shift_analysis = compute_frame_shift(text)
     argument_asymmetry_analysis = compute_argument_asymmetry(text)
 
-    penalties = compute_red_flag_penalties({
-        "G": G,
-        "vague_authority_score": vague_authority_analysis["score"],
-        "certainty_score": certainty_analysis[0],
-        "doxic_rigidity_score": doxic_rigidity_analysis["score"],
-        "causal_overreach_score": causal_overreach_analysis["score"],
-        "factual_overinterpretation_score": factual_overinterpretation_analysis["score"],
-        "propaganda_score": propaganda_analysis["score"],
-        "emotional_intensity_score": emotional_intensity_analysis["score"],
-        "false_consensus_score": false_consensus_analysis[0],
-        "binary_opposition_score": binary_opposition_analysis[0],
-        "internal_dissonance_score": internal_dissonance_analysis["score"],
-        "semantic_shift_score": semantic_shift_analysis["score"],
-        "ideological_premise_score": ideological_premise_analysis["score"],
-    })
+penalties = compute_red_flag_penalties({
+    "G": G,
+    "certainty_score": certainty_score,
+    "vague_authority_score": vague_authority_score,
+    "causal_overreach_score": causal_overreach_score,
+    "factual_overinterpretation_score": factual_overinterpretation_score,
+    "propaganda_score": propaganda_score,
+    "emotional_intensity_score": emotional_intensity_score,
+    "false_consensus_score": false_consensus_score,
+    "binary_opposition_score": binary_opposition_score,
+    "internal_dissonance_score": internal_dissonance_score,
+    "semantic_shift_score": semantic_shift_score,
+    "ideological_premise_score": ideological_premise_score,
+    "doxic_rigidity_score": doxic_rigidity_score,
+
+    # AJOUT
+    "IL": brain["IL"],
+})
 
     certainty = len(re.findall(r"certain|absolument|prouvé|évident|incontestable", text.lower()))
     emotional = len(re.findall(r"|".join(re.escape(w) for w in EMOTIONAL_WORDS), text.lower()))
