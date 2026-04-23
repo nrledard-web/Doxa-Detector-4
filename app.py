@@ -4630,6 +4630,24 @@ def analyze_article(text: str) -> Dict:
     result["brain"] = brain
     result = classify_cognitive_regime(result)
 
+    # -----------------------------
+    # Pénalités finales
+    # -----------------------------
+    result["credibility_penalty"] = penalties["credibility_penalty"]
+    result["lie_boost"] = penalties["lie_boost"]
+    result["penalty_details"] = penalties
+
+    # hard_fact_score est déjà pénalisé plus haut
+    result["hard_fact_score_penalized"] = result["hard_fact_score"]
+
+    # improved n'était pas encore corrigé par ces pénalités
+    result["improved_penalized"] = round(
+        max(0, result["improved"] - penalties["credibility_penalty"]),
+        1
+    )
+
+    result["final_credibility_score"] = result["hard_fact_score_penalized"]
+
     return result
 
 # -----------------------------
