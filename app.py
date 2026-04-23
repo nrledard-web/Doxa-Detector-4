@@ -5124,11 +5124,11 @@ mini3.metric(...)
 
     with st.popover("🧠 Voir le résumé complet", use_container_width=True):
 
-    st.markdown("### Résultats essentiels")
+        st.markdown("### Résultats essentiels")
 
-    st.metric("Barre de raisonnement", f"{result['hard_fact_score']}/20")
+        st.metric("Barre de raisonnement", f"{result['hard_fact_score']}/20")
 
-    col1, col2 = st.columns(2)
+        col1, col2 = st.columns(2)
     with col1:
         st.metric("Indice M", round(result["M"], 2))
     with col2:
