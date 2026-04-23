@@ -370,9 +370,9 @@ st.markdown(
 
 **Basé entièrement sur du calcul, le cœur du modèle repose sur l’équation cognitive : M = (G + N) − D.**
 
-**Dans la tradition logique inaugurée par Aristote — qui distinguait prémisses, raisonnements et sophismes —**
+**Dans la tradition logique inaugurée par Aristote — qui distinguait prémisses, raisonnements et sophismes — l’application examine les structures argumentatives présentes dans un texte.**
 
-**L’application identifie les différentes formes de sophismes et autres procédés de persuasion présents dans un texte sans avoir besoin de connaître la définition des mots, celle-ci n’étant utilisée qu’à titre optionnel via une analyse sémantique complémentaire.**
+**L’application identifie les différentes formes de sophismes et autres procédés de persuasion présents dans un texte sans avoir besoin de connaître la définition des mots ; celle-ci n’étant utilisée qu’à titre optionnel via une analyse sémantique complémentaire.**
 
 **Ces structures constituent souvent l’empreinte des biais du langage et permettent d’en révéler les mécanismes, aussi bien dans l’analyse des publications médiatiques que pour s’exercer à ne pas les reproduire.**
 
