@@ -4484,6 +4484,15 @@ def analyze_article(text: str) -> Dict:
         "strategic_simplification_markers": strategic_simplification_analysis["markers"],
         "strategic_simplification_interpretation": strategic_simplification_analysis["interpretation"],
 
+        "frame_shift_score": frame_shift_analysis["score"],
+        "frame_shift_markers": frame_shift_analysis["markers"],
+        "frame_shift_interpretation": frame_shift_analysis["interpretation"],
+
+        "argument_asymmetry_score": argument_asymmetry_analysis["score"],
+        "argument_attack_count": argument_asymmetry_analysis["attack_count"],
+        "argument_support_count": argument_asymmetry_analysis["argument_count"],
+        "argument_asymmetry_interpretation": argument_asymmetry_analysis["interpretation"],
+
         "linguistic_trigger_count": ling["trigger_count"],
         "linguistic_pressure_hits": ling["rhetorical_pressure"],
         "absolute_claims": ling["absolute_claims"],
