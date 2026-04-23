@@ -4564,19 +4564,23 @@ def analyze_article(text: str) -> Dict:
         "cherry_picking_omission_markers": cherry_picking_analysis["omission_markers"],
         "cherry_picking_interpretation": cherry_picking_analysis["interpretation"],
 
-        "red_flags": [flag["name"] for flag in penalties["flags"]],
-        "weighted_red_flags": penalties["flags"],
-        "credibility_penalty_total": penalties["credibility_penalty"],
-        "lie_boost_total": penalties["lie_boost"],
-        "drift_mecroyance": drifts["drift_mecroyance"],
-        "drift_pseudo_savoir": drifts["drift_pseudo_savoir"],
-        "drift_intuition_dogmatique": drifts["drift_intuition_dogmatique"],
-        "global_cognitive_drift": drifts["global_cognitive_drift"],
-        "cognitive_drift_interpretation": drifts["cognitive_drift_interpretation"],
+result = {
+    ...
+    "red_flags": [flag["name"] for flag in penalties["flags"]],
+    "weighted_red_flags": penalties["flags"],
+    "credibility_penalty_total": penalties["credibility_penalty"],
+    "lie_boost_total": penalties["lie_boost"],
+    "drift_mecroyance": drifts["drift_mecroyance"],
+    "drift_pseudo_savoir": drifts["drift_pseudo_savoir"],
+    "drift_intuition_dogmatique": drifts["drift_intuition_dogmatique"],
+    "global_cognitive_drift": drifts["global_cognitive_drift"],
+    "cognitive_drift_interpretation": drifts["cognitive_drift_interpretation"],
+}
 
-        "brain": brain,
-    }
+result["brain"] = brain
+result = classify_cognitive_regime(result)
 
+return result
 
 # -----------------------------
 # Corroboration
