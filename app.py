@@ -2779,6 +2779,96 @@ def compute_false_consensus(text: str):
 
     return round(score, 3), interpretation, all_hits
 
+# =========================================================
+# VICTIMISATION STRATÉGIQUE
+# =========================================================
+
+def compute_victimization(text):
+
+    t = text.lower()
+    hits = [term for term in VICTIMIZATION_TERMS if term in t]
+
+    score = min(len(hits) * 0.30, 1)
+
+    return {
+        "score": score,
+        "markers": hits
+    }
+
+
+# =========================================================
+# POLARISATION MORALE
+# =========================================================
+
+def compute_polarization(text):
+
+    t = text.lower()
+    hits = [term for term in POLARIZATION_TERMS if term in t]
+
+    score = min(len(hits) * 0.30, 1)
+
+    return {
+        "score": score,
+        "markers": hits
+    }
+
+
+# =========================================================
+# SIMPLIFICATION STRATÉGIQUE
+# =========================================================
+
+def compute_simplification(text):
+
+    t = text.lower()
+    hits = [term for term in SIMPLIFICATION_TERMS if term in t]
+
+    score = min(len(hits) * 0.30, 1)
+
+    return {
+        "score": score,
+        "markers": hits
+    }
+
+
+# =========================================================
+# FRAME SHIFT
+# =========================================================
+
+def compute_frame_shift(text):
+
+    t = text.lower()
+    hits = [term for term in FRAME_SHIFT_TERMS if term in t]
+
+    score = min(len(hits) * 0.35, 1)
+
+    return {
+        "score": score,
+        "markers": hits
+    }
+
+
+# =========================================================
+# ASYMÉTRIE ARGUMENTATIVE
+# =========================================================
+
+def compute_argument_asymmetry(text):
+
+    t = text.lower()
+
+    attack_count = sum(t.count(term) for term in ATTACK_TERMS)
+    argument_count = sum(t.count(term) for term in ARGUMENT_TERMS)
+
+    if argument_count == 0:
+        score = min(attack_count * 0.25, 1)
+    else:
+        score = min((attack_count / argument_count) * 0.25, 1)
+
+    return {
+        "score": score,
+        "attack_count": attack_count,
+        "argument_count": argument_count
+    }
+
 
 def compute_binary_opposition(text: str):
     text_lower = text.lower()
