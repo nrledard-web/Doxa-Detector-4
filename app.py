@@ -367,29 +367,45 @@ client = get_openai_client()
 st.title("DOXA Detector")
 
 with st.container(border=True):
-    st.subheader("Analyser la fiabilité d’un texte")
+
+    st.subheader("Analyser la solidité d’un texte")
     st.write(
-        "DOXA Detector aide à comprendre si un texte repose sur des faits solides "
-        "ou sur une rhétorique persuasive."
+        "DOXA Detector aide à comprendre si un texte repose sur un raisonnement solide, "
+        "sur des faits vérifiables ou sur des procédés rhétoriques persuasifs."
     )
 
     col1, col2, col3 = st.columns(3)
 
     with col1:
         st.markdown("### 1️⃣ Coller un texte")
-        st.write("Copiez un article ou un extrait dans la zone d’analyse.")
+        st.write("Copiez un article, une déclaration ou un extrait dans la zone d’analyse.")
 
     with col2:
         st.markdown("### 2️⃣ Analyser")
-        st.write("L’application examine les sources, les affirmations et la nuance.")
+        st.write("L’application examine le raisonnement, les sources, les affirmations et la nuance.")
 
     with col3:
         st.markdown("### 3️⃣ Comprendre")
-        st.write("Obtenez un score de crédibilité et une analyse des affirmations.")
+        st.write("Obtenez une barre de raisonnement, des diagnostics cognitifs et une cartographie discursive.")
+
+    st.divider()
+
+    st.markdown("### Héritage logique")
+    st.write(
+        "Depuis Aristote, la logique distingue prémisses, raisonnements et sophismes. "
+        "DOXA Detector s’inscrit dans cette tradition en analysant la structure cognitive "
+        "des discours contemporains."
+    )
+
+    st.write(
+        "L’outil ne se limite pas à vérifier des faits : il examine aussi la manière "
+        "dont un texte construit son raisonnement, son degré de certitude et les procédés "
+        "rhétoriques qui peuvent influencer l’interprétation."
+    )
 
     st.caption(
-        "Cet outil n’affirme pas si un texte est vrai ou faux : "
-        "il aide simplement à mieux comprendre la solidité de l’information."
+        "DOXA Detector ne décrète pas mécaniquement qu’un texte est vrai ou faux. "
+        "Il aide à comprendre si un discours est solidement construit, fragile ou orienté."
     )
 
 
