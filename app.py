@@ -4060,6 +4060,62 @@ def classify_cognitive_regime(result: dict) -> dict:
     result["cognitive_regime"] = regime
     return result
 
+def compute_global_penalties(result: dict) -> dict:
+    """
+    Agrège les fragilités déjà détectées.
+    Ne modifie pas le noyau G-N-D-M.
+    """
+
+    red_flags_count = len(result.get("red_flags", []))
+
+    penalty = 0.0
+
+    # 1) Red flags généraux
+    penalty += min(red_flags_count * 0.25, 2.0)
+
+    # 2) Dérives discursives déjà calculées
+    penalty += result.get("normative_score", 0) * 0.8
+    penalty += result.get("premise_score", 0) * 1.0
+    penalty += result.get("propaganda_score", 0) * 1.2
+    penalty += result.get("logic_confusion_score", 0) * 1.0
+    penalty += result.get("scientific_simulation_score", 0) * 0.8
+
+    # 3) Sophismes simples
+    penalty += result.get("petition_score", 0) * 0.8
+    penalty += result.get("false_causality_basic_score", 0) * 0.9
+    penalty += result.get("hasty_generalization_score", 0) * 0.8
+    penalty += result.get("false_dilemma_score", 0) * 0.8
+
+    # 4) Verrouillage / manipulation
+    penalty += result.get("doxic_rigidity_score", 0) * 1.0
+    penalty += result.get("narrative_overdetermination_score", 0) * 0.9
+    penalty += result.get("moral_polarization_score", 0) * 0.8
+    penalty += result.get("strategic_simplification_score", 0) * 0.8
+    penalty += result.get("argument_asymmetry_score", 0) * 0.7
+
+    # Plafond pour éviter de casser artificiellement le score
+    penalty = round(min(penalty, 6.0), 2)
+
+    if penalty < 1:
+        label = "Faible"
+        interpretation = "Les fragilités détectées ne modifient que faiblement la crédibilité globale."
+    elif penalty < 2.5:
+        label = "Modérée"
+        interpretation = "Plusieurs fragilités discursives diminuent partiellement la confiance accordable au texte."
+    elif penalty < 4:
+        label = "Élevée"
+        interpretation = "Le texte accumule assez de signaux problématiques pour réduire nettement son score final."
+    else:
+        label = "Critique"
+        interpretation = "La structure discursive présente une forte accumulation de signaux de fermeture, de manipulation ou de raisonnement fragile."
+
+    return {
+        "penalty_index": penalty,
+        "penalty_label": label,
+        "penalty_interpretation": interpretation,
+        "red_flags_penalty_count": red_flags_count,
+    }
+
 def analyze_article(text: str) -> Dict:
     words = text.split()
     sentences = [s.strip() for s in re.split(r"[.!?]+", text) if len(s.strip()) > 10]
