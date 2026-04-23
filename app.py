@@ -5167,7 +5167,7 @@ if result:
     col2.metric("Indice ajusté", result["improved"], help=T["help_improved_score"])
     col3.metric("Score de raisonnement", result["hard_fact_score"], help=T["help_hard_fact_score"])
 
-if result:
+if result: 
     # =============================
     # Barre de raisonnement
     # =============================
