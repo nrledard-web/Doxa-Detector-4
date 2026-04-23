@@ -5108,6 +5108,30 @@ if result:
         st.metric(
             "Dérive dominante",
             result.get("cognitive_drift_interpretation", "—")
+                    brain = result["brain"]
+
+        st.metric("Profil cognitif", brain["brain_profile"])
+
+        colb1, colb2, colb3 = st.columns(3)
+        with colb1:
+            st.metric("IR", brain["IR"])
+        with colb2:
+            st.metric("IL", brain["IL"])
+        with colb3:
+            st.metric("IC", brain["IC"])
+
+        st.markdown("### Lecture synthétique")
+
+        if brain["brain_profile"] == "Discours équilibré":
+            st.success("Discours globalement équilibré, peu verrouillé et peu manipulatoire.")
+        elif brain["brain_profile"] == "Mécroyance probable":
+            st.warning("Le discours semble sincère, mais structuré par une certitude qui dépasse partiellement la compréhension.")
+        elif brain["brain_profile"] == "Manipulation rhétorique":
+            st.warning("Le texte présente plusieurs procédés destinés à orienter l’interprétation du lecteur.")
+        elif brain["brain_profile"] == "Mensonge stratégique":
+            st.error("Le discours combine forte rhétorique, fermeture cognitive et instabilité logique.")
+        else:
+            st.info("Le texte présente une structure cognitive mixte ou ambiguë.")
         )
     
 
