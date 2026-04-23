@@ -5231,52 +5231,67 @@ mini3.metric(
     f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
 )
 
-    with st.popover("🧠 Voir le résumé complet", use_container_width=True):
-        st.markdown("### Résultats essentiels")
+with st.popover("🧠 Voir le résumé complet", use_container_width=True):
 
-        st.metric("Barre de raisonnement", f"{result['hard_fact_score']}/20")
+    st.markdown("### Résultats essentiels")
 
-        col1, col2 = st.columns(2)
-        with col1:
-            st.metric("Indice M", round(result["M"], 2))
-        with col2:
-            st.metric("Indice ME", round(result["ME"], 2))
+    st.metric(
+        "Barre de raisonnement",
+        f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
+    )
 
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.metric("Indice M", round(result["M"], 2))
         st.metric(
             "Dérive dominante",
             result.get("cognitive_drift_interpretation", "—")
         )
 
+    with col2:
+        st.metric("Indice ME", round(result["ME"], 2))
         st.metric(
             "Régime cognitif",
             result.get("cognitive_regime", "—")
         )
 
-        brain = result.get("brain", {})
+    brain = result.get("brain", {})
 
+    st.markdown("### Profil cognitif")
+
+    st.metric(
+        "Profil cognitif",
+        brain.get("brain_profile", "—")
+    )
+
+    colb1, colb2, colb3 = st.columns(3)
+
+    with colb1:
+        st.metric("IR", brain.get("IR", "—"))
+
+    with colb2:
+        st.metric("IL", brain.get("IL", "—"))
+
+    with colb3:
+        st.metric("IC", brain.get("IC", "—"))
+
+    colb4, colb5 = st.columns(2)
+
+    with colb4:
         st.metric(
-            "Profil cognitif",
-            brain.get("brain_profile", "—")
+            "Indice stratégique",
+            brain.get("strategic_index", "—")
         )
 
-        colb1, colb2, colb3 = st.columns(3)
-        with colb1:
-            st.metric("IR", brain.get("IR", "—"))
-        with colb2:
-            st.metric("IL", brain.get("IL", "—"))
-        with colb3:
-            st.metric("IC", brain.get("IC", "—"))
-
-        colb4, colb5 = st.columns(2)
-        with colb4:
-            st.metric("Indice stratégique", brain.get("strategic_index", "—"))
-        with colb5:
-            st.metric("Indice de clôture", brain.get("closure_index", "—"))
-
+    with colb5:
+        st.metric(
+            "Indice de clôture",
+            brain.get("closure_index", "—")
+        )
     # -------------------------
     # Cerveau DOXA
     # -------------------------
-    brain = result.get("brain", {})
 
     st.metric("Profil cognitif", brain.get("brain_profile", "—"))
 
