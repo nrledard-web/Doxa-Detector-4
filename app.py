@@ -5151,7 +5151,7 @@ mini3.metric(...)
         brain.get("brain_profile", "—")
     )
 
-    colb1, colb2, colb3 = st.columns(3)
+        colb1, colb2, colb3 = st.columns(3)
     with colb1:
         st.metric("IR", brain.get("IR", "—"))
     with colb2:
@@ -5159,7 +5159,7 @@ mini3.metric(...)
     with colb3:
         st.metric("IC", brain.get("IC", "—"))
 
-    colb4, colb5 = st.columns(2)
+        colb4, colb5 = st.columns(2)
     with colb4:
         st.metric("Indice stratégique", brain.get("strategic_index", "—"))
     with colb5:
