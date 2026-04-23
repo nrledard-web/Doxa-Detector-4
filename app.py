@@ -3041,6 +3041,130 @@ def compute_narrative_overdetermination(text: str):
     }
 
 # -----------------------------
+# Victimisation stratégique
+# -----------------------------
+VICTIMIZATION_TERMS = [
+    "on veut nous faire taire",
+    "nous sommes censurés",
+    "on nous empêche de parler",
+    "ils veulent nous réduire au silence",
+    "nous sommes persécutés",
+    "on nous attaque parce que nous disons la vérité",
+    "ils nous diabolisent",
+    "on nous calomnie",
+]
+
+def compute_victimization(text: str):
+    if not text or not text.strip():
+        return {
+            "score": 0.0,
+            "markers": [],
+            "interpretation": "Aucune victimisation stratégique saillante détectée."
+        }
+
+    text_lower = text.lower()
+    hits = [t for t in VICTIMIZATION_TERMS if contains_term(text_lower, t) or t in text_lower]
+    score = min(len(hits) * 0.28, 1.0)
+
+    if score < 0.15:
+        interpretation = "Peu de victimisation stratégique détectée."
+    elif score < 0.35:
+        interpretation = "Le texte suggère une mise en scène légère de persécution."
+    elif score < 0.60:
+        interpretation = "Le texte mobilise nettement une posture victimaire."
+    else:
+        interpretation = "Le discours repose fortement sur une victimisation stratégique."
+
+    return {
+        "score": round(score, 3),
+        "markers": hits,
+        "interpretation": interpretation,
+    }
+
+
+# -----------------------------
+# Polarisation morale
+# -----------------------------
+MORAL_POLARIZATION_TERMS = [
+    "les bons contre les mauvais",
+    "le bien contre le mal",
+    "les patriotes contre les traîtres",
+    "les honnêtes gens contre les corrompus",
+    "les purs contre les corrompus",
+    "les justes contre les pervers",
+    "les innocents contre les coupables",
+]
+
+def compute_moral_polarization(text: str):
+    if not text or not text.strip():
+        return {
+            "score": 0.0,
+            "markers": [],
+            "interpretation": "Aucune polarisation morale saillante détectée."
+        }
+
+    text_lower = text.lower()
+    hits = [t for t in MORAL_POLARIZATION_TERMS if contains_term(text_lower, t) or t in text_lower]
+    score = min(len(hits) * 0.35, 1.0)
+
+    if score < 0.15:
+        interpretation = "Peu de polarisation morale détectée."
+    elif score < 0.35:
+        interpretation = "Le texte contient quelques oppositions morales simplifiées."
+    elif score < 0.60:
+        interpretation = "Le texte structure nettement le débat en camps moraux opposés."
+    else:
+        interpretation = "Le discours repose fortement sur une polarisation morale."
+
+    return {
+        "score": round(score, 3),
+        "markers": hits,
+        "interpretation": interpretation,
+    }
+
+
+# -----------------------------
+# Simplification stratégique
+# -----------------------------
+STRATEGIC_SIMPLIFICATION_TERMS = [
+    "la seule raison",
+    "la seule cause",
+    "tout vient de",
+    "il suffit de",
+    "tout s'explique par",
+    "uniquement à cause de",
+    "simplement parce que",
+    "c'est aussi simple que",
+]
+
+def compute_strategic_simplification(text: str):
+    if not text or not text.strip():
+        return {
+            "score": 0.0,
+            "markers": [],
+            "interpretation": "Aucune simplification stratégique saillante détectée."
+        }
+
+    text_lower = text.lower()
+    hits = [t for t in STRATEGIC_SIMPLIFICATION_TERMS if contains_term(text_lower, t) or t in text_lower]
+    score = min(len(hits) * 0.30, 1.0)
+
+    if score < 0.15:
+        interpretation = "Peu de simplification stratégique détectée."
+    elif score < 0.35:
+        interpretation = "Le texte contient quelques raccourcis explicatifs."
+    elif score < 0.60:
+        interpretation = "Le texte réduit plusieurs phénomènes complexes à des causes simples."
+    else:
+        interpretation = "Le discours repose fortement sur une simplification stratégique du réel."
+
+    return {
+        "score": round(score, 3),
+        "markers": hits,
+        "interpretation": interpretation,
+    }
+
+# -----------------------------
 # Sophismes aristotéliciens de base
 # -----------------------------
 PETITION_PATTERNS = [
