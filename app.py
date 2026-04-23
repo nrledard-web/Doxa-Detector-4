@@ -5497,6 +5497,8 @@ if result:
     row11_col1, row11_col2, row11_col3 = st.columns(3)
     row12_col1, row12_col2, row12_col3 = st.columns(3)
     row13_col1, row13_col2, row13_col3 = st.columns(3)
+    row14_col1, row14_col2, row14_col3 = st.columns(3)
+    row15_col1, row15_col2 = st.columns(2)
     
 
     # -----------------------------
