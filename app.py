@@ -3920,6 +3920,21 @@ def compute_red_flag_penalties(metrics: dict) -> dict:
         credibility_penalty += cred
         lie_boost += lie
 
+        # -----------------------------
+    # Pseudo-savoir élevé
+    # -----------------------------
+    brain = metrics.get("brain", {})
+    pseudo_savoir = brain.get("IL", 0)
+
+    if pseudo_savoir > 5:
+        penalty = round((pseudo_savoir - 5) * 0.5, 2)
+        add_flag(
+            "pseudo_savoir",
+            penalty,
+            0,
+            "Accumulation de savoirs mal intégrés ou mal compris."
+        )
+
     if metrics["G"] < 2 and metrics["vague_authority_score"] >= 0.30:
         add_flag(
             "Autorité sans ancrage",
