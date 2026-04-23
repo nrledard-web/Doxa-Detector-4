@@ -4352,7 +4352,6 @@ def analyze_article(text: str) -> Dict:
 
     result = {
         "words": len(words),
-        ...
         "sentences": len(sentences),
         "G": G,
         "N": N,
