@@ -5167,6 +5167,7 @@ if result:
     col2.metric("Indice ajusté", result["improved"], help=T["help_improved_score"])
     col3.metric("Score de raisonnement", result["hard_fact_score"], help=T["help_hard_fact_score"])
 
+if result:
     # =============================
     # Barre de raisonnement
     # =============================
@@ -5181,10 +5182,10 @@ if result:
     else:
         couleur, etiquette, message = "🟢", "Robuste", "Le raisonnement est solidement structuré."
 
-st.subheader(f"{couleur} Barre de raisonnement : {etiquette}")
-st.progress(score / 20)
-st.caption(f"Score : {score}/20 — {message}")
-st.caption("Augmentez votre raisonnement pour rendre la barre robuste.")
+    st.subheader(f"{couleur} Barre de raisonnement : {etiquette}")
+    st.progress(score / 20)
+    st.caption(f"Score : {score}/20 — {message}")
+    st.caption("Augmentez votre raisonnement pour rendre la barre robuste.")
 
 # =============================
 # Pénalités appliquées
