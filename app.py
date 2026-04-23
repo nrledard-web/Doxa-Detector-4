@@ -365,6 +365,7 @@ client = get_openai_client()
 # Header
 # -----------------------------
 st.title("DOXA Detector")
+st.divider()
 
 with st.container(border=True):
 
