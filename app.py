@@ -4207,6 +4207,10 @@ def analyze_article(text: str) -> Dict:
         "enthymeme_label": enthymeme_label,
         "fallacy_signal": fallacy_signal,
         "fallacy_label": fallacy_label,
+        "cherry_picking_score": cherry_picking_analysis["score"],
+        "cherry_picking_markers": cherry_picking_analysis["matches"],
+        "cherry_picking_omission_markers": cherry_picking_analysis["omission_markers"],
+        "cherry_picking_interpretation": cherry_picking_analysis["interpretation"],
 
         "red_flags": [flag["name"] for flag in penalties["flags"]],
         "weighted_red_flags": penalties["flags"],
