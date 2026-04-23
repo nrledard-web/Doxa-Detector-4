@@ -5112,111 +5112,74 @@ if result:
     st.caption(f"Score : {score}/20 — {message}")
     st.caption("Augmentez votre raisonnement pour rendre la barre robuste.")
 
-# =============================
-# Résumé rapide
-# =============================
+    # =============================
+    # Résumé rapide
+    # =============================
+    mini1, mini2, mini3 = st.columns(3)
 
-mini1, mini2, mini3 = st.columns(3)
+    mini1.metric("M", round(result["M"], 2))
+    mini2.metric("ME", round(result["ME"], 2))
+    mini3.metric("Raisonnement", f"{result['hard_fact_score']}/20")
 
-mini1.metric(...)
-mini2.metric(...)
-mini3.metric(...)
+    with st.popover("🧠 Voir le résumé complet", use_container_width=True):
+        st.markdown("### Résultats essentiels")
 
-with st.popover("🧠 Voir le résumé complet", use_container_width=True):
+        st.metric("Barre de raisonnement", f"{result['hard_fact_score']}/20")
 
-    st.markdown("### Résultats essentiels")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.metric("Indice M", round(result["M"], 2))
+        with col2:
+            st.metric("Indice ME", round(result["ME"], 2))
 
-    st.metric("Barre de raisonnement", f"{result['hard_fact_score']}/20")
+        st.metric(
+            "Dérive dominante",
+            result.get("cognitive_drift_interpretation", "—")
+        )
 
-    col1, col2 = st.columns(2)
+        st.metric(
+            "Régime cognitif",
+            result.get("cognitive_regime", "—")
+        )
 
-    with col1:
-        st.metric("Indice M", round(result["M"], 2))
+        brain = result.get("brain", {})
 
-    with col2:
-        st.metric("Indice ME", round(result["ME"], 2))
+        st.metric(
+            "Profil cognitif",
+            brain.get("brain_profile", "—")
+        )
 
-    st.metric(
-        "Dérive dominante",
-        result.get("cognitive_drift_interpretation", "—")
-    )
+        colb1, colb2, colb3 = st.columns(3)
+        with colb1:
+            st.metric("IR", brain.get("IR", "—"))
+        with colb2:
+            st.metric("IL", brain.get("IL", "—"))
+        with colb3:
+            st.metric("IC", brain.get("IC", "—"))
 
-    st.metric(
-        "Régime cognitif",
-        result.get("cognitive_regime", "—")
-    )
+        colb4, colb5 = st.columns(2)
+        with colb4:
+            st.metric("Indice stratégique", brain.get("strategic_index", "—"))
+        with colb5:
+            st.metric("Indice de clôture", brain.get("closure_index", "—"))
 
+    # -------------------------
+    # Cerveau DOXA
+    # -------------------------
     brain = result.get("brain", {})
 
-    st.metric(
-        "Profil cognitif",
-        brain.get("brain_profile", "—")
-    )
-
-colb1, colb2, colb3 = st.columns(3)
-
-with colb1:
-    st.metric("IR", brain.get("IR", "—"))
-
-with colb2:
-    st.metric("IL", brain.get("IL", "—"))
-
-with colb3:
-    st.metric("IC", brain.get("IC", "—"))
-
-    colb4, colb5 = st.columns(2)
-with colb4:
-    st.metric("Indice stratégique", brain.get("strategic_index", "—"))
-with colb5:
-    st.metric("Indice de clôture", brain.get("closure_index", "—"))
-
-# -------------------------
-# Cerveau DOXA
-# -------------------------
-
-    brain = result["brain"]
-
-    st.metric("Profil cognitif", brain["brain_profile"])
+    st.metric("Profil cognitif", brain.get("brain_profile", "—"))
 
     colb1, colb2, colb3 = st.columns(3)
 
     with colb1:
-        st.metric("IR", brain["IR"])
+        st.metric("IR", brain.get("IR", "—"))
 
     with colb2:
-        st.metric("IL", brain["IL"])
+        st.metric("IL", brain.get("IL", "—"))
 
     with colb3:
-        st.metric("IC", brain["IC"])
-
-    st.markdown("### Lecture synthétique")
-
-    if brain["brain_profile"] == "Discours équilibré":
-        st.success(
-            "Discours globalement équilibré, peu verrouillé et peu manipulatoire."
-        )
-
-    elif brain["brain_profile"] == "Mécroyance probable":
-        st.warning(
-            "Le discours semble sincère, mais structuré par une certitude qui dépasse partiellement la compréhension."
-        )
-
-    elif brain["brain_profile"] == "Manipulation rhétorique":
-        st.warning(
-            "Le texte présente plusieurs procédés destinés à orienter l’interprétation du lecteur."
-        )
-
-    elif brain["brain_profile"] == "Mensonge stratégique":
-        st.error(
-            "Le discours combine forte rhétorique, fermeture cognitive et instabilité logique."
-        )
-
-    else:
-        st.info(
-            "Le texte présente une structure cognitive mixte ou ambiguë."
-        )
-
-
+        st.metric("IC", brain.get("IC", "—"))
     # =============================
     # Diagnostic cognitif rapide
     # =============================
