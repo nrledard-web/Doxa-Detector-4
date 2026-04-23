@@ -2233,6 +2233,57 @@ GENERALIZATION_TERMS = [
     "tout le monde sait",
     "tout le monde voit"
 ]
+# =========================================================
+# MODULES DISCURSIFS COMPLÉMENTAIRES
+# =========================================================
+
+VICTIMIZATION_TERMS = [
+    "on veut nous faire taire",
+    "nous sommes censurés",
+    "on nous empêche de parler",
+    "ils veulent nous réduire au silence",
+    "nous sommes persécutés",
+]
+
+POLARIZATION_TERMS = [
+    "les bons contre les mauvais",
+    "le bien contre le mal",
+    "les patriotes contre les traîtres",
+    "les honnêtes gens contre les corrompus",
+]
+
+SIMPLIFICATION_TERMS = [
+    "la seule raison",
+    "la seule cause",
+    "tout vient de",
+    "il suffit de",
+    "tout s'explique par",
+]
+
+FRAME_SHIFT_TERMS = [
+    "la vraie question",
+    "le vrai problème",
+    "ce n'est pas la question",
+    "la question n'est pas là",
+]
+
+ATTACK_TERMS = [
+    "mensonge",
+    "manipulation",
+    "propagande",
+    "corrompu",
+    "absurde",
+    "ridicule",
+]
+
+ARGUMENT_TERMS = [
+    "car",
+    "donc",
+    "ainsi",
+    "puisque",
+    "en effet",
+    "par conséquent",
+]
 
 # -----------------------------
 # Ennemi abstrait
