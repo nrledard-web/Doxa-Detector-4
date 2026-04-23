@@ -4486,8 +4486,6 @@ def analyze_article(text: str) -> Dict:
         "strategic_simplification_markers": strategic_simplification_analysis["markers"],
         "strategic_simplification_interpretation": strategic_simplification_analysis["interpretation"],
 
-return
-
         "linguistic_trigger_count": ling["trigger_count"],
         "linguistic_pressure_hits": ling["rhetorical_pressure"],
         "absolute_claims": ling["absolute_claims"],
