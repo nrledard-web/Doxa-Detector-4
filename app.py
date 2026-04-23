@@ -2779,6 +2779,27 @@ def compute_false_consensus(text: str):
 
     return round(score, 3), interpretation, all_hits
 
+def compute_binary_opposition(text: str):
+    if not text or not text.strip():
+        return 0.0, "Aucune opposition binaire significative détectée.", []
+
+    text_lower = text.lower()
+
+    hits = [t for t in BINARY_OPPOSITION_TERMS if contains_term(text_lower, t)]
+
+    score = min(len(hits) * 0.30, 1.0)
+
+    if score < 0.15:
+        interpretation = "Aucune opposition binaire significative détectée."
+    elif score < 0.35:
+        interpretation = "Tendance légère à structurer le discours en camps opposés."
+    elif score < 0.60:
+        interpretation = "Opposition binaire marquée entre groupes."
+    else:
+        interpretation = "Discours fortement structuré en camps antagonistes."
+
+    return round(score, 3), interpretation, hits
+
 # =========================================================
 # VICTIMISATION STRATÉGIQUE
 # =========================================================
