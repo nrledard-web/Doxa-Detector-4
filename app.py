@@ -4540,6 +4540,8 @@ def analyze_article(text: str) -> Dict:
         "drift_intuition_dogmatique": drifts["drift_intuition_dogmatique"],
         "global_cognitive_drift": drifts["global_cognitive_drift"],
         "cognitive_drift_interpretation": drifts["cognitive_drift_interpretation"],
+
+        "brain": brain,
     }
 
 
