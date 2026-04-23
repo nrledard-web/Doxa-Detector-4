@@ -5118,11 +5118,11 @@ if result:
 
 mini1, mini2, mini3 = st.columns(3)
 
-mini1.metric("Raisonnement", f"{result['hard_fact_score']}/20")
-mini2.metric("M", round(result["M"], 2))
-mini3.metric("ME", round(result["ME"], 2))
+mini1.metric(...)
+mini2.metric(...)
+mini3.metric(...)
 
-with st.popover("🧠 Voir le résumé complet", use_container_width=True):
+    with st.popover("🧠 Voir le résumé complet", use_container_width=True):
 
     st.markdown("### Résultats essentiels")
 
