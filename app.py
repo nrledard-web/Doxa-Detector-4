@@ -5416,16 +5416,15 @@ if result:
 
     st.divider()
     st.subheader("Cartographie discursive complémentaire")
+
     st.caption(
-        "Ces vingt-quatre jauges affinent l’analyse en distinguant les jugements de valeur, "
-        "les prémisses implicites, la narration propagandiste, la cohérence discursive, "
-        "les confusions logiques, la scientificité rhétorique, la fausse causalité, "
-        "l’autorité vague, la charge émotionnelle, la généralisation abusive, "
-        "l’ennemi abstrait, la certitude absolue, le faux consensus, l’opposition binaire, "
-        "l’amplification de menace, le glissement sémantique, les prémisses idéologiques, "
-        "la clôture cognitive, la fausse analogie, la surinterprétation factuelle, "
-        "la dissonance interne, la saturation normative, la rigidité doxique "
-        "et la surdétermination narrative."
+        "Cette cartographie regroupe les principaux mécanismes discursifs détectables "
+        "dans un texte : jugements de valeur, prémisses implicites, structures propagandistes, "
+        "confusions logiques, simulations scientifiques, biais narratifs et mécanismes de "
+        "fermeture cognitive.\n\n"
+        "Elle est complétée par une analyse logique des raisonnements "
+        "(syllogismes, enthymèmes et sophismes) ainsi que par des indicateurs "
+        "stratégiques permettant d’identifier certaines formes de manipulation argumentative."
     )
 
     row1_col1, row1_col2, row1_col3 = st.columns(3)
