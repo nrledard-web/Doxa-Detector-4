@@ -364,36 +364,20 @@ client = get_openai_client()
 # -----------------------------
 # Header
 # -----------------------------
-st.title("DOXA Detector")
-
-st.caption(
-    "DOXA Detector analyse la structure cognitive des discours grâce à un moteur analytique "
-    "fondé sur des équations, des heuristiques linguistiques et des fonctions de calcul."
-)
-
-st.caption(
-    "Le cœur du modèle repose sur l’équation cognitive : M = (G + N) − D."
-)
-
-st.caption(
-    "Dans la tradition logique inaugurée par Aristote — qui distinguait prémisses, "
-    "raisonnements et sophismes — "
-)
-
 st.markdown(
-    "**L’application identifie les différentes formes de sophismes et autres procédés "
-    "de persuasion présents dans un texte.**"
-)
+    """
+**DOXA Detector analyse la structure cognitive des discours grâce à un moteur analytique fondé sur des équations, des heuristiques linguistiques et des fonctions de calcul.**
 
-st.caption(
-    "Ces structures constituent souvent l’empreinte des biais du langage et permettent "
-    "d’en révéler les mécanismes, aussi bien dans l’analyse des publications médiatiques "
-    "que pour s’exercer à ne pas les reproduire."
-)
+**Le cœur du modèle repose sur l’équation cognitive : M = (G + N) − D.**
 
-st.caption(
-    "L’intelligence artificielle n’intervient que comme module optionnel "
-    "d’assistance et d’interprétation."
+**Dans la tradition logique inaugurée par Aristote — qui distinguait prémisses, raisonnements et sophismes —**
+
+**L’application identifie les différentes formes de sophismes et autres procédés de persuasion présents dans un texte.**
+
+**Ces structures constituent souvent l’empreinte des biais du langage et permettent d’en révéler les mécanismes, aussi bien dans l’analyse des publications médiatiques que pour s’exercer à ne pas les reproduire.**
+
+**L’intelligence artificielle n’intervient que comme module optionnel d’assistance et d’interprétation.**
+"""
 )
 
 st.divider()
