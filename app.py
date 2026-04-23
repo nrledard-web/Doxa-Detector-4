@@ -3949,17 +3949,19 @@ def analyze_article(text: str) -> Dict:
 
     ME_base = max(0, (2 * D) - (G + N))
 
-discursive_boost = (
-    normative_analysis["score"] * 2.0 +
-    premise_analysis["score"] * 1.5 +
-    logic_confusion_analysis["score"] * 1.6 +
-    aristotelian_fallacies["score"] * 2.0 +
-    scientific_simulation_analysis["score"] * 1.2 +
-    propaganda_analysis["score"] * 2.5 +
-    cherry_picking_analysis["score"] * 1.6 +
-    false_consensus_analysis[0] * 1.2 +
-    factual_overinterpretation_analysis["score"] * 1.3
-)
+    ME_base = max(0, (2 * D) - (G + N))
+
+    discursive_boost = (
+        normative_analysis["score"] * 2.0 +
+        premise_analysis["score"] * 1.5 +
+        logic_confusion_analysis["score"] * 1.6 +
+        aristotelian_fallacies["score"] * 2.0 +
+        scientific_simulation_analysis["score"] * 1.2 +
+        propaganda_analysis["score"] * 2.5 +
+        cherry_picking_analysis["score"] * 1.6 +
+        false_consensus_analysis[0] * 1.2 +
+        factual_overinterpretation_analysis["score"] * 1.3
+    )
 
     ME = round((ME_base * L) + discursive_boost + penalties["lie_boost"], 2)
 
