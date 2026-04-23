@@ -4322,23 +4322,18 @@ def analyze_article(text: str) -> Dict:
         "false_analogy_score": false_analogy_analysis["score"],
         "internal_dissonance_score": internal_dissonance_analysis["score"],
         "aristotelian_fallacies_score": aristotelian_fallacies["score"],
-
         "petition_score": aristotelian_fallacies["petition"]["score"],
         "petition_markers": aristotelian_fallacies["petition"]["matches"],
         "petition_interpretation": aristotelian_fallacies["petition"]["interpretation"],
-
         "false_causality_basic_score": aristotelian_fallacies["false_causality"]["score"],
         "false_causality_basic_markers": aristotelian_fallacies["false_causality"]["matches"],
         "false_causality_basic_interpretation": aristotelian_fallacies["false_causality"]["interpretation"],
-
         "hasty_generalization_score": aristotelian_fallacies["generalization"]["score"],
         "hasty_generalization_markers": aristotelian_fallacies["generalization"]["matches"],
         "hasty_generalization_interpretation": aristotelian_fallacies["generalization"]["interpretation"],
-
         "vague_authority_basic_score": aristotelian_fallacies["vague_authority"]["score"],
         "vague_authority_basic_markers": aristotelian_fallacies["vague_authority"]["matches"],
         "vague_authority_basic_interpretation": aristotelian_fallacies["vague_authority"]["interpretation"],
-
         "false_dilemma_score": aristotelian_fallacies["false_dilemma"]["score"],
         "false_dilemma_markers": aristotelian_fallacies["false_dilemma"]["matches"],
         "false_dilemma_interpretation": aristotelian_fallacies["false_dilemma"]["interpretation"],
@@ -4364,7 +4359,7 @@ def analyze_article(text: str) -> Dict:
         "normative_terms": normative_analysis["normative_terms"],
         "normative_judgment_markers": normative_analysis["judgment_markers"],
         "normative_interpretation": normative_analysis["interpretation"],
-        
+
         "semantic_shift_score": semantic_shift_analysis["score"],
         "semantic_shift_markers": semantic_shift_analysis["markers"],
         "semantic_shift_interpretation": semantic_shift_analysis["interpretation"],
@@ -4445,6 +4440,7 @@ def analyze_article(text: str) -> Dict:
         "emotional_intensity_score": emotional_intensity_analysis["score"],
         "emotional_intensity_markers": emotional_intensity_analysis["markers"],
         "emotional_intensity_interpretation": emotional_intensity_analysis["interpretation"],
+
         "generalization_score": generalization_analysis[0],
         "generalization_interpretation": generalization_analysis[1],
         "generalization_markers": generalization_analysis[2],
@@ -4456,7 +4452,7 @@ def analyze_article(text: str) -> Dict:
         "certainty_score": certainty_analysis[0],
         "certainty_interpretation": certainty_analysis[1],
         "certainty_markers": certainty_analysis[2],
-        
+
         "false_consensus_score": false_consensus_analysis[0],
         "false_consensus_interpretation": false_consensus_analysis[1],
         "false_consensus_markers": false_consensus_analysis[2],
@@ -4504,7 +4500,7 @@ def analyze_article(text: str) -> Dict:
         "propaganda_certainty_terms": propaganda_analysis["certainty_terms"],
         "propaganda_emotional_terms": propaganda_analysis["emotional_terms"],
         "propaganda_interpretation": propaganda_analysis["interpretation"],
-        
+
         "victimization_score": victimization_analysis["score"],
         "victimization_markers": victimization_analysis["markers"],
         "victimization_interpretation": victimization_analysis["interpretation"],
@@ -4564,8 +4560,6 @@ def analyze_article(text: str) -> Dict:
         "cherry_picking_omission_markers": cherry_picking_analysis["omission_markers"],
         "cherry_picking_interpretation": cherry_picking_analysis["interpretation"],
 
-    result = {
-        ...
         "red_flags": [flag["name"] for flag in penalties["flags"]],
         "weighted_red_flags": penalties["flags"],
         "credibility_penalty_total": penalties["credibility_penalty"],
