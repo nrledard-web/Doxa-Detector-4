@@ -4350,8 +4350,9 @@ def analyze_article(text: str) -> Dict:
         "narrative_overdetermination_score": narrative_overdetermination_analysis["score"],
     })
 
-    return {
+    result = {
         "words": len(words),
+        ...
         "sentences": len(sentences),
         "G": G,
         "N": N,
