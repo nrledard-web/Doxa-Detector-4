@@ -6688,6 +6688,166 @@ if result:
                     for marker in omissions:
                         st.error(marker)
 
+        # -----------------------------
+    # 39) Victimisation stratégique
+    # -----------------------------
+    with row14_col1:
+        st.markdown("### Victimisation stratégique")
+        st.caption("Mise en scène d’une persécution ou d’un empêchement de dire.")
+
+        value = result["victimization_score"]
+
+        if value < 0.15:
+            label, color = "Faible", "#16a34a"
+        elif value < 0.35:
+            label, color = "Modérée", "#ca8a04"
+        elif value < 0.60:
+            label, color = "Élevée", "#f97316"
+        else:
+            label, color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(value, color)
+        st.markdown(
+            f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%",
+            unsafe_allow_html=True
+        )
+        st.caption(result["victimization_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("victimization_markers", [])
+            if not markers:
+                st.info("Aucune victimisation stratégique notable détectée.")
+            else:
+                for marker in markers:
+                    st.warning(marker)
+
+    # -----------------------------
+    # 40) Polarisation morale
+    # -----------------------------
+    with row14_col2:
+        st.markdown("### Polarisation morale")
+        st.caption("Découpage moral du réel en camps du bien et du mal.")
+
+        value = result["moral_polarization_score"]
+
+        if value < 0.15:
+            label, color = "Faible", "#16a34a"
+        elif value < 0.35:
+            label, color = "Modérée", "#ca8a04"
+        elif value < 0.60:
+            label, color = "Élevée", "#f97316"
+        else:
+            label, color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(value, color)
+        st.markdown(
+            f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%",
+            unsafe_allow_html=True
+        )
+        st.caption(result["moral_polarization_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("moral_polarization_markers", [])
+            if not markers:
+                st.info("Aucune polarisation morale notable détectée.")
+            else:
+                for marker in markers:
+                    st.warning(marker)
+
+    # -----------------------------
+    # 41) Simplification stratégique
+    # -----------------------------
+    with row14_col3:
+        st.markdown("### Simplification stratégique")
+        st.caption("Réduction d’une réalité complexe à une cause unique ou simple.")
+
+        value = result["strategic_simplification_score"]
+
+        if value < 0.15:
+            label, color = "Faible", "#16a34a"
+        elif value < 0.35:
+            label, color = "Modérée", "#ca8a04"
+        elif value < 0.60:
+            label, color = "Élevée", "#f97316"
+        else:
+            label, color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(value, color)
+        st.markdown(
+            f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%",
+            unsafe_allow_html=True
+        )
+        st.caption(result["strategic_simplification_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("strategic_simplification_markers", [])
+            if not markers:
+                st.info("Aucune simplification stratégique notable détectée.")
+            else:
+                for marker in markers:
+                    st.warning(marker)
+
+    # -----------------------------
+    # 42) Frame shift
+    # -----------------------------
+    with row15_col1:
+        st.markdown("### Frame shift")
+        st.caption("Déplacement du cadre du débat pour orienter l’interprétation.")
+
+        value = result["frame_shift_score"]
+
+        if value < 0.15:
+            label, color = "Faible", "#16a34a"
+        elif value < 0.35:
+            label, color = "Modérée", "#ca8a04"
+        elif value < 0.60:
+            label, color = "Élevée", "#f97316"
+        else:
+            label, color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(value, color)
+        st.markdown(
+            f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%",
+            unsafe_allow_html=True
+        )
+        st.caption(result["frame_shift_interpretation"])
+
+        with st.expander("Voir les marqueurs", expanded=False):
+            markers = result.get("frame_shift_markers", [])
+            if not markers:
+                st.info("Aucun déplacement de cadre notable détecté.")
+            else:
+                for marker in markers:
+                    st.warning(marker)
+
+    # -----------------------------
+    # 43) Asymétrie argumentative
+    # -----------------------------
+    with row15_col2:
+        st.markdown("### Asymétrie argumentative")
+        st.caption("Le texte attaque davantage qu’il ne démontre.")
+
+        value = result["argument_asymmetry_score"]
+
+        if value < 0.15:
+            label, color = "Faible", "#16a34a"
+        elif value < 0.35:
+            label, color = "Modérée", "#ca8a04"
+        elif value < 0.60:
+            label, color = "Élevée", "#f97316"
+        else:
+            label, color = "Très élevée", "#dc2626"
+
+        render_custom_gauge(value, color)
+        st.markdown(
+            f"<b style='color:{color}'>{label}</b> — {round(value*100,1)}%",
+            unsafe_allow_html=True
+        )
+        st.caption(result["argument_asymmetry_interpretation"])
+        st.caption(
+            f"Attaques : {result['argument_attack_count']} | Appuis logiques : {result['argument_support_count']}"
+        )
+
     with st.expander("Voir les manœuvres discursives détectées", expanded=False):
         if result["political_pattern_score"] == 0:
             st.info("Aucun marqueur rhétorique politique saillant détecté.")
