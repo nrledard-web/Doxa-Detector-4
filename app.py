@@ -4216,6 +4216,19 @@ def analyze_article(text: str) -> Dict:
     })
 
     V = clamp(G * 0.8 + N * 0.2, 0, 10)
+
+    R = clamp(
+        (
+            D * 0.50 +
+            emotional_intensity_analysis["score"] * 10 * 0.25 +
+            propaganda_analysis["score"] * 10 * 0.25
+        ),
+        0,
+        10
+    )
+
+    improved = round((G + N + V) - (D + R), 1)
+
     # -----------------------------
     # Syllogismes / inférences
     # -----------------------------
