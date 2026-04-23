@@ -2830,69 +2830,6 @@ def compute_victimization(text: str):
         "interpretation": interpretation,
     }
 
-
-# =========================================================
-# POLARISATION MORALE
-# =========================================================
-def compute_polarization(text: str):
-    if not text or not text.strip():
-        return {
-            "score": 0.0,
-            "markers": [],
-            "interpretation": "Aucune polarisation morale détectée."
-        }
-
-    text_lower = text.lower()
-    hits = [term for term in POLARIZATION_TERMS if contains_term(text_lower, term) or term in text_lower]
-    score = min(len(hits) * 0.30, 1.0)
-
-    if score < 0.15:
-        interpretation = "Peu de polarisation morale détectée."
-    elif score < 0.35:
-        interpretation = "Le texte contient quelques oppositions morales simplifiées."
-    elif score < 0.60:
-        interpretation = "Le texte structure nettement le débat en camps moraux opposés."
-    else:
-        interpretation = "Le discours repose fortement sur une polarisation morale."
-
-    return {
-        "score": round(score, 3),
-        "markers": hits,
-        "interpretation": interpretation,
-    }
-
-
-# =========================================================
-# SIMPLIFICATION STRATÉGIQUE
-# =========================================================
-def compute_simplification(text: str):
-    if not text or not text.strip():
-        return {
-            "score": 0.0,
-            "markers": [],
-            "interpretation": "Aucune simplification stratégique détectée."
-        }
-
-    text_lower = text.lower()
-    hits = [term for term in SIMPLIFICATION_TERMS if contains_term(text_lower, term) or term in text_lower]
-    score = min(len(hits) * 0.30, 1.0)
-
-    if score < 0.15:
-        interpretation = "Peu de simplification stratégique détectée."
-    elif score < 0.35:
-        interpretation = "Le texte contient quelques raccourcis explicatifs."
-    elif score < 0.60:
-        interpretation = "Le texte réduit plusieurs phénomènes complexes à des causes simples."
-    else:
-        interpretation = "Le discours repose fortement sur une simplification stratégique du réel."
-
-    return {
-        "score": round(score, 3),
-        "markers": hits,
-        "interpretation": interpretation,
-    }
-
-
 # =========================================================
 # FRAME SHIFT
 # =========================================================
