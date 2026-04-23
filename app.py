@@ -5151,7 +5151,7 @@ with col2:
         brain.get("brain_profile", "—")
     )
 
-        colb1, colb2, colb3 = st.columns(3)
+    colb1, colb2, colb3 = st.columns(3)
 with colb1:
     st.metric("IR", brain.get("IR", "—"))
 with colb2:
