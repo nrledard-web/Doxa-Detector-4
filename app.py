@@ -4634,8 +4634,8 @@ def analyze_article(text: str) -> Dict:
     # Pénalités finales
     # -----------------------------
     result["credibility_penalty"] = penalties["credibility_penalty"]
-    result["lie_boost"] = penalties["lie_boost"]
     result["penalty_details"] = penalties
+    result["penalty_index"] = penalties["credibility_penalty"]
 
     # hard_fact_score est déjà pénalisé plus haut
     result["hard_fact_score_penalized"] = result["hard_fact_score"]
