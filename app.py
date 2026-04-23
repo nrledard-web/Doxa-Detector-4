@@ -4486,26 +4486,7 @@ def analyze_article(text: str) -> Dict:
         "strategic_simplification_markers": strategic_simplification_analysis["markers"],
         "strategic_simplification_interpretation": strategic_simplification_analysis["interpretation"],
 
-        "victimization_score": victimization_analysis["score"],
-        "victimization_markers": victimization_analysis["markers"],
-        "victimization_interpretation": victimization_analysis["interpretation"],
-
-        "polarization_score": polarization_analysis["score"],
-        "polarization_markers": polarization_analysis["markers"],
-        "polarization_interpretation": polarization_analysis["interpretation"],
-
-        "simplification_score": simplification_analysis["score"],
-        "simplification_markers": simplification_analysis["markers"],
-        "simplification_interpretation": simplification_analysis["interpretation"],
-
-        "frame_shift_score": frame_shift_analysis["score"],
-        "frame_shift_markers": frame_shift_analysis["markers"],
-        "frame_shift_interpretation": frame_shift_analysis["interpretation"],
-
-        "argument_asymmetry_score": argument_asymmetry_analysis["score"],
-        "argument_attack_count": argument_asymmetry_analysis["attack_count"],
-        "argument_support_count": argument_asymmetry_analysis["argument_count"],
-        "argument_asymmetry_interpretation": argument_asymmetry_analysis["interpretation"],
+return
 
         "linguistic_trigger_count": ling["trigger_count"],
         "linguistic_pressure_hits": ling["rhetorical_pressure"],
