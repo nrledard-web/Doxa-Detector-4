@@ -4607,14 +4607,15 @@ def analyze_article(text: str) -> Dict:
         "doxic_rigidity_markers": doxic_rigidity_analysis["markers"],
         "doxic_rigidity_interpretation": doxic_rigidity_analysis["interpretation"],
 
-        "narrative_overdetermination_score": narrative_overdetermination_analysis["score"],
-        "narrative_overdetermination_markers": narrative_overdetermination_analysis["markers"],
-        "narrative_overdetermination_interpretation": narrative_overdetermination_analysis["interpretation"],
-
         "short_form_mode": short_form_analysis["is_short_form"],
         "short_form_label": short_form_analysis["label"],
         "short_form_interpretation": short_form_analysis["interpretation"],
         "word_count_precise": short_form_analysis["word_count"],
+
+        "historical_mode": historical_analysis["is_historical"],
+        "historical_score": historical_analysis["score"],
+        "historical_markers": historical_analysis["markers"],
+        "historical_interpretation": historical_analysis["interpretation"],
 
         "propaganda_score": propaganda_analysis["score"],
         "propaganda_enemy_terms": propaganda_analysis["enemy_terms"],
