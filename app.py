@@ -4469,6 +4469,22 @@ def analyze_article(text: str) -> Dict:
     if article_length < 50:
         red_flags.append("Format indigent")
 
+    mecroyance_penalties = compute_mecroyance_penalties({
+        "drift_mecroyance": drifts["drift_mecroyance"],
+        "drift_pseudo_savoir": drifts["drift_pseudo_savoir"],
+        "drift_intuition_dogmatique": drifts["drift_intuition_dogmatique"],
+    })
+
+    total_credibility_penalty = (
+        penalties["credibility_penalty"]
+        + mecroyance_penalties["credibility_penalty"]
+    )
+
+    total_lie_boost = (
+        penalties["lie_boost"]
+        + mecroyance_penalties["lie_boost"]
+    )
+
     hard_fact_score_raw = (
         (0.18 * G + 0.12 * N + 0.20 * V + 0.22 * source_quality + 0.18 * avg_claim_verifiability)
         - (0.16 * D + 0.12 * R + 0.18 * avg_claim_risk + penalties["credibility_penalty"])
