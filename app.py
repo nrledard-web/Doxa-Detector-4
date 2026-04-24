@@ -4551,7 +4551,7 @@ def analyze_article(text: str) -> Dict:
         factual_overinterpretation_analysis["score"] * 1.3
     ])
 
-    ME = round((ME_base * L) + discursive_boost + penalties["lie_boost"], 2)
+    ME = round((ME_base * L) + discursive_boost + total_lie_boost, 2)
 
     claims = [analyze_claim(sentence) for sentence in sentences[:15]]
 
