@@ -4266,6 +4266,7 @@ def analyze_article(text: str) -> Dict:
     propaganda_analysis = detect_propaganda_narrative(text)
     short_form_analysis = detect_short_form_mode(text)
     historical_analysis = detect_historical_text_mode(text)
+    index_page_analysis = detect_index_or_multilink_page(text)
     causal_overreach_analysis = compute_causal_overreach(text)
     vague_authority_analysis = compute_vague_authority(text)
     emotional_intensity_analysis = compute_emotional_intensity(text)
@@ -4684,6 +4685,11 @@ def analyze_article(text: str) -> Dict:
         "historical_markers": historical_analysis["markers"],
         "historical_interpretation": historical_analysis["interpretation"],
 
+        "index_page_mode": index_page_analysis["is_index_page"],
+        "index_page_score": index_page_analysis["score"],
+        "index_page_markers": index_page_analysis["markers"],
+        "index_page_interpretation": index_page_analysis["interpretation"],
+
         "propaganda_score": propaganda_analysis["score"],
         "propaganda_enemy_terms": propaganda_analysis["enemy_terms"],
         "propaganda_urgency_terms": propaganda_analysis["urgency_terms"],
@@ -4771,30 +4777,32 @@ def analyze_article(text: str) -> Dict:
     result["penalty_details"] = penalties
     result["penalty_index"] = penalties["credibility_penalty"]
 
-    # hard_fact_score est déjà pénalisé plus haut
     result["hard_fact_score_penalized"] = result["hard_fact_score"]
 
-    # improved n'était pas encore corrigé par ces pénalités
     result["improved_penalized"] = round(
         max(0, result["improved"] - penalties["credibility_penalty"]),
         1
     )
 
-    # -----------------------------
-    # Correctif régime historique
-    # -----------------------------
     if result.get("historical_mode"):
         result["hard_fact_score"] = max(result["hard_fact_score"], 10.0)
         result["hard_fact_score_penalized"] = max(result["hard_fact_score_penalized"], 10.0)
-
         result["final_credibility_note"] = (
             "Régime historique détecté : le score est protégé contre une pénalisation "
             "excessive liée aux énumérations chronologiques."
         )
+
+    elif result.get("index_page_mode"):
+        result["hard_fact_score"] = max(result["hard_fact_score"], 9.0)
+        result["hard_fact_score_penalized"] = max(result["hard_fact_score_penalized"], 9.0)
+        result["final_credibility_note"] = (
+            "Page index détectée : le contenu semble composé majoritairement de titres "
+            "ou de liens. L'analyse de crédibilité est ajustée."
+        )
+
     else:
         result["final_credibility_note"] = ""
 
-    # score final
     result["final_credibility_score"] = result["hard_fact_score_penalized"]
 
     return result
