@@ -4826,10 +4826,16 @@ def analyze_article(text: str) -> Dict:
         "cherry_picking_omission_markers": cherry_picking_analysis["omission_markers"],
         "cherry_picking_interpretation": cherry_picking_analysis["interpretation"],
 
-        "red_flags": [flag["name"] for flag in penalties["flags"]],
-        "weighted_red_flags": penalties["flags"],
-        "credibility_penalty_total": penalties["credibility_penalty"],
-        "lie_boost_total": penalties["lie_boost"],
+        "red_flags": [flag["name"] for flag in penalties["flags"]]
+        + [flag["name"] for flag in mecroyance_penalties["flags"]],
+
+        "weighted_red_flags": penalties["flags"] + mecroyance_penalties["flags"],
+
+        "credibility_penalty_total": total_credibility_penalty,
+        "lie_boost_total": total_lie_boost,
+
+        "mecroyance_penalty_details": mecroyance_penalties,
+
         "drift_mecroyance": drifts["drift_mecroyance"],
         "drift_pseudo_savoir": drifts["drift_pseudo_savoir"],
         "drift_intuition_dogmatique": drifts["drift_intuition_dogmatique"],
@@ -4843,9 +4849,12 @@ def analyze_article(text: str) -> Dict:
     # -----------------------------
     # Pénalités finales
     # -----------------------------
-    result["credibility_penalty"] = penalties["credibility_penalty"]
-    result["penalty_details"] = penalties
-    result["penalty_index"] = penalties["credibility_penalty"]
+    result["credibility_penalty"] = total_credibility_penalty
+    result["penalty_details"] = {
+        "red_flag_penalties": penalties,
+        "mecroyance_penalties": mecroyance_penalties,
+    }
+    result["penalty_index"] = total_credibility_penalty
 
     result["hard_fact_score_penalized"] = result["hard_fact_score"]
 
