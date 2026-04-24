@@ -4198,6 +4198,7 @@ def analyze_article(text: str) -> Dict:
     scientific_simulation_analysis = compute_scientific_simulation(text)
     propaganda_analysis = detect_propaganda_narrative(text)
     short_form_analysis = detect_short_form_mode(text)
+    historical_analysis = detect_historical_text_mode(text)
     causal_overreach_analysis = compute_causal_overreach(text)
     vague_authority_analysis = compute_vague_authority(text)
     emotional_intensity_analysis = compute_emotional_intensity(text)
