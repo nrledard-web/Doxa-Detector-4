@@ -4244,6 +4244,56 @@ def compute_global_penalties(result: dict) -> dict:
         "red_flags_penalty_count": red_flags_count,
     }
 
+def compute_mecroyance_penalties(result: dict) -> dict:
+    penalty = 0.0
+    lie_boost = 0.0
+    flags = []
+
+    def add_flag(name, cred, lie, reason):
+        nonlocal penalty, lie_boost
+        flags.append({
+            "name": name,
+            "cred_penalty": cred,
+            "lie_boost": lie,
+            "reason": reason,
+        })
+        penalty += cred
+        lie_boost += lie
+
+    pseudo = result.get("drift_pseudo_savoir", 0)
+    intuition = result.get("drift_intuition_dogmatique", 0)
+    mecroyance = result.get("drift_mecroyance", 0)
+
+    if pseudo >= 3:
+        add_flag(
+            "Pseudo-savoir élevé",
+            min((pseudo - 2) * 0.35, 2.0),
+            0.4,
+            "Le texte accumule des éléments de savoir insuffisamment intégrés."
+        )
+
+    if intuition >= 3:
+        add_flag(
+            "Intuition dogmatique élevée",
+            min((intuition - 2) * 0.30, 1.8),
+            0.3,
+            "Le texte présente une conviction forte avec base documentaire limitée."
+        )
+
+    if mecroyance >= 3:
+        add_flag(
+            "Mécroyance structurelle",
+            min((mecroyance - 2) * 0.40, 2.2),
+            0.5,
+            "La certitude dépasse le savoir articulé et la compréhension intégrée."
+        )
+
+    return {
+        "flags": flags,
+        "credibility_penalty": round(min(penalty, 4.0), 2),
+        "lie_boost": round(min(lie_boost, 2.0), 2),
+    }
+
 def analyze_article(text: str) -> Dict:
     words = text.split()
     sentences = [s.strip() for s in re.split(r"[.!?]+", text) if len(s.strip()) > 10]
