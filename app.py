@@ -4675,6 +4675,10 @@ def analyze_article(text: str) -> Dict:
         "doxic_rigidity_markers": doxic_rigidity_analysis["markers"],
         "doxic_rigidity_interpretation": doxic_rigidity_analysis["interpretation"],
 
+        "narrative_overdetermination_score": narrative_overdetermination_analysis["score"],
+        "narrative_overdetermination_markers": narrative_overdetermination_analysis["markers"],
+        "narrative_overdetermination_interpretation": narrative_overdetermination_analysis["interpretation"],
+
         "short_form_mode": short_form_analysis["is_short_form"],
         "short_form_label": short_form_analysis["label"],
         "short_form_interpretation": short_form_analysis["interpretation"],
