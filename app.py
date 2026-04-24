@@ -3451,6 +3451,53 @@ DESCRIPTIVE_NORMATIVE_CONFUSION_PATTERNS = [
 ]
 
 # -----------------------------
+# Détection texte historique / chronologique
+# -----------------------------
+HISTORICAL_MARKERS = [
+    "en 1789", "en 1792", "en 1815", "en 1914", "en 1939",
+    "au xixe siècle", "au xxe siècle", "durant", "pendant",
+    "à cette époque", "le règne de", "la bataille de",
+    "la révolution", "l'empire", "la guerre", "le traité",
+    "chronologie", "événement", "date", "archives",
+    "historique", "contexte historique"
+]
+
+def detect_historical_text_mode(text: str):
+    if not text or not text.strip():
+        return {
+            "is_historical": False,
+            "score": 0.0,
+            "markers": [],
+            "interpretation": "Aucun régime historique détecté."
+        }
+
+    t = text.lower()
+
+    date_hits = re.findall(r"\b(?:1[0-9]{3}|20[0-9]{2})\b", t)
+    marker_hits = unique_keep_order(
+        [m for m in HISTORICAL_MARKERS if contains_term(t, m)]
+    )
+
+    raw_score = len(date_hits) * 0.6 + len(marker_hits) * 1.2
+    score = min(raw_score / 10, 1.0)
+
+    is_historical = score >= 0.35 or len(date_hits) >= 4
+
+    if not is_historical:
+        interpretation = "Le texte ne semble pas relever principalement d’un régime historique."
+    elif score < 0.60:
+        interpretation = "Le texte présente une structure partiellement historique ou chronologique."
+    else:
+        interpretation = "Le texte relève fortement d’un régime historique ou chronologique."
+
+    return {
+        "is_historical": is_historical,
+        "score": round(score, 3),
+        "markers": marker_hits + date_hits[:10],
+        "interpretation": interpretation
+    }
+
+# -----------------------------
 # Cherry Picking / sélection biaisée
 # -----------------------------
 CHERRY_PICKING_PATTERNS = [
