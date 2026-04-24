@@ -1295,6 +1295,73 @@ def contains_term(text: str, term: str) -> bool:
         pattern = rf"\b{escaped}\b"
     return re.search(pattern, text.lower()) is not None
 
+# -----------------------------
+# Détection page index / multi-liens
+# -----------------------------
+def detect_index_or_multilink_page(text: str, url: str = ""):
+    if not text or not text.strip():
+        return {
+            "is_index_page": False,
+            "score": 0.0,
+            "markers": [],
+            "interpretation": "Aucune structure de page index détectée."
+        }
+
+    t = text.lower()
+    lines = [l.strip() for l in text.splitlines() if l.strip()]
+    short_lines = [l for l in lines if len(l.split()) <= 9]
+
+    url_hits = re.findall(r"https?://|www\.|\.fr|\.com|\.org|\.gouv|\.eu", t)
+
+    index_markers = [
+        "voir aussi",
+        "articles liés",
+        "lire aussi",
+        "communiqués",
+        "actualités",
+        "toutes les actualités",
+        "point de situation",
+        "mise à jour",
+        "dossier",
+        "page suivante",
+        "archives",
+        "rubrique",
+        "accueil",
+        "sommaire",
+    ]
+
+    marker_hits = unique_keep_order(
+        [m for m in index_markers if contains_term(t, m)]
+    )
+
+    line_ratio = len(short_lines) / len(lines) if lines else 0
+    url_density = len(url_hits) / max(len(text.split()), 1)
+
+    raw_score = (
+        line_ratio * 0.45 +
+        min(url_density * 8, 0.35) +
+        min(len(marker_hits) * 0.08, 0.25)
+    )
+
+    score = min(raw_score, 1.0)
+
+    is_index_page = score >= 0.45 or (line_ratio > 0.65 and len(lines) >= 12)
+
+    if is_index_page:
+        interpretation = (
+            "Page de navigation ou page multi-liens détectée : le texte semble composé "
+            "principalement de titres, rubriques ou liens. L’analyse doit être prudente."
+        )
+    else:
+        interpretation = "Le texte ne semble pas être principalement une page index ou multi-liens."
+
+    return {
+        "is_index_page": is_index_page,
+        "score": round(score, 3),
+        "markers": marker_hits + url_hits[:10],
+        "interpretation": interpretation
+    }
+
 
 # -----------------------------
 # Normalisation des termes
