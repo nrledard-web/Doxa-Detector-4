@@ -4713,6 +4713,21 @@ def analyze_article(text: str) -> Dict:
         1
     )
 
+    # -----------------------------
+    # Correctif régime historique
+    # -----------------------------
+    if result.get("historical_mode"):
+        result["hard_fact_score"] = max(result["hard_fact_score"], 10.0)
+        result["hard_fact_score_penalized"] = max(result["hard_fact_score_penalized"], 10.0)
+
+        result["final_credibility_note"] = (
+            "Régime historique détecté : le score est protégé contre une pénalisation "
+            "excessive liée aux énumérations chronologiques."
+        )
+    else:
+        result["final_credibility_note"] = ""
+
+    # score final
     result["final_credibility_score"] = result["hard_fact_score_penalized"]
 
     return result
