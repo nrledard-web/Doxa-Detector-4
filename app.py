@@ -4532,6 +4532,9 @@ def analyze_article(text: str) -> Dict:
 
     hard_fact_score = round(clamp(hard_fact_score + short_epistemic_bonus, 0, 20), 1)
 
+    political_pattern_score, political_results, matched_terms = detect_political_patterns(text)
+    rhetorical_pressure = compute_rhetorical_pressure(political_results)
+
     # -----------------------------
     # Cohérence trompeuse
     # -----------------------------
@@ -4587,9 +4590,6 @@ def analyze_article(text: str) -> Dict:
 
     ling = compute_linguistic_suspicion(text)
     L = ling["L"]
-
-    political_pattern_score, political_results, matched_terms = detect_political_patterns(text)
-    rhetorical_pressure = compute_rhetorical_pressure(political_results)
 
     ME_base = max(0, (2 * D) - (G + N))
 
