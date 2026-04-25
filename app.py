@@ -5390,7 +5390,17 @@ with st.container(border=True):
             st.success("Texte dicté reçu.")
             st.rerun()
     else:
-        st.info("Microphone indisponible sur cette version.")
+        st.info("Microphone classique indisponible sur cette version.")
+
+    st.markdown("#### 🎙️ Entrée vocale mobile")
+    
+    st.caption("📱 Compatible smartphone / iPhone")
+
+    audio = st.audio_input("Dicter un texte à analyser", key="audio_mobile")
+
+    if audio:
+        st.audio(audio)
+        st.info("Audio reçu. Prochaine étape : transcription automatique.")
 
     with st.form("article_form"):
         article = st.text_area(
