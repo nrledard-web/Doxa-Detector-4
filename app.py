@@ -4526,6 +4526,9 @@ def analyze_article(text: str) -> Dict:
 
     hard_fact_score = round(clamp(hard_fact_score + short_epistemic_bonus, 0, 20), 1)
 
+    political_pattern_score, political_results, matched_terms = detect_political_patterns(text)
+    rhetorical_pressure = compute_rhetorical_pressure(political_results)
+
     # calcul cohérence trompeuse
     deceptive_coherence, deceptive_label = compute_deceptive_coherence(
         discursive_analysis["score"] * 20,
@@ -4535,7 +4538,6 @@ def analyze_article(text: str) -> Dict:
         article_length
     )
 
-    # pénalité cohérence trompeuse
     hard_fact_score = round(
         max(0, hard_fact_score - (deceptive_coherence * 3)),
         1
