@@ -914,7 +914,7 @@ def compute_propaganda_gauge(
         0.20 * pattern_factor +
         0.15 * closure_factor
     )
-    return min(score, 1.0)
+    return min(max(score, 0.0), 1.0)
 
 
 def interpret_propaganda_gauge(value: float):
