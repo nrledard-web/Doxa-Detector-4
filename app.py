@@ -4294,20 +4294,26 @@ def compute_mecroyance_penalties(result: dict) -> dict:
         "lie_boost": round(min(lie_boost, 2.0), 2),
     }
 
-def compute_deceptive_coherence(discursive_coherence, rhetorical_pressure, propaganda_score, hard_fact_score, text_length):
+def compute_deceptive_coherence(G, N, D, rhetorical_pressure, propaganda_score, hard_fact_score, text_length):
     """
     Détecte un discours cohérent mais fragile ou orienté.
     """
 
+    # cohérence apparente
+    apparent_coherence = min((N + G) / 20, 1)
+
+    # fragilité cognitive
+    fragility = min((D / 10) + (1 - hard_fact_score / 20), 1)
+
     deceptive = (
-        (discursive_coherence / 20) * 0.35
-        + rhetorical_pressure * 0.30
-        + propaganda_score * 0.20
-        + (1 - hard_fact_score / 20) * 0.10
+        0.35 * apparent_coherence
+        + 0.30 * rhetorical_pressure
+        + 0.20 * propaganda_score
+        + 0.15 * fragility
     )
 
-    # pénalité pour les textes très courts
-    length_factor = min(text_length / 300, 1)
+    # pénalité textes courts
+    length_factor = min(text_length / 250, 1)
     deceptive = deceptive * length_factor
 
     deceptive = max(0, min(deceptive, 1))
