@@ -5533,11 +5533,6 @@ if result:
             f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
         )
 
-    st.caption(
-        "Les pénalités corrigent le score lorsque le texte accumule des signaux "
-        "de fermeture cognitive, de manipulation ou de raisonnement fragile."
-        )
-
     with st.expander("Voir le détail des pénalités", expanded=False):
         st.json(result.get("penalty_details", {}))
 
