@@ -5847,6 +5847,33 @@ if result:
     st.caption("Pression rhétorique faible ⟵⟶ Pression rhétorique forte")
 
     st.divider()
+    st.subheader("Cohérence trompeuse")
+    st.caption(
+        "Cette jauge mesure si le texte paraît cohérent tout en restant fragile, orienté ou insuffisamment vérifiable."
+    )
+
+    value = result.get("deceptive_coherence", 0)
+    label = result.get("deceptive_coherence_label", "—")
+
+    if value < 0.25:
+        color = "#16a34a"
+    elif value < 0.50:
+        color = "#ca8a04"
+    elif value < 0.75:
+        color = "#f97316"
+    else:
+        color = "#dc2626"
+
+    render_custom_gauge(value, color)
+
+    st.markdown(
+        f"<b style='color:{color}'>{label}</b> — {round(value * 100, 1)}%",
+        unsafe_allow_html=True
+    )
+
+    st.caption("Cohérence apparente ⟵⟶ Cohérence trompeuse")
+
+    st.divider()
     st.subheader("Jauge propagandiste")
     st.caption(
         "Cette jauge combine la tension cognitive, la pression rhétorique, "
