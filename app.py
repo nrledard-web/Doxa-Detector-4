@@ -5397,34 +5397,37 @@ with st.container(border=True):
     else:
         st.info("Microphone classique indisponible sur cette version.")
 
+    # 🎙️ MICRO MOBILE
     st.markdown("#### 🎙️ Entrée vocale mobile")
     st.caption("📱 Compatible smartphone / iPhone")
+
     audio = st.audio_input("Dicter un texte à analyser", key="audio_mobile")
 
     if audio:
         st.audio(audio)
 
-        if client is None:
-            st.warning("Transcription vocale indisponible : clé OpenAI absente ou module OpenAI non installé.")
-        else:
-            try:
-                with st.spinner("Transcription en cours..."):
-                    audio_bytes = audio.getvalue()
+        if st.button("Transcrire l’audio", use_container_width=True):
+            if client is None:
+                st.warning("Transcription vocale indisponible : clé OpenAI absente ou module OpenAI non installé.")
+            else:
+                try:
+                    with st.spinner("Transcription en cours..."):
+                        audio_bytes = audio.getvalue()
 
-                    transcript = client.audio.transcriptions.create(
-                        model="gpt-4o-mini-transcribe",
-                        file=("audio.wav", audio_bytes, "audio/wav")
-                    )
+                        transcript = client.audio.transcriptions.create(
+                            model="gpt-4o-mini-transcribe",
+                            file=("audio.wav", audio_bytes, "audio/wav")
+                        )
 
-                text_transcribed = transcript.text
+                    text_transcribed = transcript.text
 
-                st.session_state.article = text_transcribed
-                st.session_state.article_source = "voice"
-                st.success("Texte transcrit et chargé dans la zone d’analyse.")
-                st.rerun()
+                    st.session_state.article = text_transcribed
+                    st.session_state.article_source = "voice"
+                    st.success("Texte transcrit et chargé dans la zone d’analyse.")
+                    st.info("Texte prêt. Cliquez sur Analyser pour lancer l’analyse.")
 
-            except Exception as e:
-                st.error(f"Erreur de transcription : {e}")
+                except Exception as e:
+                    st.error(f"Erreur de transcription : {e}")
 
     with st.form("article_form"):
         article = st.text_area(
