@@ -5386,14 +5386,13 @@ with st.container(border=True):
 
         if spoken_text:
             st.session_state.article = spoken_text
-            st.session_state.article_source = "paste"
+            st.session_state.article_source = "voice"
             st.success("Texte dicté reçu.")
             st.rerun()
     else:
         st.info("Microphone classique indisponible sur cette version.")
 
     st.markdown("#### 🎙️ Entrée vocale mobile")
-    
     st.caption("📱 Compatible smartphone / iPhone")
 
     client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
@@ -5403,18 +5402,24 @@ with st.container(border=True):
     if audio:
         st.audio(audio)
 
-        with st.spinner("Transcription en cours..."):
-            transcript = client.audio.transcriptions.create(
-                model="gpt-4o-mini-transcribe",
-                file=("audio.wav", audio)
-            )
+        try:
+            with st.spinner("Transcription en cours..."):
+                audio_bytes = audio.getvalue()
 
-        text_transcribed = transcript.text
+                transcript = client.audio.transcriptions.create(
+                    model="gpt-4o-mini-transcribe",
+                    file=("audio.wav", audio_bytes, "audio/wav")
+                )
 
-        st.session_state.article = text_transcribed
-        st.session_state.article_source = "voice"
-        st.success("Texte transcrit et chargé dans la zone d’analyse.")
-        st.rerun()
+            text_transcribed = transcript.text
+
+            st.session_state.article = text_transcribed
+            st.session_state.article_source = "voice"
+            st.success("Texte transcrit et chargé dans la zone d’analyse.")
+            st.rerun()
+
+        except Exception as e:
+            st.error(f"Erreur de transcription : {e}")
 
     with st.form("article_form"):
         article = st.text_area(
