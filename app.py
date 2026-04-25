@@ -4634,7 +4634,8 @@ def analyze_article(text: str) -> Dict:
         discursive_analysis["score"] * 20,
         rhetorical_pressure,
         propaganda_analysis["score"],
-        hard_fact_score
+        hard_fact_score,
+        article_length
     )
 
     result = {
