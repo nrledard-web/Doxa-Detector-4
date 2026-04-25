@@ -4625,6 +4625,11 @@ def analyze_article(text: str) -> Dict:
         "semantic_shift_score": semantic_shift_analysis["score"],
         "doxic_rigidity_score": doxic_rigidity_analysis["score"],
         "narrative_overdetermination_score": narrative_overdetermination_analysis["score"],
+        deceptive_coherence, deceptive_label = compute_deceptive_coherence(
+        discursive_analysis["score"] * 20,
+        rhetorical_pressure,
+        propaganda_analysis["score"],
+        hard_fact_score
     })
 
     result = {
