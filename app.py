@@ -4518,7 +4518,6 @@ def analyze_article(text: str) -> Dict:
         (0.18 * G + 0.12 * N + 0.20 * V + 0.22 * source_quality + 0.18 * avg_claim_verifiability)
         - (0.16 * D + 0.12 * R + 0.18 * avg_claim_risk + total_credibility_penalty)
     )
-    hard_fact_score = max(0, hard_fact_score - (deceptive_coherence * 3))
     hard_fact_score = round(clamp(hard_fact_score_raw + 8, 0, 20), 1)
     short_epistemic_bonus = 0.0
     if claims:
@@ -4526,6 +4525,21 @@ def analyze_article(text: str) -> Dict:
         short_epistemic_bonus = min(short_epistemic_bonus, 1.5)
 
     hard_fact_score = round(clamp(hard_fact_score + short_epistemic_bonus, 0, 20), 1)
+
+    # calcul cohérence trompeuse
+    deceptive_coherence, deceptive_label = compute_deceptive_coherence(
+        discursive_analysis["score"] * 20,
+        rhetorical_pressure,
+        propaganda_analysis["score"],
+        hard_fact_score,
+        article_length
+    )
+
+    # pénalité cohérence trompeuse
+    hard_fact_score = round(
+        max(0, hard_fact_score - (deceptive_coherence * 3)),
+        1
+    )
 
     if hard_fact_score < 6:
         verdict = T["low_credibility"]
