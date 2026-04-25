@@ -12,6 +12,11 @@ from ddgs import DDGS
 from newspaper import Article
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+try:
+    from openai import OpenAI
+    client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+except Exception:
+    client = None
 
 # -----------------------------
 # Mots grammaticaux ignorés
