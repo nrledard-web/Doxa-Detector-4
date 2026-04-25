@@ -4656,7 +4656,9 @@ def analyze_article(text: str) -> Dict:
     })
 
     deceptive_coherence, deceptive_label = compute_deceptive_coherence(
-        discursive_analysis["score"] * 20,
+        G,
+        N,
+        D,
         rhetorical_pressure,
         propaganda_analysis["score"],
         hard_fact_score,
