@@ -5368,6 +5368,14 @@ if load_url_submitted:
     else:
         st.warning(T["paste_url_first"])
 
+st.markdown("## Mode d’analyse")
+
+mode = st.radio(
+    "Choisissez le mode",
+    ["Analyse simple", "Débat à 2"],
+    horizontal=True
+)
+
 
 # -----------------------------
 # Zone d’analyse
@@ -5430,14 +5438,29 @@ with st.container(border=True):
                     st.error(f"Erreur de transcription : {e}")
 
     with st.form("article_form"):
-        article = st.text_area(
-            T["paste"],
-            key="article",
-            height=220,
-            label_visibility="collapsed",
-            placeholder=T["paste"]
+
+        if mode == "Analyse simple":
+            article = st.text_area(
+                T["paste"],
+                key="article",
+                height=220,
+                label_visibility="collapsed",
+                placeholder=T["paste"]
+            )
+
+        else:
+            col1, col2 = st.columns(2)
+
+            with col1:
+                article_A = st.text_area("Participant A", key="article_A", height=220)
+
+            with col2:
+                article_B = st.text_area("Participant B", key="article_B", height=220)
+
+        analyze_submitted = st.form_submit_button(
+            T["analyze"],
+            use_container_width=True
         )
-        analyze_submitted = st.form_submit_button(T["analyze"], use_container_width=True)
 
 if (
     "article" in st.session_state
