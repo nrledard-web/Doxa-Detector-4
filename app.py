@@ -4630,7 +4630,7 @@ def analyze_article(text: str) -> Dict:
         rhetorical_pressure,
         propaganda_analysis["score"],
         hard_fact_score
-    })
+    )
 
     result = {
         "words": len(words),
