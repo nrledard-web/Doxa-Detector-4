@@ -910,12 +910,13 @@ def compute_propaganda_gauge(
 
     score = (
         0.30 * lie_gauge +
-        0.35 * rhetorical_pressure +
+        0.30 * rhetorical_pressure +
         0.20 * pattern_factor +
-        0.15 * closure_factor
+        0.10 * closure_factor +
+        0.10 * min(rhetorical_pressure * closure_factor, 1.0)
     )
-    return min(max(score, 0.0), 1.0)
 
+    return min(max(score, 0.0), 1.0)
 
 def interpret_propaganda_gauge(value: float):
     """
