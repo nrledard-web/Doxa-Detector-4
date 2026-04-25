@@ -4294,6 +4294,32 @@ def compute_mecroyance_penalties(result: dict) -> dict:
         "lie_boost": round(min(lie_boost, 2.0), 2),
     }
 
+def compute_deceptive_coherence(discursive_coherence, rhetorical_pressure, propaganda_score, hard_fact_score):
+    """
+    Détecte un discours cohérent mais fragile ou orienté.
+    """
+    deceptive = clamp(
+        (
+            (discursive_coherence / 20) * 0.45
+            + rhetorical_pressure * 0.25
+            + propaganda_score * 0.20
+            + (1 - hard_fact_score / 20) * 0.10
+        ),
+        0,
+        1
+    )
+
+    if deceptive < 0.25:
+        label = "Faible"
+    elif deceptive < 0.50:
+        label = "Modérée"
+    elif deceptive < 0.75:
+        label = "Élevée"
+    else:
+        label = "Très élevée"
+
+    return deceptive, label
+
 def analyze_article(text: str) -> Dict:
     words = text.split()
     sentences = [s.strip() for s in re.split(r"[.!?]+", text) if len(s.strip()) > 10]
