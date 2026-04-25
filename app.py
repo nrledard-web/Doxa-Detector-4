@@ -4300,10 +4300,10 @@ def compute_deceptive_coherence(discursive_coherence, rhetorical_pressure, propa
     """
     deceptive = clamp(
         (
-            (discursive_coherence / 20) * 0.45
-            + rhetorical_pressure * 0.25
+            (discursive_coherence / 20) * 0.35
+            + rhetorical_pressure * 0.30
             + propaganda_score * 0.20
-            + (1 - hard_fact_score / 20) * 0.10
+            + (1 - hard_fact_score / 20) * 0.15
         ),
         0,
         1
