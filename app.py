@@ -5399,32 +5399,32 @@ with st.container(border=True):
 
     st.markdown("#### 🎙️ Entrée vocale mobile")
     st.caption("📱 Compatible smartphone / iPhone")
-
-    client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
-
     audio = st.audio_input("Dicter un texte à analyser", key="audio_mobile")
 
     if audio:
         st.audio(audio)
 
-        try:
-            with st.spinner("Transcription en cours..."):
-                audio_bytes = audio.getvalue()
+        if client is None:
+            st.warning("Transcription vocale indisponible : clé OpenAI absente ou module OpenAI non installé.")
+        else:
+            try:
+                with st.spinner("Transcription en cours..."):
+                    audio_bytes = audio.getvalue()
 
-                transcript = client.audio.transcriptions.create(
-                    model="gpt-4o-mini-transcribe",
-                    file=("audio.wav", audio_bytes, "audio/wav")
-                )
+                    transcript = client.audio.transcriptions.create(
+                        model="gpt-4o-mini-transcribe",
+                        file=("audio.wav", audio_bytes, "audio/wav")
+                    )
 
-            text_transcribed = transcript.text
+                text_transcribed = transcript.text
 
-            st.session_state.article = text_transcribed
-            st.session_state.article_source = "voice"
-            st.success("Texte transcrit et chargé dans la zone d’analyse.")
-            st.rerun()
+                st.session_state.article = text_transcribed
+                st.session_state.article_source = "voice"
+                st.success("Texte transcrit et chargé dans la zone d’analyse.")
+                st.rerun()
 
-        except Exception as e:
-            st.error(f"Erreur de transcription : {e}")
+            except Exception as e:
+                st.error(f"Erreur de transcription : {e}")
 
     with st.form("article_form"):
         article = st.text_area(
@@ -5436,10 +5436,20 @@ with st.container(border=True):
         )
         analyze_submitted = st.form_submit_button(T["analyze"], use_container_width=True)
 
-if article.strip() != previous_article.strip():
+if (
+    "article" in st.session_state
+    and st.session_state.article.strip() != previous_article.strip()
+    and st.session_state.get("article_source") != "voice"
+):
     st.session_state.article_source = "paste"
 
-source_label = T["manual_paste"] if st.session_state.get("article_source") == "paste" else T["loaded_url_source"]
+source_map = {
+    "paste": T["manual_paste"],
+    "url": T["loaded_url_source"],
+    "voice": "dictée vocale"
+}
+
+source_label = source_map.get(st.session_state.get("article_source"), T["manual_paste"])
 st.caption(f"{T['text_source']} : {source_label}")
 
 if st.session_state.get("loaded_url"):
