@@ -4631,7 +4631,7 @@ def analyze_article(text: str) -> Dict:
         propaganda_analysis["score"],
         hard_fact_score
     )
-
+ 
     result = {
         "words": len(words),
         "sentences": len(sentences),
