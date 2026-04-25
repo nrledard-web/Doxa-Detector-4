@@ -5396,11 +5396,25 @@ with st.container(border=True):
     
     st.caption("📱 Compatible smartphone / iPhone")
 
+    client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+
     audio = st.audio_input("Dicter un texte à analyser", key="audio_mobile")
 
     if audio:
         st.audio(audio)
-        st.info("Audio reçu. Prochaine étape : transcription automatique.")
+
+        with st.spinner("Transcription en cours..."):
+            transcript = client.audio.transcriptions.create(
+                model="gpt-4o-mini-transcribe",
+                file=("audio.wav", audio)
+            )
+
+        text_transcribed = transcript.text
+
+        st.session_state.article = text_transcribed
+        st.session_state.article_source = "voice"
+        st.success("Texte transcrit et chargé dans la zone d’analyse.")
+        st.rerun()
 
     with st.form("article_form"):
         article = st.text_area(
