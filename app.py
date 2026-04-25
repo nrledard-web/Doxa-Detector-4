@@ -4869,6 +4869,9 @@ def analyze_article(text: str) -> Dict:
 
         "mecroyance_penalty_details": mecroyance_penalties,
 
+        "deceptive_coherence": deceptive_coherence,
+        "deceptive_coherence_label": deceptive_label,      
+
         "drift_mecroyance": drifts["drift_mecroyance"],
         "drift_pseudo_savoir": drifts["drift_pseudo_savoir"],
         "drift_intuition_dogmatique": drifts["drift_intuition_dogmatique"],
