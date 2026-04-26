@@ -5586,29 +5586,60 @@ result = st.session_state.last_result
 article_for_analysis = st.session_state.last_article
 
 if result:
+
     # =============================
-    # Crédibilité globale
+    # Analyse analogique du raisonnement
     # =============================
-    st.subheader("Crédibilité globale")
+
+    st.subheader("Analyse analogique du raisonnement")
+    st.caption(
+        "Analyse analogique du raisonnement à partir des structures du langage afin d’estimer la solidité épistémique du discours."
+    )
+
+    base_score = result.get("final_credibility_score", result["hard_fact_score"])
+
+    st.progress(base_score / 20)
+    st.caption(f"Score analogique : {base_score}/20")
+
+    st.divider()
+
+    # =============================
+    # Analyse sémantique du discours
+    # =============================
+
+    st.subheader("Analyse sémantique du discours")
+    st.caption(
+        "Analyse la cohérence du sens et la stabilité conceptuelle du discours afin d’affiner l’évaluation épistémique."
+    )
+
+    semantic_score = result.get("semantic_score", None)
 
     if st.session_state.get("semantic_mode", False):
-        semantic_score = result.get("semantic_score", None)
 
         if semantic_score is not None:
-            credibility_score = round((result.get("final_credibility_score", result["hard_fact_score"]) + semantic_score) / 2, 1)
-            st.progress(credibility_score / 20)
-            st.caption(f"Score : {credibility_score}/20 — Raisonnement + sémantique")
+
+            st.progress(semantic_score / 20)
+            st.caption(f"Score sémantique : {semantic_score}/20")
+
+            delta = round(semantic_score - base_score, 1)
+
+            st.metric(
+                "Influence sémantique sur l’évaluation épistémique",
+                f"{delta:+}/20"
+            )
+
         else:
-            st.info("Analyse sémantique activée, mais aucun score sémantique n’est encore calculé.")
+            st.info("Analyse sémantique activée, mais aucun score n’est encore calculé.")
+
     else:
-        st.info("Crédibilité partielle : activez l’analyse sémantique pour compléter l’évaluation.")
-        st.caption("Crédibilité = raisonnement + sémantique.")
+        st.info("Activez l’analyse sémantique pour calculer cette jauge.")
 
     st.divider()
 
     # =============================
     # Résumé chiffré
     # =============================
+
     col1, col2, col3 = st.columns(3)
     col1.metric("Indice classique", result["M"], help=T["help_classic_score"])
     col2.metric("Indice ajusté", result["improved"], help=T["help_improved_score"])
