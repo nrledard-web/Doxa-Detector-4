@@ -6001,6 +6001,24 @@ if result:
         st.caption("Gravité critique — convergence de manipulation ou désalignement cognitif.")
 
     # =============================
+    # Cerveau DOXA
+    # =============================
+    brain = result.get("doxa_brain", {})
+
+    st.markdown("### Cerveau DOXA")
+
+    st.metric(
+        "Stabilité cognitive",
+        f"{brain.get('cognitive_stability', 0):.2f}"
+    )
+
+    st.caption(brain.get("brain_verdict", "Diagnostic indisponible."))
+    st.info(brain.get("brain_advice", ""))
+
+    with st.expander("Résumé du cerveau DOXA"):
+        st.write(brain.get("brain_summary", "Aucun résumé disponible."))
+
+    # =============================
     # Barre de raisonnement
     # =============================
     score = result["hard_fact_score"]
