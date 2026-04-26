@@ -4535,10 +4535,22 @@ def analyze_article(text: str) -> Dict:
         article_length
     )
 
-    deceptive_penalty = round(deceptive_coherence * 3.0, 2)
+    # -----------------------------
+    # Score final fusion des jauges
+    # -----------------------------
+    HFS = hard_fact_score / 20
+
+    OC = max(0.0, (G + N) / (G + N + D)) if (G + N + D) > 0 else 0.0
+
+    discursive_pressure = min(
+        1.0,
+        propaganda_analysis["score"] + rhetorical_pressure
+    )
+
+    ID = max(0.1, 1 - discursive_pressure)
 
     final_credibility_score = round(
-        max(0, hard_fact_score - deceptive_penalty),
+        20 * HFS * OC * ID,
         1
     )
 
@@ -4550,7 +4562,10 @@ def analyze_article(text: str) -> Dict:
         verdict = T["rather_credible"]
     else:
         verdict = T["strong_credibility"]
-        
+
+    result["final_credibility_score"] = final_credibility_score
+    result["final_verdict"] = verdict
+
     strengths = []
     if source_markers >= 2:
         strengths.append(T["presence_of_source_markers"])
