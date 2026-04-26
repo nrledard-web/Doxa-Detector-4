@@ -4848,7 +4848,7 @@ def analyze_article(text: str) -> Dict:
         "avg_claim_verifiability": avg_claim_verifiability,
         "deceptive_penalty": deceptive_penalty,
         "final_credibility_score": final_credibility_score,
-        "final_verdict": final_verdict,
+        "final_verdict": verdict,
         "hard_fact_score": hard_fact_score,
         "verdict": verdict,
         "profil_solidite": verdict,
