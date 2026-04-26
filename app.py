@@ -5405,7 +5405,7 @@ with st.container(border=True):
             st.success("Texte dicté reçu.")
             st.rerun()
     else:
-        st.info("Microphone classique indisponible sur cette version.")
+        st.caption("🎙️ Dictée vocale du mode débat indisponible dans cette version.")
 
     # 🎙️ MICRO MOBILE
     st.markdown("#### 🎙️ Entrée vocale mobile")
@@ -5437,7 +5437,7 @@ with st.container(border=True):
                         st.success("Texte transcrit et chargé dans la zone d’analyse.")
                         st.info("Texte prêt. Cliquez sur Analyser pour lancer l’analyse.")
                     else:
-                        st.session_state.debate_text = text_transcribed
+                        st.session_state["debate_text_input"] = text_transcribed
                         st.success("Texte transcrit et chargé dans l’intervention du débat.")
                         st.info("Texte prêt. Cliquez sur Analyser pour ajouter ce tour au débat.")
                         st.rerun()
@@ -5445,9 +5445,15 @@ with st.container(border=True):
                 except Exception as e:
                     st.error(f"Erreur de transcription : {e}")
 
+    # nettoyage du champ débat si demandé
+    if st.session_state.get("clear_debate_text_next_run"):
+        st.session_state["debate_text_input"] = ""
+        st.session_state["clear_debate_text_next_run"] = False
+
     with st.form("article_form"):
 
         if mode == "Analyse simple":
+
             article = st.text_area(
                 T["paste"],
                 key="article",
@@ -5457,6 +5463,7 @@ with st.container(border=True):
             )
 
         else:
+
             speaker = st.selectbox(
                 "Participant",
                 ["Participant A", "Participant B"]
@@ -5464,7 +5471,7 @@ with st.container(border=True):
 
             debate_text = st.text_area(
                 "Intervention du tour",
-                key="debate_text",
+                key="debate_text_input",
                 height=180,
                 placeholder="Ajoutez l’intervention du participant..."
             )
@@ -5474,81 +5481,89 @@ with st.container(border=True):
             use_container_width=True
         )
 
-if (
-    "article" in st.session_state
-    and st.session_state.article.strip() != previous_article.strip()
-    and st.session_state.get("article_source") != "voice"
-):
-    st.session_state.article_source = "paste"
 
-source_map = {
-    "paste": T["manual_paste"],
-    "url": T["loaded_url_source"],
-    "voice": "dictée vocale"
-}
-
-source_label = source_map.get(st.session_state.get("article_source"), T["manual_paste"])
-st.caption(f"{T['text_source']} : {source_label}")
-
-if st.session_state.get("loaded_url"):
-    st.caption(f"URL : {st.session_state.loaded_url}")
-
-if mode != "Analyse simple":
+# -----------------------------
+# Mode débat
+# -----------------------------
+if analyze_submitted and mode != "Analyse simple":
 
     if "debate_turns" not in st.session_state:
-        st.session_state.debate_turns = []
+        st.session_state["debate_turns"] = []
 
     if analyze_submitted:
+
         if debate_text.strip():
-            st.session_state.debate_turns.append({
+
+            st.session_state["debate_turns"].append({
                 "speaker": speaker,
                 "text": debate_text.strip()
             })
 
-            st.session_state.debate_text = ""
-
+            st.session_state["clear_debate_text_next_run"] = True
             st.success("Tour ajouté au débat.")
             st.rerun()
+
         else:
             st.warning("Ajoutez une intervention avant de valider.")
 
     if st.button("Réinitialiser le débat", use_container_width=True):
-        st.session_state.debate_turns = []
+
+        st.session_state["debate_turns"] = []
+        st.session_state["clear_debate_text_next_run"] = True
         st.rerun()
 
-    if st.session_state.debate_turns:
+    if st.session_state["debate_turns"]:
+
         st.subheader("Historique du débat")
 
-        for i, turn in enumerate(st.session_state.debate_turns, start=1):
+        for i, turn in enumerate(st.session_state["debate_turns"], start=1):
+
             st.markdown(f"**Tour {i} — {turn['speaker']}**")
-            st.caption(turn["text"][:300])
+            st.write(turn["text"])
 
         if st.button("Analyser tout le débat", use_container_width=True):
+
             debate_results = []
 
-            for i, turn in enumerate(st.session_state.debate_turns, start=1):
+            for i, turn in enumerate(st.session_state["debate_turns"], start=1):
+
                 analysis = analyze_article(turn["text"])
 
                 debate_results.append({
                     "Tour": i,
                     "Participant": turn["speaker"],
-                    "Score final": analysis.get("final_credibility_score", analysis["hard_fact_score"]),
+                    "Score final": analysis.get(
+                        "final_credibility_score",
+                        analysis["hard_fact_score"]
+                    ),
                     "M": analysis["M"],
                     "ME": analysis["ME"],
-                    "Pression rhétorique": round(analysis.get("rhetorical_pressure", 0) * 100, 1),
-                    "Cohérence trompeuse": round(analysis.get("deceptive_coherence", 0) * 100, 1),
+                    "Pression rhétorique": round(
+                        analysis.get("rhetorical_pressure", 0) * 100, 1
+                    ),
+                    "Cohérence trompeuse": round(
+                        analysis.get("deceptive_coherence", 0) * 100, 1
+                    ),
                     "Verdict": analysis["verdict"],
                 })
 
             df_debate = pd.DataFrame(debate_results)
+
             st.subheader("Résultats du débat")
-            st.dataframe(df_debate, use_container_width=True, hide_index=True)
+
+            st.dataframe(
+                df_debate,
+                use_container_width=True,
+                hide_index=True
+            )
 
             winner = df_debate.groupby("Participant")["Score final"].mean().idxmax()
-            st.success(f"Participant le plus crédible selon l'analyse : {winner}")
+
+            st.success(
+                f"Participant le plus crédible selon l'analyse : {winner}"
+            )
 
     st.stop()
-
 # -----------------------------
 # Mode sémantique
 # -----------------------------
