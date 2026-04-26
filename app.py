@@ -4283,27 +4283,23 @@ def compute_mecroyance_penalties(result: dict) -> dict:
 
 def compute_deceptive_coherence(G, N, D, rhetorical_pressure, propaganda_score, hard_fact_score, text_length):
     """
-    Détecte un discours cohérent mais fragile ou orienté.
+    Détecte un texte apparemment cohérent mais fragile ou orienté.
     """
 
-    # cohérence apparente
-    apparent_coherence = min((N + G) / 20, 1)
-
-    # fragilité cognitive
+    coherence = min((G + N) / 20, 1)
     fragility = min((D / 10) + (1 - hard_fact_score / 20), 1)
 
     deceptive = (
-        0.35 * apparent_coherence
-        + 0.30 * rhetorical_pressure
-        + 0.20 * propaganda_score
-        + 0.15 * fragility
+        0.35 * coherence +
+        0.25 * rhetorical_pressure +
+        0.25 * propaganda_score +
+        0.15 * fragility
     )
 
-    # pénalité textes courts
     length_factor = min(text_length / 250, 1)
-    deceptive = deceptive * length_factor
+    deceptive *= length_factor
 
-    deceptive = max(0, min(deceptive, 1))
+    deceptive = min(max(round(deceptive, 3), 0), 1)
 
     if deceptive < 0.25:
         label = "Faible"
@@ -4315,7 +4311,7 @@ def compute_deceptive_coherence(G, N, D, rhetorical_pressure, propaganda_score, 
         label = "Très élevée"
 
     return deceptive, label
-
+    
 # =========================================================
 # 🎨 Étalonnage visuel unifié des jauges — version corrigée
 # =========================================================
