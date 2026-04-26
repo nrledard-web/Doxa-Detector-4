@@ -4385,7 +4385,7 @@ def interpret_reasoning_bar(score: float):
     elif v < 0.75:
         msg = "Raisonnement globalement cohérent, mais vérifiabilité moyenne."
     else:
-        msg = "Raisonnement robuste et cohérent."
+        msg = "Raisonnement robuste. Vérifiez maintenant la solidité des sources et des prémisses."
 
     return color, label, msg
 
