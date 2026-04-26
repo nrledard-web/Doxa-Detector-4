@@ -5781,18 +5781,11 @@ if result:
     # =============================
     final_score = result.get("final_credibility_score", score)
 
-    if final_score <= 6:
-        couleur_c, etiquette_c, message_c = "🔴", "Faible", "La crédibilité globale est fortement réduite par les signaux discursifs."
-    elif final_score <= 11:
-        couleur_c, etiquette_c, message_c = "🟠", "Prudente", "Le texte reste plausible mais plusieurs signaux invitent à la prudence."
-    elif final_score <= 15:
-        couleur_c, etiquette_c, message_c = "🟡", "Correcte", "La crédibilité globale reste partiellement solide."
-    else:
-        couleur_c, etiquette_c, message_c = "🟢", "Robuste", "La crédibilité globale apparaît solide."
+    couleur_c, etiquette_c, message_c = interpret_final_credibility(final_score)
 
     st.subheader(f"{couleur_c} Crédibilité finale : {etiquette_c}")
     st.progress(final_score / 20)
-    st.caption(f"Score final : {final_score}/20 — Analyse combinée des jauges cognitives et discursives.")
+    st.caption(f"Score final : {final_score}/20 — {message_c}")
 
     # =============================
     # Pénalités appliquées
