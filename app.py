@@ -5449,13 +5449,17 @@ with st.container(border=True):
             )
 
         else:
-            col1, col2 = st.columns(2)
+            speaker = st.selectbox(
+                "Participant",
+                ["Participant A", "Participant B"]
+            )
 
-            with col1:
-                article_A = st.text_area("Participant A", key="article_A", height=220)
-
-            with col2:
-                article_B = st.text_area("Participant B", key="article_B", height=220)
+            debate_text = st.text_area(
+                "Intervention du tour",
+                key="debate_text",
+                height=180,
+                placeholder="Ajoutez l’intervention du participant..."
+            )
 
         analyze_submitted = st.form_submit_button(
             T["analyze"],
@@ -5480,6 +5484,58 @@ st.caption(f"{T['text_source']} : {source_label}")
 
 if st.session_state.get("loaded_url"):
     st.caption(f"URL : {st.session_state.loaded_url}")
+
+if mode != "Analyse simple":
+    if "debate_turns" not in st.session_state:
+        st.session_state.debate_turns = []
+
+    if analyze_submitted:
+        if debate_text.strip():
+            st.session_state.debate_turns.append({
+                "speaker": speaker,
+                "text": debate_text.strip()
+            })
+            st.success("Tour ajouté au débat.")
+            st.rerun()
+        else:
+            st.warning("Ajoutez une intervention avant de valider.")
+
+    if st.button("Réinitialiser le débat", use_container_width=True):
+        st.session_state.debate_turns = []
+        st.rerun()
+
+    if st.session_state.debate_turns:
+        st.subheader("Historique du débat")
+
+        for i, turn in enumerate(st.session_state.debate_turns, start=1):
+            st.markdown(f"**Tour {i} — {turn['speaker']}**")
+            st.caption(turn["text"][:300])
+
+        if st.button("Analyser tout le débat", use_container_width=True):
+            debate_results = []
+
+            for i, turn in enumerate(st.session_state.debate_turns, start=1):
+                analysis = analyze_article(turn["text"])
+
+                debate_results.append({
+                    "Tour": i,
+                    "Participant": turn["speaker"],
+                    "Score final": analysis.get("final_credibility_score", analysis["hard_fact_score"]),
+                    "M": analysis["M"],
+                    "ME": analysis["ME"],
+                    "Pression rhétorique": round(analysis.get("rhetorical_pressure", 0) * 100, 1),
+                    "Cohérence trompeuse": round(analysis.get("deceptive_coherence", 0) * 100, 1),
+                    "Verdict": analysis["verdict"],
+                })
+
+            df_debate = pd.DataFrame(debate_results)
+            st.subheader("Résultats du débat")
+            st.dataframe(df_debate, use_container_width=True, hide_index=True)
+
+            winner = df_debate.groupby("Participant")["Score final"].mean().idxmax()
+            st.success(f"Participant le plus crédible selon l'analyse : {winner}")
+
+    st.stop()
 
 # -----------------------------
 # Mode sémantique
