@@ -5361,6 +5361,7 @@ if load_url_submitted:
             st.session_state.article = texte
             st.session_state.article_source = "url"
             st.session_state.loaded_url = url
+            st.session_state.mode = "Analyse simple"
             st.success(T["article_loaded_from_url"])
             st.rerun()
         else:
@@ -5372,8 +5373,9 @@ st.markdown("## Mode d’analyse")
 
 mode = st.radio(
     "Choisissez le mode",
-    ["Analyse simple", "Débat à 2"],
-    horizontal=True
+    ["Analyse simple", "Débat dynamique"],
+    horizontal=True,
+    key="mode"
 )
 
 
