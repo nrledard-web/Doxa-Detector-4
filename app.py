@@ -4563,9 +4563,6 @@ def analyze_article(text: str) -> Dict:
     else:
         verdict = T["strong_credibility"]
 
-    result["final_credibility_score"] = final_credibility_score
-    result["final_verdict"] = verdict
-
     strengths = []
     if source_markers >= 2:
         strengths.append(T["presence_of_source_markers"])
