@@ -4932,7 +4932,7 @@ def analyze_article(text: str) -> Dict:
     }
     result["penalty_index"] = total_credibility_penalty
 
-    result["hard_fact_score_penalized"] = result["hard_fact_score"]
+    result["hard_fact_score_penalized"] = result["final_credibility_score"]
 
     result["improved_penalized"] = round(
         max(0, result["improved"] - penalties["credibility_penalty"]),
@@ -4957,8 +4957,6 @@ def analyze_article(text: str) -> Dict:
 
     else:
         result["final_credibility_note"] = ""
-
-    result["final_credibility_score"] = result["hard_fact_score_penalized"]
 
     return result
 
