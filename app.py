@@ -4279,6 +4279,56 @@ def compute_global_penalties(result: dict) -> dict:
         "red_flags_penalty_count": red_flags_count,
     }
 
+def compute_doxa_brain(result: dict) -> dict:
+    """
+    Synthèse finale du cerveau DOXA.
+    Agrège la gravité, la stabilité et le régime cognitif.
+    """
+
+    gravity = result.get("cognitive_gravity", 0)
+    stability = round(1 - gravity, 3)
+
+    M = result.get("M", 0)
+    ME = result.get("ME", 0)
+    hard_fact = result.get("hard_fact_score", 0)
+    regime = result.get("cognitive_regime", "Non classé")
+
+    if gravity < 0.20:
+        brain_state = "Stable"
+        verdict = "Discours globalement stable"
+        advice = "Le discours présente peu de signaux de dérive cognitive."
+    elif gravity < 0.40:
+        brain_state = "Sous tension"
+        verdict = "Discours légèrement fragilisé"
+        advice = "Quelques tensions existent : vérifier les sources et les prémisses."
+    elif gravity < 0.60:
+        brain_state = "Instable"
+        verdict = "Discours cognitivement instable"
+        advice = "La cohérence doit être recoupée avec les faits et les sources."
+    elif gravity < 0.80:
+        brain_state = "Critique"
+        verdict = "Discours fortement problématique"
+        advice = "Accumulation de signaux rhétoriques, factuels ou cognitifs préoccupants."
+    else:
+        brain_state = "Alerte maximale"
+        verdict = "Discours à très forte gravité cognitive"
+        advice = "Forte convergence de fermeture, manipulation ou désalignement cognitif."
+
+    return {
+        "brain_state": brain_state,
+        "brain_verdict": verdict,
+        "brain_advice": advice,
+        "cognitive_stability": stability,
+        "dominant_regime": regime,
+        "brain_summary": (
+            f"État : {brain_state} | "
+            f"Stabilité : {stability:.2f} | "
+            f"Gravité : {gravity:.2f} | "
+            f"Régime dominant : {regime} | "
+            f"M={M:.2f}, ME={ME:.2f}, Factuel={hard_fact:.1f}/20"
+        )
+    }
+
 def compute_mecroyance_penalties(result: dict) -> dict:
     penalty = 0.0
     lie_boost = 0.0
