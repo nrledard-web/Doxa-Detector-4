@@ -5494,6 +5494,7 @@ if st.session_state.get("loaded_url"):
     st.caption(f"URL : {st.session_state.loaded_url}")
 
 if mode != "Analyse simple":
+
     if "debate_turns" not in st.session_state:
         st.session_state.debate_turns = []
 
@@ -5503,6 +5504,9 @@ if mode != "Analyse simple":
                 "speaker": speaker,
                 "text": debate_text.strip()
             })
+
+            st.session_state.debate_text = ""
+
             st.success("Tour ajouté au débat.")
             st.rerun()
         else:
