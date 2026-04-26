@@ -4202,6 +4202,27 @@ def classify_cognitive_regime(result: dict) -> dict:
     result["cognitive_regime"] = regime
     return result
 
+
+def compute_cognitive_gravity(result):
+    lie = min(1, max(0, result.get("lie_gauge", 0)))
+    rhetoric = min(1, max(0, result.get("rhetorical_pressure", 0)))
+    propaganda = min(1, max(0, result.get("propaganda_score", 0) / 10))
+    dissonance = min(1, max(0, result.get("factual_dissonance", 0)))
+    closure = min(1, max(0, result.get("cognitive_closure", 0) / 10))
+
+    hard_fact_inverse = 1 - min(1, max(0, result.get("hard_fact_score", 0) / 20))
+
+    gravity = (
+        lie * 0.25 +
+        rhetoric * 0.20 +
+        propaganda * 0.20 +
+        dissonance * 0.20 +
+        closure * 0.10 +
+        hard_fact_inverse * 0.05
+    )
+
+    return round(min(1, max(0, gravity)), 3)
+
 def compute_global_penalties(result: dict) -> dict:
     """
     Agrège les fragilités déjà détectées.
