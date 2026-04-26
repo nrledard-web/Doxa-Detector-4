@@ -5595,7 +5595,7 @@ if result:
         semantic_score = result.get("semantic_score", None)
 
         if semantic_score is not None:
-            credibility_score = round((result["hard_fact_score"] + semantic_score) / 2, 1)
+            credibility_score = round((result.get("final_credibility_score", result["hard_fact_score"]) + semantic_score) / 2, 1)
             st.progress(credibility_score / 20)
             st.caption(f"Score : {credibility_score}/20 — Raisonnement + sémantique")
         else:
