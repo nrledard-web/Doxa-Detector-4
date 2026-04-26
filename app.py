@@ -5478,10 +5478,13 @@ if (
     transcribed = st.session_state["speech_to_text_result"].strip()
 
     if transcribed and transcribed != st.session_state["last_audio_transcription_added"]:
-        st.session_state["debate_turns"].append({
+        
+        turns = st.session_state.get("debate_turns", [])
+        turns.append({
             "speaker": "Participant A",
             "text": transcribed
         })
+        st.session_state["debate_turns"] = turns
 
         st.session_state["last_audio_transcription_added"] = transcribed
         st.session_state["clear_debate_text_next_run"] = True
