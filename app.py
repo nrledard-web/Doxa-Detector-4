@@ -4316,6 +4316,121 @@ def compute_deceptive_coherence(G, N, D, rhetorical_pressure, propaganda_score, 
 
     return deceptive, label
 
+# =========================================================
+# 🎨 Étalonnage visuel unifié des jauges — version corrigée
+# =========================================================
+
+def normalize_display_value(value: float) -> float:
+    """Ramène une valeur 0–1 ou 0–20 vers 0–1."""
+    if value is None:
+        return 0.0
+    return value / 20 if value > 1 else value
+
+
+def color_scale_risk(value: float) -> tuple[str, str]:
+    """
+    Pour les jauges de risque :
+    propagande, clôture, dérive, mensonge, pression rhétorique.
+    Plus c'est haut, plus c'est mauvais.
+    """
+    v = normalize_display_value(value)
+
+    if v < 0.25:
+        return "#16a34a", "🟢 Faible"
+    elif v < 0.50:
+        return "#84cc16", "🟡 Modéré"
+    elif v < 0.75:
+        return "#f97316", "🟠 Élevé"
+    else:
+        return "#dc2626", "🔴 Critique"
+
+
+def color_scale_quality(value: float) -> tuple[str, str]:
+    """
+    Pour les scores de qualité :
+    Hard Fact Score, crédibilité finale, raisonnement.
+    Plus c'est haut, meilleur c'est.
+    """
+    v = normalize_display_value(value)
+
+    if v < 0.25:
+        return "#dc2626", "🔴 Faible"
+    elif v < 0.50:
+        return "#f97316", "🟠 Fragile"
+    elif v < 0.75:
+        return "#ca8a04", "🟡 Correct"
+    else:
+        return "#16a34a", "🟢 Robuste"
+
+
+def interpret_generic_risk_gauge(label: str, value: float) -> str:
+    v = normalize_display_value(value)
+    color, level = color_scale_risk(v)
+    return f"<b style='color:{color}'>{label}</b> — {level} ({round(v * 100, 1)}%)"
+
+
+def interpret_generic_quality_gauge(label: str, value: float) -> str:
+    v = normalize_display_value(value)
+    color, level = color_scale_quality(v)
+    return f"<b style='color:{color}'>{label}</b> — {level} ({round(v * 100, 1)}%)"
+
+
+# -----------------------------
+# Barre de raisonnement
+# -----------------------------
+def interpret_reasoning_bar(score: float):
+    v = normalize_display_value(score)
+    color, label = color_scale_quality(v)
+
+    if v < 0.25:
+        msg = "Raisonnement très faible ou incohérent."
+    elif v < 0.50:
+        msg = "Raisonnement partiellement structuré, encore fragile."
+    elif v < 0.75:
+        msg = "Raisonnement globalement cohérent, mais vérifiabilité moyenne."
+    else:
+        msg = "Raisonnement robuste et cohérent."
+
+    return color, label, msg
+
+
+# -----------------------------
+# Crédibilité finale
+# -----------------------------
+def interpret_final_credibility(score: float):
+    v = normalize_display_value(score)
+    color, label = color_scale_quality(v)
+
+    if v < 0.25:
+        msg = "Crédibilité faible : discours fragile, peu vérifiable ou fortement orienté."
+    elif v < 0.50:
+        msg = "Crédibilité prudente : plusieurs signaux de fragilité détectés."
+    elif v < 0.75:
+        msg = "Crédibilité correcte : ancrage factuel présent mais incomplet."
+    else:
+        msg = "Crédibilité robuste : base factuelle et argumentative solide."
+
+    return color, label, msg
+
+
+# -----------------------------
+# Dérive cognitive
+# -----------------------------
+def interpret_cognitive_drift(value: float):
+    v = normalize_display_value(value)
+    color, label = color_scale_risk(v)
+
+    if v < 0.25:
+        msg = "Stabilité cognitive élevée."
+    elif v < 0.50:
+        msg = "Certaines dérives perceptibles."
+    elif v < 0.75:
+        msg = "Tendance nette à la mécroyance ou au biais confirmatoire."
+    else:
+        msg = "Dérive cognitive forte : fermeture sur ses propres certitudes."
+
+    return color, label, msg
+
 def analyze_article(text: str) -> Dict:
     words = text.split()
     sentences = [s.strip() for s in re.split(r"[.!?]+", text) if len(s.strip()) > 10]
