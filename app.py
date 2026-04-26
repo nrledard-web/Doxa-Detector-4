@@ -5431,10 +5431,16 @@ with st.container(border=True):
 
                     text_transcribed = transcript.text
 
-                    st.session_state.article = text_transcribed
-                    st.session_state.article_source = "voice"
-                    st.success("Texte transcrit et chargé dans la zone d’analyse.")
-                    st.info("Texte prêt. Cliquez sur Analyser pour lancer l’analyse.")
+                    if mode == "Analyse simple":
+                        st.session_state.article = text_transcribed
+                        st.session_state.article_source = "voice"
+                        st.success("Texte transcrit et chargé dans la zone d’analyse.")
+                        st.info("Texte prêt. Cliquez sur Analyser pour lancer l’analyse.")
+                    else:
+                        st.session_state.debate_text = text_transcribed
+                        st.success("Texte transcrit et chargé dans l’intervention du débat.")
+                        st.info("Texte prêt. Cliquez sur Analyser pour ajouter ce tour au débat.")
+                        st.rerun()
 
                 except Exception as e:
                     st.error(f"Erreur de transcription : {e}")
