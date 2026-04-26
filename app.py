@@ -896,6 +896,33 @@ def interpret_rhetorical_pressure(value: float):
         return "Élevée", "#f97316"
     else:
         return "Très élevée", "#dc2626"
+
+def compute_cognitive_gravity(result):
+    """
+    Gravité cognitive globale du discours.
+    0 = faible
+    1 = maximale
+    """
+
+    lie = min(1, max(0, result.get("lie_gauge", 0)))
+    rhetoric = min(1, max(0, result.get("rhetorical_pressure", 0)))
+    propaganda = min(1, max(0, result.get("propaganda_score", 0) / 10))
+    dissonance = min(1, max(0, result.get("factual_dissonance", 0)))
+    closure = min(1, max(0, result.get("cognitive_closure", 0) / 10))
+
+    hard_fact_inverse = 1 - min(1, max(0, result.get("hard_fact_score", 0) / 20))
+
+    gravity = (
+        lie * 0.25 +
+        rhetoric * 0.20 +
+        propaganda * 0.20 +
+        dissonance * 0.20 +
+        closure * 0.10 +
+        hard_fact_inverse * 0.05
+    )
+
+    return round(min(1, max(0, gravity)), 3)
+        
 def compute_propaganda_gauge(
     lie_gauge: float,
     rhetorical_pressure: float,
