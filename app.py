@@ -5620,18 +5620,37 @@ if result:
     score = result["hard_fact_score"]
 
     if score <= 6:
-        couleur, etiquette, message = "🔴", "Faible", "Le raisonnement reste peu développé ou peu étayé."
+        couleur_r, etiquette_r, message_r = "🔴", "Faible", "Le raisonnement reste peu développé ou peu étayé."
     elif score <= 11:
-        couleur, etiquette, message = "🟠", "Médiocre", "Le texte contient quelques éléments de raisonnement, mais reste insuffisant."
+        couleur_r, etiquette_r, message_r = "🟠", "Médiocre", "Le texte contient quelques éléments de raisonnement, mais reste insuffisant."
     elif score <= 15:
-        couleur, etiquette, message = "🟡", "Correct", "Le raisonnement est présent mais encore partiellement fragile."
+        couleur_r, etiquette_r, message_r = "🟡", "Correct", "Le raisonnement est présent mais encore partiellement fragile."
     else:
-        couleur, etiquette, message = "🟢", "Robuste", "Le raisonnement est solidement structuré."
+        couleur_r, etiquette_r, message_r = "🟢", "Robuste", "Le raisonnement est solidement structuré."
 
-    st.subheader(f"{couleur} Barre de raisonnement : {etiquette}")
+    st.subheader(f"{couleur_r} Barre de raisonnement : {etiquette_r}")
     st.progress(score / 20)
-    st.caption(f"Score : {score}/20 — {message}")
+    st.caption(f"Score : {score}/20 — {message_r}")
     st.caption("Augmentez votre raisonnement pour rendre la barre robuste.")
+
+
+    # =============================
+    # Barre de crédibilité finale
+    # =============================
+    final_score = result.get("final_credibility_score", score)
+
+    if final_score <= 6:
+        couleur_c, etiquette_c, message_c = "🔴", "Faible", "La crédibilité globale est fortement réduite par les signaux discursifs."
+    elif final_score <= 11:
+        couleur_c, etiquette_c, message_c = "🟠", "Prudente", "Le texte reste plausible mais plusieurs signaux invitent à la prudence."
+    elif final_score <= 15:
+        couleur_c, etiquette_c, message_c = "🟡", "Correcte", "La crédibilité globale reste partiellement solide."
+    else:
+        couleur_c, etiquette_c, message_c = "🟢", "Robuste", "La crédibilité globale apparaît solide."
+
+    st.subheader(f"{couleur_c} Crédibilité finale : {etiquette_c}")
+    st.progress(final_score / 20)
+    st.caption(f"Score final : {final_score}/20 — Analyse combinée des jauges cognitives et discursives.")
 
     # =============================
     # Pénalités appliquées
