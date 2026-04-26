@@ -4160,24 +4160,6 @@ def compute_cognitive_drifts(G, N, D):
         "cognitive_drift_interpretation": interpretation,
     }
 
-def classify_cognitive_regime(result):
-
-    M = result["M"]
-    ME = result["ME"]
-    rp = result["rhetorical_pressure"]
-    prop = result["propaganda_score"]
-
-    if ME > 2 and rp > 0.5:
-        regime = "Manipulation stratégique"
-
-    elif result["drift_pseudo_savoir"] > result["drift_mecroyance"]:
-        regime = "Pseudo-savoir"
-
-    else:
-        regime = "Mécroyance"
-
-    result["cognitive_regime"] = regime
-
 def classify_cognitive_regime(result: dict) -> dict:
     M = result["M"]
     ME = result["ME"]
