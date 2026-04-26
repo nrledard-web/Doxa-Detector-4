@@ -4642,31 +4642,6 @@ def analyze_article(text: str) -> Dict:
         "doxic_rigidity_score": doxic_rigidity_analysis["score"],
         "narrative_overdetermination_score": narrative_overdetermination_analysis["score"],
     })
-
-    deceptive_coherence, deceptive_label = compute_deceptive_coherence(
-        G,
-        N,
-        D,
-        rhetorical_pressure,
-        propaganda_analysis["score"],
-        hard_fact_score,
-        article_length
-    )
-    deceptive_penalty = round(deceptive_coherence * 3.0, 2)
-
-    final_credibility_score = round(
-        max(0, hard_fact_score - deceptive_penalty),
-        1
-    )
-
-    if final_credibility_score < 6:
-        final_verdict = T["low_credibility"]
-    elif final_credibility_score < 10:
-        final_verdict = T["prudent_credibility"]
-    elif final_credibility_score < 15:
-        final_verdict = T["rather_credible"]
-    else:
-        final_verdict = T["strong_credibility"]
         
     result = {
         "words": len(words),
