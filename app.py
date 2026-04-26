@@ -5786,7 +5786,7 @@ if result:
         st.progress(mecroyance_bar)
         st.caption(f"M = {result['M']}")
 
-    st.subheader(f"{T['verdict']} : {result['verdict']}")
+    st.subheader(f"{T['verdict']} : {result['final_verdict']}")
     st.subheader(T["summary"])
 
     m1, m2 = st.columns(2)
