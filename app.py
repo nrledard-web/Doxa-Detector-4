@@ -5157,6 +5157,7 @@ def analyze_article(text: str) -> Dict:
         result["final_credibility_note"] = ""
 
     result["cognitive_gravity"] = compute_cognitive_gravity(result)
+    result["doxa_brain"] = compute_doxa_brain(result)
 
     return result
 
