@@ -5931,6 +5931,25 @@ if result:
     col3.metric("Score de raisonnement", result["hard_fact_score"], help=T["help_hard_fact_score"])
 
     # =============================
+    # Gravité cognitive globale
+    # =============================
+    gravity = result.get("cognitive_gravity", 0)
+
+    st.markdown("### Gravité cognitive globale")
+    st.progress(gravity)
+
+    if gravity < 0.2:
+        st.caption("Gravité faible — discours globalement sain.")
+    elif gravity < 0.4:
+        st.caption("Gravité modérée — quelques tensions cognitives.")
+    elif gravity < 0.6:
+        st.caption("Gravité élevée — dérive discursive notable.")
+    elif gravity < 0.8:
+        st.caption("Gravité très élevée — structure discursive problématique.")
+    else:
+        st.caption("Gravité critique — convergence de manipulation ou désalignement cognitif.")
+
+    # =============================
     # Barre de raisonnement
     # =============================
     score = result["hard_fact_score"]
