@@ -5773,7 +5773,7 @@ if result:
     st.subheader(f"{couleur_r} Barre de raisonnement : {etiquette_r}")
     st.progress(score / 20)
     st.caption(f"Score : {score}/20 — {message_r}")
-    st.caption("Augmentez votre raisonnement pour rendre la barre robuste.")
+    st.caption("Analysez aussi la solidité des sources, des prémisses et de la vérifiabilité.")
 
 
     # =============================
