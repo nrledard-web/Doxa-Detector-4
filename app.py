@@ -5467,28 +5467,6 @@ mode = st.radio(
 if "debate_turns" not in st.session_state:
     st.session_state["debate_turns"] = []
 
-if "last_audio_transcription_added" not in st.session_state:
-    st.session_state["last_audio_transcription_added"] = ""
-
-# Si une transcription audio vient d'arriver, on l’ajoute directement au débat
-if (
-    st.session_state.get("mode") == "Débat dynamique"
-    and "speech_to_text_result" in st.session_state
-):
-    transcribed = st.session_state["speech_to_text_result"].strip()
-
-    if transcribed and transcribed != st.session_state["last_audio_transcription_added"]:
-        
-        turns = st.session_state.get("debate_turns", [])
-        turns.append({
-            "speaker": "Participant A",
-            "text": transcribed
-        })
-        st.session_state["debate_turns"] = turns
-
-        st.session_state["last_audio_transcription_added"] = transcribed
-        st.session_state["clear_debate_text_next_run"] = True
-
 # -----------------------------
 # Zone d’analyse
 # -----------------------------
@@ -5540,6 +5518,7 @@ with st.container(border=True):
                         )
 
                     text_transcribed = transcript.text
+                    st.session_state["speech_to_text_result"] = text_transcribed
 
                     if mode == "Analyse simple":
                         st.session_state.article = text_transcribed
