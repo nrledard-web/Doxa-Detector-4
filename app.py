@@ -4535,21 +4535,22 @@ def analyze_article(text: str) -> Dict:
         article_length
     )
 
-    # pénalité cohérence trompeuse
-    hard_fact_score = round(
-        max(0, hard_fact_score - (deceptive_coherence * 3)),
+    deceptive_penalty = round(deceptive_coherence * 3.0, 2)
+
+    final_credibility_score = round(
+        max(0, hard_fact_score - deceptive_penalty),
         1
     )
 
-    if hard_fact_score < 6:
+    if final_credibility_score < 6:
         verdict = T["low_credibility"]
-    elif hard_fact_score < 10:
+    elif final_credibility_score < 10:
         verdict = T["prudent_credibility"]
-    elif hard_fact_score < 15:
+    elif final_credibility_score < 15:
         verdict = T["rather_credible"]
     else:
         verdict = T["strong_credibility"]
-
+        
     strengths = []
     if source_markers >= 2:
         strengths.append(T["presence_of_source_markers"])
