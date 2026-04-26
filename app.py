@@ -4855,9 +4855,6 @@ def analyze_article(text: str) -> Dict:
         "argument_support_count": argument_asymmetry_analysis["argument_count"],
         "argument_asymmetry_interpretation": argument_asymmetry_analysis["interpretation"],
 
-        "final_credibility_score": final_credibility_score,
-        "final_verdict": verdict,
-
         "linguistic_trigger_count": ling["trigger_count"],
         "linguistic_pressure_hits": ling["rhetorical_pressure"],
         "absolute_claims": ling["absolute_claims"],
