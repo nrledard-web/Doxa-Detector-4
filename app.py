@@ -6395,55 +6395,43 @@ if result:
 
     st.caption("Erreur sincère ⟵⟶ Manipulation probable")
 
-# Explication automatique de la jauge mensonge
-if gauge_value >= 0.70:
-    st.warning("### Pourquoi cette jauge indique une manipulation probable ?")
-
-    st.markdown("""
-La jauge monte fortement parce que le texte présente une combinaison de signaux :
-
-- une certitude très élevée ;
-- un niveau de preuves insuffisant face à cette certitude ;
-- une pression rhétorique importante ;
-- des affirmations difficiles à vérifier ;
-- des formulations pouvant orienter le lecteur plutôt qu’éclairer le raisonnement.
-""")
-
-    st.markdown("#### Facteurs détectés")
-
-    st.write(f"- Mécroyance M : {result['M']}")
-    st.write(f"- Mensonge stratégique ME : {result['ME']}")
-    st.write(f"- Certitude D : {result['D']}")
-    st.write(f"- Savoir G : {result['G']}")
-    st.write(f"- Compréhension N : {result['N']}")
-    st.write(f"- Pression rhétorique : {round(result['rhetorical_pressure'] * 100, 1)}%")
-    st.write(f"- Red flags détectés : {len(result.get('red_flags', []))}")
-        
-La jauge monte fortement parce que le texte présente une combinaison de signaux :
-
-- une certitude très élevée ;
-- un niveau de preuves insuffisant face à cette certitude ;
-- une pression rhétorique importante ;
-- des affirmations difficiles à vérifier ;
-- des formulations pouvant orienter le lecteur plutôt qu’éclairer le raisonnement.
-
-À ce niveau, le discours ne ressemble plus seulement à une erreur sincère :  
-il commence à produire une structure de manipulation possible.
-""")
-
-    elif gauge_value >= 0.45:
-        st.info("### Pourquoi cette jauge s’allume ?")
+    # Explication automatique de la jauge mensonge
+    if gauge_value >= 0.70:
+        st.warning("### Pourquoi cette jauge indique une manipulation probable ?")
 
         st.markdown("""
-Le texte contient une tension entre mécroyance et manipulation.
+La jauge monte fortement parce que le texte presente une combinaison de signaux :
 
-La certitude paraît plus forte que les preuves disponibles, mais les signaux ne suffisent pas encore à conclure à une manipulation nette.
+- une certitude tres elevee
+- un niveau de preuves insuffisant face a cette certitude
+- une pression rhetorique importante
+- des affirmations difficiles a verifier
+- des formulations pouvant orienter le lecteur plutot que d'eclairer le raisonnement
+""")
+
+        st.markdown("#### Facteurs detectes")
+
+        st.write(f"- Mecroyance M : {result['M']}")
+        st.write(f"- Mensonge strategique ME : {result['ME']}")
+        st.write(f"- Certitude D : {result['D']}")
+        st.write(f"- Savoir G : {result['G']}")
+        st.write(f"- Comprehension N : {result['N']}")
+        st.write(f"- Pression rhetorique : {round(result['rhetorical_pressure'] * 100, 1)}%")
+        st.write(f"- Red flags detectes : {len(result.get('red_flags', []))}")
+
+    elif gauge_value >= 0.45:
+        st.info("### Pourquoi cette jauge s'allume ?")
+
+        st.markdown("""
+Le texte contient une tension entre mecroyance et manipulation.
+
+La certitude parait plus forte que les preuves disponibles, mais les signaux ne suffisent pas encore a conclure a une manipulation nette.
 """)
 
     else:
         st.caption(
-            "La jauge reste basse : le texte relève plutôt d’une erreur sincère "
-            "ou d’un désalignement cognitif."
+            "La jauge reste basse : le texte releve plutot d'une erreur sincere "
+            "ou d'un desalignement cognitif."
         )
 
     st.divider()
