@@ -6426,7 +6426,14 @@ La certitude paraît plus forte que les preuves disponibles, mais les signaux ne
             "La jauge reste basse : le texte relève plutôt d’une erreur sincère "
             "ou d’un désalignement cognitif."
         )
-        
+
+    st.divider()
+
+    st.subheader("Jauge de pression rhétorique")
+    st.caption(
+        "Cette jauge ne mesure pas un mensonge certain, mais l’intensité des procédés discursifs "
+        "susceptibles d’orienter, de verrouiller ou de dramatiser un discours."
+    )
 
     rp = result["rhetorical_pressure"]
     rp_label, rp_color = interpret_rhetorical_pressure(rp)
