@@ -1003,7 +1003,39 @@ def interpret_closure_gauge(value: float):
         return "Clôture élevée", "#f97316", "La certitude domine nettement l’ancrage cognitif."
     else:
         return "Clôture critique", "#dc2626", "Le texte semble fortement verrouillé par sa propre structure."
+    else:
+        return "Clôture critique", "#dc2626", "Le texte semble fortement verrouillé par sa propre structure."
 
+
+def generate_share_block(result):
+
+    credibility = result.get("hard_fact_score", 0)
+    gravity = result.get("cognitive_gravity", 0)
+
+    brain = result.get("doxa_brain", {})
+    stability = brain.get("cognitive_stability", 0)
+    regime = brain.get("dominant_regime", "")
+    verdict = brain.get("brain_verdict", "")
+
+    summary = f"""
+Analyse DOXA Detector
+
+Crédibilité : {credibility}/20
+Gravité cognitive : {gravity}
+Stabilité cognitive : {stability}
+
+Régime dominant : {regime}
+
+Verdict :
+{verdict}
+
+Analyse réalisée avec DOXA Detector
+M = (G + N) − D
+"""
+
+    encoded = urllib.parse.quote(summary)
+
+    return summary, encoded
 
 def render_custom_gauge(value: float, color: str):
     value = max(0.0, min(1.0, value))
