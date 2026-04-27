@@ -5561,6 +5561,35 @@ if st.session_state.get("multi_results"):
 elif st.session_state.get("last_keyword"):
     st.warning(T["no_exploitable_articles_found"])
 
+# =============================
+# Sources réseaux sociaux
+# =============================
+st.markdown("### Analyser une publication publique")
+
+social_url = st.text_input(
+    "Lien Facebook, X, LinkedIn ou autre page publique",
+    key="social_url_input"
+)
+
+if st.button("📥 Charger depuis un réseau social", use_container_width=True):
+    if social_url.strip():
+        texte_social = extract_article_from_url(social_url)
+
+        if texte_social:
+            st.session_state.article = texte_social
+            st.session_state.article_source = "social_url"
+            st.session_state.loaded_url = social_url
+            st.success("Publication chargée dans la zone d’analyse.")
+            st.rerun()
+        else:
+            st.warning(
+                "Impossible de récupérer automatiquement le texte. "
+                "Ce réseau social bloque probablement l’accès. "
+                "Copiez-collez le texte du post ou du commentaire dans la zone d’analyse."
+            )
+    else:
+        st.warning("Collez d’abord un lien de publication.")
+
 
 # -----------------------------
 # Chargement URL
