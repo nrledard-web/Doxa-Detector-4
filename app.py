@@ -6087,28 +6087,11 @@ if result:
 
     st.code(summary)
 
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-        st.link_button(
-            "🐦 Partager sur X",
-            f"https://twitter.com/intent/tweet?text={encoded}",
-            use_container_width=True
-        )
-
-    with col2:
-        st.link_button(
-            "💼 Partager sur LinkedIn",
-            "https://www.linkedin.com/sharing/share-offsite/?url=https://doxa-detector.streamlit.app",
-            use_container_width=True
-        )
-
-    with col3:
-        st.link_button(
-            "📧 Envoyer par email",
-            f"mailto:?subject=Analyse DOXA Detector&body={encoded}",
-            use_container_width=True
-        )
+    st.link_button(
+        "📧 Envoyer par email",
+        f"mailto:?subject=Analyse DOXA Detector&body={encoded}",
+        use_container_width=True
+    )
 
     # =============================
     # Barre de raisonnement
