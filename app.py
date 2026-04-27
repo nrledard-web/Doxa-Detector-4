@@ -6395,11 +6395,30 @@ if result:
 
     st.caption("Erreur sincère ⟵⟶ Manipulation probable")
 
-    # Explication automatique de la jauge mensonge
-    if gauge_value >= 0.70:
-        st.warning("### Pourquoi cette jauge indique une manipulation probable ?")
+# Explication automatique de la jauge mensonge
+if gauge_value >= 0.70:
+    st.warning("### Pourquoi cette jauge indique une manipulation probable ?")
 
-        st.markdown("""
+    st.markdown("""
+La jauge monte fortement parce que le texte présente une combinaison de signaux :
+
+- une certitude très élevée ;
+- un niveau de preuves insuffisant face à cette certitude ;
+- une pression rhétorique importante ;
+- des affirmations difficiles à vérifier ;
+- des formulations pouvant orienter le lecteur plutôt qu’éclairer le raisonnement.
+""")
+
+    st.markdown("#### Facteurs détectés")
+
+    st.write(f"- Mécroyance M : {result['M']}")
+    st.write(f"- Mensonge stratégique ME : {result['ME']}")
+    st.write(f"- Certitude D : {result['D']}")
+    st.write(f"- Savoir G : {result['G']}")
+    st.write(f"- Compréhension N : {result['N']}")
+    st.write(f"- Pression rhétorique : {round(result['rhetorical_pressure'] * 100, 1)}%")
+    st.write(f"- Red flags détectés : {len(result.get('red_flags', []))}")
+        
 La jauge monte fortement parce que le texte présente une combinaison de signaux :
 
 - une certitude très élevée ;
