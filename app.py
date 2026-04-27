@@ -416,6 +416,26 @@ with st.container(border=True):
         "il aide simplement à mieux comprendre la solidité de l’information."
     )
 
+# =============================
+# Philosophie derrière l'IRM
+# =============================
+
+st.markdown("### 🧠 La philosophie derrière l’IRM")
+
+st.caption(
+    "La notion de mécroyance et le modèle cognitif utilisé par DOXA Detector "
+    "s’inscrivent dans une réflexion plus large sur la structure du langage "
+    "et les mécanismes de formation des croyances."
+)
+
+st.link_button(
+    "📖 Lire la philosophie complète du modèle (README)",
+    "https://github.com/nrledard-web/Doxa-Detector-fr#readme",
+    use_container_width=True
+)
+
+st.divider()
+
 
 # -----------------------------
 # Modèle de cognition
