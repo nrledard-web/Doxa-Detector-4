@@ -94,15 +94,6 @@ st.image("banner2.png", use_container_width=True)
 st.caption("Laboratoire de calibration cognitive — M = (G + N) − D")
 st.markdown("---")
 
-st.markdown("""
-<style>
-div[data-testid="stProgressBar"] > div > div > div > div {
-    height: 20px;
-    border-radius: 8px;
-}
-</style>
-""", unsafe_allow_html=True)
-
 # =============================
 # STYLE GLOBAL DOXA DETECTOR (mobile friendly)
 # =============================
@@ -114,9 +105,15 @@ st.markdown("""
     background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
 }
 
+/* Container principal */
+.block-container {
+    padding-top: 2rem;
+}
+
 /* Titres */
 h1, h2, h3 {
     letter-spacing: -0.02em;
+    font-weight: 600;
 }
 
 /* Cartes */
@@ -124,7 +121,7 @@ h1, h2, h3 {
     border-radius: 16px !important;
     border: 1px solid #e2e8f0 !important;
     box-shadow: 0 6px 16px rgba(0,0,0,0.05);
-    background: rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.92);
 }
 
 /* Boutons */
@@ -133,11 +130,24 @@ h1, h2, h3 {
     border-radius: 12px !important;
     font-weight: 600 !important;
     border: 1px solid #cbd5e1 !important;
+    transition: all 0.2s ease;
+}
+
+/* Hover boutons */
+.stButton > button:hover,
+[data-testid="stLinkButton"] a:hover {
+    border-color: #94a3b8 !important;
 }
 
 /* Inputs */
 textarea, input {
     border-radius: 12px !important;
+}
+
+/* Progress bars */
+div[data-testid="stProgressBar"] > div > div > div > div {
+    height: 20px;
+    border-radius: 8px;
 }
 
 /* Metrics */
@@ -158,31 +168,24 @@ textarea, input {
     color: #475569;
 }
 
-/* =========================
-   Adaptation smartphone
-   ========================= */
-
+/* Smartphone */
 @media (max-width: 768px) {
 
-    /* réduire padding général */
     .block-container {
         padding-top: 1rem;
         padding-left: 0.6rem;
         padding-right: 0.6rem;
     }
 
-    /* titres plus petits */
     h1 {font-size: 1.5rem;}
     h2 {font-size: 1.3rem;}
     h3 {font-size: 1.1rem;}
 
-    /* cartes plus compactes */
     [data-testid="stVerticalBlockBorderWrapper"] {
         border-radius: 12px !important;
         padding: 6px;
     }
 
-    /* boutons plus grands (tap friendly) */
     .stButton > button {
         width: 100%;
         padding: 0.6rem;
