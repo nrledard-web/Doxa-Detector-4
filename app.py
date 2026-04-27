@@ -1144,6 +1144,39 @@ def generate_share_block(result):
     regime = brain.get("dominant_regime", "")
     verdict = brain.get("brain_verdict", "")
 
+    # -----------------------------
+    # Red flags lisibles
+    # -----------------------------
+    flags_lines = []
+
+    red_flags = result.get("red_flags", [])
+
+    if isinstance(red_flags, list):
+        for flag in red_flags:
+            if isinstance(flag, dict):
+                name = flag.get("name", "Signal détecté")
+                reason = flag.get("reason", "")
+                if reason:
+                    flags_lines.append(f"- {name} : {reason}")
+                else:
+                    flags_lines.append(f"- {name}")
+            else:
+                flags_lines.append(f"- {flag}")
+
+    # Catégories rhétoriques détectées
+    patterns = result.get("political_patterns", {})
+
+    if isinstance(patterns, dict):
+        for name, count in patterns.items():
+            if count and count > 0:
+                clean_name = name.replace("_", " ").capitalize()
+                flags_lines.append(f"- {clean_name} ({count})")
+
+    if flags_lines:
+        flags_text = "\n".join(flags_lines[:12])
+    else:
+        flags_text = "Aucun signal rhétorique majeur détecté"
+
     summary = f"""
 Analyse DOXA Detector
 
@@ -1156,7 +1189,12 @@ Régime dominant : {regime}
 Verdict :
 {verdict}
 
+🚩 Signaux détectés :
+{flags_text}
+
 Analyse réalisée avec DOXA Detector
+https://doxa-detector-fr-krsbrtpqc6kucpdg9bfgv2.streamlit.app/
+
 M = (G + N) − D
 """
 
