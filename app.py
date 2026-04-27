@@ -1003,9 +1003,6 @@ def interpret_closure_gauge(value: float):
         return "Clôture élevée", "#f97316", "La certitude domine nettement l’ancrage cognitif."
     else:
         return "Clôture critique", "#dc2626", "Le texte semble fortement verrouillé par sa propre structure."
-    else:
-        return "Clôture critique", "#dc2626", "Le texte semble fortement verrouillé par sa propre structure."
-
 
 def generate_share_block(result):
 
