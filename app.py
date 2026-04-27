@@ -103,6 +103,96 @@ div[data-testid="stProgressBar"] > div > div > div > div {
 </style>
 """, unsafe_allow_html=True)
 
+# =============================
+# STYLE GLOBAL DOXA DETECTOR (mobile friendly)
+# =============================
+st.markdown("""
+<style>
+
+/* Fond général */
+.stApp {
+    background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+}
+
+/* Titres */
+h1, h2, h3 {
+    letter-spacing: -0.02em;
+}
+
+/* Cartes */
+[data-testid="stVerticalBlockBorderWrapper"] {
+    border-radius: 16px !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+    background: rgba(255,255,255,0.9);
+}
+
+/* Boutons */
+.stButton > button,
+[data-testid="stLinkButton"] a {
+    border-radius: 12px !important;
+    font-weight: 600 !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+/* Inputs */
+textarea, input {
+    border-radius: 12px !important;
+}
+
+/* Metrics */
+[data-testid="stMetric"] {
+    background: white;
+    border-radius: 14px;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+/* Expander */
+.streamlit-expanderHeader {
+    font-weight: 600;
+}
+
+/* Caption */
+[data-testid="stCaptionContainer"] {
+    color: #475569;
+}
+
+/* =========================
+   Adaptation smartphone
+   ========================= */
+
+@media (max-width: 768px) {
+
+    /* réduire padding général */
+    .block-container {
+        padding-top: 1rem;
+        padding-left: 0.6rem;
+        padding-right: 0.6rem;
+    }
+
+    /* titres plus petits */
+    h1 {font-size: 1.5rem;}
+    h2 {font-size: 1.3rem;}
+    h3 {font-size: 1.1rem;}
+
+    /* cartes plus compactes */
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        border-radius: 12px !important;
+        padding: 6px;
+    }
+
+    /* boutons plus grands (tap friendly) */
+    .stButton > button {
+        width: 100%;
+        padding: 0.6rem;
+    }
+
+}
+
+</style>
+""", unsafe_allow_html=True)
+
 
 # -----------------------------
 # Textes FR uniques
