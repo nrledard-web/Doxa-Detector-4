@@ -6395,12 +6395,38 @@ if result:
 
     st.caption("Erreur sincère ⟵⟶ Manipulation probable")
 
-    st.divider()
-    st.subheader("Jauge de pression rhétorique")
-    st.caption(
-        "Cette jauge ne mesure pas un mensonge certain, mais l’intensité des procédés discursifs "
-        "susceptibles d’orienter, de verrouiller ou de dramatiser un discours."
-    )
+    # Explication automatique de la jauge mensonge
+    if gauge_value >= 0.70:
+        st.warning("### Pourquoi cette jauge indique une manipulation probable ?")
+
+        st.markdown("""
+La jauge monte fortement parce que le texte présente une combinaison de signaux :
+
+- une certitude très élevée ;
+- un niveau de preuves insuffisant face à cette certitude ;
+- une pression rhétorique importante ;
+- des affirmations difficiles à vérifier ;
+- des formulations pouvant orienter le lecteur plutôt qu’éclairer le raisonnement.
+
+À ce niveau, le discours ne ressemble plus seulement à une erreur sincère :  
+il commence à produire une structure de manipulation possible.
+""")
+
+    elif gauge_value >= 0.45:
+        st.info("### Pourquoi cette jauge s’allume ?")
+
+        st.markdown("""
+Le texte contient une tension entre mécroyance et manipulation.
+
+La certitude paraît plus forte que les preuves disponibles, mais les signaux ne suffisent pas encore à conclure à une manipulation nette.
+""")
+
+    else:
+        st.caption(
+            "La jauge reste basse : le texte relève plutôt d’une erreur sincère "
+            "ou d’un désalignement cognitif."
+        )
+        
 
     rp = result["rhetorical_pressure"]
     rp_label, rp_color = interpret_rhetorical_pressure(rp)
