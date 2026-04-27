@@ -5620,6 +5620,24 @@ if st.button("📥 Charger depuis un réseau social", use_container_width=True):
     else:
         st.warning("Collez d’abord un lien de publication.")
 
+# =============================
+# Philosophie derrière l'IRM
+# =============================
+
+st.markdown("### 🧠 La philosophie derrière l’IRM")
+
+st.link_button(
+    "📖 Lire la philosophie de la mécroyance (README)",
+    "https://github.com/nrledard-web/Doxa-Detector-fr#readme",
+    use_container_width=True
+)
+
+st.caption(
+    "Cette section présente la philosophie du projet : "
+    "la notion de mécroyance et le modèle cognitif utilisé "
+    "pour analyser la structure des discours."
+)
+
 
 # -----------------------------
 # Chargement URL
