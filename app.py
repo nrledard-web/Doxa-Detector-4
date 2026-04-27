@@ -390,30 +390,46 @@ st.divider()
 
 with st.container(border=True):
 
-    st.subheader("Analyser la solidité d’un texte")
+    st.subheader("Analyser la structure cognitive d’un discours")
 
     st.write(
-        "DOXA Detector aide à comprendre si un texte repose sur un raisonnement solide "
-        "ou sur une rhétorique persuasive."
+        "DOXA Detector examine un texte comme une IRM du raisonnement. "
+        "L’application analyse la solidité argumentative, les sources, les affirmations, "
+        "les signaux rhétoriques, les sophismes, la propagande et les dérives cognitives."
     )
 
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.markdown("### 1️⃣ Coller un texte")
-        st.write("Copiez un article ou un extrait dans la zone d’analyse.")
+        st.markdown("### 1️⃣ Entrer un contenu")
+        st.write(
+            "Collez un texte, chargez une URL, analysez plusieurs articles "
+            "sur un sujet ou utilisez la dictée vocale (microphone classique "
+            "ou mobile). Les publications publiques peuvent également être "
+            "chargées depuis certains réseaux ou pages web."
+        )
 
     with col2:
-        st.markdown("### 2️⃣ Analyser")
-        st.write("L’application examine les sources, les affirmations et la nuance.")
+        st.markdown("### 2️⃣ Lancer l’analyse")
+        st.write(
+            "Le moteur examine les affirmations, les sources, la cohérence "
+            "du raisonnement et les indices linguistiques du discours. "
+            "Il détecte également les sophismes, les procédés rhétoriques "
+            "et les structures de persuasion."
+        )
 
     with col3:
-        st.markdown("### 3️⃣ Comprendre")
-        st.write("Obtenez une barre de raisonnement et une analyse des affirmations.")
+        st.markdown("### 3️⃣ Comprendre les résultats")
+        st.write(
+            "L’analyse produit plusieurs indicateurs : score de raisonnement, "
+            "mécroyance, tension cognitive, pression rhétorique, propagande, "
+            "gravité cognitive et diagnostic du cerveau DOXA."
+        )
 
     st.caption(
-        "Cet outil n’affirme pas si un texte est vrai ou faux : "
-        "il aide simplement à mieux comprendre la solidité de l’information."
+        "Les résultats peuvent être partagés ou exportés, notamment par email. "
+        "DOXA Detector ne détermine pas si un texte est vrai ou faux : "
+        "il aide à comprendre la structure cognitive et argumentative d’un discours."
     )
 
 # =============================
