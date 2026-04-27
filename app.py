@@ -5597,7 +5597,7 @@ elif st.session_state.get("last_keyword"):
 st.markdown("### Analyser une publication publique")
 
 social_url = st.text_input(
-    "Lien Facebook, X, LinkedIn ou autre page publique",
+    "Lien X, LinkedIn, Medium, ou autre page publique",
     key="social_url_input"
 )
 
