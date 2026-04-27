@@ -1063,7 +1063,37 @@ def extract_article_from_url(url: str) -> str:
         article = Article(url)
         article.download()
         article.parse()
-        return article.text
+
+        if article.text and len(article.text.strip()) > 300:
+            return article.text.strip()
+
+    except Exception:
+        pass
+
+    # Fallback HTML simple
+    try:
+        headers = {
+            "User-Agent": "Mozilla/5.0"
+        }
+
+        response = requests.get(url, headers=headers, timeout=10)
+
+        if response.status_code != 200:
+            return ""
+
+        html = response.text
+
+        # Nettoyage basique
+        html = re.sub(r"<script.*?</script>", " ", html, flags=re.DOTALL)
+        html = re.sub(r"<style.*?</style>", " ", html, flags=re.DOTALL)
+        html = re.sub(r"<[^>]+>", " ", html)
+        html = re.sub(r"\s+", " ", html).strip()
+
+        if len(html) > 300:
+            return html[:8000]
+
+        return ""
+
     except Exception:
         return ""
 
