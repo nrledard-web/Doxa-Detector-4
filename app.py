@@ -5839,23 +5839,50 @@ social_url = st.text_input(
 )
 
 if st.button("📥 Charger depuis un réseau social", use_container_width=True):
+
     if social_url.strip():
-        texte_social = extract_article_from_url(social_url)
+
+        texte_social = extract_article_from_url(social_url.strip())
 
         if texte_social:
             st.session_state.article = texte_social
             st.session_state.article_source = "social_url"
-            st.session_state.loaded_url = social_url
-            st.success("Publication chargée dans la zone d’analyse.")
+            st.session_state.loaded_url = social_url.strip()
+            st.session_state.loaded_article_title = "Publication publique"
+            st.session_state.article_loaded_from_search = True
+
+            st.success("Publication chargée. Vous pouvez l’analyser juste ici.")
             st.rerun()
+
         else:
             st.warning(
                 "Impossible de récupérer automatiquement le texte. "
                 "Ce réseau social bloque probablement l’accès. "
                 "Copiez-collez le texte du post ou du commentaire dans la zone d’analyse."
             )
+
     else:
         st.warning("Collez d’abord un lien de publication.")
+
+if st.session_state.get("article_loaded_from_search") and st.session_state.get("article_source") == "social_url":
+
+    st.markdown("### 📰 Texte chargé")
+    st.success("Le texte est prêt à être analysé.")
+
+    with st.expander("Voir le texte chargé", expanded=True):
+        st.text_area(
+            "Texte extrait",
+            value=st.session_state.get("article", ""),
+            height=260,
+            disabled=True,
+            key="social_article_preview"
+        )
+
+    if st.button("🔎 Analyser ce texte maintenant", use_container_width=True):
+        st.session_state.last_result = analyze_article(st.session_state.article)
+        st.session_state.last_article = st.session_state.article
+        st.session_state.article_loaded_from_search = False
+        st.rerun()
 
 # -----------------------------
 # Chargement URL
