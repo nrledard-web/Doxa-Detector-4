@@ -6376,8 +6376,11 @@ if result:
     st.subheader(f"{couleur_r} Solidité argumentative : {etiquette_r}")
     st.progress(score / 20)
     st.caption(f"Score : {score}/20 — {message_r}")
-    st.caption("Cette jauge mesure la structure du raisonnement. La crédibilité dépend aussi de la qualité des sources et de la vérifiabilité des affirmations.")
-
+    st.caption(
+        "Cette jauge mesure la solidité argumentative du texte : structure du raisonnement, "
+        "cohérence logique et présence d’éléments vérifiables. "
+        "La crédibilité globale dépend aussi de la qualité des sources et de la vérifiabilité des affirmations."
+    )
 
     # =============================
     # Barre de crédibilité finale
