@@ -5793,6 +5793,7 @@ if st.session_state.get("multi_results"):
 
     for i, row in df_multi.reset_index(drop=True).iterrows():
         with st.container(border=True):
+
             st.markdown(f"### {row['Titre']}")
             st.caption(f"{row['Source']}")
 
@@ -5808,23 +5809,52 @@ if st.session_state.get("multi_results"):
 
             st.markdown(
                 f"**{color} Score de crédibilité de l’article : {score:.1f}/20 — {label}**"
-            )            
+            )
             st.progress(score / 20)
 
             col1, col2 = st.columns(2)
+
             with col1:
                 st.link_button("🌐 Ouvrir l'article", row["URL"], use_container_width=True)
+
             with col2:
-                if st.button(f"📥 Charger pour analyse", key=f"load_article_{i}"):
+                if st.button("📥 Charger pour analyse", key=f"load_article_{i}", use_container_width=True):
+
                     loaded_text = fetch_text_for_textarea(row["URL"])
+
                     if loaded_text:
                         st.session_state.article = loaded_text
-                        st.session_state.article_source = "url"
+                        st.session_state.article_source = "search"
                         st.session_state.loaded_url = row["URL"]
-                        st.success("Article chargé dans la zone de texte.")
+                        st.session_state.loaded_article_title = row["Titre"]
+                        st.session_state.loaded_article_index = i
+
+                        st.success("Article chargé.")
                         st.rerun()
                     else:
                         st.warning("Impossible d'extraire le texte.")
+
+            if (
+                st.session_state.get("article_source") == "search"
+                and st.session_state.get("loaded_article_index") == i
+            ):
+                st.markdown("### 📰 Article chargé ici")
+                st.success("Vous pouvez l’analyser directement depuis cette carte.")
+
+                with st.expander("Voir le texte chargé", expanded=True):
+                    st.text_area(
+                        "Texte extrait",
+                        value=st.session_state.get("article", ""),
+                        height=260,
+                        disabled=True,
+                        key=f"article_preview_search_{i}"
+                    )
+
+                if st.button("🔎 Analyser cet article maintenant", key=f"analyze_loaded_{i}", use_container_width=True):
+                    st.session_state.last_result = analyze_article(st.session_state.article)
+                    st.session_state.last_article = st.session_state.article
+                    st.rerun()
+
 elif st.session_state.get("last_keyword"):
     st.warning(T["no_exploitable_articles_found"])
 
