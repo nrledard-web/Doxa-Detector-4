@@ -5806,7 +5806,9 @@ if st.session_state.get("multi_results"):
             else:
                 color, label = "🟢", "Robuste"
 
-            st.markdown(f"**{color} Score de crédibilité : {score:.1f}/20 — {label}**")
+            st.markdown(
+                f"**{color} Score de crédibilité de l’article : {score:.1f}/20 — {label}**"
+            )            
             st.progress(score / 20)
 
             col1, col2 = st.columns(2)
