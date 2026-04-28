@@ -5384,6 +5384,23 @@ def analyze_article(text: str) -> Dict:
     result = classify_cognitive_regime(result)
 
     # -----------------------------
+    # Pénalité des jauges affichées
+    # -----------------------------
+    display_gauge_penalty = compute_display_gauge_penalty(result)
+
+    result["display_gauge_penalty"] = display_gauge_penalty
+
+    result["credibility_penalty"] = round(
+        result.get("credibility_penalty", 0) + display_gauge_penalty,
+        2
+    )
+
+    result["final_credibility_score"] = round(
+        max(0, result["final_credibility_score"] - display_gauge_penalty),
+        1
+    )
+
+    # -----------------------------
     # Pénalités finales
     # -----------------------------
     result["credibility_penalty"] = total_credibility_penalty
