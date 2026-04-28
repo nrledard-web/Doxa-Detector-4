@@ -5772,6 +5772,21 @@ if st.session_state.get("multi_results"):
     df_plot = df_multi.copy()
     df_plot["Article"] = [f"{T['article_label']} {i+1}" for i in range(len(df_plot))]
     st.bar_chart(df_plot.set_index("Article")["Hard Fact Score"])
+
+    st.markdown("### Analyse des articles trouvés (phase de recherche)")
+
+    st.error(
+        "⚠️ IMPORTANT — Les scores et verdicts affichés dans ce tableau concernent "
+        "uniquement la recherche d’articles et la solidité argumentative des textes. "
+        "Ils ne représentent PAS l’indice final de crédibilité du discours analysé."
+    )
+
+    st.caption(
+        "Ces résultats servent seulement à comparer les articles trouvés. "
+        "Le verdict global de crédibilité est calculé plus loin après "
+        "l’analyse complète du texte."
+    )
+
     st.dataframe(df_multi, use_container_width=True, hide_index=True)
 
     st.markdown("### Actions sur les articles trouvés")
