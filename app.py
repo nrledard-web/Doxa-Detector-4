@@ -514,16 +514,16 @@ with st.container(border=True):
     with col3:
         st.markdown("### 3️⃣ Comprendre les résultats")
         st.write(
-            "L’analyse produit plusieurs indicateurs : score de raisonnement, "
+            "L’analyse produit plusieurs indicateurs : solidité argumentative, "
             "mécroyance, tension cognitive, pression rhétorique, propagande, "
             "gravité cognitive et diagnostic du cerveau DOXA."
         )
 
-    st.caption(
-        "Les résultats peuvent être partagés ou exportés, notamment par email. "
-        "DOXA Detector ne détermine pas si un texte est vrai ou faux : "
-        "il aide à comprendre la structure cognitive et argumentative d’un discours."
-    )
+        st.info(
+            "La solidité argumentative n’est pas le verdict final : "
+            "elle mesure seulement la structure du raisonnement. "
+            "L’indice de crédibilité global est calculé après l’analyse complète."
+        )
 
 # =============================
 # Philosophie derrière l'IRM
