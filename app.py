@@ -5789,7 +5789,7 @@ if st.session_state.get("multi_results"):
 
     st.dataframe(df_multi, use_container_width=True, hide_index=True)
 
-    st.markdown("### Actions sur les articles trouvés")
+    st.markdown("### Examiner les articles trouvés")
 
     for i, row in df_multi.reset_index(drop=True).iterrows():
         with st.container(border=True):
