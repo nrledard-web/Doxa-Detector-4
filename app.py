@@ -4636,6 +4636,46 @@ def compute_deceptive_coherence(G, N, D, rhetorical_pressure, propaganda_score, 
         label = "Très élevée"
 
     return deceptive, label
+
+# -------------------------------------------------
+# Pénalité des jauges affichées
+# -------------------------------------------------
+
+def compute_display_gauge_penalty(result: dict) -> float:
+
+    gauges = {
+        "normative_score": 0.6,
+        "premise_score": 0.7,
+        "logic_confusion_score": 0.9,
+        "aristotelian_fallacies_score": 1.0,
+        "scientific_simulation_score": 0.8,
+        "cherry_picking_score": 1.0,
+        "false_analogy_score": 0.7,
+        "normative_saturation_score": 0.8,
+        "narrative_overdetermination_score": 0.7,
+        "victimization_score": 0.6,
+        "moral_polarization_score": 0.7,
+        "strategic_simplification_score": 0.8,
+        "frame_shift_score": 0.6,
+        "argument_asymmetry_score": 0.7,
+        "deceptive_coherence": 1.2,
+    }
+
+    penalty = 0.0
+
+    for key, weight in gauges.items():
+
+        value = result.get(key, 0)
+
+        if value is None:
+            continue
+
+        v = normalize_display_value(value)
+
+        if v >= 0.25:
+            penalty += v * weight
+
+    return round(min(penalty, 5.0), 2)
     
 # =========================================================
 # 🎨 Étalonnage visuel unifié des jauges — version corrigée
