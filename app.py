@@ -4719,19 +4719,15 @@ def interpret_reasoning_bar(score: float):
 # Crédibilité finale
 # -----------------------------
 def interpret_final_credibility(score: float):
-    v = normalize_display_value(score)
-    color, label = color_scale_quality(v)
 
-    if v < 0.25:
-        msg = "Crédibilité faible : discours fragile, peu vérifiable ou fortement orienté."
-    elif v < 0.50:
-        msg = "Crédibilité prudente : plusieurs signaux de fragilité détectés."
-    elif v < 0.75:
-        msg = "Crédibilité correcte : ancrage factuel présent mais incomplet."
+    if score <= 6:
+        return "🔴", "Fragile", "Crédibilité faible : discours fragile, peu vérifiable ou fortement orienté."
+    elif score <= 11:
+        return "🟠", "Douteux", "Crédibilité prudente : plusieurs signaux de fragilité détectés."
+    elif score <= 15:
+        return "🟡", "Plausible", "Crédibilité correcte : ancrage factuel présent mais incomplet."
     else:
-        msg = "Crédibilité robuste : base factuelle et argumentative solide."
-
-    return color, label, msg
+        return "🟢", "Robuste", "Crédibilité robuste : base factuelle et argumentative solide."
 
 
 # -----------------------------
