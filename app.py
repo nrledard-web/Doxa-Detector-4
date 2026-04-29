@@ -6693,25 +6693,25 @@ if result:
     # =============================
     # Analyse analogique du raisonnement
     # =============================
-
+    
     st.subheader("Analyse analogique du raisonnement")
     st.caption(
         "Analyse analogique du raisonnement à partir des structures du langage afin d’estimer la solidité épistémique du discours."
     )
-
+    
     base_score = result.get("final_credibility_score", result["hard_fact_score"])
-
+    
     st.progress(base_score / 20)
     st.caption(f"Score analogique : {round(base_score,1)}/20")
-
+    
     st.divider()
     show_gauge_help()
-
+    
     disc_type, disc_explanation = detect_discourse_type(result)
-
+    
     st.markdown("### Type de discours détecté")
     st.info(f"**{disc_type}** — {disc_explanation}")
-
+    
     st.divider()
 
 
@@ -6723,141 +6723,139 @@ if result:
 result = st.session_state.last_result
 article_for_analysis = st.session_state.last_article
 
-if isinstance(result, dict):
+st.subheader("Jauges structurelles avancées")
 
-    st.subheader("Jauges structurelles avancées")
+gauges = [
+    (
+        "Pression narrative",
+        result.get("narrative_pressure_score", 0),
+        result.get("narrative_pressure_label", "Non calculée"),
+        result.get("narrative_pressure_interpretation", "")
+    ),
+    (
+        "Saut logique",
+        result.get("logical_jump_score", 0),
+        result.get("logical_jump_label", "Non calculée"),
+        result.get("logical_jump_interpretation", "")
+    ),
+    (
+        "Asymétrie argumentative",
+        result.get("argument_asymmetry_score", 0),
+        result.get("argument_asymmetry_label", "Non calculée"),
+        result.get("argument_asymmetry_interpretation", "")
+    ),
+    (
+        "Densité argumentative",
+        result.get("argument_density_score", 0),
+        result.get("argument_density_label", "Non calculée"),
+        result.get("argument_density_interpretation", "")
+    ),
+    (
+        "Prédiction absolue",
+        result.get("absolute_prediction_score", 0),
+        result.get("absolute_prediction_label", "Non calculée"),
+        result.get("absolute_prediction_interpretation", "")
+    ),
+    (
+        "Amplification de menace",
+        result.get("threat_amplification_advanced_score", 0),
+        result.get("threat_amplification_advanced_label", "Non calculée"),
+        result.get("threat_amplification_advanced_interpretation", "")
+    ),
+    (
+        "Certitude forte composée",
+        result.get("strong_certainty_score", 0),
+        result.get("strong_certainty_label", "Non calculée"),
+        result.get("strong_certainty_interpretation", "")
+    ),
+]
 
-    gauges = [
-        (
-            "Pression narrative",
-            result.get("narrative_pressure_score", 0),
-            result.get("narrative_pressure_label", "Non calculée"),
-            result.get("narrative_pressure_interpretation", "")
-        ),
-        (
-            "Saut logique",
-            result.get("logical_jump_score", 0),
-            result.get("logical_jump_label", "Non calculée"),
-            result.get("logical_jump_interpretation", "")
-        ),
-        (
-            "Asymétrie argumentative",
-            result.get("argument_asymmetry_score", 0),
-            result.get("argument_asymmetry_label", "Non calculée"),
-            result.get("argument_asymmetry_interpretation", "")
-        ),
-        (
-            "Densité argumentative",
-            result.get("argument_density_score", 0),
-            result.get("argument_density_label", "Non calculée"),
-            result.get("argument_density_interpretation", "")
-        ),
-        (
-            "Prédiction absolue",
-            result.get("absolute_prediction_score", 0),
-            result.get("absolute_prediction_label", "Non calculée"),
-            result.get("absolute_prediction_interpretation", "")
-        ),
-        (
-            "Amplification de menace",
-            result.get("threat_amplification_advanced_score", 0),
-            result.get("threat_amplification_advanced_label", "Non calculée"),
-            result.get("threat_amplification_advanced_interpretation", "")
-        ),
-        (
-            "Certitude forte composée",
-            result.get("strong_certainty_score", 0),
-            result.get("strong_certainty_label", "Non calculée"),
-            result.get("strong_certainty_interpretation", "")
-        ),
-    ]
-
-    for title, score, label, interpretation in gauges:
-        st.markdown(f"**{title}**")
-        st.progress(score)
-        st.caption(f"{label} — {round(score * 100, 1)}%")
-        if interpretation:
-            st.write(interpretation)
-        st.divider()
-
-    # =============================
-    # Analyse sémantique du discours
-    # =============================
-
-    st.subheader("Analyse sémantique du discours")
-    st.caption(
-        "Analyse la cohérence du sens et la stabilité conceptuelle du discours afin d’affiner l’évaluation épistémique."
-    )
-
-    semantic_score = result.get("semantic_score", None)
-
-    if st.session_state.get("semantic_mode", False):
-
-        if semantic_score is not None:
-
-            st.progress(semantic_score / 20)
-            st.caption(f"Score sémantique : {semantic_score}/20")
-
-            delta = round(semantic_score - base_score, 1)
-
-            st.metric(
-                "Influence sémantique sur l’évaluation épistémique",
-                f"{delta:+}/20"
-            )
-
-        else:
-            st.info("Analyse sémantique activée, mais aucun score n’est encore calculé.")
-
-    else:
-        st.info("Activez l’analyse sémantique pour calculer cette jauge.")
-
+for title, score, label, interpretation in gauges:
+    st.markdown(f"**{title}**")
+    st.progress(score)
+    st.caption(f"{label} — {round(score * 100, 1)}%")
+    if interpretation:
+        st.write(interpretation)
     st.divider()
 
-    # =============================
-    # Résumé chiffré
-    # =============================
+# =============================
+# Analyse sémantique du discours
+# =============================
 
-    col1, col2, col3 = st.columns(3)
-    col1.metric("Indice classique", result["M"], help=T["help_classic_score"])
-    col2.metric("Indice ajusté", result["improved"], help=T["help_improved_score"])
-    col3.metric("Score de raisonnement", result["hard_fact_score"], help=T["help_hard_fact_score"])
+st.subheader("Analyse sémantique du discours")
+st.caption(
+    "Analyse la cohérence du sens et la stabilité conceptuelle du discours afin d’affiner l’évaluation épistémique."
+)
 
-    # =============================
-    # Gravité cognitive globale
-    # =============================
-    gravity = result.get("cognitive_gravity", 0)
+semantic_score = result.get("semantic_score", None)
 
-    st.markdown("### Gravité cognitive globale")
-    st.progress(gravity)
+if st.session_state.get("semantic_mode", False):
 
-    if gravity < 0.2:
-        st.caption("Gravité faible — discours globalement sain.")
-    elif gravity < 0.4:
-        st.caption("Gravité modérée — quelques tensions cognitives.")
-    elif gravity < 0.6:
-        st.caption("Gravité élevée — dérive discursive notable.")
-    elif gravity < 0.8:
-        st.caption("Gravité très élevée — structure discursive problématique.")
+    if semantic_score is not None:
+
+        st.progress(semantic_score / 20)
+        st.caption(f"Score sémantique : {semantic_score}/20")
+
+        delta = round(semantic_score - base_score, 1)
+
+        st.metric(
+            "Influence sémantique sur l’évaluation épistémique",
+            f"{delta:+}/20"
+        )
+
     else:
-        st.caption("Gravité critique — convergence de manipulation ou désalignement cognitif.")
+        st.info("Analyse sémantique activée, mais aucun score n’est encore calculé.")
 
-    # =============================
-    # Cerveau DOXA
-    # =============================
-    brain = result.get("doxa_brain", {})
+else:
+    st.info("Activez l’analyse sémantique pour calculer cette jauge.")
 
-    st.markdown("### Cerveau DOXA")
+st.divider()
 
-    st.metric(
-        "Stabilité cognitive",
-        f"{brain.get('cognitive_stability', 0):.2f}"
-    )
+# =============================
+# Résumé chiffré
+# =============================
 
-    st.caption(brain.get("brain_verdict", "Diagnostic indisponible."))
-    st.info(brain.get("brain_advice", ""))
+col1, col2, col3 = st.columns(3)
+col1.metric("Indice classique", result["M"], help=T["help_classic_score"])
+col2.metric("Indice ajusté", result["improved"], help=T["help_improved_score"])
+col3.metric("Score de raisonnement", result["hard_fact_score"], help=T["help_hard_fact_score"])
 
-    with st.expander("Résumé du cerveau DOXA"):
-        st.write(brain.get("brain_summary", "Aucun résumé disponible."))
+# =============================
+# Gravité cognitive globale
+# =============================
+gravity = result.get("cognitive_gravity", 0)
+
+st.markdown("### Gravité cognitive globale")
+st.progress(gravity)
+
+if gravity < 0.2:
+    st.caption("Gravité faible — discours globalement sain.")
+elif gravity < 0.4:
+    st.caption("Gravité modérée — quelques tensions cognitives.")
+elif gravity < 0.6:
+    st.caption("Gravité élevée — dérive discursive notable.")
+elif gravity < 0.8:
+    st.caption("Gravité très élevée — structure discursive problématique.")
+else:
+    st.caption("Gravité critique — convergence de manipulation ou désalignement cognitif.")
+
+# =============================
+# Cerveau DOXA
+# =============================
+brain = result.get("doxa_brain", {})
+
+st.markdown("### Cerveau DOXA")
+
+st.metric(
+    "Stabilité cognitive",
+    f"{brain.get('cognitive_stability', 0):.2f}"
+)
+
+st.caption(brain.get("brain_verdict", "Diagnostic indisponible."))
+st.info(brain.get("brain_advice", ""))
+
+with st.expander("Résumé du cerveau DOXA"):
+    st.write(brain.get("brain_summary", "Aucun résumé disponible."))
 
 # =============================
 # Partage des résultats
