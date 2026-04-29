@@ -6690,10 +6690,29 @@ if result:
             result["argument_asymmetry_interpretation"]
         ),
         (
+                    (
             "Densité argumentative",
             result["argument_density_score"],
             result["argument_density_label"],
             result["argument_density_interpretation"]
+        ),
+        (
+            "Prédiction absolue",
+            result["absolute_prediction_score"],
+            result["absolute_prediction_label"],
+            result["absolute_prediction_interpretation"]
+        ),
+        (
+            "Amplification de menace",
+            result["threat_amplification_advanced_score"],
+            result["threat_amplification_advanced_label"],
+            result["threat_amplification_advanced_interpretation"]
+        ),
+        (
+            "Certitude forte composée",
+            result["strong_certainty_score"],
+            result["strong_certainty_label"],
+            result["strong_certainty_interpretation"]
         ),
     ]
 
