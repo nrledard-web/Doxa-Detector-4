@@ -4943,6 +4943,7 @@ def compute_structural_diagnosis(
             "asymmetry": asymmetry,
             "density": density
         }
+}
 
 def analyze_article(text: str) -> Dict:
     words = text.split()
