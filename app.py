@@ -942,6 +942,45 @@ MORALISATION_DISCOURS = [
     "justice requires",
     "we cannot remain indifferent"
 ]
+ABSOLUTE_PREDICTION_MARKERS = [
+    "il est certain que",
+    "il est absolument certain",
+    "il est évident que",
+    "il est inévitable",
+    "c'est inévitable",
+    "cela va provoquer",
+    "cela va entraîner",
+    "cela va conduire",
+    "nous allons vers",
+    "nous allons assister à",
+    "va nécessairement",
+    "finira par",
+]
+THREAT_AMPLIFICATION_MARKERS = [
+    "crise majeure",
+    "crise sociale majeure",
+    "catastrophe",
+    "effondrement",
+    "danger imminent",
+    "grave menace",
+    "menace existentielle",
+    "chaos",
+    "désastre",
+    "urgence absolue",
+    "avant qu'il ne soit trop tard",
+    "si rien n'est fait",
+]
+STRONG_CERTAINTY_MARKERS = [
+    "il est absolument certain",
+    "il ne fait aucun doute",
+    "sans aucun doute",
+    "il est évident que",
+    "il est incontestable",
+    "cela prouve que",
+    "preuve irréfutable",
+    "personne ne peut nier",
+    "de toute évidence",
+]
 def detect_political_patterns(text: str):
     """
     Détecte des manœuvres discursives politiques ou rhétoriques
