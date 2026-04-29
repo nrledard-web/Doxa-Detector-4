@@ -6925,7 +6925,7 @@ if isinstance(result, dict):
     with colp2:
         st.metric(
             "Boost mensonge",
-            result.get("lie_boost_total", 0)
+            result.get("lie_boost_total", 0) 
         )
 
     with colp3:
