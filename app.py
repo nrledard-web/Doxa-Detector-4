@@ -5587,7 +5587,6 @@ def analyze_article(text: str) -> Dict:
         "logical_jump_label": logical_jump_analysis["label"],
         "logical_jump_interpretation": logical_jump_analysis["interpretation"],
 
-        "argument_asymmetry_score": argument_asymmetry_analysis["score"],
         "argument_asymmetry_label": argument_asymmetry_analysis["label"],
         "argument_asymmetry_interpretation": argument_asymmetry_analysis["interpretation"],
 
