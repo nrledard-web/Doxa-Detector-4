@@ -6111,43 +6111,46 @@ if not st.session_state.get("direct_search_result_mode"):
 # =====================================================
 # NETTOYAGE DU CHAMP DÉBAT SI DEMANDÉ
 # =====================================================
-if st.session_state.get("clear_debate_text_next_run"):
-    st.session_state["debate_text_input"] = ""
-    st.session_state["clear_debate_text_next_run"] = False
+if not st.session_state.get("direct_search_result_mode"):
+    if st.session_state.get("clear_debate_text_next_run"):
+        st.session_state["debate_text_input"] = ""
+        st.session_state["clear_debate_text_next_run"] = False
 
 
 # =====================================================
 # FORMULAIRE PRINCIPAL
 # =====================================================
-with st.form("article_form"):
+if not st.session_state.get("direct_search_result_mode"):
 
-    if mode == "Analyse simple":
+    with st.form("article_form"):
 
-        article = st.text_area(
-            T["paste"],
-            key="article",
-            height=220,
-            label_visibility="collapsed",
-            placeholder=T["paste"]
+        if mode == "Analyse simple":
+
+            article = st.text_area(
+                T["paste"],
+                key="article",
+                height=220,
+                label_visibility="collapsed",
+                placeholder=T["paste"]
+            )
+
+        else:
+
+            speaker = st.session_state.get("debate_speaker_choice", "Participant A")
+
+            st.info(f"Participant sélectionné : {speaker}")
+
+            debate_text = st.text_area(
+                "Intervention du tour",
+                key="debate_text_input",
+                height=180,
+                placeholder="Ajoutez l’intervention du participant..."
+            )
+
+        analyze_submitted = st.form_submit_button(
+            T["analyze"],
+            use_container_width=True
         )
-
-    else:
-
-        speaker = st.session_state.get("debate_speaker_choice", "Participant A")
-
-        st.info(f"Participant sélectionné : {speaker}")
-
-        debate_text = st.text_area(
-            "Intervention du tour",
-            key="debate_text_input",
-            height=180,
-            placeholder="Ajoutez l’intervention du participant..."
-        )
-
-    analyze_submitted = st.form_submit_button(
-        T["analyze"],
-        use_container_width=True
-    )
 
 
 # =====================================================
