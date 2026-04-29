@@ -4704,6 +4704,54 @@ def compute_deceptive_coherence(G, N, D, rhetorical_pressure, propaganda_score, 
 
     return deceptive, label
 
+# =========================================================
+# 🎨 Étalonnage visuel unifié des jauges
+# =========================================================
+
+def normalize_display_value(value: float) -> float:
+    """Ramène une valeur 0–1 ou 0–20 vers 0–1."""
+    if value is None:
+        return 0.0
+    return value / 20 if value > 1 else value
+
+
+def color_scale_risk(value: float) -> tuple[str, str]:
+    v = normalize_display_value(value)
+
+    if v < 0.25:
+        return "#16a34a", "🟢 Faible"
+    elif v < 0.50:
+        return "#84cc16", "🟡 Modéré"
+    elif v < 0.75:
+        return "#f97316", "🟠 Élevé"
+    else:
+        return "#dc2626", "🔴 Critique"
+
+
+def color_scale_quality(value: float) -> tuple[str, str]:
+    v = normalize_display_value(value)
+
+    if v < 0.25:
+        return "#dc2626", "🔴 Faible"
+    elif v < 0.50:
+        return "#f97316", "🟠 Fragile"
+    elif v < 0.75:
+        return "#ca8a04", "🟡 Correct"
+    else:
+        return "#16a34a", "🟢 Robuste"
+
+
+def interpret_generic_risk_gauge(label: str, value: float) -> str:
+    v = normalize_display_value(value)
+    color, level = color_scale_risk(v)
+    return f"<b style='color:{color}'>{label}</b> — {level} ({round(v * 100, 1)}%)"
+
+
+def interpret_generic_quality_gauge(label: str, value: float) -> str:
+    v = normalize_display_value(value)
+    color, level = color_scale_quality(v)
+    return f"<b style='color:{color}'>{label}</b> — {level} ({round(v * 100, 1)}%)"
+
 # -------------------------------------------------
 # Pénalité des jauges affichées
 # -------------------------------------------------
@@ -4743,131 +4791,6 @@ def compute_display_gauge_penalty(result: dict) -> float:
             penalty += v * weight
 
     return round(min(penalty, 5.0), 2)
-    
-# =========================================================
-# 🎨 Étalonnage visuel unifié des jauges — version corrigée
-# =========================================================
-
-def normalize_display_value(value: float) -> float:
-    """Ramène une valeur 0–1 ou 0–20 vers 0–1."""
-    if value is None:
-        return 0.0
-    return value / 20 if value > 1 else value
-
-
-def color_scale_risk(value: float) -> tuple[str, str]:
-    """
-    Pour les jauges de risque :
-    propagande, clôture, dérive, mensonge, pression rhétorique.
-    Plus c'est haut, plus c'est mauvais.
-    """
-    v = normalize_display_value(value)
-
-    if v < 0.25:
-        return "#16a34a", "🟢 Faible"
-    elif v < 0.50:
-        return "#84cc16", "🟡 Modéré"
-    elif v < 0.75:
-        return "#f97316", "🟠 Élevé"
-    else:
-        return "#dc2626", "🔴 Critique"
-
-
-def color_scale_quality(value: float) -> tuple[str, str]:
-    """
-    Pour les scores de qualité :
-    Hard Fact Score, crédibilité finale, raisonnement.
-    Plus c'est haut, meilleur c'est.
-    """
-    v = normalize_display_value(value)
-
-    if v < 0.25:
-        return "#dc2626", "🔴 Faible"
-    elif v < 0.50:
-        return "#f97316", "🟠 Fragile"
-    elif v < 0.75:
-        return "#ca8a04", "🟡 Correct"
-    else:
-        return "#16a34a", "🟢 Robuste"
-
-
-def interpret_generic_risk_gauge(label: str, value: float) -> str:
-    v = normalize_display_value(value)
-    color, level = color_scale_risk(v)
-    return f"<b style='color:{color}'>{label}</b> — {level} ({round(v * 100, 1)}%)"
-
-
-def interpret_generic_quality_gauge(label: str, value: float) -> str:
-    v = normalize_display_value(value)
-    color, level = color_scale_quality(v)
-    return f"<b style='color:{color}'>{label}</b> — {level} ({round(v * 100, 1)}%)"
-
-
-# =============================
-# Barre de raisonnement
-# =============================
-score = result.get("hard_fact_score", 0)
-
-if score < 6:
-    couleur_r = "🔴"
-    etiquette_r = "Très fragile"
-    message_r = "Le texte présente peu d’éléments de raisonnement structurés."
-elif score < 9:
-    couleur_r = "🟠"
-    etiquette_r = "Fragile"
-    message_r = "Le raisonnement existe, mais reste incomplet ou insuffisamment construit."
-elif score < 13:
-    couleur_r = "🟡"
-    etiquette_r = "Modérée"
-    message_r = "Le texte présente une structure de raisonnement cohérente, mais plusieurs affirmations restent conceptuelles ou insuffisamment démontrées."
-elif score < 16:
-    couleur_r = "🟢"
-    etiquette_r = "Solide"
-    message_r = "Le raisonnement est structuré et globalement cohérent."
-else:
-    couleur_r = "🟢"
-    etiquette_r = "Très solide"
-    message_r = "Le texte présente un raisonnement robuste, structuré et bien soutenu."
-
-st.subheader(f"{couleur_r} Solidité argumentative : {etiquette_r}")
-st.progress(min(score / 20, 1))
-st.caption(f"Score : {round(score, 1)}/20 — {message_r}")
-st.caption(
-    "Cette jauge mesure la solidité argumentative du texte : structure du raisonnement, "
-    "cohérence logique et présence d’éléments vérifiables. "
-    "La crédibilité globale dépend aussi de la qualité des sources et de la vérifiabilité des affirmations."
-)
-
-
-# =============================
-# Barre de crédibilité finale
-# =============================
-final_score = result.get("final_credibility_score", score)
-
-if final_score < 6:
-    couleur_c = "🔴"
-    etiquette_c = "Très fragile"
-    message_c = "Le texte présente de fortes fragilités structurelles ou vérifiables."
-elif final_score < 9:
-    couleur_c = "🟠"
-    etiquette_c = "Fragile"
-    message_c = "Le texte contient plusieurs fragilités importantes."
-elif final_score < 13:
-    couleur_c = "🟡"
-    etiquette_c = "Prudente"
-    message_c = "Le raisonnement est présent, mais certaines affirmations reposent davantage sur des idées générales que sur des éléments vérifiables."
-elif final_score < 16:
-    couleur_c = "🟢"
-    etiquette_c = "Solide"
-    message_c = "Le texte présente une crédibilité globale correcte, avec peu de signaux problématiques."
-else:
-    couleur_c = "🟢"
-    etiquette_c = "Très solide"
-    message_c = "Le texte présente une structure cognitive robuste et peu de signaux de fragilité."
-
-st.subheader(f"{couleur_c} Crédibilité finale : {etiquette_c}")
-st.progress(min(final_score / 20, 1))
-st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
 
 # -----------------------------
 # Dérive cognitive
