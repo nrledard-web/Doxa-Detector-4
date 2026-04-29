@@ -5431,9 +5431,14 @@ def analyze_article(text: str) -> Dict:
         "frame_shift_interpretation": frame_shift_analysis["interpretation"],
 
         "argument_asymmetry_score": argument_asymmetry_analysis["score"],
-        "argument_attack_count": argument_asymmetry_analysis["attack_count"],
-        "argument_support_count": argument_asymmetry_analysis["argument_count"],
+        "argument_attack_count": argument_asymmetry_analysis.get("attack_count", 0),
         "argument_asymmetry_interpretation": argument_asymmetry_analysis["interpretation"],
+       
+        "argument_asymmetry_label": argument_asymmetry_analysis["label"],
+        "argument_assertions_count": argument_asymmetry_analysis["assertions"],
+        "argument_nuances_count": argument_asymmetry_analysis["nuances"],
+        "argument_attack_count": argument_asymmetry_analysis.get("attack_count", 0),
+        "argument_counterweight_count": argument_asymmetry_analysis.get("counterweight_count", 0),
 
         "narrative_pressure_score": narrative_pressure_analysis["score"],
         "narrative_pressure_label": narrative_pressure_analysis["label"],
