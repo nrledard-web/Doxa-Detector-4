@@ -6314,7 +6314,11 @@ if "semantic_mode" not in st.session_state:
 st.markdown("### Analyse sémantique")
 st.caption("Active une lecture du sens des affirmations via un dictionnaire sémantique assisté par IA.")
 
-if st.button("Activer l’analyse sémantique", use_container_width=True):
+if st.button(
+    "Activer l’analyse sémantique",
+    key="semantic_normal",
+    use_container_width=True
+):
     st.session_state.semantic_mode = True
 
 if st.session_state.semantic_mode:
