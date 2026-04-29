@@ -5949,7 +5949,7 @@ if st.session_state.get("direct_search_result_mode"):
 
     st.info("Article analysé depuis la recherche. Affichage direct du résultat.")
 
-    if st.button("↩️ Revenir au mode normal", use_container_width=True):
+    if st.button("↩️ Revenir au mode normal", key="back_to_normal_mode", use_container_width=True):
         st.session_state.direct_search_result_mode = False
         st.session_state.selected_article_index = None
         st.rerun()
@@ -5957,7 +5957,6 @@ if st.session_state.get("direct_search_result_mode"):
     result = st.session_state.last_result
     article_for_analysis = st.session_state.last_article
 
-    # on force le mode simple pour éviter le débat / micro / textarea
     mode = "Analyse simple"
     analyze_submitted = False
 
