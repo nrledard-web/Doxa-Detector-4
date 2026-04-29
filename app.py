@@ -7010,7 +7010,7 @@ with st.expander("Voir le détail des pénalités", expanded=False):
                 result.get("cognitive_regime", "—")
             )
 
-        brain = result.get("brain", {})
+        brain = result.get("doxa_brain", {})
 
         st.markdown("### Profil cognitif")
 
