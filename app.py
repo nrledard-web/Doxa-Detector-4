@@ -4984,6 +4984,59 @@ def compute_structural_diagnosis(
         }
 }
 
+def compute_absolute_prediction(text):
+    sentences = max(len([s for s in re.split(r"[.!?]+", text) if s.strip()]), 1)
+    markers = count_marker_occurrences(text, ABSOLUTE_PREDICTION_MARKERS)
+
+    score = min((markers / sentences) * 2.5, 1)
+
+    return {
+        "score": round(score, 3),
+        "label": label_level(score),
+        "markers": markers,
+        "interpretation": (
+            "Le texte formule des prédictions présentées comme certaines."
+            if score >= 0.4
+            else "Peu de prédictions affirmées comme inévitables."
+        )
+    }
+
+
+def compute_threat_amplification_advanced(text):
+    sentences = max(len([s for s in re.split(r"[.!?]+", text) if s.strip()]), 1)
+    markers = count_marker_occurrences(text, THREAT_AMPLIFICATION_MARKERS)
+
+    score = min((markers / sentences) * 2.8, 1)
+
+    return {
+        "score": round(score, 3),
+        "label": label_level(score),
+        "markers": markers,
+        "interpretation": (
+            "Le texte amplifie fortement une menace ou un danger."
+            if score >= 0.4
+            else "Peu d’amplification explicite de menace."
+        )
+    }
+
+
+def compute_strong_certainty(text):
+    sentences = max(len([s for s in re.split(r"[.!?]+", text) if s.strip()]), 1)
+    markers = count_marker_occurrences(text, STRONG_CERTAINTY_MARKERS)
+
+    score = min((markers / sentences) * 3.0, 1)
+
+    return {
+        "score": round(score, 3),
+        "label": label_level(score),
+        "markers": markers,
+        "interpretation": (
+            "Le texte emploie une certitude forte ou verrouillante."
+            if score >= 0.4
+            else "Peu de certitude forte composée détectée."
+        )
+    }
+
 def analyze_article(text: str) -> Dict:
     words = text.split()
     sentences = [s.strip() for s in re.split(r"[.!?]+", text) if len(s.strip()) > 10]
