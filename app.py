@@ -5435,6 +5435,22 @@ def analyze_article(text: str) -> Dict:
         "argument_support_count": argument_asymmetry_analysis["argument_count"],
         "argument_asymmetry_interpretation": argument_asymmetry_analysis["interpretation"],
 
+        "narrative_pressure_score": narrative_pressure_analysis["score"],
+        "narrative_pressure_label": narrative_pressure_analysis["label"],
+        "narrative_pressure_interpretation": narrative_pressure_analysis["interpretation"],
+
+        "logical_jump_score": logical_jump_analysis["score"],
+        "logical_jump_label": logical_jump_analysis["label"],
+        "logical_jump_interpretation": logical_jump_analysis["interpretation"],
+
+        "argument_asymmetry_score": argument_asymmetry_analysis["score"],
+        "argument_asymmetry_label": argument_asymmetry_analysis["label"],
+        "argument_asymmetry_interpretation": argument_asymmetry_analysis["interpretation"],
+
+        "argument_density_score": argument_density_analysis["score"],
+        "argument_density_label": argument_density_analysis["label"],
+        "argument_density_interpretation": argument_density_analysis["interpretation"],
+
         "linguistic_trigger_count": ling["trigger_count"],
         "linguistic_pressure_hits": ling["rhetorical_pressure"],
         "absolute_claims": ling["absolute_claims"],
