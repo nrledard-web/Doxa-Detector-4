@@ -5084,6 +5084,10 @@ def analyze_article(text: str) -> Dict:
     strategic_simplification_analysis = compute_strategic_simplification(text)
     frame_shift_analysis = compute_frame_shift(text)
 
+    absolute_prediction_analysis = compute_absolute_prediction(text)
+    threat_amplification_advanced_analysis = compute_threat_amplification_advanced(text)
+    strong_certainty_analysis = compute_strong_certainty(text)
+
     # -----------------------------
     # Jauges structurelles avancées
     # -----------------------------
