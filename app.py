@@ -6714,14 +6714,16 @@ if result:
     
     st.divider()
 
-
-
 # =============================
 # Jauges structurelles avancées
 # =============================
 
-result = st.session_state.last_result
-article_for_analysis = st.session_state.last_article
+result = st.session_state.get("last_result")
+article_for_analysis = st.session_state.get("last_article", "")
+
+if not result:
+    st.info(T["paste_text_or_load_url"])
+    st.stop()
 
 st.subheader("Jauges structurelles avancées")
 
