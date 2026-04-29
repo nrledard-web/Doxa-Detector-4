@@ -4902,6 +4902,48 @@ def compute_argument_density(text):
         "interpretation": "Le texte contient une vraie densité argumentative." if score >= 0.4 else "Le texte affirme davantage qu'il n'argumente."
     }
 
+def compute_structural_diagnosis(
+    narrative_pressure,
+    logical_jump,
+    argument_asymmetry,
+    argument_density
+):
+    pressure = narrative_pressure["score"]
+    jump = logical_jump["score"]
+    asymmetry = argument_asymmetry["score"]
+    density = argument_density["score"]
+
+    risk = (
+        pressure * 0.30 +
+        jump * 0.30 +
+        asymmetry * 0.25 +
+        (1 - density) * 0.15
+    )
+
+    if risk < 0.25:
+        label = "Structure argumentative stable"
+        interpretation = "Le texte présente une structure argumentative relativement équilibrée."
+    elif risk < 0.50:
+        label = "Structure partiellement orientée"
+        interpretation = "Le texte présente quelques signaux d’orientation ou de raccourci argumentatif."
+    elif risk < 0.75:
+        label = "Structure argumentative fragile"
+        interpretation = "Le texte combine plusieurs signaux de pression, d’asymétrie ou de conclusion rapide."
+    else:
+        label = "Structure fortement verrouillante"
+        interpretation = "Le texte pousse fortement vers une conclusion avec peu de contrepoids argumentatif."
+
+    return {
+        "score": round(risk, 3),
+        "label": label,
+        "interpretation": interpretation,
+        "profile": {
+            "pressure": pressure,
+            "logical_jump": jump,
+            "asymmetry": asymmetry,
+            "density": density
+        }
+
 def analyze_article(text: str) -> Dict:
     words = text.split()
     sentences = [s.strip() for s in re.split(r"[.!?]+", text) if len(s.strip()) > 10]
