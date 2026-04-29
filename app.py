@@ -6561,6 +6561,46 @@ if result:
     st.divider()
 
     # =============================
+    # Jauges structurelles avancées
+    # =============================
+
+    st.subheader("Jauges structurelles avancées")
+
+    gauges = [
+        (
+            "Pression narrative",
+            result["narrative_pressure_score"],
+            result["narrative_pressure_label"],
+            result["narrative_pressure_interpretation"]
+        ),
+        (
+            "Saut logique",
+            result["logical_jump_score"],
+            result["logical_jump_label"],
+            result["logical_jump_interpretation"]
+        ),
+        (
+            "Asymétrie argumentative",
+            result["argument_asymmetry_score"],
+            result["argument_asymmetry_label"],
+            result["argument_asymmetry_interpretation"]
+        ),
+        (
+            "Densité argumentative",
+            result["argument_density_score"],
+            result["argument_density_label"],
+            result["argument_density_interpretation"]
+        ),
+    ]
+
+    for title, score, label, interpretation in gauges:
+        st.markdown(f"**{title}**")
+        st.progress(score)
+        st.caption(f"{label} — {round(score * 100, 1)}%")
+        st.write(interpretation)
+        st.divider()
+
+    # =============================
     # Analyse sémantique du discours
     # =============================
 
