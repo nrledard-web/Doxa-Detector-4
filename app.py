@@ -5437,7 +5437,6 @@ def analyze_article(text: str) -> Dict:
         "argument_asymmetry_label": argument_asymmetry_analysis["label"],
         "argument_assertions_count": argument_asymmetry_analysis["assertions"],
         "argument_nuances_count": argument_asymmetry_analysis["nuances"],
-        "argument_attack_count": argument_asymmetry_analysis.get("attack_count", 0),
         "argument_counterweight_count": argument_asymmetry_analysis.get("counterweight_count", 0),
 
         "narrative_pressure_score": narrative_pressure_analysis["score"],
