@@ -5742,125 +5742,127 @@ if use_sample:
 # -----------------------------
 # Analyse multi-articles
 # -----------------------------
-st.subheader(T["topic_section"])
-keyword = st.text_input(T["topic"], placeholder=T["topic_placeholder"])
+if not st.session_state.get("direct_search_result_mode"):
 
-if st.button(T["analyze_topic"], key="analyze_topic"):
-    if keyword.strip():
-        st.info(T["searching"])
-        st.session_state.multi_results = analyze_multiple_articles(keyword.strip(), max_results=10)
-        st.session_state.last_keyword = keyword.strip()
-    else:
-        st.session_state.multi_results = []
-        st.warning(T["enter_keyword_first"])
+    st.subheader(T["topic_section"])
+    keyword = st.text_input(T["topic"], placeholder=T["topic_placeholder"])
 
-if st.session_state.get("multi_results"):
-    df_multi = pd.DataFrame(st.session_state.multi_results).sort_values("Hard Fact Score", ascending=False)
+    if st.button(T["analyze_topic"], key="analyze_topic"):
+        if keyword.strip():
+            st.info(T["searching"])
+            st.session_state.multi_results = analyze_multiple_articles(keyword.strip(), max_results=10)
+            st.session_state.last_keyword = keyword.strip()
+        else:
+            st.session_state.multi_results = []
+            st.warning(T["enter_keyword_first"])
 
-    st.success(f"{len(df_multi)} {T['articles_analyzed']}")
+    if st.session_state.get("multi_results"):
+        df_multi = pd.DataFrame(st.session_state.multi_results).sort_values("Hard Fact Score", ascending=False)
 
-    c1, c2 = st.columns(2)
-    c1.metric(T["analyzed_articles"], len(df_multi))
-    c2.metric(T["avg_hard_fact"], round(df_multi["Hard Fact Score"].mean(), 1))
-    st.metric(T["avg_classic_score"], round(df_multi["Score classique"].mean(), 1))
+        st.success(f"{len(df_multi)} {T['articles_analyzed']}")
 
-    ecart_type_hf = df_multi["Hard Fact Score"].std()
-    indice_doxa = "high" if ecart_type_hf < 1.5 else ("medium" if ecart_type_hf < 3 else "low")
-    st.metric(T["topic_doxa_index"], T[indice_doxa])
+        c1, c2 = st.columns(2)
+        c1.metric(T["analyzed_articles"], len(df_multi))
+        c2.metric(T["avg_hard_fact"], round(df_multi["Hard Fact Score"].mean(), 1))
+        st.metric(T["avg_classic_score"], round(df_multi["Score classique"].mean(), 1))
 
-    st.subheader(T["credibility_score_dispersion"])
-    df_plot = df_multi.copy()
-    df_plot["Article"] = [f"{T['article_label']} {i+1}" for i in range(len(df_plot))]
-    st.bar_chart(df_plot.set_index("Article")["Hard Fact Score"])
+        ecart_type_hf = df_multi["Hard Fact Score"].std()
+        indice_doxa = "high" if ecart_type_hf < 1.5 else ("medium" if ecart_type_hf < 3 else "low")
+        st.metric(T["topic_doxa_index"], T[indice_doxa])
 
-    st.markdown("### Analyse des articles trouvés (phase de recherche)")
+        st.subheader(T["credibility_score_dispersion"])
+        df_plot = df_multi.copy()
+        df_plot["Article"] = [f"{T['article_label']} {i+1}" for i in range(len(df_plot))]
+        st.bar_chart(df_plot.set_index("Article")["Hard Fact Score"])
 
-    st.error(
-        "⚠️ IMPORTANT — Les scores et verdicts affichés dans ce tableau concernent "
-        "uniquement la recherche d’articles et la solidité argumentative des textes. "
-        "Ils ne représentent PAS l’indice final de crédibilité du discours analysé."
-    )
+        st.markdown("### Analyse des articles trouvés (phase de recherche)")
 
-    st.caption(
-        "Ces résultats servent seulement à comparer les articles trouvés. "
-        "Le verdict global de crédibilité est calculé plus loin après "
-        "l’analyse complète du texte."
-    )
+        st.error(
+            "⚠️ IMPORTANT — Les scores et verdicts affichés dans ce tableau concernent "
+            "uniquement la recherche d’articles et la solidité argumentative des textes. "
+            "Ils ne représentent PAS l’indice final de crédibilité du discours analysé."
+        )
 
-    st.dataframe(df_multi, use_container_width=True, hide_index=True)
+        st.caption(
+            "Ces résultats servent seulement à comparer les articles trouvés. "
+            "Le verdict global de crédibilité est calculé plus loin après "
+            "l’analyse complète du texte."
+        )
 
-    st.markdown("### Examiner les articles trouvés")
+        st.dataframe(df_multi, use_container_width=True, hide_index=True)
 
-    for i, row in df_multi.reset_index(drop=True).iterrows():
-        with st.container(border=True):
+        st.markdown("### Examiner les articles trouvés")
 
-            st.markdown(f"### {row['Titre']}")
-            st.caption(f"{row['Source']}")
+        for i, row in df_multi.reset_index(drop=True).iterrows():
+            with st.container(border=True):
 
-            score = row["Hard Fact Score"]
-            if score <= 6:
-                color, label = "🔴", "Fragile"
-            elif score <= 11:
-                color, label = "🟠", "Douteux"
-            elif score <= 15:
-                color, label = "🟡", "Plausible"
-            else:
-                color, label = "🟢", "Robuste"
+                st.markdown(f"### {row['Titre']}")
+                st.caption(f"{row['Source']}")
 
-            st.markdown(
-                f"**{color} Score de crédibilité de l’article : {score:.1f}/20 — {label}**"
-            )
-            st.progress(score / 20)
+                score = row["Hard Fact Score"]
+                if score <= 6:
+                    color, label = "🔴", "Fragile"
+                elif score <= 11:
+                    color, label = "🟠", "Douteux"
+                elif score <= 15:
+                    color, label = "🟡", "Plausible"
+                else:
+                    color, label = "🟢", "Robuste"
 
-            col1, col2 = st.columns(2)
+                st.markdown(
+                    f"**{color} Score de crédibilité de l’article : {score:.1f}/20 — {label}**"
+                )
+                st.progress(score / 20)
 
-            with col1:
-                st.link_button("🌐 Ouvrir l'article", row["URL"], use_container_width=True)
+                col1, col2 = st.columns(2)
 
-            with col2:
-                if st.button("📥 Charger pour analyse", key=f"load_article_{i}", use_container_width=True):
+                with col1:
+                    st.link_button("🌐 Ouvrir l'article", row["URL"], use_container_width=True)
 
-                    loaded_text = fetch_text_for_textarea(row["URL"])
+                with col2:
+                    if st.button("📥 Charger pour analyse", key=f"load_article_{i}", use_container_width=True):
 
-                    if loaded_text:
-                        st.session_state.article = loaded_text
-                        st.session_state.article_source = "search"
-                        st.session_state.loaded_url = row["URL"]
-                        st.session_state.loaded_article_title = row["Titre"]
-                        st.session_state.loaded_article_index = i
+                        loaded_text = fetch_text_for_textarea(row["URL"])
 
-                        st.success("Article chargé.")
+                        if loaded_text:
+                            st.session_state.article = loaded_text
+                            st.session_state.article_source = "search"
+                            st.session_state.loaded_url = row["URL"]
+                            st.session_state.loaded_article_title = row["Titre"]
+                            st.session_state.loaded_article_index = i
+
+                            st.success("Article chargé.")
+                            st.rerun()
+                        else:
+                            st.warning("Impossible d'extraire le texte.")
+
+                if (
+                    st.session_state.get("article_source") == "search"
+                    and st.session_state.get("loaded_article_index") == i
+                ):
+                    st.markdown("### 📰 Article chargé ici")
+                    st.success("Vous pouvez l’analyser directement depuis cette carte.")
+
+                    with st.expander("Voir le texte chargé", expanded=True):
+                        st.text_area(
+                            "Texte extrait",
+                            value=st.session_state.get("article", ""),
+                            height=260,
+                            disabled=True,
+                            key=f"article_preview_search_{i}"
+                        )
+
+                    if st.button("🔎 Analyser cet article maintenant", key=f"analyze_loaded_{i}", use_container_width=True):
+                        st.session_state.last_result = analyze_article(st.session_state.article)
+                        st.session_state.last_article = st.session_state.article
+
+                        st.session_state.direct_search_result_mode = True
+                        st.session_state.selected_article_index = i
+
                         st.rerun()
-                    else:
-                        st.warning("Impossible d'extraire le texte.")
 
-            if (
-                st.session_state.get("article_source") == "search"
-                and st.session_state.get("loaded_article_index") == i
-            ):
-                st.markdown("### 📰 Article chargé ici")
-                st.success("Vous pouvez l’analyser directement depuis cette carte.")
-
-                with st.expander("Voir le texte chargé", expanded=True):
-                    st.text_area(
-                        "Texte extrait",
-                        value=st.session_state.get("article", ""),
-                        height=260,
-                        disabled=True,
-                        key=f"article_preview_search_{i}"
-                    )
-
-                if st.button("🔎 Analyser cet article maintenant", key=f"analyze_loaded_{i}", use_container_width=True):
-                    st.session_state.last_result = analyze_article(st.session_state.article)
-                    st.session_state.last_article = st.session_state.article
-
-                    st.session_state.direct_search_result_mode = True
-                    st.session_state.selected_article_index = i
-
-                    st.rerun()
-
-elif st.session_state.get("last_keyword"):
-    st.warning(T["no_exploitable_articles_found"])
+    elif st.session_state.get("last_keyword"):
+        st.warning(T["no_exploitable_articles_found"])
 
 # =============================
 # Sources réseaux sociaux
