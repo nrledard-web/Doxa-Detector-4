@@ -5595,6 +5595,18 @@ def analyze_article(text: str) -> Dict:
         "argument_density_label": argument_density_analysis["label"],
         "argument_density_interpretation": argument_density_analysis["interpretation"],
 
+        "absolute_prediction_score": absolute_prediction_analysis["score"],
+        "absolute_prediction_label": absolute_prediction_analysis["label"],
+        "absolute_prediction_interpretation": absolute_prediction_analysis["interpretation"],
+
+        "threat_amplification_advanced_score": threat_amplification_advanced_analysis["score"],
+        "threat_amplification_advanced_label": threat_amplification_advanced_analysis["label"],
+        "threat_amplification_advanced_interpretation": threat_amplification_advanced_analysis["interpretation"],
+
+        "strong_certainty_score": strong_certainty_analysis["score"],
+        "strong_certainty_label": strong_certainty_analysis["label"],
+        "strong_certainty_interpretation": strong_certainty_analysis["interpretation"],
+
         "linguistic_trigger_count": ling["trigger_count"],
         "linguistic_pressure_hits": ling["rhetorical_pressure"],
         "absolute_claims": ling["absolute_claims"],
