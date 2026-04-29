@@ -6668,65 +6668,65 @@ if result:
 # Jauges structurelles avancées
 # =============================
 
-st.subheader("Jauges structurelles avancées")
+result = st.session_state.last_result
+article_for_analysis = st.session_state.last_article
 
-gauges = [
-    (
-        "Pression narrative",
-        result.get("narrative_pressure_score", 0),
-        result.get("narrative_pressure_label", "Non calculée"),
-        result.get("narrative_pressure_interpretation", "")
-    ),
-    (
-        "Saut logique",
-        result.get("logical_jump_score", 0),
-        result.get("logical_jump_label", "Non calculée"),
-        result.get("logical_jump_interpretation", "")
-    ),
-    (
-        "Asymétrie argumentative",
-        result.get("argument_asymmetry_score", 0),
-        result.get("argument_asymmetry_label", "Non calculée"),
-        result.get("argument_asymmetry_interpretation", "")
-    ),
-    (
-        "Densité argumentative",
-        result.get("argument_density_score", 0),
-        result.get("argument_density_label", "Non calculée"),
-        result.get("argument_density_interpretation", "")
-    ),
-    (
-        "Prédiction absolue",
-        result.get("absolute_prediction_score", 0),
-        result.get("absolute_prediction_label", "Non calculée"),
-        result.get("absolute_prediction_interpretation", "")
-    ),
-    (
-        "Amplification de menace",
-        result.get("threat_amplification_advanced_score", 0),
-        result.get("threat_amplification_advanced_label", "Non calculée"),
-        result.get("threat_amplification_advanced_interpretation", "")
-    ),
-    (
-        "Certitude forte composée",
-        result.get("strong_certainty_score", 0),
-        result.get("strong_certainty_label", "Non calculée"),
-        result.get("strong_certainty_interpretation", "")
-    ),
-]
+if isinstance(result, dict):
 
-for title, score, label, interpretation in gauges:
+    st.subheader("Jauges structurelles avancées")
 
-    st.markdown(f"**{title}**")
+    gauges = [
+        (
+            "Pression narrative",
+            result.get("narrative_pressure_score", 0),
+            result.get("narrative_pressure_label", "Non calculée"),
+            result.get("narrative_pressure_interpretation", "")
+        ),
+        (
+            "Saut logique",
+            result.get("logical_jump_score", 0),
+            result.get("logical_jump_label", "Non calculée"),
+            result.get("logical_jump_interpretation", "")
+        ),
+        (
+            "Asymétrie argumentative",
+            result.get("argument_asymmetry_score", 0),
+            result.get("argument_asymmetry_label", "Non calculée"),
+            result.get("argument_asymmetry_interpretation", "")
+        ),
+        (
+            "Densité argumentative",
+            result.get("argument_density_score", 0),
+            result.get("argument_density_label", "Non calculée"),
+            result.get("argument_density_interpretation", "")
+        ),
+        (
+            "Prédiction absolue",
+            result.get("absolute_prediction_score", 0),
+            result.get("absolute_prediction_label", "Non calculée"),
+            result.get("absolute_prediction_interpretation", "")
+        ),
+        (
+            "Amplification de menace",
+            result.get("threat_amplification_advanced_score", 0),
+            result.get("threat_amplification_advanced_label", "Non calculée"),
+            result.get("threat_amplification_advanced_interpretation", "")
+        ),
+        (
+            "Certitude forte composée",
+            result.get("strong_certainty_score", 0),
+            result.get("strong_certainty_label", "Non calculée"),
+            result.get("strong_certainty_interpretation", "")
+        ),
+    ]
 
-    st.progress(score)
-
-    st.caption(f"{label} — {round(score * 100, 1)}%")
-
-    if interpretation:
-        st.write(interpretation)
-
-    st.divider()
+    for title, score, label, interpretation in gauges:
+        st.markdown(f"**{title}**")
+        st.progress(score)
+        st.caption(f"{label} — {round(score * 100, 1)}%")
+        if interpretation:
+            st.write(interpretation)
+        st.divider()
 
     # =============================
     # Analyse sémantique du discours
