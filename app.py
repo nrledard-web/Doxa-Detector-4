@@ -5936,14 +5936,35 @@ if load_url_submitted:
     else:
         st.warning(T["paste_url_first"])
 
-st.markdown("## Mode d’analyse")
+# =============================
+# Mode résultat direct depuis recherche
+# =============================
+if st.session_state.get("direct_search_result_mode"):
 
-mode = st.radio(
-    "Choisissez le mode",
-    ["Analyse simple", "Débat dynamique"],
-    horizontal=True,
-    key="mode"
-)
+    st.info("Article analysé depuis la recherche. Affichage direct du résultat.")
+
+    if st.button("↩️ Revenir au mode normal", use_container_width=True):
+        st.session_state.direct_search_result_mode = False
+        st.session_state.selected_article_index = None
+        st.rerun()
+
+    result = st.session_state.last_result
+    article_for_analysis = st.session_state.last_article
+
+    # on force le mode simple pour éviter le débat / micro / textarea
+    mode = "Analyse simple"
+    analyze_submitted = False
+
+else:
+
+    st.markdown("## Mode d’analyse")
+
+    mode = st.radio(
+        "Choisissez le mode",
+        ["Analyse simple", "Débat dynamique"],
+        horizontal=True,
+        key="mode"
+    )
 # =====================================================
 # INITIALISATION ROBUSTE
 # =====================================================
@@ -5967,7 +5988,7 @@ if "pending_editor_version" not in st.session_state:
 # =====================================================
 # SÉLECTEUR PARTICIPANT AVANT MICRO
 # =====================================================
-if mode == "Débat dynamique":
+if not st.session_state.get("direct_search_result_mode") and mode == "Débat dynamique":
     st.session_state["debate_speaker_choice"] = st.radio(
         "Participant pour la prochaine intervention",
         ["Participant A", "Participant B"],
@@ -5975,99 +5996,116 @@ if mode == "Débat dynamique":
         key="debate_speaker_radio"
     )
 
+if st.session_state.get("direct_search_result_mode"):
+    st.markdown("### Analyse sémantique")
+    st.caption("Active une lecture du sens des affirmations via un dictionnaire sémantique assisté par IA.")
 
-# -----------------------------
-# Zone d’analyse
-# -----------------------------
-previous_article = st.session_state.article
+    if st.button("Activer l’analyse sémantique", use_container_width=True):
+        st.session_state.semantic_mode = True
+        st.rerun()
 
-st.markdown("### Zone d’analyse")
-
-with st.container(border=True):
-    st.caption("Collez un texte, chargez une URL, ou dictez directement.")
-
-    # =============================
-    # Dictée vocale classique
-    # =============================
-    if MICRO_AVAILABLE:
-        spoken_text = speech_to_text(
-            language="fr",
-            start_prompt="🎙️ Dicter",
-            stop_prompt="⏹️ Stop",
-            just_once=True,
-            use_container_width=True,
-            key="speech_to_text_article"
-        )
-
-        if spoken_text:
-            if mode == "Analyse simple":
-                st.session_state.article = spoken_text
-                st.session_state.article_source = "voice"
-                st.success("Texte dicté reçu.")
-                st.rerun()
-            else:
-                st.session_state["pending_debate_transcription"] = spoken_text
-                st.session_state["pending_speaker"] = st.session_state.get(
-                    "debate_speaker_choice",
-                    "Participant A"
-                )
-                st.session_state["pending_editor_version"] += 1
-
-                st.success("Transcription prête.")
-                st.info("Validez la transcription ci-dessous pour l’ajouter au débat.")
-                st.rerun()
-
+    if st.session_state.get("semantic_mode", False):
+        st.success("Analyse sémantique activée.")
     else:
-        st.caption("🎙️ Dictée vocale classique indisponible dans cette version.")
+        st.info("Analyse sémantique inactive. La crédibilité globale reste partielle.")
 
-    # =============================
-    # Dictée vocale mobile
-    # =============================
-    st.markdown("#### 🎙️ Entrée vocale mobile")
-    st.caption("📱 Compatible smartphone / iPhone")
+if not st.session_state.get("direct_search_result_mode"):
 
-    audio = st.audio_input("Dicter un texte à analyser", key="audio_mobile")
+    # -----------------------------
+    # Zone d’analyse
+    # -----------------------------
+    previous_article = st.session_state.article
 
-    if audio:
-        st.audio(audio)
+    st.markdown("### Zone d’analyse")
 
-        if st.button("Transcrire l’audio", use_container_width=True):
-            if client is None:
-                st.warning(
-                    "Transcription vocale indisponible : clé OpenAI absente ou module OpenAI non installé."
-                )
-            else:
-                try:
-                    with st.spinner("Transcription en cours..."):
-                        audio_bytes = audio.getvalue()
+    with st.container(border=True):
 
-                        transcript = client.audio.transcriptions.create(
-                            model="gpt-4o-mini-transcribe",
-                            file=("audio.wav", audio_bytes, "audio/wav")
-                        )
+        st.caption("Collez un texte, chargez une URL, ou dictez directement.")
 
-                    text_transcribed = transcript.text
-                    st.session_state["speech_to_text_result"] = text_transcribed
+        # =============================
+        # Dictée vocale classique
+        # =============================
+        if MICRO_AVAILABLE:
+            spoken_text = speech_to_text(
+                language="fr",
+                start_prompt="🎙️ Dicter",
+                stop_prompt="⏹️ Stop",
+                just_once=True,
+                use_container_width=True,
+                key="speech_to_text_article"
+            )
 
-                    if mode == "Analyse simple":
-                        st.session_state.article = text_transcribed
-                        st.session_state.article_source = "voice"
-                        st.success("Texte transcrit et chargé dans la zone d’analyse.")
-                        st.info("Texte prêt. Cliquez sur Analyser pour lancer l’analyse.")
-                    else:
-                        st.session_state["pending_debate_transcription"] = text_transcribed
-                        st.session_state["pending_speaker"] = st.session_state.get(
-                            "debate_speaker_choice",
-                            "Participant A"
-                        )
-                        st.session_state["pending_editor_version"] += 1
+            if spoken_text:
 
-                        st.success("Transcription prête.")
-                        st.info("Validez la transcription ci-dessous pour l’ajouter au débat.")
-                        st.rerun()
+                if mode == "Analyse simple":
+                    st.session_state.article = spoken_text
+                    st.session_state.article_source = "voice"
+                    st.success("Texte dicté reçu.")
+                    st.rerun()
 
-                except Exception as e:
-                    st.error(f"Erreur de transcription : {e}")
+                else:
+                    st.session_state["pending_debate_transcription"] = spoken_text
+                    st.session_state["pending_speaker"] = st.session_state.get(
+                        "debate_speaker_choice",
+                        "Participant A"
+                    )
+                    st.session_state["pending_editor_version"] += 1
+
+                    st.success("Transcription prête.")
+                    st.info("Validez la transcription ci-dessous pour l’ajouter au débat.")
+                    st.rerun()
+
+        else:
+            st.caption("🎙️ Dictée vocale classique indisponible dans cette version.")
+
+        # =============================
+        # Dictée vocale mobile
+        # =============================
+        st.markdown("#### 🎙️ Entrée vocale mobile")
+        st.caption("📱 Compatible smartphone / iPhone")
+
+        audio = st.audio_input("Dicter un texte à analyser", key="audio_mobile")
+
+        if audio:
+            st.audio(audio)
+
+            if st.button("Transcrire l’audio", use_container_width=True):
+                if client is None:
+                    st.warning(
+                        "Transcription vocale indisponible : clé OpenAI absente ou module OpenAI non installé."
+                    )
+                else:
+                    try:
+                        with st.spinner("Transcription en cours..."):
+                            audio_bytes = audio.getvalue()
+
+                            transcript = client.audio.transcriptions.create(
+                                model="gpt-4o-mini-transcribe",
+                                file=("audio.wav", audio_bytes, "audio/wav")
+                            )
+
+                        text_transcribed = transcript.text
+                        st.session_state["speech_to_text_result"] = text_transcribed
+
+                        if mode == "Analyse simple":
+                            st.session_state.article = text_transcribed
+                            st.session_state.article_source = "voice"
+                            st.success("Texte transcrit et chargé dans la zone d’analyse.")
+                            st.info("Texte prêt. Cliquez sur Analyser pour lancer l’analyse.")
+                        else:
+                            st.session_state["pending_debate_transcription"] = text_transcribed
+                            st.session_state["pending_speaker"] = st.session_state.get(
+                                "debate_speaker_choice",
+                                "Participant A"
+                            )
+                            st.session_state["pending_editor_version"] += 1
+
+                            st.success("Transcription prête.")
+                            st.info("Validez la transcription ci-dessous pour l’ajouter au débat.")
+                            st.rerun()
+
+                    except Exception as e:
+                        st.error(f"Erreur de transcription : {e}")
 
 
 # =====================================================
