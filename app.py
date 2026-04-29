@@ -6007,7 +6007,7 @@ if st.session_state.get("direct_search_result_mode"):
 
     if st.button(
         "Activer l’analyse sémantique",
-        key="semantic_direct"
+        key="semantic_direct",
         use_container_width=True
     ):
         st.session_state.semantic_mode = True
