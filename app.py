@@ -5853,6 +5853,10 @@ if st.session_state.get("multi_results"):
                 if st.button("🔎 Analyser cet article maintenant", key=f"analyze_loaded_{i}", use_container_width=True):
                     st.session_state.last_result = analyze_article(st.session_state.article)
                     st.session_state.last_article = st.session_state.article
+
+                    st.session_state.direct_search_result_mode = True
+                    st.session_state.selected_article_index = i
+
                     st.rerun()
 
 elif st.session_state.get("last_keyword"):
