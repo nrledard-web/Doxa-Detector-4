@@ -7016,12 +7016,6 @@ if isinstance(result, dict):
         "de fermeture cognitive, de manipulation ou de raisonnement fragile."
         )
 
-    with colp3:
-        st.metric(
-            "Score final",
-            f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
-        )
-
     with st.expander("Voir le détail des pénalités", expanded=False):
         st.json(result.get("penalty_details", {}))
 
