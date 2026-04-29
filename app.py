@@ -5992,6 +5992,93 @@ def fetch_text_for_textarea(url: str) -> str:
     except Exception:
         return ""
 
+# =====================================================
+# AIDE DE LECTURE DES JAUGES
+# =====================================================
+def show_gauge_help():
+    with st.expander("📘 Comment lire les jauges", expanded=False):
+        st.markdown("""
+Chaque jauge mesure un mécanisme du discours : raisonnement, pression rhétorique, biais argumentatifs ou degré de certitude.
+
+Les jauges n’indiquent pas si un texte est vrai ou faux, mais **la solidité de sa structure cognitive**.
+
+- 🟢 **Vert** → structure saine ou raisonnement solide
+- 🟠 **Orange** → fragilité, raisonnement incomplet ou insuffisamment démontré
+- 🔴 **Rouge** → dérive cognitive importante ou manipulation possible
+
+**Les textes les plus solides sont ceux qui allument le moins de jauges, ou qui restent majoritairement dans le vert.**
+
+---
+
+### Poids des jauges
+
+Toutes les jauges n’ont pas la même influence sur le résultat final.
+
+Certaines jauges structurelles ont un **coefficient plus élevé**, car elles signalent des problèmes fondamentaux dans le raisonnement.
+
+**Une petite jauge avec un coefficient élevé peut peser autant qu’une grande jauge secondaire.**
+
+Le score final dépend donc **à la fois de l’intensité des jauges et de leur poids dans l’analyse.**
+
+---
+
+### Important
+
+Un texte peut être **cohérent sans être démonstratif**.
+
+Les discours philosophiques, moraux ou spéculatifs obtiennent souvent des scores intermédiaires, car ils reposent davantage sur des idées générales que sur des faits vérifiables.
+""")
+
+
+# =====================================================
+# TYPE DE DISCOURS DÉTECTÉ
+# =====================================================
+def detect_discourse_type(result):
+    G = result.get("G", 0)
+    N = result.get("N", 0)
+    D = result.get("D", 0)
+    V = result.get("V", 0)
+
+    rhetorical_pressure = result.get("rhetorical_pressure", 0)
+    propaganda = result.get("propaganda_score", 0)
+    closure = result.get("cognitive_closure", 0)
+    final_score = result.get("final_credibility_score", result.get("hard_fact_score", 0))
+
+    if propaganda >= 0.6 or rhetorical_pressure >= 0.7 or closure >= 0.7:
+        return (
+            "Discours propagandiste",
+            "Forte pression rhétorique, simplification narrative ou fermeture cognitive."
+        )
+
+    if rhetorical_pressure >= 0.4 or D >= 7:
+        return (
+            "Discours polémique",
+            "Argumentation orientée, certitude élevée ou pression rhétorique notable."
+        )
+
+    if G >= 6 and V >= 6 and final_score >= 13:
+        return (
+            "Discours factuel",
+            "Raisonnement appuyé sur des éléments vérifiables, des sources ou des faits identifiables."
+        )
+
+    if N >= 7 and G < 4 and V < 5 and rhetorical_pressure < 0.3:
+        return (
+            "Discours spéculatif / philosophique",
+            "Réflexion conceptuelle cohérente, mais reposant surtout sur des idées générales plutôt que sur des éléments vérifiables."
+        )
+
+    if N >= 6 and rhetorical_pressure < 0.4:
+        return (
+            "Discours analytique",
+            "Raisonnement structuré, mais avec une vérifiabilité ou une démonstration encore partielle."
+        )
+
+    return (
+        "Discours indéterminé",
+        "Le texte ne présente pas assez d’indices dominants pour être classé clairement."
+    )
+
 # -----------------------------
 # Réglages
 # -----------------------------
