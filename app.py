@@ -4816,6 +4816,92 @@ def interpret_cognitive_drift(value: float):
 
     return color, label, msg
 
+def count_marker_occurrences(text, markers):
+    t = text.lower()
+    return sum(t.count(marker.lower()) for marker in markers)
+
+
+def normalize_score(value, max_value=10):
+    if max_value <= 0:
+        return 0
+    return round(min(value / max_value, 1), 3)
+
+
+def label_level(score):
+    if score < 0.25:
+        return "Faible"
+    elif score < 0.50:
+        return "Modérée"
+    elif score < 0.75:
+        return "Élevée"
+    else:
+        return "Très élevée"
+
+
+def compute_narrative_pressure(text):
+    sentences = max(len(re.split(r"[.!?]+", text)), 1)
+    markers = count_marker_occurrences(text, NARRATIVE_PRESSURE_MARKERS)
+
+    score = min((markers / sentences) * 2.5, 1)
+
+    return {
+        "score": round(score, 3),
+        "label": label_level(score),
+        "markers": markers,
+        "interpretation": "Le texte exerce une pression vers une conclusion." if score >= 0.4 else "Pression narrative limitée."
+    }
+
+
+def compute_logical_jump(text):
+    conclusions = count_marker_occurrences(text, CONCLUSION_MARKERS)
+    reasons = count_marker_occurrences(text, REASON_MARKERS)
+
+    raw = max(conclusions - reasons, 0)
+    score = min(raw / max(conclusions, 1), 1)
+
+    return {
+        "score": round(score, 3),
+        "label": label_level(score),
+        "conclusions": conclusions,
+        "reasons": reasons,
+        "interpretation": "Conclusion possiblement insuffisamment démontrée." if score >= 0.4 else "Enchaînement logique relativement progressif."
+    }
+
+
+def compute_argument_asymmetry(text):
+    assertions = count_marker_occurrences(text, ASSERTION_MARKERS)
+    nuances = count_marker_occurrences(text, NUANCE_MARKERS)
+
+    raw = assertions / max(nuances + 1, 1)
+    score = min(raw / 8, 1)
+
+    return {
+        "score": round(score, 3),
+        "label": label_level(score),
+        "assertions": assertions,
+        "nuances": nuances,
+        "interpretation": "Le discours paraît unilatéral ou peu révisable." if score >= 0.4 else "Présence suffisante de nuances ou d'équilibre."
+    }
+
+
+def compute_argument_density(text):
+    words = re.findall(r"\b[\wÀ-ÿ'-]+\b", text.lower())
+    word_count = max(len(words), 1)
+
+    reason_markers = count_marker_occurrences(text, REASON_MARKERS)
+    conclusion_markers = count_marker_occurrences(text, CONCLUSION_MARKERS)
+    nuance_markers = count_marker_occurrences(text, NUANCE_MARKERS)
+
+    argumentative_units = reason_markers + conclusion_markers + nuance_markers
+    score = min((argumentative_units / word_count) * 35, 1)
+
+    return {
+        "score": round(score, 3),
+        "label": label_level(score),
+        "units": argumentative_units,
+        "interpretation": "Le texte contient une vraie densité argumentative." if score >= 0.4 else "Le texte affirme davantage qu'il n'argumente."
+    }
+
 def analyze_article(text: str) -> Dict:
     words = text.split()
     sentences = [s.strip() for s in re.split(r"[.!?]+", text) if len(s.strip()) > 10]
