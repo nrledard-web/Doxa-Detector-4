@@ -6859,88 +6859,119 @@ if isinstance(result, dict):
     with st.expander("Résumé du cerveau DOXA"):
         st.write(brain.get("brain_summary", "Aucun résumé disponible."))
 
-    # =============================
-    # Partage des résultats
-    # =============================
+# =============================
+# Partage des résultats
+# =============================
 
-    st.markdown("### Partager l’analyse")
+st.markdown("### Partager l’analyse")
 
-    summary, encoded = generate_share_block(result)
+summary, encoded = generate_share_block(result)
 
-    st.code(summary)
+st.code(summary)
 
-    st.link_button(
-        "📧 Envoyer par email",
-        f"mailto:?subject=Analyse DOXA Detector&body={encoded}",
-        use_container_width=True
+st.link_button(
+    "📧 Envoyer par email",
+    f"mailto:?subject=Analyse DOXA Detector&body={encoded}",
+    use_container_width=True
+)
+
+# =============================
+# Barre de raisonnement
+# =============================
+score = result.get("hard_fact_score", 0)
+
+if score < 6:
+    couleur_r = "🔴"
+    etiquette_r = "Très fragile"
+    message_r = "Le texte présente peu d’éléments de raisonnement structurés."
+elif score < 9:
+    couleur_r = "🟠"
+    etiquette_r = "Fragile"
+    message_r = "Le raisonnement existe, mais reste incomplet ou insuffisamment construit."
+elif score < 13:
+    couleur_r = "🟡"
+    etiquette_r = "Modérée"
+    message_r = "Le texte présente une structure de raisonnement cohérente, mais plusieurs affirmations restent conceptuelles ou insuffisamment démontrées."
+elif score < 16:
+    couleur_r = "🟢"
+    etiquette_r = "Solide"
+    message_r = "Le raisonnement est structuré et globalement cohérent."
+else:
+    couleur_r = "🟢"
+    etiquette_r = "Très solide"
+    message_r = "Le texte présente un raisonnement robuste, structuré et bien soutenu."
+
+st.subheader(f"{couleur_r} Solidité argumentative : {etiquette_r}")
+st.progress(min(score / 20, 1))
+st.caption(f"Score : {round(score, 1)}/20 — {message_r}")
+st.caption(
+    "Cette jauge mesure la solidité argumentative du texte : structure du raisonnement, "
+    "cohérence logique et présence d’éléments vérifiables. "
+    "La crédibilité globale dépend aussi de la qualité des sources et de la vérifiabilité des affirmations."
+)
+
+# =============================
+# Barre de crédibilité finale
+# =============================
+final_score = result.get("final_credibility_score", score)
+
+if final_score < 6:
+    couleur_c = "🔴"
+    etiquette_c = "Très fragile"
+    message_c = "Le texte présente de fortes fragilités structurelles ou vérifiables."
+elif final_score < 9:
+    couleur_c = "🟠"
+    etiquette_c = "Fragile"
+    message_c = "Le texte contient plusieurs fragilités importantes."
+elif final_score < 13:
+    couleur_c = "🟡"
+    etiquette_c = "Prudente"
+    message_c = "Le raisonnement est présent, mais certaines affirmations reposent davantage sur des idées générales que sur des éléments vérifiables."
+elif final_score < 16:
+    couleur_c = "🟢"
+    etiquette_c = "Solide"
+    message_c = "Le texte présente une crédibilité globale correcte, avec peu de signaux problématiques."
+else:
+    couleur_c = "🟢"
+    etiquette_c = "Très solide"
+    message_c = "Le texte présente une structure cognitive robuste et peu de signaux de fragilité."
+
+st.subheader(f"{couleur_c} Crédibilité finale : {etiquette_c}")
+st.progress(min(final_score / 20, 1))
+st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
+
+# =============================
+# Pénalités appliquées
+# =============================
+st.subheader("Pénalités appliquées")
+
+colp1, colp2, colp3 = st.columns(3)
+
+with colp1:
+    st.metric(
+        "Pénalité crédibilité",
+        result.get("credibility_penalty", 0)
     )
 
-    # =============================
-    # Barre de raisonnement
-    # =============================
-    score = result["hard_fact_score"]
-
-    if score <= 6:
-        couleur_r, etiquette_r, message_r = "🔴", "Faible", "Le raisonnement reste peu développé ou peu étayé."
-    elif score <= 11:
-        couleur_r, etiquette_r, message_r = "🟠", "Médiocre", "Le texte contient quelques éléments de raisonnement, mais reste insuffisant."
-    elif score <= 15:
-        couleur_r, etiquette_r, message_r = "🟡", "Correct", "Le raisonnement est présent mais encore partiellement fragile."
-    else:
-        couleur_r, etiquette_r, message_r = "🟢", "Robuste", "Le raisonnement est solidement structuré."
-
-    st.subheader(f"{couleur_r} Solidité argumentative : {etiquette_r}")
-    st.progress(score / 20)
-    st.caption(f"Score : {score}/20 — {message_r}")
-    st.caption(
-        "Cette jauge mesure la solidité argumentative du texte : structure du raisonnement, "
-        "cohérence logique et présence d’éléments vérifiables. "
-        "La crédibilité globale dépend aussi de la qualité des sources et de la vérifiabilité des affirmations."
+with colp2:
+    st.metric(
+        "Boost mensonge",
+        result.get("lie_boost_total", 0)
     )
 
-    # =============================
-    # Barre de crédibilité finale
-    # =============================
-    final_score = result.get("final_credibility_score", score)
+with colp3:
+    st.metric(
+        "Score final",
+        f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
+    )
 
-    couleur_c, etiquette_c, message_c = interpret_final_credibility(final_score)
+st.caption(
+    "Les pénalités corrigent le score lorsque le texte accumule des signaux "
+    "de fermeture cognitive, de manipulation ou de raisonnement fragile."
+)
 
-    st.subheader(f"{couleur_c} Crédibilité finale : {etiquette_c}")
-    st.progress(final_score / 20)
-    st.caption(f"Score final : {final_score}/20 — {message_c}")
-
-    # =============================
-    # Pénalités appliquées
-    # =============================
-    st.subheader("Pénalités appliquées")
-
-    colp1, colp2, colp3 = st.columns(3)
-
-    with colp1:
-        st.metric(
-            "Pénalité crédibilité",
-            result.get("credibility_penalty", 0)
-        )
-
-    with colp2:
-        st.metric(
-            "Boost mensonge",
-            result.get("lie_boost_total", 0) 
-        )
-
-    with colp3:
-        st.metric(
-            "Score final",
-            f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
-        )
-
-    st.caption(
-        "Les pénalités corrigent le score lorsque le texte accumule des signaux "
-        "de fermeture cognitive, de manipulation ou de raisonnement fragile."
-        )
-
-    with st.expander("Voir le détail des pénalités", expanded=False):
-        st.json(result.get("penalty_details", {}))
+with st.expander("Voir le détail des pénalités", expanded=False):
+    st.json(result.get("penalty_details", {}))
 
 # =============================
 # Résumé rapide
@@ -7012,22 +7043,7 @@ if isinstance(result, dict):
                 "Indice de clôture",
                 brain.get("closure_index", "—")
             )
-    # -------------------------
-    # Cerveau DOXA
-    # -------------------------
 
-    st.metric("Profil cognitif", brain.get("brain_profile", "—"))
-
-    colb1, colb2, colb3 = st.columns(3)
-
-    with colb1:
-        st.metric("IR", brain.get("IR", "—"))
-
-    with colb2:
-        st.metric("IL", brain.get("IL", "—"))
-
-    with colb3:
-        st.metric("IC", brain.get("IC", "—"))
     # =============================
     # Diagnostic cognitif rapide
     # =============================
