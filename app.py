@@ -4948,7 +4948,14 @@ def analyze_article(text: str) -> Dict:
     moral_polarization_analysis = compute_moral_polarization(text)
     strategic_simplification_analysis = compute_strategic_simplification(text)
     frame_shift_analysis = compute_frame_shift(text)
+
+    # -----------------------------
+    # Jauges structurelles avancées
+    # -----------------------------
+    narrative_pressure_analysis = compute_narrative_pressure(text)
+    logical_jump_analysis = compute_logical_jump(text)
     argument_asymmetry_analysis = compute_argument_asymmetry(text)
+    argument_density_analysis = compute_argument_density(text)
 
     certainty = len(re.findall(r"certain|absolument|prouvé|évident|incontestable", text.lower()))
     emotional = len(re.findall(r"|".join(re.escape(w) for w in EMOTIONAL_WORDS), text.lower()))
