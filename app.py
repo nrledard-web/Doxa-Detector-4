@@ -6747,9 +6747,19 @@ if result:
     base_score = result.get("final_credibility_score", result["hard_fact_score"])
 
     st.progress(base_score / 20)
-    st.caption(f"Score analogique : {base_score}/20")
+    st.caption(f"Score analogique : {round(base_score,1)}/20")
 
     st.divider()
+    show_gauge_help()
+
+    disc_type, disc_explanation = detect_discourse_type(result)
+
+    st.markdown("### Type de discours détecté")
+    st.info(f"**{disc_type}** — {disc_explanation}")
+
+    st.divider()
+
+
 
 # =============================
 # Jauges structurelles avancées
