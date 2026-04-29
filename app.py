@@ -2725,6 +2725,34 @@ JUDGMENT_MARKERS = [
     "assimilé à", "associé à", "accusé de",
 ]
 
+NARRATIVE_PRESSURE_MARKERS = [
+    "il est évident", "il est certain", "sans aucun doute",
+    "il ne fait aucun doute", "il faut agir", "immédiatement",
+    "avant qu'il ne soit trop tard", "crise majeure",
+    "catastrophe", "effondrement", "menace", "danger",
+    "la seule solution", "la seule conclusion", "nous allons vers"
+]
+
+CONCLUSION_MARKERS = [
+    "donc", "ainsi", "par conséquent", "cela prouve",
+    "la conclusion est", "il s'ensuit", "c'est pourquoi"
+]
+
+REASON_MARKERS = [
+    "car", "parce que", "puisque", "en raison de",
+    "étant donné", "du fait que", "cela s'explique"
+]
+
+NUANCE_MARKERS = [
+    "cependant", "toutefois", "néanmoins", "pourtant",
+    "en revanche", "il faut nuancer", "cela dépend",
+    "dans certains cas", "certains estiment", "d'autres pensent"
+]
+
+ASSERTION_MARKERS = [
+    "est", "sont", "doit", "doivent", "va", "vont",
+    "toujours", "jamais", "aucun", "tous", "personne"
+]
 
 def detect_normative_charges(text: str):
     if not text or not text.strip():
