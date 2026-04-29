@@ -4803,39 +4803,71 @@ def interpret_generic_quality_gauge(label: str, value: float) -> str:
     return f"<b style='color:{color}'>{label}</b> — {level} ({round(v * 100, 1)}%)"
 
 
-# -----------------------------
+# =============================
 # Barre de raisonnement
-# -----------------------------
-def interpret_reasoning_bar(score: float):
-    v = normalize_display_value(score)
-    color, label = color_scale_quality(v)
+# =============================
+score = result.get("hard_fact_score", 0)
 
-    if v < 0.25:
-        msg = "Raisonnement très faible ou incohérent."
-    elif v < 0.50:
-        msg = "Raisonnement partiellement structuré, encore fragile."
-    elif v < 0.75:
-        msg = "Raisonnement globalement cohérent, mais vérifiabilité moyenne."
-    else:
-        msg = "Raisonnement robuste. Vérifiez maintenant la solidité des sources et des prémisses."
+if score < 6:
+    couleur_r = "🔴"
+    etiquette_r = "Très fragile"
+    message_r = "Le texte présente peu d’éléments de raisonnement structurés."
+elif score < 9:
+    couleur_r = "🟠"
+    etiquette_r = "Fragile"
+    message_r = "Le raisonnement existe, mais reste incomplet ou insuffisamment construit."
+elif score < 13:
+    couleur_r = "🟡"
+    etiquette_r = "Modérée"
+    message_r = "Le texte présente une structure de raisonnement cohérente, mais plusieurs affirmations restent conceptuelles ou insuffisamment démontrées."
+elif score < 16:
+    couleur_r = "🟢"
+    etiquette_r = "Solide"
+    message_r = "Le raisonnement est structuré et globalement cohérent."
+else:
+    couleur_r = "🟢"
+    etiquette_r = "Très solide"
+    message_r = "Le texte présente un raisonnement robuste, structuré et bien soutenu."
 
-    return color, label, msg
+st.subheader(f"{couleur_r} Solidité argumentative : {etiquette_r}")
+st.progress(min(score / 20, 1))
+st.caption(f"Score : {round(score, 1)}/20 — {message_r}")
+st.caption(
+    "Cette jauge mesure la solidité argumentative du texte : structure du raisonnement, "
+    "cohérence logique et présence d’éléments vérifiables. "
+    "La crédibilité globale dépend aussi de la qualité des sources et de la vérifiabilité des affirmations."
+)
 
 
-# -----------------------------
-# Crédibilité finale
-# -----------------------------
-def interpret_final_credibility(score: float):
+# =============================
+# Barre de crédibilité finale
+# =============================
+final_score = result.get("final_credibility_score", score)
 
-    if score <= 6:
-        return "🔴", "Fragile", "Crédibilité faible : discours fragile, peu vérifiable ou fortement orienté."
-    elif score <= 11:
-        return "🟠", "Douteux", "Crédibilité prudente : plusieurs signaux de fragilité détectés."
-    elif score <= 15:
-        return "🟡", "Plausible", "Crédibilité correcte : ancrage factuel présent mais incomplet."
-    else:
-        return "🟢", "Robuste", "Crédibilité robuste : base factuelle et argumentative solide."
+if final_score < 6:
+    couleur_c = "🔴"
+    etiquette_c = "Très fragile"
+    message_c = "Le texte présente de fortes fragilités structurelles ou vérifiables."
+elif final_score < 9:
+    couleur_c = "🟠"
+    etiquette_c = "Fragile"
+    message_c = "Le texte contient plusieurs fragilités importantes."
+elif final_score < 13:
+    couleur_c = "🟡"
+    etiquette_c = "Prudente"
+    message_c = "Le raisonnement est présent, mais certaines affirmations reposent davantage sur des idées générales que sur des éléments vérifiables."
+elif final_score < 16:
+    couleur_c = "🟢"
+    etiquette_c = "Solide"
+    message_c = "Le texte présente une crédibilité globale correcte, avec peu de signaux problématiques."
+else:
+    couleur_c = "🟢"
+    etiquette_c = "Très solide"
+    message_c = "Le texte présente une structure cognitive robuste et peu de signaux de fragilité."
 
+st.subheader(f"{couleur_c} Crédibilité finale : {etiquette_c}")
+st.progress(min(final_score / 20, 1))
+st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
 
 # -----------------------------
 # Dérive cognitive
