@@ -6187,19 +6187,15 @@ if not st.session_state.get("direct_search_result_mode"):
     st.subheader(T["topic_section"])
     keyword = st.text_input(T["topic"], placeholder=T["topic_placeholder"])
 
-    if st.button(T["analyze_topic"], key="analyze_topic"):
-        if keyword.strip():
-            st.info(T["searching"])
-            st.session_state.multi_results = analyze_multiple_articles(keyword.strip(), max_results=10)
-            st.session_state.last_keyword = keyword.strip()
-        else:
-            st.session_state.multi_results = []
-            st.warning(T["enter_keyword_first"])
-
-    if st.button("🔄 Réinitialiser la recherche", use_container_width=True):
+if st.button(T["analyze_topic"], key="analyze_topic"):
+    if keyword.strip():
         st.session_state.multi_results = []
         st.session_state.last_keyword = ""
         st.cache_data.clear()
+
+        st.info(T["searching"])
+        st.session_state.multi_results = analyze_multiple_articles(keyword.strip(), max_results=10)
+        st.session_state.last_keyword = keyword.strip()
         st.rerun()
 
     if st.session_state.get("multi_results"):
