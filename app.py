@@ -6196,19 +6196,22 @@ if not st.session_state.get("direct_search_result_mode"):
 
                 with col2:
                     if st.button("📥 Charger pour analyse", key=f"load_article_{i}", use_container_width=True):
+                
                         loaded_text = fetch_text_for_textarea(row["URL"])
-
-                       if loaded_text and not detect_web_noise(loaded_text)["is_noise"]:
+                
+                        if loaded_text and not detect_web_noise(loaded_text)["is_noise"]:
+                
                             st.session_state.article = loaded_text
                             st.session_state.article_source = "search"
                             st.session_state.loaded_url = row["URL"]
                             st.session_state.loaded_article_title = row["Titre"]
                             st.session_state.loaded_article_index = i
-
+                
                             st.success("Article chargé.")
                             st.rerun()
+                
                         else:
-                            st.warning("Impossible d'extraire le texte.")
+                            st.warning("Impossible d'extraire un vrai corps d’article exploitable.")
 
     elif st.session_state.get("last_keyword"):
         st.warning(T["no_exploitable_articles_found"])
