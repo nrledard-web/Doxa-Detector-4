@@ -6736,27 +6736,6 @@ if mode == "Débat dynamique":
             )
 
     st.stop()
-    
-# -----------------------------
-# Mode sémantique
-# -----------------------------
-if "semantic_mode" not in st.session_state:
-    st.session_state.semantic_mode = False
-
-st.markdown("### Analyse sémantique")
-st.caption("Active une lecture du sens des affirmations via un dictionnaire sémantique assisté par IA.")
-
-if st.button(
-    "Activer l’analyse sémantique",
-    key="semantic_normal",
-    use_container_width=True
-):
-    st.session_state.semantic_mode = True
-
-if st.session_state.semantic_mode:
-    st.success("Analyse sémantique activée.")
-else:
-    st.info("Analyse sémantique inactive. La crédibilité globale reste partielle.")
 
 
 # -----------------------------
@@ -7066,6 +7045,27 @@ st.link_button(
     f"mailto:?subject=Analyse DOXA Detector&body={encoded}",
     use_container_width=True
 )
+
+# -----------------------------
+# Mode sémantique
+# -----------------------------
+if "semantic_mode" not in st.session_state:
+    st.session_state.semantic_mode = False
+
+st.markdown("### Analyse sémantique")
+st.caption("Active une lecture du sens des affirmations via un dictionnaire sémantique assisté par IA.")
+
+if st.button(
+    "Activer l’analyse sémantique",
+    key="semantic_normal",
+    use_container_width=True
+):
+    st.session_state.semantic_mode = True
+
+if st.session_state.semantic_mode:
+    st.success("Analyse sémantique activée.")
+else:
+    st.info("Analyse sémantique inactive. La crédibilité globale reste partielle.")
 
 # =============================
 # Pénalités appliquées
