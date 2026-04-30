@@ -6,6 +6,6 @@ ddgs
 newspaper3k
 matplotlib
 lxml[html_clean]
+lxml_html_clean
 streamlit-mic-recorder
 openai>=1.0.0
-
