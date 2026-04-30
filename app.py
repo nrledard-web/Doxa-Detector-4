@@ -6034,6 +6034,42 @@ def detect_discourse_type(result):
         "Le texte ne présente pas assez d’indices dominants pour être classé clairement."
     )
 
+# =====================================================
+# DÉTECTION PAGE WEB PARASITE
+# =====================================================
+
+def detect_web_noise(text):
+    t = text.lower()
+
+    noise_markers = [
+        "accueil", "blogs", "vidéos", "contact", "à propos",
+        "se connecter", "s'inscrire", "mot de passe oublié",
+        "publier une réponse", "annuler votre réponse",
+        "catégories", "recherche", "faire un don",
+        "cookies", "politique de confidentialité",
+        "google analytics", "centre de confidentialité",
+        "dernières petites annonces", "articles liés",
+        "partager cet article", "imprimer ou envoyer"
+    ]
+
+    hits = sum(1 for marker in noise_markers if marker in t)
+
+    words = re.findall(r"\b[\wà-ÿ'-]+\b", t)
+    total_words = len(words)
+
+    sentences = re.split(r"[.!?]+", text)
+    real_sentences = [
+        s.strip() for s in sentences
+        if len(s.strip().split()) >= 8
+    ]
+
+    return {
+        "hits": hits,
+        "total_words": total_words,
+        "real_sentences": len(real_sentences),
+        "is_noise": hits >= 8 and len(real_sentences) < 6
+    }
+
 # -----------------------------
 # Réglages
 # -----------------------------
