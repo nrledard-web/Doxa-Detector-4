@@ -6163,6 +6163,12 @@ if not st.session_state.get("direct_search_result_mode"):
             st.session_state.multi_results = []
             st.warning(T["enter_keyword_first"])
 
+    if st.button("🔄 Réinitialiser la recherche", use_container_width=True):
+        st.session_state.multi_results = []
+        st.session_state.last_keyword = ""
+        st.cache_data.clear()
+        st.rerun()
+
     if st.session_state.get("multi_results"):
         df_multi = pd.DataFrame(st.session_state.multi_results).sort_values("Hard Fact Score", ascending=False)
 
