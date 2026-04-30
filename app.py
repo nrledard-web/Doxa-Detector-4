@@ -6009,7 +6009,10 @@ def fetch_text_for_textarea(url: str) -> str:
         if not text:
             return ""
 
-        if len(text.split()) < 120:
+        # filtre page parasite
+        noise = detect_web_noise(text)
+
+        if noise["is_noise"]:
             return ""
 
         return text
@@ -6184,15 +6187,19 @@ if not st.session_state.get("direct_search_result_mode"):
     st.subheader(T["topic_section"])
     keyword = st.text_input(T["topic"], placeholder=T["topic_placeholder"])
 
-if st.button(T["analyze_topic"], key="analyze_topic"):
-    if keyword.strip():
+    if st.button(T["analyze_topic"], key="analyze_topic"):
+        if keyword.strip():
+            st.info(T["searching"])
+            st.session_state.multi_results = analyze_multiple_articles(keyword.strip(), max_results=10)
+            st.session_state.last_keyword = keyword.strip()
+        else:
+            st.session_state.multi_results = []
+            st.warning(T["enter_keyword_first"])
+
+    if st.button("🔄 Réinitialiser la recherche", use_container_width=True):
         st.session_state.multi_results = []
         st.session_state.last_keyword = ""
         st.cache_data.clear()
-
-        st.info(T["searching"])
-        st.session_state.multi_results = analyze_multiple_articles(keyword.strip(), max_results=10)
-        st.session_state.last_keyword = keyword.strip()
         st.rerun()
 
     if st.session_state.get("multi_results"):
@@ -6225,7 +6232,7 @@ if st.button(T["analyze_topic"], key="analyze_topic"):
                 
                         loaded_text = fetch_text_for_textarea(row["URL"])
                 
-                        if loaded_text:
+                        if loaded_text and not detect_web_noise(loaded_text)["is_noise"]:
                 
                             st.session_state.article = loaded_text
                             st.session_state.article_source = "search"
@@ -6827,7 +6834,6 @@ if result:
     st.subheader(f"{couleur_c} Crédibilité finale : {etiquette_c}")
     st.progress(min(final_score / 20, 1))
     st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
-    
 
     # =============================
     # Analyse analogique du raisonnement
