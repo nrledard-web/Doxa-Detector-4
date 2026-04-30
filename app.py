@@ -1720,7 +1720,41 @@ def detect_index_or_multilink_page(text: str, url: str = ""):
         "markers": marker_hits + url_hits[:10],
         "interpretation": interpretation
     }
+    
+# -----------------------------
+# Filtre anti-pages non articles
+# -----------------------------
+BAD_ARTICLE_DOMAINS = [
+    "depositphotos", "shutterstock", "gettyimages", "istockphoto",
+    "alamy", "dreamstime", "adobestock", "123rf", "pinterest",
+    "facebook", "instagram", "youtube", "tiktok",
+]
 
+BAD_ARTICLE_WORDS = [
+    "images libres de droit",
+    "photos libres de droit",
+    "stock photo",
+    "royalty free",
+    "banque d'images",
+    "current page requires javascript",
+    "javascript",
+    "connexion",
+    "créez un compte",
+    "tarifs",
+    "vidéos",
+    "musique et sons",
+]
+
+def is_bad_article_candidate(url: str = "", title: str = "", snippet: str = "") -> bool:
+    raw = f"{url} {title} {snippet}".lower()
+
+    if any(domain in raw for domain in BAD_ARTICLE_DOMAINS):
+        return True
+
+    if any(word in raw for word in BAD_ARTICLE_WORDS):
+        return True
+
+    return False
 
 # -----------------------------
 # Normalisation des termes
