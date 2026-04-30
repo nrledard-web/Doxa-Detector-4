@@ -6067,7 +6067,7 @@ def detect_web_noise(text):
         "hits": hits,
         "total_words": total_words,
         "real_sentences": len(real_sentences),
-        "is_noise": hits >= 8 and len(real_sentences) < 6
+        "is_noise": hits >= 6 and (len(real_sentences) < 8 or hits / max(total_words,1) > 0.02)
     }
 
 # -----------------------------
