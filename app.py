@@ -6198,7 +6198,7 @@ if not st.session_state.get("direct_search_result_mode"):
                     if st.button("📥 Charger pour analyse", key=f"load_article_{i}", use_container_width=True):
                         loaded_text = fetch_text_for_textarea(row["URL"])
 
-                        if loaded_text:
+                       if loaded_text and not detect_web_noise(loaded_text)["is_noise"]:
                             st.session_state.article = loaded_text
                             st.session_state.article_source = "search"
                             st.session_state.loaded_url = row["URL"]
