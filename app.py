@@ -1359,62 +1359,86 @@ def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict
     # 2) Fallback DDGS
     # -----------------------------
     try:
+        clean_keyword = keyword.strip()
+
+        queries = [
+            f'"{clean_keyword}"',
+            clean_keyword,
+            f"{clean_keyword} France"
+        ]
+
+        results = []
+
         with DDGS() as ddgs:
-            clean_keyword = keyword.strip()
+            for query in queries:
+                try:
+                    temp_results = list(ddgs.text(query, max_results=max_results * 5))
 
-            clean_keyword = keyword.strip()
-            
-            queries = [
-                f'"{clean_keyword}"',
-                clean_keyword,
-                f'{clean_keyword} France'
+                    if temp_results:
+                        results = temp_results
+                        break
+
+                except Exception:
+                    continue
+
+        if not results:
+            return articles
+
+        for r in results:
+            url = r.get("href", "")
+            title = r.get("title", "Sans titre")
+
+            if not url or url in seen_urls:
+                continue
+
+            bad_url_parts = [
+                "/tag/",
+                "/tags/",
+                "/search",
+                "/recherche",
+                "/category/",
+                "/categorie/",
             ]
-            
-            results = []
-            
-            with DDGS() as ddgs:
-                for query in queries:
-                    try:
-                        results = list(ddgs.text(query, max_results=max_results * 5))
-                        if results:
-                            break
-                    except Exception:
-                        continue
 
-            for r in results:
-                url = r.get("href", "")
-                title = r.get("title", "Sans titre")
-            
-                if not url or url in seen_urls:
-                    continue
-            
-                title_l = title.lower()
-                keyword_l = clean_keyword.lower()
-            
-                if keyword_l not in title_l and keyword_l not in url.lower():
-                    continue
+            if any(part in url.lower() for part in bad_url_parts):
+                continue
 
-                text = fetch_text_for_textarea(url)
+            bad_title_words = [
+                "smartphone",
+                "oneplus",
+                "batterie",
+                "ipad",
+                "application",
+                "2g",
+                "immobilier",
+            ]
 
-                if not text or len(text.strip()) < 500:
-                    continue
+            if any(word in title.lower() for word in bad_title_words):
+                continue
 
-                web_noise = detect_web_noise(text)
+            seen_urls.add(url)
 
-                if web_noise["is_noise"]:
-                    continue
+            text = fetch_text_for_textarea(url)
 
-                analysis = analyze_article(text)
+            if not text or len(text.strip()) < 500:
+                continue
 
-                articles.append({
-                    "title": title,
-                    "url": url,
-                    "source": url.split("/")[2] if "://" in url else url,
-                    "published_at": "",
-                })
+            web_noise = detect_web_noise(text)
 
-                if len(articles) >= max_results:
-                    break
+            if web_noise["is_noise"]:
+                continue
+
+            analysis = analyze_article(text)
+
+            articles.append({
+                "title": title,
+                "url": url,
+                "source": url.split("/")[2] if "://" in url else url,
+                "published_at": "",
+            })
+
+            if len(articles) >= max_results:
+                break
 
     except Exception as e:
         st.warning(f"Erreur DDGS : {e}")
