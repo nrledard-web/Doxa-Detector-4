@@ -5927,6 +5927,11 @@ def corroborate_claims(text: str, max_claims: int = 5, max_results_per_claim: in
         with DDGS() as ddgs:
             for claim in claims:
                 query = build_search_query_from_claim(claim)
+    
+                st.write("DEBUG CLAIM =", claim)
+                st.write("DEBUG QUERY =", query)
+
+            search_results = list(ddgs.text(query, max_results=max_results_per_claim * 5))
                 search_results = list(ddgs.text(query, max_results=max_results_per_claim * 5))
                 filtered = []
                 for r in search_results:
