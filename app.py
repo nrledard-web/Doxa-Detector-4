@@ -5943,7 +5943,19 @@ def analyze_multiple_articles(keyword: str, max_results: int = 10) -> List[Dict]
 def fetch_text_for_textarea(url: str) -> str:
     try:
         text = extract_article_from_url(url)
-        return (text or "").strip()
+        text = (text or "").strip()
+
+        if not text:
+            return ""
+
+        # filtre page parasite
+        noise = detect_web_noise(text)
+
+        if noise["is_noise"]:
+            return ""
+
+        return text
+
     except Exception:
         return ""
 
