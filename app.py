@@ -19,6 +19,23 @@ try:
 except Exception:
     client = None
 
+# =============================
+# DEBUG ENVIRONNEMENT
+# =============================
+import sys
+import streamlit as st
+import ddgs
+import newspaper
+import lxml
+
+st.divider()
+st.markdown("### Debug environnement")
+
+st.write("Python :", sys.version)
+st.write("DDGS :", getattr(ddgs, "__version__", "inconnu"))
+st.write("Newspaper3k :", getattr(newspaper, "__version__", "inconnu"))
+st.write("lxml :", getattr(lxml, "__version__", "inconnu"))
+
 # -----------------------------
 # Mots grammaticaux ignorés
 # -----------------------------
