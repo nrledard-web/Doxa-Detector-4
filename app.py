@@ -1360,7 +1360,9 @@ def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict
     # -----------------------------
     try:
         with DDGS() as ddgs:
-            query = f"{keyword} actualité France"
+            clean_keyword = keyword.strip()
+
+            query = f'"{clean_keyword}" actualité France'
             results = list(ddgs.text(query, max_results=max_results * 5))
 
             for r in results:
