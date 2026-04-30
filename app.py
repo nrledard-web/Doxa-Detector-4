@@ -1361,10 +1361,15 @@ def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict
     try:
         clean_keyword = keyword.strip()
 
+        core_query = clean_keyword.lower().strip()
+        
+        for article_word in ["le ", "la ", "les ", "un ", "une ", "des "]:
+            if core_query.startswith(article_word):
+                core_query = core_query[len(article_word):]
+        
         queries = [
-            f'"{clean_keyword}"',
-            clean_keyword,
-            f"{clean_keyword} France"
+            f'"{core_query}"',
+            f'"{core_query}" France',
         ]
 
         results = []
