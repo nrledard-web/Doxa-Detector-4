@@ -7165,7 +7165,7 @@ with st.expander("🧠 Voir le résumé complet", expanded=False):
 
     st.metric("Profil cognitif", brain.get("brain_profile", "—"))
 
-    colb1, colb2, colb3 = st.columns(3)
+    sp1, colb1, colb2, colb3, sp2 = st.columns([1,2,2,2,1])
 
     with colb1:
         st.metric("IR", brain.get("IR", "—"))
