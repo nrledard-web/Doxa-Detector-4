@@ -7104,100 +7104,64 @@ st.caption(
 with st.expander("Voir le détail des pénalités", expanded=False):
     st.json(result.get("penalty_details", {}))
 
-# =============================
-# Résumé rapide
-# =============================
-mini1, mini2, mini3 = st.columns(3)
+with st.expander("🧠 Voir le résumé complet", expanded=False):
 
-mini1.metric("M", round(result["M"], 2))
-mini2.metric("ME", round(result["ME"], 2))
-mini3.metric(
-    "Score final",
-    f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
-)
+    # =============================
+    # Pénalités appliquées
+    # =============================
 
-sp1, col_center, sp2 = st.columns([1, 2, 1])
+    st.markdown("### Pénalités appliquées")
 
-with col_center:
+    colp1, colp2, colp3 = st.columns(3)
 
-    st.markdown(
-        "<h3 style='text-align:center;'>🧠 Modules d’analyse DOXA</h3>",
-        unsafe_allow_html=True
-    )
-
-    with st.expander("🧠 Voir le résumé complet", expanded=False):
-
-        st.markdown(
-            """
-            <div style="font-size:20px; line-height:1.7;">
-            <b>Résultats essentiels</b>
-            </div>
-            """,
-            unsafe_allow_html=True
+    with colp1:
+        st.metric(
+            "Pénalité crédibilité",
+            round(result.get("credibility_penalty_total", 0), 2)
         )
 
+    with colp2:
         st.metric(
-            "Barre de raisonnement",
+            "Boost mensonge",
+            round(result.get("lie_boost_total", 0), 2)
+        )
+
+    with colp3:
+        st.metric(
+            "Score final",
             f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
         )
 
-        st.divider()
+    st.caption(
+        "Les pénalités corrigent le score lorsque le texte accumule des signaux "
+        "de fermeture cognitive, de manipulation ou de raisonnement fragile."
+    )
 
-        col1, col2 = st.columns(2)
+    with st.expander("Voir le détail des pénalités"):
+        st.write(result.get("weighted_red_flags", []))
 
-        with col1:
-            st.metric("Indice M", round(result["M"], 2))
-            st.metric(
-                "Dérive dominante",
-                result.get("cognitive_drift_interpretation", "—")
-            )
+    st.divider()
 
-        with col2:
-            st.metric("Indice ME", round(result["ME"], 2))
-            st.metric(
-                "Régime cognitif",
-                result.get("cognitive_regime", "—")
-            )
 
-        st.divider()
+    # =============================
+    # Résultats essentiels
+    # =============================
 
-        brain = result.get("doxa_brain", {})
+    st.markdown(
+        """
+        <div style="font-size:20px; line-height:1.7;">
+        <b>Résultats essentiels</b>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
-        st.markdown(
-            """
-            <div style="font-size:20px; line-height:1.7;">
-            <b>Profil cognitif</b>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+    st.metric(
+        "Barre de raisonnement",
+        f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
+    )
 
-        st.metric("Profil cognitif", brain.get("brain_profile", "—"))
-
-        colb1, colb2, colb3 = st.columns(3)
-
-        with colb1:
-            st.metric("IR", brain.get("IR", "—"))
-
-        with colb2:
-            st.metric("IL", brain.get("IL", "—"))
-
-        with colb3:
-            st.metric("IC", brain.get("IC", "—"))
-
-        colb4, colb5 = st.columns(2)
-
-        with colb4:
-            st.metric(
-                "Indice stratégique",
-                brain.get("strategic_index", "—")
-            )
-
-        with colb5:
-            st.metric(
-                "Indice de clôture",
-                brain.get("closure_index", "—")
-            )
+    st.divider()
     # =============================
     # Diagnostic cognitif rapide
     # =============================
