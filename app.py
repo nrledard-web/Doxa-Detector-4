@@ -19,6 +19,20 @@ try:
 except Exception:
     client = None
 
+st.markdown("""
+<style>
+
+div[data-testid="stMetricValue"] {
+    font-size: 36px !important;
+}
+
+div[data-testid="stMetricLabel"] {
+    font-size: 20px !important;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
 # -----------------------------
 # Mots grammaticaux ignorés
 # -----------------------------
