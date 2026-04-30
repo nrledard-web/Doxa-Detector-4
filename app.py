@@ -1372,6 +1372,27 @@ def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict
 
                 seen_urls.add(url)
 
+                # Filtre domaines parasites / peu exploitables
+                blocked_domains = [
+                    "salonbeige.fr",
+                    "lesalonbeige.fr",
+                ]
+
+                if any(domain in url.lower() for domain in blocked_domains):
+                    continue
+
+                text = fetch_text_for_textarea(url)
+
+                if not text or len(text.strip()) < 500:
+                    continue
+
+                web_noise = detect_web_noise(text)
+
+                if web_noise["is_noise"]:
+                    continue
+
+                analysis = analyze_article(text)
+
                 articles.append({
                     "title": title,
                     "url": url,
