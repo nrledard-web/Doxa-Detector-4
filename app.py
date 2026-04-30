@@ -5923,46 +5923,56 @@ def corroborate_claims(text: str, max_claims: int = 5, max_results_per_claim: in
         "elpais.com", "elmundo.es", "dw.com", "spiegel.de",
     ]
 
-    try:
-        with DDGS() as ddgs:
-            for claim in claims:
-                query = build_search_query_from_claim(claim)
-    
-                st.write("DEBUG CLAIM =", claim)
-                st.write("DEBUG QUERY =", query)
+try:
+    with DDGS() as ddgs:
+        for claim in claims:
+            query = build_search_query_from_claim(claim)
+
+            st.write("DEBUG CLAIM =", claim)
+            st.write("DEBUG QUERY =", query)
 
             search_results = list(ddgs.text(query, max_results=max_results_per_claim * 5))
-                search_results = list(ddgs.text(query, max_results=max_results_per_claim * 5))
-                filtered = []
-                for r in search_results:
-                    url = r.get("href", "")
-                    title = r.get("title", "")
-                    body = r.get("body", "")
-                    combined_text = f"{title} {body}"
-                    if any(domain in url for domain in trusted_domains):
-                        match_score = score_match_between_claim_and_result(claim, combined_text)
-                        filtered.append(
-                            {
-                                "title": title,
-                                "url": url,
-                                "snippet": body,
-                                "match_score": match_score,
-                            }
-                        )
-                filtered = sorted(filtered, key=lambda x: x["match_score"]["score"], reverse=True)[:max_results_per_claim]
-                verdict = classify_corroboration(filtered)
-                corroboration_results.append(
-                    {
-                        "claim": claim,
-                        "query": query,
-                        "matches": filtered,
-                        "verdict": verdict,
-                    }
-                )
-    except Exception as e:
-        st.warning(f"Erreur de corroboration : {e}")
 
-    return corroboration_results
+            filtered = []
+            for r in search_results:
+                url = r.get("href", "")
+                title = r.get("title", "")
+                body = r.get("body", "")
+                combined_text = f"{title} {body}"
+
+                if any(domain in url for domain in trusted_domains):
+                    match_score = score_match_between_claim_and_result(claim, combined_text)
+
+                    filtered.append(
+                        {
+                            "title": title,
+                            "url": url,
+                            "snippet": body,
+                            "match_score": match_score,
+                        }
+                    )
+
+            filtered = sorted(
+                filtered,
+                key=lambda x: x["match_score"]["score"],
+                reverse=True
+            )[:max_results_per_claim]
+
+            verdict = classify_corroboration(filtered)
+
+            corroboration_results.append(
+                {
+                    "claim": claim,
+                    "query": query,
+                    "matches": filtered,
+                    "verdict": verdict,
+                }
+            )
+
+except Exception as e:
+    st.warning(f"Erreur de corroboration : {e}")
+
+return corroboration_results
 
 
 # -----------------------------
