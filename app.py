@@ -7119,10 +7119,10 @@ mini3.metric(
 sp1, col_center, sp2 = st.columns([1,2,1])
 
 with col_center:
-st.markdown(
-    "<h3 style='text-align:center;'>🧠 Modules d’analyse DOXA</h3>",
-    unsafe_allow_html=True
-)
+    st.markdown(
+        "<h3 style='text-align:center;'>🧠 Modules d’analyse DOXA</h3>",
+        unsafe_allow_html=True
+    )
 
 with st.expander("🧠 Voir le résumé complet", expanded=False):
         ...
