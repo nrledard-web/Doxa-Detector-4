@@ -1362,8 +1362,24 @@ def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict
         with DDGS() as ddgs:
             clean_keyword = keyword.strip()
 
-            query = f'"{clean_keyword}" actualité France'
-            results = list(ddgs.text(query, max_results=max_results * 5))
+            clean_keyword = keyword.strip()
+            
+            queries = [
+                f'"{clean_keyword}"',
+                clean_keyword,
+                f'{clean_keyword} France'
+            ]
+            
+            results = []
+            
+            with DDGS() as ddgs:
+                for query in queries:
+                    try:
+                        results = list(ddgs.text(query, max_results=max_results * 5))
+                        if results:
+                            break
+                    except Exception:
+                        continue
 
             for r in results:
                 url = r.get("href", "")
