@@ -6085,14 +6085,16 @@ def fetch_text_for_textarea(url: str) -> str:
 # =====================================================
 def show_gauge_help():
     with st.expander("📘 Comment lire les jauges", expanded=False):
-        st.markdown("""
+st.markdown("""
 Chaque jauge mesure un mécanisme du discours : raisonnement, pression rhétorique, biais argumentatifs ou degré de certitude.
 
 Les jauges n’indiquent pas si un texte est vrai ou faux, mais **la solidité de sa structure cognitive**.
 
 - 🟢 **Vert** → structure saine ou raisonnement solide
-- 🟠 **Orange** → fragilité, raisonnement incomplet ou insuffisamment démontré
+- 🟡 **Jaune** → vigilance modérée ou raisonnement partiellement fragile
+- 🟠 **Orange** → fragilité importante, raisonnement incomplet ou insuffisamment démontré
 - 🔴 **Rouge** → dérive cognitive importante ou manipulation possible
+- 🟤 **Marron clair** → mécanisme d’analyse cognitive (pression rhétorique, dérive argumentative, tension mécroyance/mensonge)
 
 **Les textes les plus solides sont ceux qui allument le moins de jauges, ou qui restent majoritairement dans le vert.**
 
@@ -6114,7 +6116,7 @@ Le score final dépend donc **à la fois de l’intensité des jauges et de leur
 
 Un texte peut être **cohérent sans être démonstratif**.
 
-Les discours philosophiques, moraux ou spéculatifs obtiennent souvent des scores intermédiaires, car ils reposent davantage sur des idées générales que sur des faits vérifiables.
+Les discours philosophiques, moraux ou spéculatifs obtiennent souvent des scores intermédiaires, car ils reposent davantage sur **des idées générales que sur des faits vérifiables**.
 """)
 
 
