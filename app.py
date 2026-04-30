@@ -6730,6 +6730,10 @@ if analyze_submitted:
 
         st.warning("⚠️ Analyse bloquée")
         st.caption("Le contenu chargé ressemble à une page de navigation ou un menu de site.")
+        st.caption(
+            f"Détection technique : {web_noise['hits']} marqueurs web, "
+            f"{web_noise['real_sentences']} phrases réelles détectées."
+        )
 
         st.info(
             "DOXA Detector a détecté trop d’éléments techniques : "
