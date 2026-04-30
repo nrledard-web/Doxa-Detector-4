@@ -7061,7 +7061,8 @@ with st.popover("🧠 Voir le résumé complet", use_container_width=True):
         st.progress(mecroyance_bar)
         st.caption(f"M = {result['M']}")
 
-    st.subheader(f"{T['verdict']} : {result['final_verdict']}")
+    st.subheader(f"{T['verdict']} : {couleur_c} Crédibilité finale — {etiquette_c}")
+    st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
     st.subheader(T["summary"])
 
     m1, m2 = st.columns(2)
