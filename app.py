@@ -4848,6 +4848,23 @@ def color_scale_quality(value: float) -> tuple[str, str]:
         return "#ca8a04", "🟡 Correct"
     else:
         return "#16a34a", "🟢 Robuste"
+        
+
+def color_scale_warning_risk(value: float) -> tuple[str, str]:
+    """
+    Pour les jauges de risque sensible :
+    même faible, le signal reste une vigilance, pas une structure saine.
+    """
+    v = normalize_display_value(value)
+
+    if v < 0.25:
+        return "#ca8a04", "🟡 Faible"
+    elif v < 0.50:
+        return "#f97316", "🟠 Modéré"
+    elif v < 0.75:
+        return "#ea580c", "🟠 Élevé"
+    else:
+        return "#dc2626", "🔴 Critique"
 
 
 def interpret_generic_risk_gauge(label: str, value: float) -> str:
@@ -4859,6 +4876,11 @@ def interpret_generic_risk_gauge(label: str, value: float) -> str:
 def interpret_generic_quality_gauge(label: str, value: float) -> str:
     v = normalize_display_value(value)
     color, level = color_scale_quality(v)
+    return f"<b style='color:{color}'>{label}</b> — {level} ({round(v * 100, 1)}%)"
+
+def interpret_warning_risk_gauge(label: str, value: float) -> str:
+    v = normalize_display_value(value)
+    color, level = color_scale_warning_risk(v)
     return f"<b style='color:{color}'>{label}</b> — {level} ({round(v * 100, 1)}%)"
 
 # -------------------------------------------------
