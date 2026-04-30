@@ -6718,6 +6718,28 @@ if analyze_submitted:
         )
         st.stop()
 
+    # =====================================================
+    # Vérification : page web parasite
+    # =====================================================
+
+    web_noise = detect_web_noise(article)
+
+    if web_noise["is_noise"]:
+        st.session_state.last_result = None
+        st.session_state.last_article = article
+
+        st.warning("⚠️ Analyse bloquée")
+        st.caption("Le contenu chargé ressemble à une page de navigation ou un menu de site.")
+
+        st.info(
+            "DOXA Detector a détecté trop d’éléments techniques : "
+            "menus, catégories, cookies, annonces ou blocs de navigation.\n\n"
+            "Pour éviter une fausse bonne note, l’analyse est interrompue.\n\n"
+            "Veuillez coller uniquement le corps de l’article."
+        )
+
+        st.stop()
+
     st.session_state.last_result = analyze_article(article)
     st.session_state.last_article = article
 
