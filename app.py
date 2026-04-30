@@ -1388,6 +1388,17 @@ def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict
             url = r.get("href", "")
             title = r.get("title", "Sans titre")
 
+            snippet = r.get("body", "")
+            haystack = f"{title} {snippet} {url}".lower()
+            
+            core_terms = [
+                w for w in clean_keyword.lower().split()
+                if w not in ["le", "la", "les", "un", "une", "des", "du", "de", "d", "l"]
+            ]
+            
+            if not all(term in haystack for term in core_terms):
+                continue
+
             if not url or url in seen_urls:
                 continue
 
