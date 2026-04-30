@@ -6313,42 +6313,48 @@ if not st.session_state.get("direct_search_result_mode"):
         st.warning(T["no_exploitable_articles_found"])
 
 # =============================
-# Sources réseaux sociaux
+# Chargement d’une page publique par URL
 # =============================
-st.markdown("### Analyser une publication publique")
-
-social_url = st.text_input(
-    "Lien X, LinkedIn, Medium, ou autre page publique",
-    key="social_url_input"
+st.markdown("### Analyser une page publique par URL")
+st.caption(
+    "Collez le lien d’un article, d’un post X, LinkedIn, Medium ou toute autre page publique."
 )
 
-if st.button("📥 Charger depuis un réseau social", use_container_width=True):
+page_url = st.text_input(
+    "Lien de la page publique à analyser",
+    key="page_url_input"
+)
 
-    if social_url.strip():
+if st.button("📥 Charger la page", use_container_width=True):
 
-        texte_social = extract_article_from_url(social_url.strip())
+    if page_url.strip():
 
-        if texte_social:
-            st.session_state.article = texte_social
-            st.session_state.article_source = "social_url"
-            st.session_state.loaded_url = social_url.strip()
-            st.session_state.loaded_article_title = "Publication publique"
+        texte_page = extract_article_from_url(page_url.strip())
+
+        if texte_page:
+            st.session_state.article = texte_page
+            st.session_state.article_source = "page_url"
+            st.session_state.loaded_url = page_url.strip()
+            st.session_state.loaded_article_title = "Page publique"
             st.session_state.article_loaded_from_search = True
 
-            st.success("Publication chargée. Vous pouvez l’analyser juste ici.")
+            st.success("Page chargée. Vous pouvez l’analyser juste ici.")
             st.rerun()
 
         else:
             st.warning(
                 "Impossible de récupérer automatiquement le texte. "
-                "Ce réseau social bloque probablement l’accès. "
-                "Copiez-collez le texte du post ou du commentaire dans la zone d’analyse."
+                "La page bloque peut-être l’accès ou ne contient pas de texte exploitable. "
+                "Copiez-collez alors le texte directement dans la zone d’analyse."
             )
 
     else:
-        st.warning("Collez d’abord un lien de publication.")
+        st.warning("Collez d’abord un lien.")
 
-if st.session_state.get("article_loaded_from_search") and st.session_state.get("article_source") == "social_url":
+if (
+    st.session_state.get("article_loaded_from_search")
+    and st.session_state.get("article_source") == "page_url"
+):
 
     st.markdown("### 📰 Texte chargé")
     st.success("Le texte est prêt à être analysé.")
@@ -6359,7 +6365,7 @@ if st.session_state.get("article_loaded_from_search") and st.session_state.get("
             value=st.session_state.get("article", ""),
             height=260,
             disabled=True,
-            key="social_article_preview"
+            key="page_article_preview"
         )
 
     if st.button("🔎 Analyser ce texte maintenant", use_container_width=True):
@@ -6367,28 +6373,6 @@ if st.session_state.get("article_loaded_from_search") and st.session_state.get("
         st.session_state.last_article = st.session_state.article
         st.session_state.article_loaded_from_search = False
         st.rerun()
-
-# -----------------------------
-# Chargement URL
-# -----------------------------
-with st.form("url_form"):
-    url = st.text_input(T["url"])
-    load_url_submitted = st.form_submit_button(T["load_url"])
-
-if load_url_submitted:
-    if url:
-        texte = extract_article_from_url(url)
-        if texte:
-            st.session_state.article = texte
-            st.session_state.article_source = "url"
-            st.session_state.loaded_url = url
-            st.session_state.mode = "Analyse simple"
-            st.success(T["article_loaded_from_url"])
-            st.rerun()
-        else:
-            st.error(T["unable_to_retrieve_text"])
-    else:
-        st.warning(T["paste_url_first"])
 
 # =============================
 # Mode résultat direct depuis recherche
