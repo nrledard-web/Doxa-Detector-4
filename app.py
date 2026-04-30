@@ -1397,11 +1397,11 @@ def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict
             if not url or url in seen_urls:
                 continue
 
-            haystack = f"{title} {snippet} {url}".lower()
-
-            # Oblige la présence de l’expression exacte :
-            # ex. "grand remplacement"
-            if core_query not in haystack:
+            title_l = title.lower()
+            url_l = url.lower()
+            
+            # On garde seulement si l’expression exacte est dans le TITRE ou l’URL
+            if core_query not in title_l and core_query.replace(" ", "-") not in url_l:
                 continue
 
             bad_url_parts = [
