@@ -519,11 +519,6 @@ with st.container(border=True):
             "gravité cognitive et diagnostic du cerveau DOXA."
         )
 
-        st.info(
-            "La solidité argumentative n’est pas le verdict final : "
-            "elle mesure seulement la structure du raisonnement. "
-            "L’indice de crédibilité global est calculé après l’analyse complète."
-        )
 
 # =============================
 # Philosophie derrière l'IRM
@@ -6014,16 +6009,10 @@ def fetch_text_for_textarea(url: str) -> str:
         if not text:
             return ""
 
+        # filtre page parasite
         noise = detect_web_noise(text)
 
         if noise["is_noise"]:
-            return ""
-
-        # pages d'accueil ou listes
-        if text.count("Passer la publicité") > 1:
-            return ""
-
-        if text.count("Le Figaro") > 20:
             return ""
 
         return text
@@ -6168,13 +6157,6 @@ with st.expander(T["settings"], expanded=False):
     use_sample = st.button(T["load_example"])
     show_method = st.toggle(T["show_method"], value=True)
     st.divider()
-    st.subheader(T["hard_fact_score_scale"])
-    st.markdown(
-        f"- **0–5** : {T['scale_0_5']}\n"
-        f"- **6–9** : {T['scale_6_9']}\n"
-        f"- **10–14** : {T['scale_10_14']}\n"
-        f"- **15–20** : {T['scale_15_20']}"
-    )
 
 if "article" not in st.session_state:
     st.session_state.article = SAMPLE_ARTICLE
