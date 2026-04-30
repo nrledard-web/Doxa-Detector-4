@@ -6965,11 +6965,21 @@ gauges = [
 ]
 
 for title, score, label, interpretation in gauges:
-    st.markdown(f"**{title}**")
+
+    if title == "Densité argumentative":
+        title_html = interpret_generic_quality_gauge(title, score)
+    elif title in ["Cohérence trompeuse", "Jauge propagandiste"]:
+        title_html = interpret_warning_risk_gauge(title, score)
+    else:
+        title_html = interpret_generic_risk_gauge(title, score)
+
+    st.markdown(title_html, unsafe_allow_html=True)
     st.progress(score)
     st.caption(f"{label} — {round(score * 100, 1)}%")
+
     if interpretation:
         st.write(interpretation)
+
     st.divider()
 
 # =============================
