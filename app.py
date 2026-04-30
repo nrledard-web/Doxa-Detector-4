@@ -6049,7 +6049,9 @@ def detect_web_noise(text):
         "cookies", "politique de confidentialité",
         "google analytics", "centre de confidentialité",
         "dernières petites annonces", "articles liés",
-        "partager cet article", "imprimer ou envoyer"
+        "partager cet article", "imprimer ou envoyer",
+        "voir toutes les annonces", "proposer une annonce",
+        "liste des événements", "proposer un événement"
     ]
 
     hits = sum(1 for marker in noise_markers if marker in t)
@@ -6058,6 +6060,7 @@ def detect_web_noise(text):
     total_words = len(words)
 
     sentences = re.split(r"[.!?]+", text)
+
     real_sentences = [
         s.strip() for s in sentences
         if len(s.strip().split()) >= 8
@@ -6067,9 +6070,13 @@ def detect_web_noise(text):
         "hits": hits,
         "total_words": total_words,
         "real_sentences": len(real_sentences),
-        "is_noise": hits >= 6 and (len(real_sentences) < 8 or hits / max(total_words,1) > 0.02)
-    }
 
+        # condition améliorée
+        "is_noise": hits >= 6 and (
+            len(real_sentences) < 8
+            or hits / max(total_words,1) > 0.02
+        )
+    }
 # -----------------------------
 # Réglages
 # -----------------------------
