@@ -6009,10 +6009,7 @@ def fetch_text_for_textarea(url: str) -> str:
         if not text:
             return ""
 
-        # filtre page parasite
-        noise = detect_web_noise(text)
-
-        if noise["is_noise"]:
+        if len(text.split()) < 120:
             return ""
 
         return text
