@@ -5969,10 +5969,16 @@ def fetch_text_for_textarea(url: str) -> str:
         if not text:
             return ""
 
-        # filtre page parasite
         noise = detect_web_noise(text)
 
         if noise["is_noise"]:
+            return ""
+
+        # pages d'accueil ou listes
+        if text.count("Passer la publicité") > 1:
+            return ""
+
+        if text.count("Le Figaro") > 20:
             return ""
 
         return text
