@@ -6085,39 +6085,39 @@ def fetch_text_for_textarea(url: str) -> str:
 # =====================================================
 def show_gauge_help():
     with st.expander("📘 Comment lire les jauges", expanded=False):
-st.markdown("""
-Chaque jauge mesure un mécanisme du discours : raisonnement, pression rhétorique, biais argumentatifs ou degré de certitude.
-
-Les jauges n’indiquent pas si un texte est vrai ou faux, mais **la solidité de sa structure cognitive**.
-
-- 🟢 **Vert** → structure saine ou raisonnement solide
-- 🟡 **Jaune** → vigilance modérée ou raisonnement partiellement fragile
-- 🟠 **Orange** → fragilité importante, raisonnement incomplet ou insuffisamment démontré
-- 🔴 **Rouge** → dérive cognitive importante ou manipulation possible
-- 🟤 **Marron clair** → mécanisme d’analyse cognitive (pression rhétorique, dérive argumentative, tension mécroyance/mensonge)
-
-**Les textes les plus solides sont ceux qui allument le moins de jauges, ou qui restent majoritairement dans le vert.**
-
----
-
-### Poids des jauges
-
-Toutes les jauges n’ont pas la même influence sur le résultat final.
-
-Certaines jauges structurelles ont un **coefficient plus élevé**, car elles signalent des problèmes fondamentaux dans le raisonnement.
-
-**Une petite jauge avec un coefficient élevé peut peser autant qu’une grande jauge secondaire.**
-
-Le score final dépend donc **à la fois de l’intensité des jauges et de leur poids dans l’analyse.**
-
----
-
-### Important
-
-Un texte peut être **cohérent sans être démonstratif**.
-
-Les discours philosophiques, moraux ou spéculatifs obtiennent souvent des scores intermédiaires, car ils reposent davantage sur **des idées générales que sur des faits vérifiables**.
-""")
+    st.markdown("""
+    Chaque jauge mesure un mécanisme du discours : raisonnement, pression rhétorique, biais argumentatifs ou degré de certitude.
+    
+    Les jauges n’indiquent pas si un texte est vrai ou faux, mais **la solidité de sa structure cognitive**.
+    
+    - 🟢 **Vert** → structure saine ou raisonnement solide
+    - 🟡 **Jaune** → vigilance modérée ou raisonnement partiellement fragile
+    - 🟠 **Orange** → fragilité importante, raisonnement incomplet ou insuffisamment démontré
+    - 🔴 **Rouge** → dérive cognitive importante ou manipulation possible
+    - 🟤 **Marron clair** → mécanisme d’analyse cognitive (pression rhétorique, dérive argumentative, tension mécroyance/mensonge)
+    
+    **Les textes les plus solides sont ceux qui allument le moins de jauges, ou qui restent majoritairement dans le vert.**
+    
+    ---
+    
+    ### Poids des jauges
+    
+    Toutes les jauges n’ont pas la même influence sur le résultat final.
+    
+    Certaines jauges structurelles ont un **coefficient plus élevé**, car elles signalent des problèmes fondamentaux dans le raisonnement.
+    
+    **Une petite jauge avec un coefficient élevé peut peser autant qu’une grande jauge secondaire.**
+    
+    Le score final dépend donc **à la fois de l’intensité des jauges et de leur poids dans l’analyse.**
+    
+    ---
+    
+    ### Important
+    
+    Un texte peut être **cohérent sans être démonstratif**.
+    
+    Les discours philosophiques, moraux ou spéculatifs obtiennent souvent des scores intermédiaires, car ils reposent davantage sur **des idées générales que sur des faits vérifiables**.
+    """)
 
 
 # =====================================================
