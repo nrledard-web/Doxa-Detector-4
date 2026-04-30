@@ -7104,12 +7104,21 @@ mini3.metric(
 
 with st.popover("🧠 Voir le résumé complet", use_container_width=True):
 
-    st.markdown("### Résultats essentiels")
+    st.markdown(
+        """
+        <div style="font-size:20px; line-height:1.7;">
+        <b>Résultats essentiels</b>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
     st.metric(
         "Barre de raisonnement",
         f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
     )
+
+    st.divider()
 
     col1, col2 = st.columns(2)
 
@@ -7127,14 +7136,20 @@ with st.popover("🧠 Voir le résumé complet", use_container_width=True):
             result.get("cognitive_regime", "—")
         )
 
+    st.divider()
+
     brain = result.get("doxa_brain", {})
 
-    st.markdown("### Profil cognitif")
-
-    st.metric(
-        "Profil cognitif",
-        brain.get("brain_profile", "—")
+    st.markdown(
+        """
+        <div style="font-size:20px; line-height:1.7;">
+        <b>Profil cognitif</b>
+        </div>
+        """,
+        unsafe_allow_html=True
     )
+
+    st.metric("Profil cognitif", brain.get("brain_profile", "—"))
 
     colb1, colb2, colb3 = st.columns(3)
 
