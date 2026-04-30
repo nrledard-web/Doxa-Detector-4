@@ -1,12 +1,11 @@
 streamlit
 pandas
 numpy
-streamlit
-pandas
-lxml[html_clean]
-newspaper3k
+requests
 ddgs
-streamlit-mic-recorder
-openai
+newspaper3k
 matplotlib
+lxml[html_clean]
+streamlit-mic-recorder
+openai>=1.0.0
 
