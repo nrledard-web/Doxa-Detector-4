@@ -1368,19 +1368,14 @@ def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict
             for r in results:
                 url = r.get("href", "")
                 title = r.get("title", "Sans titre")
-
+            
                 if not url or url in seen_urls:
                     continue
-
-                seen_urls.add(url)
-
-                # Filtre domaines parasites / peu exploitables
-                blocked_domains = [
-                    "salonbeige.fr",
-                    "lesalonbeige.fr",
-                ]
-
-                if any(domain in url.lower() for domain in blocked_domains):
+            
+                title_l = title.lower()
+                keyword_l = clean_keyword.lower()
+            
+                if keyword_l not in title_l and keyword_l not in url.lower():
                     continue
 
                 text = fetch_text_for_textarea(url)
