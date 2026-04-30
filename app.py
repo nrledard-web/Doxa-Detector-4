@@ -1359,102 +1359,49 @@ def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict
     # 2) Fallback DDGS
     # -----------------------------
     try:
-        clean_keyword = keyword.strip()
-
-        core_query = clean_keyword.lower().strip()
-        
-        for article_word in ["le ", "la ", "les ", "un ", "une ", "des "]:
-            if core_query.startswith(article_word):
-                core_query = core_query[len(article_word):]
-        
-        queries = [
-            f'"{core_query}"',
-            f'"{core_query}" France',
-        ]
-
-        results = []
-
         with DDGS() as ddgs:
-            for query in queries:
-                try:
-                    temp_results = list(ddgs.text(query, max_results=max_results * 5))
+            query = f"{keyword} actualité France"
+            results = list(ddgs.text(query, max_results=max_results * 5))
 
-                    if temp_results:
-                        results = temp_results
-                        break
+            for r in results:
+                url = r.get("href", "")
+                title = r.get("title", "Sans titre")
 
-                except Exception:
+                if not url or url in seen_urls:
                     continue
 
-        if not results:
-            return articles
+                seen_urls.add(url)
 
-        for r in results:
-            url = r.get("href", "")
-            title = r.get("title", "Sans titre")
+                # Filtre domaines parasites / peu exploitables
+                blocked_domains = [
+                    "salonbeige.fr",
+                    "lesalonbeige.fr",
+                ]
 
-            snippet = r.get("body", "")
-            haystack = f"{title} {snippet} {url}".lower()
-            
-            core_terms = [
-                w for w in clean_keyword.lower().split()
-                if w not in ["le", "la", "les", "un", "une", "des", "du", "de", "d", "l"]
-            ]
-            
-            if not all(term in haystack for term in core_terms):
-                continue
+                if any(domain in url.lower() for domain in blocked_domains):
+                    continue
 
-            if not url or url in seen_urls:
-                continue
+                text = fetch_text_for_textarea(url)
 
-            bad_url_parts = [
-                "/tag/",
-                "/tags/",
-                "/search",
-                "/recherche",
-                "/category/",
-                "/categorie/",
-            ]
+                if not text or len(text.strip()) < 500:
+                    continue
 
-            if any(part in url.lower() for part in bad_url_parts):
-                continue
+                web_noise = detect_web_noise(text)
 
-            bad_title_words = [
-                "smartphone",
-                "oneplus",
-                "batterie",
-                "ipad",
-                "application",
-                "2g",
-                "immobilier",
-            ]
+                if web_noise["is_noise"]:
+                    continue
 
-            if any(word in title.lower() for word in bad_title_words):
-                continue
+                analysis = analyze_article(text)
 
-            seen_urls.add(url)
+                articles.append({
+                    "title": title,
+                    "url": url,
+                    "source": url.split("/")[2] if "://" in url else url,
+                    "published_at": "",
+                })
 
-            text = fetch_text_for_textarea(url)
-
-            if not text or len(text.strip()) < 500:
-                continue
-
-            web_noise = detect_web_noise(text)
-
-            if web_noise["is_noise"]:
-                continue
-
-            analysis = analyze_article(text)
-
-            articles.append({
-                "title": title,
-                "url": url,
-                "source": url.split("/")[2] if "://" in url else url,
-                "published_at": "",
-            })
-
-            if len(articles) >= max_results:
-                break
+                if len(articles) >= max_results:
+                    break
 
     except Exception as e:
         st.warning(f"Erreur DDGS : {e}")
