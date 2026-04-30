@@ -7053,7 +7053,11 @@ if "semantic_mode" not in st.session_state:
     st.session_state.semantic_mode = False
 
 st.markdown("### Analyse sémantique")
-st.caption("Active une lecture du sens des affirmations via un dictionnaire sémantique assisté par IA.")
+st.caption(
+    "Cette analyse sémantique sert à corroborer les jauges ayant déclenché des pénalités. "
+    "Elle vérifie si le sens réel des affirmations confirme les signaux détectés "
+    "par l’analyse analogique du langage."
+)
 
 if st.button(
     "Activer l’analyse sémantique",
@@ -7065,7 +7069,10 @@ if st.button(
 if st.session_state.semantic_mode:
     st.success("Analyse sémantique activée.")
 else:
-    st.info("Analyse sémantique inactive. La crédibilité globale reste partielle.")
+    st.info(
+    "Analyse sémantique inactive. Les pénalités reposent uniquement "
+    "sur l’analyse analogique du discours."
+)
 
 # =============================
 # Pénalités appliquées
