@@ -7071,38 +7071,7 @@ else:
     "sur l’analyse analogique du discours."
 )
 
-# =============================
-# Pénalités appliquées
-# =============================
-st.subheader("Pénalités appliquées")
 
-colp1, colp2, colp3 = st.columns(3)
-
-with colp1:
-    st.metric(
-        "Pénalité crédibilité",
-        result.get("credibility_penalty", 0)
-    )
-
-with colp2:
-    st.metric(
-        "Boost mensonge",
-        result.get("lie_boost_total", 0)
-    )
-
-with colp3:
-    st.metric(
-        "Score final",
-        f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
-    )
-
-st.caption(
-    "Les pénalités corrigent le score lorsque le texte accumule des signaux "
-    "de fermeture cognitive, de manipulation ou de raisonnement fragile."
-)
-
-with st.expander("Voir le détail des pénalités", expanded=False):
-    st.json(result.get("penalty_details", {}))
 
 with st.expander("🧠 Voir le résumé complet", expanded=False):
 
