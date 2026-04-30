@@ -19,21 +19,6 @@ try:
 except Exception:
     client = None
 
-st.markdown("""
-<style>
-
-div[data-testid="stPopover"] > div {
-    width: 900px !important;
-    max-width: 900px !important;
-}
-
-div[data-testid="stPopover"] {
-    font-size: 20px !important;
-}
-
-</style>
-""", unsafe_allow_html=True)
-
 # -----------------------------
 # Mots grammaticaux ignorés
 # -----------------------------
@@ -7117,7 +7102,7 @@ mini3.metric(
     f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
 )
 
-with st.popover("🧠 Voir le résumé complet", use_container_width=True):
+with st.expander("🧠 Voir le résumé complet", expanded=False):
 
     st.markdown(
         """
