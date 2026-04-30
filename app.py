@@ -6135,35 +6135,12 @@ if not st.session_state.get("direct_search_result_mode"):
 
         st.success(f"{len(df_multi)} {T['articles_analyzed']}")
 
-        c1, c2 = st.columns(2)
-        c1.metric(T["analyzed_articles"], len(df_multi))
-        c2.metric(T["avg_hard_fact"], round(df_multi["Hard Fact Score"].mean(), 1))
-        st.metric(T["avg_classic_score"], round(df_multi["Score classique"].mean(), 1))
-
-        ecart_type_hf = df_multi["Hard Fact Score"].std()
-        indice_doxa = "high" if ecart_type_hf < 1.5 else ("medium" if ecart_type_hf < 3 else "low")
-        st.metric(T["topic_doxa_index"], T[indice_doxa])
-
-        st.subheader(T["credibility_score_dispersion"])
-        df_plot = df_multi.copy()
-        df_plot["Article"] = [f"{T['article_label']} {i+1}" for i in range(len(df_plot))]
-        st.bar_chart(df_plot.set_index("Article")["Hard Fact Score"])
-
-        st.markdown("### Analyse des articles trouvés (phase de recherche)")
-
-        st.error(
-            "⚠️ IMPORTANT — Les scores et verdicts affichés dans ce tableau concernent "
-            "uniquement la recherche d’articles et la solidité argumentative des textes. "
-            "Ils ne représentent PAS l’indice final de crédibilité du discours analysé."
-        )
-
         st.caption(
-            "Ces résultats servent seulement à comparer les articles trouvés. "
-            "Le verdict global de crédibilité est calculé plus loin après "
-            "l’analyse complète du texte."
+            "🔎 Recherche automatique de sources basée sur la formule cognitive M = (G + N) − D."
         )
 
-        st.dataframe(df_multi, use_container_width=True, hide_index=True)
+        if False:
+            st.dataframe(df_multi, use_container_width=True, hide_index=True)
 
         st.markdown("### Examiner les articles trouvés")
 
@@ -6173,21 +6150,6 @@ if not st.session_state.get("direct_search_result_mode"):
                 st.markdown(f"### {row['Titre']}")
                 st.caption(f"{row['Source']}")
 
-                score = row["Hard Fact Score"]
-                if score <= 6:
-                    color, label = "🔴", "Fragile"
-                elif score <= 11:
-                    color, label = "🟠", "Douteux"
-                elif score <= 15:
-                    color, label = "🟡", "Plausible"
-                else:
-                    color, label = "🟢", "Robuste"
-
-                st.markdown(
-                    f"**{color} Score de crédibilité de l’article : {score:.1f}/20 — {label}**"
-                )
-                st.progress(score / 20)
-
                 col1, col2 = st.columns(2)
 
                 with col1:
@@ -6195,7 +6157,6 @@ if not st.session_state.get("direct_search_result_mode"):
 
                 with col2:
                     if st.button("📥 Charger pour analyse", key=f"load_article_{i}", use_container_width=True):
-
                         loaded_text = fetch_text_for_textarea(row["URL"])
 
                         if loaded_text:
@@ -6209,31 +6170,6 @@ if not st.session_state.get("direct_search_result_mode"):
                             st.rerun()
                         else:
                             st.warning("Impossible d'extraire le texte.")
-
-                if (
-                    st.session_state.get("article_source") == "search"
-                    and st.session_state.get("loaded_article_index") == i
-                ):
-                    st.markdown("### 📰 Article chargé ici")
-                    st.success("Vous pouvez l’analyser directement depuis cette carte.")
-
-                    with st.expander("Voir le texte chargé", expanded=True):
-                        st.text_area(
-                            "Texte extrait",
-                            value=st.session_state.get("article", ""),
-                            height=260,
-                            disabled=True,
-                            key=f"article_preview_search_{i}"
-                        )
-
-                    if st.button("🔎 Analyser cet article maintenant", key=f"analyze_loaded_{i}", use_container_width=True):
-                        st.session_state.last_result = analyze_article(st.session_state.article)
-                        st.session_state.last_article = st.session_state.article
-
-                        st.session_state.direct_search_result_mode = True
-                        st.session_state.selected_article_index = i
-
-                        st.rerun()
 
     elif st.session_state.get("last_keyword"):
         st.warning(T["no_exploitable_articles_found"])
