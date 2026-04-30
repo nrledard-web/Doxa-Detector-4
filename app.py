@@ -7116,8 +7116,13 @@ mini3.metric(
     f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
 )
 
-st.markdown("### 🧠 Modules d’analyse DOXA")
-with st.expander("🧠 Voir le résumé complet", expanded=False):
+sp1, col_center, sp2 = st.columns([1,2,1])
+
+with col_center:
+    st.markdown("### 🧠 Modules d’analyse DOXA")
+
+    with st.expander("🧠 Voir le résumé complet", expanded=False):
+        ...
 
     st.markdown(
         """
