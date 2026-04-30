@@ -6828,13 +6828,6 @@ if result:
     st.progress(min(final_score / 20, 1))
     st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
     
-    st.divider()
-
-    st.subheader("Analyse analogique du raisonnement")
-    st.caption(
-        "Analyse analogique du raisonnement à partir des structures du langage "
-        "afin d’estimer la solidité épistémique du discours."
-    )
 
     # =============================
     # Analyse analogique du raisonnement
