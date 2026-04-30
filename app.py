@@ -35,6 +35,8 @@ st.write("Python :", sys.version)
 st.write("DDGS :", getattr(ddgs, "__version__", "inconnu"))
 st.write("Newspaper3k :", getattr(newspaper, "__version__", "inconnu"))
 st.write("lxml :", getattr(lxml, "__version__", "inconnu"))
+st.write("DEBUG TOPIC =", topic)
+st.write("DEBUG QUERY =", query)
 
 # -----------------------------
 # Mots grammaticaux ignorés
