@@ -7071,50 +7071,53 @@ else:
     "sur l’analyse analogique du discours."
 )
 
+sp1, col_center, sp2 = st.columns([2,3,2])
 
+with col_center:
 
-with st.expander("🧠 Voir le résumé complet", expanded=False):
+    st.markdown("### 🧠 Modules d’analyse DOXA")
 
-    # =============================
-    # Pénalités appliquées
-    # =============================
+    with st.expander("🧠 Voir le résumé complet", expanded=False):
 
-    st.markdown("### Pénalités appliquées")
+        # =============================
+        # Pénalités appliquées
+        # =============================
 
-    colp1, colp2, colp3 = st.columns(3)
+        st.markdown("### Pénalités appliquées")
 
-    with colp1:
-        st.metric(
-            "Pénalité crédibilité",
-            round(result.get("credibility_penalty_total", 0), 2)
+        colp1, colp2, colp3 = st.columns(3)
+
+        with colp1:
+            st.metric(
+                "Pénalité crédibilité",
+                round(result.get("credibility_penalty_total", 0), 2)
+            )
+
+        with colp2:
+            st.metric(
+                "Boost mensonge",
+                round(result.get("lie_boost_total", 0), 2)
+            )
+
+        with colp3:
+            st.metric(
+                "Score final",
+                f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
+            )
+
+        st.caption(
+            "Les pénalités corrigent le score lorsque le texte accumule des signaux "
+            "de fermeture cognitive, de manipulation ou de raisonnement fragile."
         )
 
-    with colp2:
-        st.metric(
-            "Boost mensonge",
-            round(result.get("lie_boost_total", 0), 2)
-        )
+        with st.expander("Voir le détail des pénalités"):
+            st.write(result.get("weighted_red_flags", []))
 
-    with colp3:
-        st.metric(
-            "Score final",
-            f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
-        )
+        st.divider()
 
-    st.caption(
-        "Les pénalités corrigent le score lorsque le texte accumule des signaux "
-        "de fermeture cognitive, de manipulation ou de raisonnement fragile."
-    )
-
-    with st.expander("Voir le détail des pénalités"):
-        st.write(result.get("weighted_red_flags", []))
-
-    st.divider()
-
-
-    # =============================
-    # Résultats essentiels
-    # =============================
+        # =============================
+        # Résultats essentiels
+        # =============================
 
     st.markdown(
         """
