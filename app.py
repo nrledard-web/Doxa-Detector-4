@@ -6225,7 +6225,7 @@ if st.button(T["analyze_topic"], key="analyze_topic"):
                 
                         loaded_text = fetch_text_for_textarea(row["URL"])
                 
-                        if loaded_text and not detect_web_noise(loaded_text)["is_noise"]:
+                        if loaded_text:
                 
                             st.session_state.article = loaded_text
                             st.session_state.article_source = "search"
