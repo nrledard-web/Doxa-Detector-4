@@ -7116,89 +7116,88 @@ mini3.metric(
     f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
 )
 
-sp1, col_center, sp2 = st.columns([1,2,1])
+sp1, col_center, sp2 = st.columns([1, 2, 1])
 
 with col_center:
+
     st.markdown(
         "<h3 style='text-align:center;'>🧠 Modules d’analyse DOXA</h3>",
         unsafe_allow_html=True
     )
 
-with st.expander("🧠 Voir le résumé complet", expanded=False):
-        ...
+    with st.expander("🧠 Voir le résumé complet", expanded=False):
 
-    st.markdown(
-        """
-        <div style="font-size:20px; line-height:1.7;">
-        <b>Résultats essentiels</b>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-    st.metric(
-        "Barre de raisonnement",
-        f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
-    )
-
-    st.divider()
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.metric("Indice M", round(result["M"], 2))
-        st.metric(
-            "Dérive dominante",
-            result.get("cognitive_drift_interpretation", "—")
+        st.markdown(
+            """
+            <div style="font-size:20px; line-height:1.7;">
+            <b>Résultats essentiels</b>
+            </div>
+            """,
+            unsafe_allow_html=True
         )
 
-    with col2:
-        st.metric("Indice ME", round(result["ME"], 2))
         st.metric(
-            "Régime cognitif",
-            result.get("cognitive_regime", "—")
+            "Barre de raisonnement",
+            f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
         )
 
-    st.divider()
+        st.divider()
 
-    brain = result.get("doxa_brain", {})
+        col1, col2 = st.columns(2)
 
-    st.markdown(
-        """
-        <div style="font-size:20px; line-height:1.7;">
-        <b>Profil cognitif</b>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+        with col1:
+            st.metric("Indice M", round(result["M"], 2))
+            st.metric(
+                "Dérive dominante",
+                result.get("cognitive_drift_interpretation", "—")
+            )
 
-    st.metric("Profil cognitif", brain.get("brain_profile", "—"))
+        with col2:
+            st.metric("Indice ME", round(result["ME"], 2))
+            st.metric(
+                "Régime cognitif",
+                result.get("cognitive_regime", "—")
+            )
 
-    sp1, colb1, colb2, colb3, sp2 = st.columns([1,2,2,2,1])
+        st.divider()
 
-    with colb1:
-        st.metric("IR", brain.get("IR", "—"))
+        brain = result.get("doxa_brain", {})
 
-    with colb2:
-        st.metric("IL", brain.get("IL", "—"))
-
-    with colb3:
-        st.metric("IC", brain.get("IC", "—"))
-
-    colb4, colb5 = st.columns(2)
-
-    with colb4:
-        st.metric(
-            "Indice stratégique",
-            brain.get("strategic_index", "—")
+        st.markdown(
+            """
+            <div style="font-size:20px; line-height:1.7;">
+            <b>Profil cognitif</b>
+            </div>
+            """,
+            unsafe_allow_html=True
         )
 
-    with colb5:
-        st.metric(
-            "Indice de clôture",
-            brain.get("closure_index", "—")
-        )
+        st.metric("Profil cognitif", brain.get("brain_profile", "—"))
 
+        colb1, colb2, colb3 = st.columns(3)
+
+        with colb1:
+            st.metric("IR", brain.get("IR", "—"))
+
+        with colb2:
+            st.metric("IL", brain.get("IL", "—"))
+
+        with colb3:
+            st.metric("IC", brain.get("IC", "—"))
+
+        colb4, colb5 = st.columns(2)
+
+        with colb4:
+            st.metric(
+                "Indice stratégique",
+                brain.get("strategic_index", "—")
+            )
+
+        with colb5:
+            st.metric(
+                "Indice de clôture",
+                brain.get("closure_index", "—")
+            )
     # =============================
     # Diagnostic cognitif rapide
     # =============================
