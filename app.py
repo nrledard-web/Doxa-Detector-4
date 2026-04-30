@@ -1359,49 +1359,94 @@ def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict
     # 2) Fallback DDGS
     # -----------------------------
     try:
+        clean_keyword = keyword.strip()
+
+        core_query = clean_keyword.lower()
+
+        for article_word in ["le ", "la ", "les ", "un ", "une ", "des "]:
+            if core_query.startswith(article_word):
+                core_query = core_query[len(article_word):]
+
+        queries = [
+            f'"{core_query}"',
+            f'"{core_query}" France',
+        ]
+
+        results = []
+
         with DDGS() as ddgs:
-            query = f"{keyword} actualité France"
-            results = list(ddgs.text(query, max_results=max_results * 5))
+            for query in queries:
+                try:
+                    temp_results = list(ddgs.text(query, max_results=max_results * 8))
 
-            for r in results:
-                url = r.get("href", "")
-                title = r.get("title", "Sans titre")
+                    if temp_results:
+                        results = temp_results
+                        break
 
-                if not url or url in seen_urls:
+                except Exception:
                     continue
 
-                seen_urls.add(url)
+        if not results:
+            return articles
 
-                # Filtre domaines parasites / peu exploitables
-                blocked_domains = [
-                    "salonbeige.fr",
-                    "lesalonbeige.fr",
-                ]
+        for r in results:
+            url = r.get("href", "")
+            title = r.get("title", "Sans titre")
+            snippet = r.get("body", "")
 
-                if any(domain in url.lower() for domain in blocked_domains):
-                    continue
+            if not url or url in seen_urls:
+                continue
 
-                text = fetch_text_for_textarea(url)
+            haystack = f"{title} {snippet} {url}".lower()
 
-                if not text or len(text.strip()) < 500:
-                    continue
+            # Oblige la présence de l’expression exacte :
+            # ex. "grand remplacement"
+            if core_query not in haystack:
+                continue
 
-                web_noise = detect_web_noise(text)
+            bad_url_parts = [
+                "/tag/",
+                "/tags/",
+                "/search",
+                "/recherche",
+                "/category/",
+                "/categorie/",
+            ]
 
-                if web_noise["is_noise"]:
-                    continue
+            if any(part in url.lower() for part in bad_url_parts):
+                continue
 
-                analysis = analyze_article(text)
+            blocked_domains = [
+                "salonbeige.fr",
+                "lesalonbeige.fr",
+            ]
 
-                articles.append({
-                    "title": title,
-                    "url": url,
-                    "source": url.split("/")[2] if "://" in url else url,
-                    "published_at": "",
-                })
+            if any(domain in url.lower() for domain in blocked_domains):
+                continue
 
-                if len(articles) >= max_results:
-                    break
+            seen_urls.add(url)
+
+            text = fetch_text_for_textarea(url)
+
+            if not text or len(text.strip()) < 500:
+                continue
+
+            web_noise = detect_web_noise(text)
+
+            if web_noise["is_noise"]:
+                continue
+
+            analysis = analyze_article(text)
+
+            articles.append({
+                "title": title,
+                "url": url,
+                "source": url.split("/")[2] if "://" in url else url,
+                "published_at": "",
+            })
+
+            if len(articles) >= max_results:
+                break
 
     except Exception as e:
         st.warning(f"Erreur DDGS : {e}")
