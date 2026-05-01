@@ -6885,7 +6885,7 @@ if result:
     + 8
     """)
     
-    score = 10 + (ratio_connecteurs × 8) − (contradictions × 2)
+    score = 10 + (ratio_connecteurs * 8) - (contradictions * 2)
     
     avec :
     
