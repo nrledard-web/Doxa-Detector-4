@@ -7059,39 +7059,40 @@ if result:
         etiquette_c = "Très solide"
         message_c = "Le texte présente une structure cognitive robuste et peu de signaux de fragilité."
     
-    st.subheader(f"{couleur_c} Crédibilité finale : {etiquette_c}")
-    st.progress(min(final_score / 20, 1))
-    st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
+st.subheader(f"{couleur_c} Crédibilité finale : {etiquette_c}")
+st.progress(min(final_score / 20, 1))
+st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
 
-    st.markdown(
+st.markdown(
     """
-    <hr style="border:2px solid #999; margin:40px 0;">
-    <h3 style="text-align:center;">Jauges structurelles avancées</h3>
-    <hr style="border:2px solid #999; margin:40px 0;">
+    <div style="text-align:center; margin:35px 0; color:#888; font-size:18px;">
+        ──── 🧠 Jauges structurelles avancées ────
+    </div>
     """,
     unsafe_allow_html=True
 )
 
-    st.markdown("### Mécroyance")
-    st.caption("La certitude dépasse le savoir et la compréhension.")
-    
-    value = min(result["drift_mecroyance"] / 10, 1.0)
-    
-    if result["drift_mecroyance"] < 1:
-        label, color = "Faible", "#16a34a"
-    elif result["drift_mecroyance"] < 3:
-        label, color = "Modérée", "#ca8a04"
-    elif result["drift_mecroyance"] < 6:
-        label, color = "Élevée", "#f97316"
-    else:
-        label, color = "Très élevée", "#dc2626"
-    
-    render_custom_gauge(value, color)
-    
-    st.markdown(
-        f"<b style='color:{color}'>{label}</b> — {result['drift_mecroyance']}",
-        unsafe_allow_html=True
-    )
+st.markdown("### Mécroyance")
+st.caption("La certitude dépasse le savoir et la compréhension.")
+
+drift_m = result.get("drift_mecroyance", 0)
+value = min(drift_m / 10, 1.0)
+
+if drift_m < 1:
+    label, color = "Faible", "#16a34a"
+elif drift_m < 3:
+    label, color = "Modérée", "#ca8a04"
+elif drift_m < 6:
+    label, color = "Élevée", "#f97316"
+else:
+    label, color = "Très élevée", "#dc2626"
+
+render_custom_gauge(value, color)
+
+st.markdown(
+    f"<b style='color:{color}'>{label}</b> — {round(drift_m, 2)}",
+    unsafe_allow_html=True
+)
 
 # =============================
 # Jauges structurelles avancées
