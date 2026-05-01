@@ -7182,46 +7182,6 @@ st.subheader(f"{couleur_c} Crédibilité finale : {etiquette_c}")
 st.progress(min(final_score / 20, 1))
 st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
 
-lie_result = compute_lie_gauge(result["M"], result["ME"])
-
-gauge_value = lie_result["gauge"]
-gauge_label = lie_result["label"]
-gauge_color = lie_result["color"]
-gauge_intensity = lie_result["intensity"]
-
-st.write("Tension cognitive (mécroyance vs mensonge)")
-st.caption(
-    "Cette jauge indique si le discours relève plutôt d’une erreur sincère "
-    "(mécroyance) ou d’une possible manipulation."
-)
-
-st.markdown(f"""
-<div style="width:100%; margin-top:10px; margin-bottom:10px;">
-    <div style="
-        width:100%;
-        height:26px;
-        background:#e5e7eb;
-        border-radius:12px;
-        overflow:hidden;
-        border:1px solid #cbd5e1;
-    ">
-        <div style="
-            width:{gauge_value*100}%;
-            height:100%;
-            background:{gauge_color};
-        "></div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
-
-st.markdown(
-    f"<b style='color:{gauge_color}'>{gauge_label}</b> — intensité : {round(gauge_intensity*100,1)}%",
-    unsafe_allow_html=True
-)
-
-st.caption("Erreur sincère ⟵⟶ Manipulation probable")
-
-
 st.markdown("""
 <div style="text-align:center; margin:25px 0; color:#888;">
 ────────── ✦ ──────────
