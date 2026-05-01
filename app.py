@@ -1255,25 +1255,17 @@ M = (G + N) − D
 
 def render_custom_gauge(value: float, color: str):
     value = max(0.0, min(1.0, value))
-    st.markdown(f"""
-    <div style="width:100%; margin-top:10px; margin-bottom:10px;">
-        <div style="
-            width:100%;
-            height:26px;
-            background:#e5e7eb;
-            border-radius:12px;
-            overflow:hidden;
-            border:1px solid #cbd5e1;
-        ">
-            <div style="
-                width:{value*100}%;
-                height:100%;
-                background:{color};
-                transition:width 0.4s ease;
-            "></div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)       
+st.markdown("""
+<div style="
+    width:100%;
+    height:26px;
+    background:#e5e7eb;
+    border-radius:12px;
+    overflow:hidden;
+    border:1px solid #cbd5e1;
+">
+</div>
+""", unsafe_allow_html=True)     
 
 @st.cache_data(show_spinner=False, ttl=3600)
 def extract_article_from_url(url: str) -> str:
