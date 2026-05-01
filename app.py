@@ -7758,11 +7758,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         logic_value = result["logic_confusion_score"]
 
         if logic_value < 0.20:
-            logic_label, logic_color = "Faible", "#16a34a"
+            logic_label, logic_color = "Faible", "#ca8a04"
         elif logic_value < 0.40:
-            logic_label, logic_color = "Modérée", "#ca8a04"
+            logic_label, logic_color = "Modérée", "#f97316"
         elif logic_value < 0.70:
-            logic_label, logic_color = "Élevée", "#f97316"
+            logic_label, logic_color = "Élevée", "#ea580c"
         else:
             logic_label, logic_color = "Très élevée", "#dc2626"
 
