@@ -7259,11 +7259,6 @@ with col_center:
         unsafe_allow_html=True
     )
 
-    st.metric(
-        "Barre de raisonnement",
-        f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
-    )
-
     st.divider()
 
 
