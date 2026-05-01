@@ -5492,7 +5492,12 @@ def analyze_article(text: str) -> Dict:
         text.lower()
     ))
 
-    analogical_reasoning_score = 10 + (connector_ratio * 8) - (contradiction_signals * 2)
+    analogical_reasoning_score = (
+        5
+        + logical_connectors * 1.8
+        + min(sentence_count, 8) * 0.35
+        - contradiction_signals * 4
+    )
 
     analogical_reasoning_score = round(
         clamp(analogical_reasoning_score, 0, 20),
