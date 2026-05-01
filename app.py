@@ -6230,31 +6230,6 @@ def detect_web_noise(text):
 # Réglages
 # -----------------------------
 with st.expander(T["settings"], expanded=False):
-    use_sample = st.button(T["load_example"])
-    show_method = st.toggle(T["show_method"], value=True)
-    st.divider()
-
-if "article" not in st.session_state:
-    st.session_state.article = SAMPLE_ARTICLE
-if "article_source" not in st.session_state:
-    st.session_state.article_source = "paste"
-if "loaded_url" not in st.session_state:
-    st.session_state.loaded_url = ""
-if "last_result" not in st.session_state:
-    st.session_state.last_result = None
-if "last_article" not in st.session_state:
-    st.session_state.last_article = ""
-if "multi_results" not in st.session_state:
-    st.session_state.multi_results = []
-if "last_keyword" not in st.session_state:
-    st.session_state.last_keyword = ""
-
-if use_sample:
-    st.session_state.article = SAMPLE_ARTICLE
-    st.session_state.article_source = "paste"
-    st.session_state.loaded_url = ""
-
-with st.expander(T["settings"], expanded=False):
     use_sample = st.button(
         T["load_example"],
         key="settings_load_example"
@@ -6283,6 +6258,26 @@ Les textes prudents et factuels produisent généralement peu de signaux cogniti
 **⚙️ Filtrage automatique**  
 Si **10 textes fortement affirmatifs** sont déjà détectés, les articles plus neutres peuvent ne pas apparaître dans l’analyse.
 """)
+
+if "article" not in st.session_state:
+    st.session_state.article = SAMPLE_ARTICLE
+if "article_source" not in st.session_state:
+    st.session_state.article_source = "paste"
+if "loaded_url" not in st.session_state:
+    st.session_state.loaded_url = ""
+if "last_result" not in st.session_state:
+    st.session_state.last_result = None
+if "last_article" not in st.session_state:
+    st.session_state.last_article = ""
+if "multi_results" not in st.session_state:
+    st.session_state.multi_results = []
+if "last_keyword" not in st.session_state:
+    st.session_state.last_keyword = ""
+
+if use_sample:
+    st.session_state.article = SAMPLE_ARTICLE
+    st.session_state.article_source = "paste"
+    st.session_state.loaded_url = ""
 
 
 # -----------------------------
