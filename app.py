@@ -7037,7 +7037,7 @@ if result:
     # Barre de crédibilité finale
     # =============================
     final_score = result.get("final_credibility_score", score)
-    
+
     if final_score < 6:
         couleur_c = "🔴"
         etiquette_c = "Très fragile"
@@ -7058,41 +7058,42 @@ if result:
         couleur_c = "🟢"
         etiquette_c = "Très solide"
         message_c = "Le texte présente une structure cognitive robuste et peu de signaux de fragilité."
-    
-st.subheader(f"{couleur_c} Crédibilité finale : {etiquette_c}")
-st.progress(min(final_score / 20, 1))
-st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
 
-st.markdown("### Mécroyance")
-st.caption("La certitude dépasse le savoir et la compréhension.")
+    st.subheader(f"{couleur_c} Crédibilité finale : {etiquette_c}")
+    st.progress(min(final_score / 20, 1))
+    st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
 
-drift_m = result.get("drift_mecroyance", 0)
-value = min(drift_m / 10, 1.0)
+    st.markdown("### Mécroyance")
+    st.caption("La certitude dépasse le savoir et la compréhension.")
 
-if drift_m < 1:
-    label, color = "Faible", "#16a34a"
-elif drift_m < 3:
-    label, color = "Modérée", "#ca8a04"
-elif drift_m < 6:
-    label, color = "Élevée", "#f97316"
-else:
-    label, color = "Très élevée", "#dc2626"
+    drift_m = result.get("drift_mecroyance", 0)
+    value = min(drift_m / 10, 1.0)
 
-render_custom_gauge(value, color)
+    if drift_m < 1:
+        label, color = "Faible", "#16a34a"
+    elif drift_m < 3:
+        label, color = "Modérée", "#ca8a04"
+    elif drift_m < 6:
+        label, color = "Élevée", "#f97316"
+    else:
+        label, color = "Très élevée", "#dc2626"
 
-st.markdown(
-    f"<b style='color:{color}'>{label}</b> — {round(drift_m, 2)}",
-    unsafe_allow_html=True
-)
-st.markdown("""
-<div style="text-align:center; margin:25px 0; color:#888;">
-────────── ✦ ──────────
-</div>
-""", unsafe_allow_html=True)
+    render_custom_gauge(value, color)
 
-# =============================
-# Jauges structurelles avancées
-# =============================
+    st.markdown(
+        f"<b style='color:{color}'>{label}</b> — {round(drift_m, 2)}",
+        unsafe_allow_html=True
+    )
+
+    st.markdown("""
+    <div style="text-align:center; margin:25px 0; color:#888;">
+    ────────── ✦ ──────────
+    </div>
+    """, unsafe_allow_html=True)
+
+    # =============================
+    # Jauges structurelles avancées
+    # =============================
 
 result = st.session_state.get("last_result")
 article_for_analysis = st.session_state.get("last_article", "")
