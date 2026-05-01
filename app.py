@@ -5177,15 +5177,6 @@ def analyze_article(text: str) -> Dict:
     threat_amplification_advanced_analysis = compute_threat_amplification_advanced(text)
     strong_certainty_analysis = compute_strong_certainty(text)
 
-
-    st.markdown(
-    """
-    <hr style="border:2px solid #999; margin:40px 0;">
-    <h3 style="text-align:center;">Jauges structurelles avancées</h3>
-    <hr style="border:2px solid #999; margin:40px 0;">
-    """,
-    unsafe_allow_html=True
-)
     # -----------------------------
     # Jauges structurelles avancées
     # -----------------------------
@@ -7002,6 +6993,15 @@ if result:
     st.subheader(f"{couleur_c} Crédibilité finale : {etiquette_c}")
     st.progress(min(final_score / 20, 1))
     st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
+
+    st.markdown(
+    """
+    <hr style="border:2px solid #999; margin:40px 0;">
+    <h3 style="text-align:center;">Jauges structurelles avancées</h3>
+    <hr style="border:2px solid #999; margin:40px 0;">
+    """,
+    unsafe_allow_html=True
+)
 
 # =============================
 # Jauges structurelles avancées
