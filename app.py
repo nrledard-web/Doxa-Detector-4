@@ -6932,6 +6932,7 @@ if result:
     # =============================
     # Barre de raisonnement
     # =============================
+    
     score = result.get("hard_fact_score", 0)
     
     if score < 6:
@@ -6956,6 +6957,26 @@ if result:
         message_r = "Le texte présente un raisonnement robuste, structuré et bien soutenu."
     
     st.subheader(f"{couleur_r} Solidité argumentative : {etiquette_r}")
+    with st.popover("ℹ️ Formule / explication"):
+        st.markdown("""
+    Cette jauge évalue la **solidité argumentative du texte**.
+    
+    ### Formule heuristique
+    
+    score_argumentatif = (G × 0.6) + (N × 0.4)
+    
+    avec :
+    
+    G = gnōsis (éléments factuels : sources, chiffres, références)
+    
+    N = nous (cohérence logique et structure argumentative)
+    
+    ### Interprétation
+    
+    0-6 : raisonnement faible  
+    7-13 : raisonnement partiel  
+    14-20 : raisonnement robuste
+    """)
     st.progress(min(score / 20, 1))
     st.caption(f"Score : {round(score, 1)}/20 — {message_r}")
     st.caption(
