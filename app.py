@@ -6896,8 +6896,33 @@ if result:
     
     base_score = result.get("final_credibility_score", result["hard_fact_score"])
     
+    if base_score < 6:
+        score_icon = "🔴"
+        score_label = "Très fragile"
+        score_color = "#dc2626"
+    elif base_score < 9:
+        score_icon = "🟠"
+        score_label = "Fragile"
+        score_color = "#f97316"
+    elif base_score < 13:
+        score_icon = "🟡"
+        score_label = "Modérée"
+        score_color = "#ca8a04"
+    elif base_score < 16:
+        score_icon = "🟢"
+        score_label = "Solide"
+        score_color = "#84cc16"
+    else:
+        score_icon = "🟢"
+        score_label = "Très solide"
+        score_color = "#16a34a"
+    
     st.progress(base_score / 20)
-    st.caption(f"Score analogique : {round(base_score,1)}/20")
+    
+    st.markdown(
+        f"<b style='color:{score_color}'>Score analogique : {score_icon} {round(base_score,1)}/20 — {score_label}</b>",
+        unsafe_allow_html=True
+    )
     
     st.divider()
     show_gauge_help()
