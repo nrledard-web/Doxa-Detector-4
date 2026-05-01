@@ -1255,17 +1255,25 @@ M = (G + N) − D
 
 def render_custom_gauge(value: float, color: str):
     value = max(0.0, min(1.0, value))
-st.markdown("""
-<div style="
-    width:100%;
-    height:26px;
-    background:#e5e7eb;
-    border-radius:12px;
-    overflow:hidden;
-    border:1px solid #cbd5e1;
-">
-</div>
-""", unsafe_allow_html=True)     
+    st.markdown(f"""
+    <div style="width:100%; margin-top:10px; margin-bottom:10px;">
+        <div style="
+            width:100%;
+            height:26px;
+            background:#e5e7eb;
+            border-radius:12px;
+            overflow:hidden;
+            border:1px solid #cbd5e1;
+        ">
+            <div style="
+                width:{value*100}%;
+                height:100%;
+                background:{color};
+                transition:width 0.4s ease;
+            "></div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)       
 
 @st.cache_data(show_spinner=False, ttl=3600)
 def extract_article_from_url(url: str) -> str:
@@ -6850,25 +6858,31 @@ if result:
     
     st.subheader("Analyse analogique du raisonnement")
     
-    with st.popover("Formule / explication"):
+    with st.popover("ℹ️ Formule / explication"):
         st.markdown("""
     ### Jauge analogique du raisonnement
     
-    Cette jauge analyse la coherence linguistique du raisonnement.
+    Cette jauge analyse la **cohérence linguistique du raisonnement**.
     
-    Formule heuristique :
+    Elle s’appuie sur plusieurs signaux du langage :
     
-    score = 10 + (ratio_connecteurs * 8) - (contradictions * 2)
+    - présence de connecteurs logiques (donc, car, cependant, etc.)
+    - structure argumentative des phrases
+    - détection de contradictions internes
+    
+    ### Formule heuristique
+    
+    score = 10 + (ratio_connecteurs × 8) − (contradictions × 2)
     
     avec :
     
-    ratio_connecteurs = connecteurs_logiques / nombre_de_phrases
+    ratio_connecteurs = connecteurs logiques / nombre de phrases
     
-    Lecture :
+    ### Interprétation
     
-    - plus le texte contient de connecteurs logiques, plus le score monte
-    - les contradictions internes font baisser le score
-    - cette jauge **n'evalue pas la verite**, seulement la **coherence apparente du raisonnement**
+    - un texte structuré avec des connecteurs logiques obtient un score plus élevé
+    - un texte contenant des contradictions internes voit son score diminuer
+    - cette jauge **n’évalue pas la vérité**, seulement la **cohérence apparente du raisonnement**
     """)
     
     st.caption(
@@ -6942,39 +6956,13 @@ if result:
         message_r = "Le texte présente un raisonnement robuste, structuré et bien soutenu."
     
     st.subheader(f"{couleur_r} Solidité argumentative : {etiquette_r}")
-    
-    with st.popover("ℹ️ Formule / explication"):
-        st.markdown("""
-    ### Solidité argumentative
-    
-    Cette jauge mesure la structure argumentative du texte.
-    
-    Elle prend en compte :
-    
-    - la présence de sources ou d’indices documentaires ;
-    - la nuance du raisonnement ;
-    - la vérifiabilité moyenne des affirmations ;
-    - la qualité des sources ;
-    - le risque moyen des affirmations ;
-    - les pénalités liées aux signaux faibles ou red flags.
-    
-    ### Formule heuristique
-    
-    ```text
-    score = (
-        0.18 × G
-      + 0.12 × N
-      + 0.20 × V
-      + 0.22 × qualité_sources
-      + 0.18 × vérifiabilité_moyenne
+    st.progress(min(score / 20, 1))
+    st.caption(f"Score : {round(score, 1)}/20 — {message_r}")
+    st.caption(
+        "Cette jauge mesure la solidité argumentative du texte : structure du raisonnement, "
+        "cohérence logique et présence d’éléments vérifiables. "
+        "La crédibilité globale dépend aussi de la qualité des sources et de la vérifiabilité des affirmations."
     )
-    − (
-        0.16 × D
-      + 0.12 × R
-      + 0.18 × risque_moyen
-      + pénalités_red_flags
-    )
-    + 8
     
     # =============================
     # Barre de crédibilité finale
@@ -7275,27 +7263,6 @@ with col_center:
         "Barre de raisonnement",
         f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
     )
-    
-    with st.popover("Formule / explication"):
-        st.markdown("""
-    ### Jauge analogique du raisonnement
-    
-    Cette jauge analyse la coherence linguistique du raisonnement.
-    
-    ### Formule heuristique
-    
-    score = 10 + (ratio_connecteurs * 8) - (contradictions * 2)
-    
-    avec :
-    
-    ratio_connecteurs = connecteurs_logiques / nombre_de_phrases
-    
-    ### Lecture
-    
-    - plus le texte contient de connecteurs logiques, plus le score monte
-    - les contradictions internes font baisser le score
-    - cette jauge mesure la coherence du raisonnement, pas la verite du texte
-    """)
 
     st.divider()
 
