@@ -6897,7 +6897,7 @@ if result:
         "Analyse analogique du raisonnement à partir des structures du langage afin d’estimer la solidité épistémique du discours."
     )
     
-    base_score = result.get("final_credibility_score", result["hard_fact_score"])
+    base_score = result.get("analogical_reasoning_score", result.get("hard_fact_score", 0))
     
     if base_score < 6:
         score_icon = "🔴"
