@@ -7103,15 +7103,15 @@ st.markdown(
 st.caption("Erreur sincère ⟵⟶ Manipulation probable")
 
 
-    st.markdown("""
-    <div style="text-align:center; margin:25px 0; color:#888;">
-    ────────── ✦ ──────────
-    </div>
-    """, unsafe_allow_html=True)
+st.markdown("""
+<div style="text-align:center; margin:25px 0; color:#888;">
+────────── ✦ ──────────
+</div>
+""", unsafe_allow_html=True)
 
-    # =============================
-    # Jauges structurelles avancées
-    # =============================
+# =============================
+# Jauges structurelles avancées
+# =============================
 
 result = st.session_state.get("last_result")
 article_for_analysis = st.session_state.get("last_article", "")
