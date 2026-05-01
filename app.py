@@ -7063,15 +7063,6 @@ st.subheader(f"{couleur_c} Crédibilité finale : {etiquette_c}")
 st.progress(min(final_score / 20, 1))
 st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
 
-st.markdown(
-    """
-    <div style="text-align:center; margin:35px 0; color:#888; font-size:18px;">
-        ──── 🧠 Jauges structurelles avancées ────
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
 st.markdown("### Mécroyance")
 st.caption("La certitude dépasse le savoir et la compréhension.")
 
@@ -7093,6 +7084,11 @@ st.markdown(
     f"<b style='color:{color}'>{label}</b> — {round(drift_m, 2)}",
     unsafe_allow_html=True
 )
+st.markdown("""
+<div style="text-align:center; margin:25px 0; color:#888;">
+────────── ✦ ──────────
+</div>
+""", unsafe_allow_html=True)
 
 # =============================
 # Jauges structurelles avancées
