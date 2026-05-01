@@ -6895,7 +6895,7 @@ if result:
     
     - un texte structuré avec des connecteurs logiques obtient un score plus élevé
     - un texte contenant des contradictions internes voit son score diminuer
-    - cette jauge **n'évalue pas la vérité**, seulement la **cohérence apparente du raisonnement**
+    - cette jauge **n'evalue pas la verite**, seulement la **coherence apparente du raisonnement**
     """)
     
     st.caption(
