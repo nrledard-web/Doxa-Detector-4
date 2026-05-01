@@ -6783,6 +6783,7 @@ if result:
     # =====================================================
     # AIDE DE LECTURE DES JAUGES
     # =====================================================
+    
     def show_gauge_help():
         with st.expander("📘 Comment lire les jauges", expanded=False):
             st.markdown("""
@@ -6818,6 +6819,9 @@ if result:
         
         Les discours philosophiques, moraux ou spéculatifs obtiennent souvent des scores intermédiaires, car ils reposent davantage sur **des idées générales que sur des faits vérifiables**.
         """)
+            
+    show_gauge_help()
+    st.divider()
 
     # =============================
     # Barre de raisonnement
