@@ -7152,41 +7152,42 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
             "ou d'un desalignement cognitif."
         )
     
-# =============================
-# Barre de crédibilité finale
-# =============================
-final_score = result.get("final_credibility_score", score)
 
-if final_score < 6:
-    couleur_c = "🔴"
-    etiquette_c = "Très fragile"
-    message_c = "Le texte présente de fortes fragilités structurelles ou vérifiables."
-elif final_score < 9:
-    couleur_c = "🟠"
-    etiquette_c = "Fragile"
-    message_c = "Le texte contient plusieurs fragilités importantes."
-elif final_score < 13:
-    couleur_c = "🟡"
-    etiquette_c = "Prudente"
-    message_c = "Le raisonnement est présent, mais certaines affirmations reposent davantage sur des idées générales que sur des éléments vérifiables."
-elif final_score < 16:
-    couleur_c = "🟢"
-    etiquette_c = "Solide"
-    message_c = "Le texte présente une crédibilité globale correcte, avec peu de signaux problématiques."
-else:
-    couleur_c = "🟢"
-    etiquette_c = "Très solide"
-    message_c = "Le texte présente une structure cognitive robuste et peu de signaux de fragilité."
+    # =============================
+    # Barre de crédibilité finale
+    # =============================
+    final_score = result.get("final_credibility_score", score)
 
-st.subheader(f"{couleur_c} Crédibilité finale : {etiquette_c}")
-st.progress(min(final_score / 20, 1))
-st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
-
-st.markdown("""
-<div style="text-align:center; margin:25px 0; color:#888;">
-────────── ✦ ──────────
-</div>
-""", unsafe_allow_html=True)
+    if final_score < 6:
+        couleur_c = "🔴"
+        etiquette_c = "Très fragile"
+        message_c = "Le texte présente de fortes fragilités structurelles ou vérifiables."
+    elif final_score < 9:
+        couleur_c = "🟠"
+        etiquette_c = "Fragile"
+        message_c = "Le texte contient plusieurs fragilités importantes."
+    elif final_score < 13:
+        couleur_c = "🟡"
+        etiquette_c = "Prudente"
+        message_c = "Le raisonnement est présent, mais certaines affirmations reposent davantage sur des idées générales que sur des éléments vérifiables."
+    elif final_score < 16:
+        couleur_c = "🟢"
+        etiquette_c = "Solide"
+        message_c = "Le texte présente une crédibilité globale correcte, avec peu de signaux problématiques."
+    else:
+        couleur_c = "🟢"
+        etiquette_c = "Très solide"
+        message_c = "Le texte présente une structure cognitive robuste et peu de signaux de fragilité."
+    
+    st.subheader(f"{couleur_c} Crédibilité finale : {etiquette_c}")
+    st.progress(min(final_score / 20, 1))
+    st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
+    
+    st.markdown("""
+    <div style="text-align:center; margin:25px 0; color:#888;">
+    ────────── ✦ ──────────
+    </div>
+    """, unsafe_allow_html=True)
 
 # =============================
 # Jauges structurelles avancées
