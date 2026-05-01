@@ -6246,14 +6246,11 @@ with st.expander(T["settings"], expanded=False):
     st.markdown("""
 ### Principe de sélection des articles
 
-Le système ne classe pas les articles uniquement par popularité ou par mots-clés.  
+⚠️ Le système ne classe pas les articles uniquement par popularité ou par mots-clés.  
 Il privilégie les textes dont la **structure argumentative active l’analyse cognitive**.
 
-**🟠 Textes fortement affirmatifs**  
+** Les textes fortement affirmatifs**  
 Les discours très affirmatifs ou rhétoriquement chargés déclenchent davantage de signaux analytiques.
-
-**🟢 Textes factuels et prudents**  
-Les textes prudents et factuels produisent généralement peu de signaux cognitifs.
 
 **⚙️ Filtrage automatique**  
 Si **10 textes fortement affirmatifs** sont déjà détectés, les articles plus neutres peuvent ne pas apparaître dans l’analyse.
