@@ -1133,17 +1133,18 @@ def compute_propaganda_gauge(
 def interpret_propaganda_gauge(value: float):
     """
     Traduit l'indice propagandiste en étiquette + couleur + commentaire.
+    Même faible, la jauge reste une vigilance (pas de vert).
     """
     if value < 0.20:
-        return "Très faible", "#16a34a", "Le texte ne présente pas de structure propagandiste marquée."
+        return "Très faible", "#ca8a04", "Le texte ne présente pas de structure propagandiste marquée."
     elif value < 0.40:
-        return "Faible", "#84cc16", "Le discours peut orienter légèrement la perception, sans verrouillage fort."
+        return "Faible", "#f97316", "Le discours peut orienter légèrement la perception, sans verrouillage fort."
     elif value < 0.60:
-        return "Modéré", "#ca8a04", "Le texte contient plusieurs éléments compatibles avec une mise en orientation du lecteur."
+        return "Modéré", "#ea580c", "Le texte contient plusieurs éléments compatibles avec une mise en orientation du lecteur."
     elif value < 0.80:
-        return "Élevé", "#f97316", "Le discours semble fortement orienté et cherche à imposer un cadrage interprétatif."
+        return "Élevé", "#dc2626", "Le discours semble fortement orienté et cherche à imposer un cadrage interprétatif."
     else:
-        return "Très élevé", "#dc2626", "Le texte présente une structure fortement propagandiste ou de verrouillage idéologique."
+        return "Très élevé", "#7f1d1d", "Le texte présente une structure fortement propagandiste ou de verrouillage idéologique."
 
 def interpret_discursive_profile(
     lie_gauge: float,
