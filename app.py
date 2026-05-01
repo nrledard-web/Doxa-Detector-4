@@ -7303,43 +7303,26 @@ with col_center:
         f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
     )
     
-    with st.popover("ℹ️ Formule / explication"):
+    with st.popover("Formule / explication"):
         st.markdown("""
-    ### Barre de raisonnement / solidité argumentative
+    ### Jauge analogique du raisonnement
     
-    Cette jauge mesure la solidité argumentative brute du texte.
-    
-    Elle combine :
-    
-    - **G** : gnōsis, présence d’éléments documentaires ;
-    - **N** : nous, nuance et compréhension intégrée ;
-    - **V** : vérifiabilité ;
-    - **QS** : qualité des sources ;
-    - **VC** : vérifiabilité moyenne des affirmations ;
-    - **D** : doxa, certitude assertive ;
-    - **R** : risque rhétorique ;
-    - **RC** : risque moyen des affirmations ;
-    - **P** : pénalités des red flags.
+    Cette jauge analyse la coherence linguistique du raisonnement.
     
     ### Formule heuristique
     
-    ```text
-    Solidité argumentative =
-    (
-      0.18 × G
-    + 0.12 × N
-    + 0.20 × V
-    + 0.22 × QS
-    + 0.18 × VC
-    )
-    −
-    (
-      0.16 × D
-    + 0.12 × R
-    + 0.18 × RC
-    + P
-    )
-    + 8
+    score = 10 + (ratio_connecteurs * 8) - (contradictions * 2)
+    
+    avec :
+    
+    ratio_connecteurs = connecteurs_logiques / nombre_de_phrases
+    
+    ### Lecture
+    
+    - plus le texte contient de connecteurs logiques, plus le score monte
+    - les contradictions internes font baisser le score
+    - cette jauge mesure la coherence du raisonnement, pas la verite du texte
+    """)
 
     st.divider()
 
