@@ -6858,11 +6858,11 @@ if result:
     
     st.subheader("Analyse analogique du raisonnement")
     
-    with st.popover("ℹ️ Formule / explication"):
+    with st.popover("Formule / explication"):
         st.markdown("""
-    ### Barre de raisonnement / solidité argumentative
+    ### Solidite argumentative
     
-    Cette jauge mesure la solidité argumentative brute du texte.
+    Cette jauge mesure la solidite argumentative brute du texte.
     
     Elle combine :
     
@@ -6877,6 +6877,13 @@ if result:
     - **P** : penalites des red flags
     
     ### Formule heuristique
+    
+    Solidite argumentative =
+    (0.18 * G + 0.12 * N + 0.20 * V + 0.22 * QS + 0.18 * VC)
+    -
+    (0.16 * D + 0.12 * R + 0.18 * RC + P)
+    + 8
+    """)
     
     score = 10 + (ratio_connecteurs × 8) − (contradictions × 2)
     
