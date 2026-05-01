@@ -7063,23 +7063,25 @@ if result:
     st.progress(min(final_score / 20, 1))
     st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
 
-    st.markdown("### Mécroyance")
-    st.caption("La certitude dépasse le savoir et la compréhension.")
-
-    value = min(result["drift_mecroyance"] / 10, 1.0)
-
-    if result["drift_mecroyance"] < 1:
-        label, color = "Faible", "#16a34a"
-    elif result["drift_mecroyance"] < 3:
-        label, color = "Modérée", "#ca8a04"
-    elif result["drift_mecroyance"] < 6:
-        label, color = "Élevée", "#f97316"
+    st.markdown("### Indice de mécroyance")
+    st.caption("Mesure l’écart entre savoir, compréhension et certitude : M = (G + N) − D.")
+    
+    m_value = result.get("M", 0)
+    value = min(max(m_value, 0) / 20, 1.0)
+    
+    if m_value < 0:
+        label, color = "Clôture cognitive", "#dc2626"
+    elif m_value < 10:
+        label, color = "Stable", "#ca8a04"
+    elif m_value < 17:
+        label, color = "Lucide", "#16a34a"
     else:
-        label, color = "Très élevée", "#dc2626"
-
+        label, color = "Très élevé", "#2563eb"
+    
     render_custom_gauge(value, color)
+    
     st.markdown(
-        f"<b style='color:{color}'>{label}</b> — {result['drift_mecroyance']}",
+        f"<b style='color:{color}'>{label}</b> — M = {round(m_value, 2)}",
         unsafe_allow_html=True
     )
 
