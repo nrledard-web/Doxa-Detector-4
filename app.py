@@ -7032,6 +7032,125 @@ if result:
         "cohérence logique et présence d’éléments vérifiables. "
         "La crédibilité globale dépend aussi de la qualité des sources et de la vérifiabilité des affirmations."
     )
+
+    # =============================
+    # Suite du diagnostic
+    # =============================
+    delta_mm = round(result["M"] - result["ME"], 2)
+    st.caption(f"Écart cognitif (M − ME) : {delta_mm}")
+
+    if result["M"] > result["ME"] + 1:
+        dominant_pattern = "Structure dominante : mécroyance"
+    elif result["ME"] > result["M"] + 1:
+        dominant_pattern = "Structure dominante : mensonge stratégique"
+    else:
+        dominant_pattern = "Structure dominante : mixte ou ambiguë"
+
+    st.subheader("Structure cognitive dominante")
+    st.write(dominant_pattern)
+
+    if result["ME"] > result["M"] and result["ME"] > 0:
+        cognitive_type = "Mensonge stratégique possible"
+    elif result["M"] < 0:
+        cognitive_type = "Forte mécroyance / clôture cognitive"
+    else:
+        cognitive_type = "Cognition probablement sincère mais désalignée"
+
+    st.subheader("Interprétation cognitive")
+    st.write(cognitive_type)
+
+    if result["M"] - result["ME"] > 3:
+        diagnosis = "Structure de mécroyance forte"
+    elif result["M"] > result["ME"]:
+        diagnosis = "Structure de mécroyance modérée"
+    elif abs(result["M"] - result["ME"]) <= 1:
+        diagnosis = "Structure cognitive ambiguë"
+    else:
+        diagnosis = "Tromperie stratégique possible"
+
+    st.subheader("Diagnostic cognitif")
+    st.write(diagnosis)
+
+    lie_result = compute_lie_gauge(result["M"], result["ME"])
+
+    gauge_value = lie_result["gauge"]
+    gauge_label = lie_result["label"]
+    gauge_color = lie_result["color"]
+    ME_gauge = lie_result["ME"]
+    gauge_intensity = lie_result["intensity"]
+
+    st.write("Tension cognitive (mécroyance vs mensonge)")
+    st.caption(
+        "Cette jauge indique si le discours relève plutôt d’une erreur sincère "
+        "(mécroyance) ou d’une possible manipulation. "
+        "Plus la jauge progresse, plus la structure du texte se rapproche du mensonge."
+    )
+
+    st.markdown(f"""
+    <div style="width:100%; margin-top:10px; margin-bottom:10px;">
+        <div style="
+            width:100%;
+            height:26px;
+            background:#e5e7eb;
+            border-radius:12px;
+            overflow:hidden;
+            border:1px solid #cbd5e1;
+        ">
+            <div style="
+                width:{gauge_value*100}%;
+                height:100%;
+                background:{gauge_color};
+                transition:width 0.4s ease;
+            "></div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown(
+        f"<b style='color:{gauge_color}'>{gauge_label}</b> — intensité : {round(gauge_intensity*100,1)}%",
+        unsafe_allow_html=True
+    )
+
+    st.caption("Erreur sincère ⟵⟶ Manipulation probable")
+
+    # Explication automatique de la jauge mensonge
+    if gauge_value >= 0.70:
+        st.warning("### Pourquoi cette jauge indique une manipulation probable ?")
+
+        st.markdown("""
+La jauge monte fortement parce que le texte presente une combinaison de signaux :
+
+- une certitude tres elevee
+- un niveau de preuves insuffisant face a cette certitude
+- une pression rhetorique importante
+- des affirmations difficiles a verifier
+- des formulations pouvant orienter le lecteur plutot que d'eclairer le raisonnement
+""")
+
+        st.markdown("#### Facteurs detectes")
+
+        st.write(f"- Mecroyance M : {result['M']}")
+        st.write(f"- Mensonge strategique ME : {result['ME']}")
+        st.write(f"- Certitude D : {result['D']}")
+        st.write(f"- Savoir G : {result['G']}")
+        st.write(f"- Comprehension N : {result['N']}")
+        st.write(f"- Pression rhetorique : {round(result['rhetorical_pressure'] * 100, 1)}%")
+        st.write(f"- Red flags detectes : {len(result.get('red_flags', []))}")
+
+    elif gauge_value >= 0.45:
+        st.info("### Pourquoi cette jauge s'allume ?")
+
+        st.markdown("""
+Le texte contient une tension entre mecroyance et manipulation.
+
+La certitude parait plus forte que les preuves disponibles, mais les signaux ne suffisent pas encore a conclure a une manipulation nette.
+""")
+
+    else:
+        st.caption(
+            "La jauge reste basse : le texte releve plutot d'une erreur sincere "
+            "ou d'un desalignement cognitif."
+        )
     
 # =============================
 # Barre de crédibilité finale
