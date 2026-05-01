@@ -7072,6 +7072,27 @@ if result:
     unsafe_allow_html=True
 )
 
+    st.markdown("### Mécroyance")
+    st.caption("La certitude dépasse le savoir et la compréhension.")
+    
+    value = min(result["drift_mecroyance"] / 10, 1.0)
+    
+    if result["drift_mecroyance"] < 1:
+        label, color = "Faible", "#16a34a"
+    elif result["drift_mecroyance"] < 3:
+        label, color = "Modérée", "#ca8a04"
+    elif result["drift_mecroyance"] < 6:
+        label, color = "Élevée", "#f97316"
+    else:
+        label, color = "Très élevée", "#dc2626"
+    
+    render_custom_gauge(value, color)
+    
+    st.markdown(
+        f"<b style='color:{color}'>{label}</b> — {result['drift_mecroyance']}",
+        unsafe_allow_html=True
+    )
+
 # =============================
 # Jauges structurelles avancées
 # =============================
