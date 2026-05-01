@@ -6860,15 +6860,21 @@ if result:
     
     with st.popover("ℹ️ Formule / explication"):
         st.markdown("""
-    ### Jauge analogique du raisonnement
+    ### Barre de raisonnement / solidité argumentative
     
-    Cette jauge analyse la **cohérence linguistique du raisonnement**.
+    Cette jauge mesure la solidité argumentative brute du texte.
     
-    Elle s’appuie sur plusieurs signaux du langage :
+    Elle combine :
     
-    - présence de connecteurs logiques (donc, car, cependant, etc.)
-    - structure argumentative des phrases
-    - détection de contradictions internes
+    - **G** : gnosis, presence d'elements documentaires
+    - **N** : nous, nuance et comprehension integree
+    - **V** : verifiabilite
+    - **QS** : qualite des sources
+    - **VC** : verifiabilite moyenne des affirmations
+    - **D** : doxa, certitude assertive
+    - **R** : risque rhetorique
+    - **RC** : risque moyen des affirmations
+    - **P** : penalites des red flags
     
     ### Formule heuristique
     
