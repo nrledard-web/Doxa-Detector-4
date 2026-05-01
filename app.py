@@ -7414,30 +7414,10 @@ with col_center:
     # =============================
     st.subheader("Dérives cognitives")
 
-    dr1, dr2, dr3 = st.columns(3)
+    dr1, dr2, = st.columns(2)
 
     with dr1:
-        st.markdown("### Mécroyance")
-        st.caption("La certitude dépasse le savoir et la compréhension.")
 
-        value = min(result["drift_mecroyance"] / 10, 1.0)
-
-        if result["drift_mecroyance"] < 1:
-            label, color = "Faible", "#16a34a"
-        elif result["drift_mecroyance"] < 3:
-            label, color = "Modérée", "#ca8a04"
-        elif result["drift_mecroyance"] < 6:
-            label, color = "Élevée", "#f97316"
-        else:
-            label, color = "Très élevée", "#dc2626"
-
-        render_custom_gauge(value, color)
-        st.markdown(
-            f"<b style='color:{color}'>{label}</b> — {result['drift_mecroyance']}",
-            unsafe_allow_html=True
-        )
-
-    with dr2:
         st.markdown("### Pseudo-savoir")
         st.caption("Accumulation de savoirs mal intégrés ou mal compris.")
 
@@ -7458,7 +7438,7 @@ with col_center:
             unsafe_allow_html=True
         )
 
-    with dr3:
+    with dr2:
         st.markdown("### Intuition dogmatique")
         st.caption("Conviction forte sans base de savoir suffisante.")
 
