@@ -7627,11 +7627,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         premise_value = result["premise_score"]
 
         if premise_value < 0.20:
-            premise_label, premise_color = "Faible", "#16a34a"
+            premise_label, premise_color = "Faible", "#ca8a04"
         elif premise_value < 0.40:
-            premise_label, premise_color = "Modérée", "#ca8a04"
+            premise_label, premise_color = "Modérée", "#f97316"
         elif premise_value < 0.70:
-            premise_label, premise_color = "Élevée", "#f97316"
+            premise_label, premise_color = "Élevée", "#ea580c"
         else:
             premise_label, premise_color = "Très élevée", "#dc2626"
 
