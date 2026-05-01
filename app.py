@@ -6928,7 +6928,6 @@ if result:
     )
     
     st.divider()
-    show_gauge_help()
     
     disc_type, disc_explanation = detect_discourse_type(result)
     
