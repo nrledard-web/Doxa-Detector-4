@@ -6255,8 +6255,17 @@ if use_sample:
     st.session_state.loaded_url = ""
 
 with st.expander(T["settings"], expanded=False):
-    use_sample = st.button(T["load_example"])
-    show_method = st.toggle(T["show_method"], value=True)
+    use_sample = st.button(
+        T["load_example"],
+        key="settings_load_example"
+    )
+
+    show_method = st.toggle(
+        T["show_method"],
+        value=True,
+        key="settings_show_method"
+    )
+
     st.divider()
 
     st.markdown("""
@@ -6272,7 +6281,7 @@ Les discours très affirmatifs ou rhétoriquement chargés déclenchent davantag
 Les textes prudents et factuels produisent généralement peu de signaux cognitifs.
 
 **⚙️ Filtrage automatique**  
-Si **10 textes fortement affirmatifs** sont déjà détectés, les articles plus neutres peuvent ne pas apparaître dans l’analyse, car ils génèrent moins d’indicateurs exploitables par le modèle.
+Si **10 textes fortement affirmatifs** sont déjà détectés, les articles plus neutres peuvent ne pas apparaître dans l’analyse.
 """)
 
 
@@ -6353,23 +6362,6 @@ st.markdown("### Analyser une page publique par URL")
 st.caption(
     "Collez le lien d’un article, d’un post X, LinkedIn, Medium ou toute autre page publique."
 )
-
-with st.popover("ℹ️ Comment les articles sont sélectionnés"):
-    st.markdown("""
-### Principe de sélection
-
-Le système ne classe pas les articles uniquement par popularité ou par mots-clés.  
-Il privilégie les textes dont la **structure argumentative active l’analyse cognitive**.
-
-**🟠 Textes fortement affirmatifs**  
-Les discours très affirmatifs ou rhétoriquement chargés déclenchent davantage de signaux analytiques.
-
-**🟢 Textes factuels et prudents**  
-Les textes prudents et factuels produisent généralement peu de signaux cognitifs.
-
-**⚙️ Filtrage automatique**  
-Si **10 textes fortement affirmatifs** sont déjà détectés, les articles plus neutres peuvent ne pas apparaître dans l’analyse, car ils génèrent moins d’indicateurs exploitables par le modèle.
-""")
 
 page_url = st.text_input(
     "Lien de la page publique à analyser",
