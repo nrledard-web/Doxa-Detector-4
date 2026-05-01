@@ -1065,15 +1065,17 @@ def compute_rhetorical_pressure(results: dict) -> float:
 def interpret_rhetorical_pressure(value: float):
     """
     Traduit la pression rhétorique en étiquette + couleur.
+    Jauge de vigilance : même faible, elle ne devient pas verte.
     """
     if value < 0.20:
-        return "Faible", "#16a34a"
+        return "Faible", "#ca8a04"      # jaune / ocre
     elif value < 0.40:
-        return "Modérée", "#ca8a04"
+        return "Modérée", "#f97316"    # orange
     elif value < 0.70:
-        return "Élevée", "#f97316"
+        return "Élevée", "#ea580c"     # orange foncé
     else:
-        return "Très élevée", "#dc2626"
+        return "Très élevée", "#dc2626" # rouge
+        
 
 def compute_cognitive_gravity(result):
     """
