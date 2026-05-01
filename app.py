@@ -7584,14 +7584,14 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
 
         normative_value = result["normative_score"]
 
-    if normative_value < 0.20:
-        normative_label, normative_color = "Faible", "#ca8a04"
-    elif normative_value < 0.40:
-        normative_label, normative_color = "Modérée", "#f97316"
-    elif normative_value < 0.70:
-        normative_label, normative_color = "Élevée", "#ea580c"
-    else:
-        normative_label, normative_color = "Très élevée", "#dc2626"
+        if normative_value < 0.20:
+            normative_label, normative_color = "Faible", "#ca8a04"
+        elif normative_value < 0.40:
+            normative_label, normative_color = "Modérée", "#f97316"
+        elif normative_value < 0.70:
+            normative_label, normative_color = "Élevée", "#ea580c"
+        else:
+            normative_label, normative_color = "Très élevée", "#dc2626"
 
         render_custom_gauge(normative_value, normative_color)
 
