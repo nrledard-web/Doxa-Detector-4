@@ -493,7 +493,10 @@ st.markdown(
 """
 )
 
-st.divider()
+st.markdown(
+    "<div style='border-top:1px solid #e6e6e6;margin:22px 0'></div>",
+    unsafe_allow_html=True
+)
 
 with st.container(border=True):
 
@@ -552,7 +555,10 @@ st.link_button(
     use_container_width=True
 )
 
-st.divider()
+st.markdown(
+    "<div style='border-top:1px solid #e6e6e6;margin:22px 0'></div>",
+    unsafe_allow_html=True
+)
 
 
 # -----------------------------
@@ -6241,7 +6247,11 @@ with st.expander("⚙️ Réglages et méthode de recherche", expanded=False):
         key="settings_show_method"
     )
 
-    st.divider()
+    st.markdown("""
+<div style="text-align:center; margin:25px 0; color:#888;">
+────────── ✦ ──────────
+</div>
+""", unsafe_allow_html=True)
 
     st.markdown("""
 ### Principe de sélection des articles — basé sur la formule :
@@ -6876,7 +6886,11 @@ if result:
         """)
             
     show_gauge_help()
-    st.divider()
+    st.markdown("""
+<div style="text-align:center; margin:25px 0; color:#888;">
+────────── ✦ ──────────
+</div>
+""", unsafe_allow_html=True)
 
     # =============================
     # Analyse analogique du raisonnement
@@ -6945,14 +6959,22 @@ if result:
         unsafe_allow_html=True
     )
     
-    st.divider()
+    st.markdown("""
+<div style="text-align:center; margin:25px 0; color:#888;">
+────────── ✦ ──────────
+</div>
+""", unsafe_allow_html=True)
     
     disc_type, disc_explanation = detect_discourse_type(result)
     
     st.markdown("### Type de discours détecté")
     st.info(f"**{disc_type}** — {disc_explanation}")
     
-    st.divider()
+    st.markdown("""
+<div style="text-align:center; margin:25px 0; color:#888;">
+────────── ✦ ──────────
+</div>
+""", unsafe_allow_html=True)
 
 
     # =============================
@@ -7124,7 +7146,11 @@ for title, score, label, interpretation in gauges:
     if interpretation:
         st.write(interpretation)
 
-    st.divider()
+st.markdown("""
+<div style="text-align:center; margin:25px 0; color:#888;">
+────────── ✦ ──────────
+</div>
+""", unsafe_allow_html=True)
 
 # =============================
 # Analyse sémantique du discours
@@ -7157,7 +7183,11 @@ if st.session_state.get("semantic_mode", False):
 else:
     st.info("Activez l’analyse sémantique pour calculer cette jauge.")
 
-st.divider()
+st.markdown("""
+<div style="text-align:center; margin:25px 0; color:#888;">
+──── 🧠 ────
+</div>
+""", unsafe_allow_html=True)
 
 # =============================
 # Gravité cognitive globale
