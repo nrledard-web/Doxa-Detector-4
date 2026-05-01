@@ -6244,16 +6244,20 @@ with st.expander(T["settings"], expanded=False):
     st.divider()
 
     st.markdown("""
-### Principe de sélection des articles basé sur la formule M = (G + N) − D. 
+### Principe de sélection des articles — basé sur la formule :
+M = (G + N) − D
 
-⚠️ Le système ne classe pas les articles uniquement par popularité ou par mots-clés.  
-Il privilégie les textes dont la **structure argumentative active l’analyse cognitive**.
+⚠️ Le système ne classe pas les articles uniquement par popularité ou par mots-clés.
+Il privilégie les textes dont la structure argumentative active l’analyse cognitive.
 
-** Les textes fortement affirmatifs**  
+**Textes fortement affirmatifs**  
 Les discours très affirmatifs ou rhétoriquement chargés déclenchent davantage de signaux analytiques.
 
 **⚙️ Filtrage automatique**  
-Si **10 textes fortement affirmatifs** sont déjà détectés, les articles plus neutres peuvent ne pas apparaître dans l’analyse.
+**Si 10 textes fortement affirmatifs sont déjà détectés, les articles plus neutres peuvent ne pas apparaître dans l’analyse.
+
+**⬇️ Important**
+**Lorsque vous effectuez le chargement d’un article, descendez jusqu’au bloc “Texte chargé” afin de lancer l’analyse.
 """)
 
 if "article" not in st.session_state:
