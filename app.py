@@ -7066,24 +7066,23 @@ if result:
     st.markdown("### Mécroyance")
     st.caption("La certitude dépasse le savoir et la compréhension.")
 
-    drift_m = result.get("drift_mecroyance", 0)
-    value = min(drift_m / 10, 1.0)
+    value = min(result["drift_mecroyance"] / 10, 1.0)
 
-    if drift_m < 1:
+    if result["drift_mecroyance"] < 1:
         label, color = "Faible", "#16a34a"
-    elif drift_m < 3:
+    elif result["drift_mecroyance"] < 3:
         label, color = "Modérée", "#ca8a04"
-    elif drift_m < 6:
+    elif result["drift_mecroyance"] < 6:
         label, color = "Élevée", "#f97316"
     else:
         label, color = "Très élevée", "#dc2626"
 
     render_custom_gauge(value, color)
-
     st.markdown(
-        f"<b style='color:{color}'>{label}</b> — {round(drift_m, 2)}",
+        f"<b style='color:{color}'>{label}</b> — {result['drift_mecroyance']}",
         unsafe_allow_html=True
     )
+
 
     st.markdown("""
     <div style="text-align:center; margin:25px 0; color:#888;">
