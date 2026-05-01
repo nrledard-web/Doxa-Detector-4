@@ -7289,6 +7289,44 @@ with col_center:
         "Barre de raisonnement",
         f"{result.get('final_credibility_score', result['hard_fact_score'])}/20"
     )
+    
+    with st.popover("ℹ️ Formule / explication"):
+        st.markdown("""
+    ### Barre de raisonnement / solidité argumentative
+    
+    Cette jauge mesure la solidité argumentative brute du texte.
+    
+    Elle combine :
+    
+    - **G** : gnōsis, présence d’éléments documentaires ;
+    - **N** : nous, nuance et compréhension intégrée ;
+    - **V** : vérifiabilité ;
+    - **QS** : qualité des sources ;
+    - **VC** : vérifiabilité moyenne des affirmations ;
+    - **D** : doxa, certitude assertive ;
+    - **R** : risque rhétorique ;
+    - **RC** : risque moyen des affirmations ;
+    - **P** : pénalités des red flags.
+    
+    ### Formule heuristique
+    
+    ```text
+    Solidité argumentative =
+    (
+      0.18 × G
+    + 0.12 × N
+    + 0.20 × V
+    + 0.22 × QS
+    + 0.18 × VC
+    )
+    −
+    (
+      0.16 × D
+    + 0.12 × R
+    + 0.18 × RC
+    + P
+    )
+    + 8
 
     st.divider()
 
