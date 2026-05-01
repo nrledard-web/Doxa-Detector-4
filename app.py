@@ -6254,22 +6254,6 @@ if use_sample:
     st.session_state.article_source = "paste"
     st.session_state.loaded_url = ""
 
-    st.divider()
-
-    
-    Le système ne classe pas les articles uniquement par popularité ou par mots-clés.  
-    Il privilégie les textes dont la **structure argumentative active l’analyse cognitive**.
-    
-    **🟠 Textes fortement affirmatifs**  
-    Les discours très affirmatifs ou rhétoriquement chargés déclenchent davantage de signaux analytiques.
-    
-    **🟢 Textes factuels**  
-    Les textes prudents et factuels produisent généralement peu de signaux cognitifs.
-    
-    **⚙️ Filtrage automatique**  
-    Si **10 textes fortement affirmatifs** sont déjà détectés, les articles plus neutres peuvent ne pas apparaître dans l’analyse, car ils génèrent moins d’indicateurs exploitables par le modèle.
-    """)
-
 
 # -----------------------------
 # Analyse multi-articles
@@ -6302,6 +6286,23 @@ if not st.session_state.get("direct_search_result_mode"):
         st.caption(
             "🔎 Recherche automatique de sources basée sur la formule cognitive M = (G + N) − D."
         )
+
+        with st.popover("ℹ️ Comment les articles sont sélectionnés"):
+            st.markdown("""
+### Principe de sélection
+
+Le système ne classe pas les articles uniquement par popularité ou par mots-clés.  
+Il privilégie les textes dont la **structure argumentative active l’analyse cognitive**.
+
+**🟠 Textes fortement affirmatifs**  
+Les discours très affirmatifs ou rhétoriquement chargés déclenchent davantage de signaux analytiques.
+
+**🟢 Textes factuels et prudents**  
+Les textes prudents et factuels produisent généralement peu de signaux cognitifs.
+
+**⚙️ Filtrage automatique**  
+Si **10 textes fortement affirmatifs** sont déjà détectés, les articles plus neutres peuvent ne pas apparaître dans l’analyse, car ils génèrent moins d’indicateurs exploitables par le modèle.
+""")
 
         if False:
             st.dataframe(df_multi, use_container_width=True, hide_index=True)
