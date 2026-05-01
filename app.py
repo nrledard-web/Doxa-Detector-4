@@ -6256,9 +6256,6 @@ if use_sample:
 
     st.divider()
 
-    with st.popover("ℹ️ Sélection des articles analysés"):
-        st.markdown("""
-    ### Principe de sélection
     
     Le système ne classe pas les articles uniquement par popularité ou par mots-clés.  
     Il privilégie les textes dont la **structure argumentative active l’analyse cognitive**.
