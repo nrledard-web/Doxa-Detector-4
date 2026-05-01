@@ -7662,11 +7662,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         propaganda_value = result["propaganda_score"]
 
         if propaganda_value < 0.20:
-            propaganda_label, propaganda_color = "Faible", "#16a34a"
+            propaganda_label, propaganda_color = "Faible", "#ca8a04"
         elif propaganda_value < 0.40:
-            propaganda_label, propaganda_color = "Modérée", "#ca8a04"
+            propaganda_label, propaganda_color = "Modérée", "#f97316"
         elif propaganda_value < 0.70:
-            propaganda_label, propaganda_color = "Élevée", "#f97316"
+            propaganda_label, propaganda_color = "Élevée", "#ea580c"
         else:
             propaganda_label, propaganda_color = "Très élevée", "#dc2626"
 
