@@ -6860,41 +6860,22 @@ if result:
     
     with st.popover("Formule / explication"):
         st.markdown("""
-    ### Solidite argumentative
+    ### Jauge analogique du raisonnement
     
-    Cette jauge mesure la solidite argumentative brute du texte.
+    Cette jauge analyse la coherence linguistique du raisonnement.
     
-    Elle combine :
-    
-    - **G** : gnosis, presence d'elements documentaires
-    - **N** : nous, nuance et comprehension integree
-    - **V** : verifiabilite
-    - **QS** : qualite des sources
-    - **VC** : verifiabilite moyenne des affirmations
-    - **D** : doxa, certitude assertive
-    - **R** : risque rhetorique
-    - **RC** : risque moyen des affirmations
-    - **P** : penalites des red flags
-    
-    ### Formule heuristique
-    
-    Solidite argumentative =
-    (0.18 * G + 0.12 * N + 0.20 * V + 0.22 * QS + 0.18 * VC)
-    -
-    (0.16 * D + 0.12 * R + 0.18 * RC + P)
-    + 8
-    """)
+    Formule heuristique :
     
     score = 10 + (ratio_connecteurs * 8) - (contradictions * 2)
     
     avec :
     
-    ratio_connecteurs = connecteurs logiques / nombre de phrases
+    ratio_connecteurs = connecteurs_logiques / nombre_de_phrases
     
-    ### Interprétation
+    Lecture :
     
-    - un texte structuré avec des connecteurs logiques obtient un score plus élevé
-    - un texte contenant des contradictions internes voit son score diminuer
+    - plus le texte contient de connecteurs logiques, plus le score monte
+    - les contradictions internes font baisser le score
     - cette jauge **n'evalue pas la verite**, seulement la **coherence apparente du raisonnement**
     """)
     
