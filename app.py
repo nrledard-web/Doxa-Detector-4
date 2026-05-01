@@ -6254,6 +6254,8 @@ if use_sample:
     st.session_state.article_source = "paste"
     st.session_state.loaded_url = ""
 
+    st.divider()
+
     with st.popover("ℹ️ Sélection des articles analysés"):
         st.markdown("""
     ### Principe de sélection
