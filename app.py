@@ -6254,6 +6254,27 @@ if use_sample:
     st.session_state.article_source = "paste"
     st.session_state.loaded_url = ""
 
+with st.expander(T["settings"], expanded=False):
+    use_sample = st.button(T["load_example"])
+    show_method = st.toggle(T["show_method"], value=True)
+    st.divider()
+
+    st.markdown("""
+### Principe de sélection des articles
+
+Le système ne classe pas les articles uniquement par popularité ou par mots-clés.  
+Il privilégie les textes dont la **structure argumentative active l’analyse cognitive**.
+
+**🟠 Textes fortement affirmatifs**  
+Les discours très affirmatifs ou rhétoriquement chargés déclenchent davantage de signaux analytiques.
+
+**🟢 Textes factuels et prudents**  
+Les textes prudents et factuels produisent généralement peu de signaux cognitifs.
+
+**⚙️ Filtrage automatique**  
+Si **10 textes fortement affirmatifs** sont déjà détectés, les articles plus neutres peuvent ne pas apparaître dans l’analyse, car ils génèrent moins d’indicateurs exploitables par le modèle.
+""")
+
 
 # -----------------------------
 # Analyse multi-articles
