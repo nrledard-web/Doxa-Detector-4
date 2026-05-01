@@ -6254,22 +6254,22 @@ if use_sample:
     st.session_state.article_source = "paste"
     st.session_state.loaded_url = ""
 
-        with st.popover("ℹ️ Sélection des articles analysés"):
-            st.markdown("""
-        ### Principe de sélection
-        
-        Le système ne classe pas les articles uniquement par popularité ou par mots-clés.  
-        Il privilégie les textes dont la **structure argumentative active l’analyse cognitive**.
-        
-        **🟠 Textes fortement affirmatifs**  
-        Les discours très affirmatifs ou rhétoriquement chargés déclenchent davantage de signaux analytiques.
-        
-        **🟢 Textes factuels**  
-        Les textes prudents et factuels produisent généralement peu de signaux cognitifs.
-        
-        **⚙️ Filtrage automatique**  
-        Si **10 textes fortement affirmatifs** sont déjà détectés, les articles plus neutres peuvent ne pas apparaître dans l’analyse, car ils génèrent moins d’indicateurs exploitables par le modèle.
-        """)
+    with st.popover("ℹ️ Sélection des articles analysés"):
+        st.markdown("""
+    ### Principe de sélection
+    
+    Le système ne classe pas les articles uniquement par popularité ou par mots-clés.  
+    Il privilégie les textes dont la **structure argumentative active l’analyse cognitive**.
+    
+    **🟠 Textes fortement affirmatifs**  
+    Les discours très affirmatifs ou rhétoriquement chargés déclenchent davantage de signaux analytiques.
+    
+    **🟢 Textes factuels**  
+    Les textes prudents et factuels produisent généralement peu de signaux cognitifs.
+    
+    **⚙️ Filtrage automatique**  
+    Si **10 textes fortement affirmatifs** sont déjà détectés, les articles plus neutres peuvent ne pas apparaître dans l’analyse, car ils génèrent moins d’indicateurs exploitables par le modèle.
+    """)
 
 
 # -----------------------------
