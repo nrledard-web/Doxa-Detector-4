@@ -7792,11 +7792,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         sim_value = result["scientific_simulation_score"]
 
         if sim_value < 0.20:
-            sim_label, sim_color = "Faible", "#16a34a"
+            sim_label, sim_color = "Faible", "#ca8a04"
         elif sim_value < 0.40:
-            sim_label, sim_color = "Modérée", "#ca8a04"
+            sim_label, sim_color = "Modérée", "#f97316"
         elif sim_value < 0.70:
-            sim_label, sim_color = "Élevée", "#f97316"
+            sim_label, sim_color = "Élevée", "#ea580c"
         else:
             sim_label, sim_color = "Très élevée", "#dc2626"
 
