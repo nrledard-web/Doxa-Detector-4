@@ -7482,7 +7482,7 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
     label = result.get("deceptive_coherence_label", "—")
 
     if value < 0.25:
-        color = "#16a34a"
+        color = "#ca8a04"
     elif value < 0.50:
         color = "#ca8a04"
     elif value < 0.75:
