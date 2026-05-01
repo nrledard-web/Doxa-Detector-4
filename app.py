@@ -6227,9 +6227,9 @@ def detect_web_noise(text):
         )
     }
 # -----------------------------
-# Réglages
+# Réglages et méthode de recherche
 # -----------------------------
-with st.expander(T["settings"], expanded=False):
+with st.expander("⚙️ Réglages et méthode de recherche", expanded=False):
     use_sample = st.button(
         T["load_example"],
         key="settings_load_example"
