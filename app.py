@@ -6888,53 +6888,81 @@ if result:
     st.progress(min(final_score / 20, 1))
     st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
 
-    # =============================
-    # Analyse analogique du raisonnement
-    # =============================
-    
-    st.subheader("Analyse analogique du raisonnement")
-    st.caption(
-        "Analyse analogique du raisonnement à partir des structures du langage afin d’estimer la solidité épistémique du discours."
-    )
-    
-    base_score = result.get("analogical_reasoning_score", result.get("hard_fact_score", 0))
-    
-    if base_score < 6:
-        score_icon = "🔴"
-        score_label = "Très fragile"
-        score_color = "#dc2626"
-    elif base_score < 9:
-        score_icon = "🟠"
-        score_label = "Fragile"
-        score_color = "#f97316"
-    elif base_score < 13:
-        score_icon = "🟡"
-        score_label = "Modérée"
-        score_color = "#ca8a04"
-    elif base_score < 16:
-        score_icon = "🟢"
-        score_label = "Solide"
-        score_color = "#84cc16"
-    else:
-        score_icon = "🟢"
-        score_label = "Très solide"
-        score_color = "#16a34a"
-    
-    st.progress(base_score / 20)
-    
-    st.markdown(
-        f"<b style='color:{score_color}'>Score analogique : {score_icon} {round(base_score,1)}/20 — {score_label}</b>",
-        unsafe_allow_html=True
-    )
-    
-    st.divider()
-    
-    disc_type, disc_explanation = detect_discourse_type(result)
-    
-    st.markdown("### Type de discours détecté")
-    st.info(f"**{disc_type}** — {disc_explanation}")
-    
-    st.divider()
+# =============================
+# Analyse analogique du raisonnement
+# =============================
+
+st.subheader("Analyse analogique du raisonnement")
+
+with st.popover("ℹ️ Formule / explication"):
+    st.markdown("""
+### Jauge analogique du raisonnement
+
+Cette jauge analyse la **cohérence linguistique du raisonnement**.
+
+Elle s’appuie sur plusieurs signaux du langage :
+
+- présence de connecteurs logiques (donc, car, cependant, etc.)
+- structure argumentative des phrases
+- détection de contradictions internes
+
+### Formule heuristique
+
+score = 10 + (ratio_connecteurs × 8) − (contradictions × 2)
+
+avec :
+
+ratio_connecteurs = connecteurs logiques / nombre de phrases
+
+### Interprétation
+
+- un texte structuré avec des connecteurs logiques obtient un score plus élevé
+- un texte contenant des contradictions internes voit son score diminuer
+- cette jauge **n’évalue pas la vérité**, seulement la **cohérence apparente du raisonnement**
+""")
+
+st.caption(
+    "Analyse analogique du raisonnement à partir des structures du langage afin d’estimer la solidité épistémique du discours."
+)
+
+base_score = result.get("analogical_reasoning_score", result.get("hard_fact_score", 0))
+
+if base_score < 6:
+    score_icon = "🔴"
+    score_label = "Très fragile"
+    score_color = "#dc2626"
+elif base_score < 9:
+    score_icon = "🟠"
+    score_label = "Fragile"
+    score_color = "#f97316"
+elif base_score < 13:
+    score_icon = "🟡"
+    score_label = "Modérée"
+    score_color = "#ca8a04"
+elif base_score < 16:
+    score_icon = "🟢"
+    score_label = "Solide"
+    score_color = "#84cc16"
+else:
+    score_icon = "🟢"
+    score_label = "Très solide"
+    score_color = "#16a34a"
+
+st.progress(base_score / 20)
+
+st.markdown(
+    f"<b style='color:{score_color}'>Score analogique : {score_icon} {round(base_score,1)}/20 — {score_label}</b>",
+    unsafe_allow_html=True
+)
+
+st.divider()
+
+disc_type, disc_explanation = detect_discourse_type(result)
+
+st.markdown("### Type de discours détecté")
+st.info(f"**{disc_type}** — {disc_explanation}")
+
+st.divider()
 
 # =============================
 # Jauges structurelles avancées
