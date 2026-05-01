@@ -6244,7 +6244,7 @@ with st.expander(T["settings"], expanded=False):
     st.divider()
 
     st.markdown("""
-### Principe de sélection des articles
+### Principe de sélection des articles basé sur la formule M = (G + N) − D. 
 
 ⚠️ Le système ne classe pas les articles uniquement par popularité ou par mots-clés.  
 Il privilégie les textes dont la **structure argumentative active l’analyse cognitive**.
