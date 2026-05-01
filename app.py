@@ -7059,14 +7059,10 @@ else:
     etiquette_c = "Très solide"
     message_c = "Le texte présente une structure cognitive robuste et peu de signaux de fragilité."
 
-# affichage crédibilité (hors du if)
 st.subheader(f"{couleur_c} Crédibilité finale : {etiquette_c}")
 st.progress(min(final_score / 20, 1))
 st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
 
-# =============================
-# Jauge mécroyance vs mensonge
-# =============================
 lie_result = compute_lie_gauge(result["M"], result["ME"])
 
 gauge_value = lie_result["gauge"]
@@ -7077,8 +7073,7 @@ gauge_intensity = lie_result["intensity"]
 st.write("Tension cognitive (mécroyance vs mensonge)")
 st.caption(
     "Cette jauge indique si le discours relève plutôt d’une erreur sincère "
-    "(mécroyance) ou d’une possible manipulation. "
-    "Plus la jauge progresse, plus la structure du texte se rapproche du mensonge."
+    "(mécroyance) ou d’une possible manipulation."
 )
 
 st.markdown(f"""
@@ -7095,7 +7090,6 @@ st.markdown(f"""
             width:{gauge_value*100}%;
             height:100%;
             background:{gauge_color};
-            transition:width 0.4s ease;
         "></div>
     </div>
 </div>
