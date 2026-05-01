@@ -5475,29 +5475,29 @@ def analyze_article(text: str) -> Dict:
         "doxic_rigidity_score": doxic_rigidity_analysis["score"],
         "narrative_overdetermination_score": narrative_overdetermination_analysis["score"],
     })
-        # -----------------------------
-        # Score analogique du raisonnement
-        # -----------------------------
-        logical_connectors = len(re.findall(
-            r"\b(car|donc|ainsi|cependant|pourtant|puisque|par conséquent|en effet|toutefois|néanmoins|or|mais|donc)\b",
-            text.lower()
-        ))
-    
-        sentence_count = max(1, len(sentences))
-    
-        connector_ratio = logical_connectors / sentence_count
-    
-        contradiction_signals = len(re.findall(
-            r"\b(toujours.*sauf|jamais.*mais|certain.*pourtant|évident.*cependant|impossible.*mais)\b",
-            text.lower()
-        ))
-    
-        analogical_reasoning_score = 10 + (connector_ratio * 8) - (contradiction_signals * 2)
-    
-        analogical_reasoning_score = round(
-            clamp(analogical_reasoning_score, 0, 20),
-            1
-        )
+    # -----------------------------
+    # Score analogique du raisonnement
+    # -----------------------------
+    logical_connectors = len(re.findall(
+        r"\b(car|donc|ainsi|cependant|pourtant|puisque|par conséquent|en effet|toutefois|néanmoins|or|mais|donc)\b",
+        text.lower()
+    ))
+
+    sentence_count = max(1, len(sentences))
+
+    connector_ratio = logical_connectors / sentence_count
+
+    contradiction_signals = len(re.findall(
+        r"\b(toujours.*sauf|jamais.*mais|certain.*pourtant|évident.*cependant|impossible.*mais)\b",
+        text.lower()
+    ))
+
+    analogical_reasoning_score = 10 + (connector_ratio * 8) - (contradiction_signals * 2)
+
+    analogical_reasoning_score = round(
+        clamp(analogical_reasoning_score, 0, 20),
+        1
+    )
         
     result = {
         "words": len(words),
