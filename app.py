@@ -7860,11 +7860,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         vague_auth_value = result["vague_authority_score"]
 
         if vague_auth_value < 0.20:
-            vague_auth_label, vague_auth_color = "Faible", "#16a34a"
+            vague_auth_label, vague_auth_color = "Faible", "#ca8a04"
         elif vague_auth_value < 0.40:
-            vague_auth_label, vague_auth_color = "Modérée", "#ca8a04"
+            vague_auth_label, vague_auth_color = "Modérée", "#f97316"
         elif vague_auth_value < 0.70:
-            vague_auth_label, vague_auth_color = "Élevée", "#f97316"
+            vague_auth_label, vague_auth_color = "Élevée", "#ea580c"
         else:
             vague_auth_label, vague_auth_color = "Très élevée", "#dc2626"
 
