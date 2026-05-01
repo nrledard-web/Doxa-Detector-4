@@ -5740,6 +5740,7 @@ def analyze_article(text: str) -> Dict:
         "final_credibility_score": final_credibility_score,
         "final_verdict": verdict,
         "hard_fact_score": hard_fact_score,
+        "analogical_reasoning_score": analogical_reasoning_score,
         "verdict": verdict,
         "profil_solidite": verdict,
         "strengths": strengths,
