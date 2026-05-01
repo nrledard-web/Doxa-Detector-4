@@ -7113,15 +7113,6 @@ else:
 st.divider()
 
 # =============================
-# Résumé chiffré
-# =============================
-
-col1, col2, col3 = st.columns(3)
-col1.metric("Indice classique", result["M"], help=T["help_classic_score"])
-col2.metric("Indice ajusté", result["improved"], help=T["help_improved_score"])
-col3.metric("Score de raisonnement", result["hard_fact_score"], help=T["help_hard_fact_score"])
-
-# =============================
 # Gravité cognitive globale
 # =============================
 gravity = result.get("cognitive_gravity", 0)
@@ -7215,6 +7206,15 @@ with col_center:
         # =============================
 
         st.markdown("### Pénalités appliquées")
+
+        # =============================
+        # Résumé chiffré
+        # =============================
+        
+        col1, col2, col3 = st.columns(3)
+        col1.metric("Indice classique", result["M"], help=T["help_classic_score"])
+        col2.metric("Indice ajusté", result["improved"], help=T["help_improved_score"])
+        col3.metric("Score de raisonnement", result["hard_fact_score"], help=T["help_hard_fact_score"])
 
         colp1, colp2, colp3 = st.columns(3)
 
