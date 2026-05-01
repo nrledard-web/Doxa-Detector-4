@@ -7033,56 +7033,80 @@ if result:
         "La crédibilité globale dépend aussi de la qualité des sources et de la vérifiabilité des affirmations."
     )
     
-    # =============================
-    # Barre de crédibilité finale
-    # =============================
-    final_score = result.get("final_credibility_score", score)
+# =============================
+# Barre de crédibilité finale
+# =============================
+final_score = result.get("final_credibility_score", score)
 
-    if final_score < 6:
-        couleur_c = "🔴"
-        etiquette_c = "Très fragile"
-        message_c = "Le texte présente de fortes fragilités structurelles ou vérifiables."
-    elif final_score < 9:
-        couleur_c = "🟠"
-        etiquette_c = "Fragile"
-        message_c = "Le texte contient plusieurs fragilités importantes."
-    elif final_score < 13:
-        couleur_c = "🟡"
-        etiquette_c = "Prudente"
-        message_c = "Le raisonnement est présent, mais certaines affirmations reposent davantage sur des idées générales que sur des éléments vérifiables."
-    elif final_score < 16:
-        couleur_c = "🟢"
-        etiquette_c = "Solide"
-        message_c = "Le texte présente une crédibilité globale correcte, avec peu de signaux problématiques."
-    else:
-        couleur_c = "🟢"
-        etiquette_c = "Très solide"
-        message_c = "Le texte présente une structure cognitive robuste et peu de signaux de fragilité."
+if final_score < 6:
+    couleur_c = "🔴"
+    etiquette_c = "Très fragile"
+    message_c = "Le texte présente de fortes fragilités structurelles ou vérifiables."
+elif final_score < 9:
+    couleur_c = "🟠"
+    etiquette_c = "Fragile"
+    message_c = "Le texte contient plusieurs fragilités importantes."
+elif final_score < 13:
+    couleur_c = "🟡"
+    etiquette_c = "Prudente"
+    message_c = "Le raisonnement est présent, mais certaines affirmations reposent davantage sur des idées générales que sur des éléments vérifiables."
+elif final_score < 16:
+    couleur_c = "🟢"
+    etiquette_c = "Solide"
+    message_c = "Le texte présente une crédibilité globale correcte, avec peu de signaux problématiques."
+else:
+    couleur_c = "🟢"
+    etiquette_c = "Très solide"
+    message_c = "Le texte présente une structure cognitive robuste et peu de signaux de fragilité."
 
-    st.subheader(f"{couleur_c} Crédibilité finale : {etiquette_c}")
-    st.progress(min(final_score / 20, 1))
-    st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
+# affichage crédibilité (hors du if)
+st.subheader(f"{couleur_c} Crédibilité finale : {etiquette_c}")
+st.progress(min(final_score / 20, 1))
+st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
 
-    st.markdown("### Mécroyance")
-    st.caption("La certitude dépasse le savoir et la compréhension.")
-    
-    value = min(result["drift_mecroyance"] / 10, 1.0)
-    
-    if result["drift_mecroyance"] < 1:
-        label, color = "Faible", "#16a34a"
-    elif result["drift_mecroyance"] < 3:
-        label, color = "Modérée", "#ca8a04"
-    elif result["drift_mecroyance"] < 6:
-        label, color = "Élevée", "#f97316"
-    else:
-        label, color = "Très élevée", "#dc2626"
-    
-    render_custom_gauge(value, color)
-    
-    st.markdown(
-        f"<b style='color:{color}'>{label}</b> — {result['drift_mecroyance']}",
-        unsafe_allow_html=True
-    )
+# =============================
+# Jauge mécroyance vs mensonge
+# =============================
+lie_result = compute_lie_gauge(result["M"], result["ME"])
+
+gauge_value = lie_result["gauge"]
+gauge_label = lie_result["label"]
+gauge_color = lie_result["color"]
+gauge_intensity = lie_result["intensity"]
+
+st.write("Tension cognitive (mécroyance vs mensonge)")
+st.caption(
+    "Cette jauge indique si le discours relève plutôt d’une erreur sincère "
+    "(mécroyance) ou d’une possible manipulation. "
+    "Plus la jauge progresse, plus la structure du texte se rapproche du mensonge."
+)
+
+st.markdown(f"""
+<div style="width:100%; margin-top:10px; margin-bottom:10px;">
+    <div style="
+        width:100%;
+        height:26px;
+        background:#e5e7eb;
+        border-radius:12px;
+        overflow:hidden;
+        border:1px solid #cbd5e1;
+    ">
+        <div style="
+            width:{gauge_value*100}%;
+            height:100%;
+            background:{gauge_color};
+            transition:width 0.4s ease;
+        "></div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+st.markdown(
+    f"<b style='color:{gauge_color}'>{gauge_label}</b> — intensité : {round(gauge_intensity*100,1)}%",
+    unsafe_allow_html=True
+)
+
+st.caption("Erreur sincère ⟵⟶ Manipulation probable")
 
 
     st.markdown("""
