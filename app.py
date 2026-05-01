@@ -6956,13 +6956,39 @@ if result:
         message_r = "Le texte présente un raisonnement robuste, structuré et bien soutenu."
     
     st.subheader(f"{couleur_r} Solidité argumentative : {etiquette_r}")
-    st.progress(min(score / 20, 1))
-    st.caption(f"Score : {round(score, 1)}/20 — {message_r}")
-    st.caption(
-        "Cette jauge mesure la solidité argumentative du texte : structure du raisonnement, "
-        "cohérence logique et présence d’éléments vérifiables. "
-        "La crédibilité globale dépend aussi de la qualité des sources et de la vérifiabilité des affirmations."
+    
+    with st.popover("ℹ️ Formule / explication"):
+        st.markdown("""
+    ### Solidité argumentative
+    
+    Cette jauge mesure la structure argumentative du texte.
+    
+    Elle prend en compte :
+    
+    - la présence de sources ou d’indices documentaires ;
+    - la nuance du raisonnement ;
+    - la vérifiabilité moyenne des affirmations ;
+    - la qualité des sources ;
+    - le risque moyen des affirmations ;
+    - les pénalités liées aux signaux faibles ou red flags.
+    
+    ### Formule heuristique
+    
+    ```text
+    score = (
+        0.18 × G
+      + 0.12 × N
+      + 0.20 × V
+      + 0.22 × qualité_sources
+      + 0.18 × vérifiabilité_moyenne
     )
+    − (
+        0.16 × D
+      + 0.12 × R
+      + 0.18 × risque_moyen
+      + pénalités_red_flags
+    )
+    + 8
     
     # =============================
     # Barre de crédibilité finale
