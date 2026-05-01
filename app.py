@@ -5177,8 +5177,6 @@ def analyze_article(text: str) -> Dict:
     threat_amplification_advanced_analysis = compute_threat_amplification_advanced(text)
     strong_certainty_analysis = compute_strong_certainty(text)
 
-    st.divider()
-
     # -----------------------------
     # Jauges structurelles avancées
     # -----------------------------
