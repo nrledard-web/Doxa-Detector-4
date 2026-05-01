@@ -7148,10 +7148,10 @@ st.info(brain.get("brain_advice", ""))
 
 with st.expander("Résumé du cerveau DOXA"):
     st.write(brain.get("brain_summary", "Aucun résumé disponible."))
-        col1, col2, col3 = st.columns(3)
-        col1.metric("Indice classique", result["M"], help=T["help_classic_score"])
-        col2.metric("Indice ajusté", result["improved"], help=T["help_improved_score"])
-        col3.metric("Score de raisonnement", result["hard_fact_score"], help=T["help_hard_fact_score"])
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Indice classique", result["M"], help=T["help_classic_score"])
+    col2.metric("Indice ajusté", result["improved"], help=T["help_improved_score"])
+    col3.metric("Score de raisonnement", result["hard_fact_score"], help=T["help_hard_fact_score"])
 
 # =============================
 # Partage des résultats
