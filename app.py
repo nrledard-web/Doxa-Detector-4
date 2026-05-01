@@ -7826,11 +7826,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         causal_value = result["causal_overreach_score"]
 
         if causal_value < 0.20:
-            causal_label, causal_color = "Faible", "#16a34a"
+            causal_label, causal_color = "Faible", "#ca8a04"
         elif causal_value < 0.40:
-            causal_label, causal_color = "Modérée", "#ca8a04"
+            causal_label, causal_color = "Modérée", "#f97316"
         elif causal_value < 0.70:
-            causal_label, causal_color = "Élevée", "#f97316"
+            causal_label, causal_color = "Élevée", "#ea580c"
         else:
             causal_label, causal_color = "Très élevée", "#dc2626"
 
