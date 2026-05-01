@@ -7894,11 +7894,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         emotional_value = result["emotional_intensity_score"]
 
         if emotional_value < 0.15:
-            emotional_label, emotional_color = "Faible", "#16a34a"
+            emotional_label, emotional_color = "Faible", "#ca8a04"
         elif emotional_value < 0.35:
-            emotional_label, emotional_color = "Modérée", "#ca8a04"
+            emotional_label, emotional_color = "Modérée", "#f97316"
         elif emotional_value < 0.60:
-            emotional_label, emotional_color = "Élevée", "#f97316"
+            emotional_label, emotional_color = "Élevée", "#ea580c"
         else:
             emotional_label, emotional_color = "Très élevée", "#dc2626"
 
@@ -7928,11 +7928,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         generalization_value = result["generalization_score"]
 
         if generalization_value < 0.20:
-            generalization_label, generalization_color = "Faible", "#16a34a"
+            generalization_label, generalization_color = "Faible", "#ca8a04"
         elif generalization_value < 0.40:
-            generalization_label, generalization_color = "Modérée", "#ca8a04"
+            generalization_label, generalization_color = "Modérée", "#f97316"
         elif generalization_value < 0.70:
-            generalization_label, generalization_color = "Élevée", "#f97316"
+            generalization_label, generalization_color = "Élevée", "#ea580c"
         else:
             generalization_label, generalization_color = "Très élevée", "#dc2626"
 
@@ -7962,11 +7962,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         abstract_enemy_value = result["abstract_enemy_score"]
 
         if abstract_enemy_value < 0.20:
-            abstract_enemy_label, abstract_enemy_color = "Faible", "#16a34a"
+            abstract_enemy_label, abstract_enemy_color = "Faible", "#ca8a04"
         elif abstract_enemy_value < 0.40:
-            abstract_enemy_label, abstract_enemy_color = "Modérée", "#ca8a04"
+            abstract_enemy_label, abstract_enemy_color = "Modérée", "#f97316"
         elif abstract_enemy_value < 0.70:
-            abstract_enemy_label, abstract_enemy_color = "Élevée", "#f97316"
+            abstract_enemy_label, abstract_enemy_color = "Élevée", "#ea580c"
         else:
             abstract_enemy_label, abstract_enemy_color = "Très élevée", "#dc2626"
 
@@ -7996,11 +7996,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         certainty_value = result["certainty_score"]
 
         if certainty_value < 0.20:
-            certainty_label, certainty_color = "Faible", "#16a34a"
+            certainty_label, certainty_color = "Faible", "#ca8a04"
         elif certainty_value < 0.40:
-            certainty_label, certainty_color = "Modérée", "#ca8a04"
+            certainty_label, certainty_color = "Modérée", "#f97316"
         elif certainty_value < 0.70:
-            certainty_label, certainty_color = "Élevée", "#f97316"
+            certainty_label, certainty_color = "Élevée", "#ea580c"
         else:
             certainty_label, certainty_color = "Très élevée", "#dc2626"
 
@@ -8020,7 +8020,7 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
                 for marker in markers:
                     st.warning(marker)
 
-        # -----------------------------
+    # -----------------------------
     # 13) Faux consensus
     # -----------------------------
     with row5_col1:
@@ -8030,11 +8030,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         false_consensus_value = result["false_consensus_score"]
 
         if false_consensus_value < 0.15:
-            false_consensus_label, false_consensus_color = "Faible", "#16a34a"
+            false_consensus_label, false_consensus_color = "Faible", "#ca8a04"
         elif false_consensus_value < 0.35:
-            false_consensus_label, false_consensus_color = "Modérée", "#ca8a04"
+            false_consensus_label, false_consensus_color = "Modérée", "#f97316"
         elif false_consensus_value < 0.60:
-            false_consensus_label, false_consensus_color = "Élevée", "#f97316"
+            false_consensus_label, false_consensus_color = "Élevée", "#ea580c"
         else:
             false_consensus_label, false_consensus_color = "Très élevée", "#dc2626"
 
@@ -8065,11 +8065,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         binary_value = result["binary_opposition_score"]
 
         if binary_value < 0.15:
-            binary_label, binary_color = "Faible", "#16a34a"
+            binary_label, binary_color = "Faible", "#ca8a04"
         elif binary_value < 0.35:
-            binary_label, binary_color = "Modérée", "#ca8a04"
+            binary_label, binary_color = "Modérée", "#f97316"
         elif binary_value < 0.60:
-            binary_label, binary_color = "Élevée", "#f97316"
+            binary_label, binary_color = "Élevée", "#ea580c"
         else:
             binary_label, binary_color = "Très élevée", "#dc2626"
 
@@ -8100,11 +8100,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         threat_value = result["threat_amplification_score"]
 
         if threat_value < 0.15:
-            threat_label, threat_color = "Faible", "#16a34a"
+            threat_label, threat_color = "Faible", "#ca8a04"
         elif threat_value < 0.35:
-            threat_label, threat_color = "Modérée", "#ca8a04"
+            threat_label, threat_color = "Modérée", "#f97316"
         elif threat_value < 0.60:
-            threat_label, threat_color = "Élevée", "#f97316"
+            threat_label, threat_color = "Élevée", "#ea580c"
         else:
             threat_label, threat_color = "Très élevée", "#dc2626"
 
@@ -8124,7 +8124,7 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
                 for marker in markers:
                     st.warning(marker)
 
-        # -----------------------------
+    # -----------------------------
     # 19) Fausse analogie
     # -----------------------------
     with row7_col1:
@@ -8134,11 +8134,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         value = result["false_analogy_score"]
 
         if value < 0.15:
-            label, color = "Faible", "#16a34a"
+            label, color = "Faible", "#ca8a04"
         elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
+            label, color = "Modérée", "#f97316"
         elif value < 0.60:
-            label, color = "Élevée", "#f97316"
+            label, color = "Élevée", "#ea580c"
         else:
             label, color = "Très élevée", "#dc2626"
 
@@ -8164,11 +8164,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         value = result["factual_overinterpretation_score"]
 
         if value < 0.15:
-            label, color = "Faible", "#16a34a"
+            label, color = "Faible", "#ca8a04"
         elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
+            label, color = "Modérée", "#f97316"
         elif value < 0.60:
-            label, color = "Élevée", "#f97316"
+            label, color = "Élevée", "#ea580c"
         else:
             label, color = "Très élevée", "#dc2626"
 
@@ -8194,11 +8194,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         value = result["internal_dissonance_score"]
 
         if value < 0.15:
-            label, color = "Faible", "#16a34a"
+            label, color = "Faible", "#ca8a04"
         elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
+            label, color = "Modérée", "#f97316"
         elif value < 0.60:
-            label, color = "Élevée", "#f97316"
+            label, color = "Élevée", "#ea580c"
         else:
             label, color = "Très élevée", "#dc2626"
 
@@ -8224,11 +8224,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         value = result["normative_saturation_score"]
 
         if value < 0.15:
-            label, color = "Faible", "#16a34a"
+            label, color = "Faible", "#ca8a04"
         elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
+            label, color = "Modérée", "#f97316"
         elif value < 0.60:
-            label, color = "Élevée", "#f97316"
+            label, color = "Élevée", "#ea580c"
         else:
             label, color = "Très élevée", "#dc2626"
 
@@ -8254,11 +8254,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         value = result["doxic_rigidity_score"]
 
         if value < 0.15:
-            label, color = "Faible", "#16a34a"
+            label, color = "Faible", "#ca8a04"
         elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
+            label, color = "Modérée", "#f97316"
         elif value < 0.60:
-            label, color = "Élevée", "#f97316"
+            label, color = "Élevée", "#ea580c"
         else:
             label, color = "Très élevée", "#dc2626"
 
@@ -8284,11 +8284,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         value = result["narrative_overdetermination_score"]
 
         if value < 0.15:
-            label, color = "Faible", "#16a34a"
+            label, color = "Faible", "#ca8a04"
         elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
+            label, color = "Modérée", "#f97316"
         elif value < 0.60:
-            label, color = "Élevée", "#f97316"
+            label, color = "Élevée", "#ea580c"
         else:
             label, color = "Très élevée", "#dc2626"
 
@@ -8304,7 +8304,7 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
                 for marker in markers:
                     st.warning(marker)
 
-        # -----------------------------
+    # -----------------------------
     # 16) Glissement sémantique
     # -----------------------------
     with row6_col1:
@@ -8314,11 +8314,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         semantic_value = result["semantic_shift_score"]
 
         if semantic_value < 0.20:
-            semantic_label, semantic_color = "Faible", "#16a34a"
+            semantic_label, semantic_color = "Faible", "#ca8a04"
         elif semantic_value < 0.40:
-            semantic_label, semantic_color = "Modérée", "#ca8a04"
+            semantic_label, semantic_color = "Modérée", "#f97316"
         elif semantic_value < 0.70:
-            semantic_label, semantic_color = "Élevée", "#f97316"
+            semantic_label, semantic_color = "Élevée", "#ea580c"
         else:
             semantic_label, semantic_color = "Très élevée", "#dc2626"
 
@@ -8338,7 +8338,7 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
                 for marker in markers:
                     st.warning(marker)
 
-        # -----------------------------
+    # -----------------------------
     # 17) Prémisses idéologiques implicites
     # -----------------------------
     with row6_col2:
@@ -8348,11 +8348,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         ideological_value = result["ideological_premise_score"]
 
         if ideological_value < 0.20:
-            ideological_label, ideological_color = "Faible", "#16a34a"
+            ideological_label, ideological_color = "Faible", "#ca8a04"
         elif ideological_value < 0.40:
-            ideological_label, ideological_color = "Modérée", "#ca8a04"
+            ideological_label, ideological_color = "Modérée", "#f97316"
         elif ideological_value < 0.70:
-            ideological_label, ideological_color = "Élevée", "#f97316"
+            ideological_label, ideological_color = "Élevée", "#ea580c"
         else:
             ideological_label, ideological_color = "Très élevée", "#dc2626"
 
@@ -8372,7 +8372,7 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
                 for marker in markers:
                     st.warning(marker)
 
-        # -----------------------------
+    # -----------------------------
     # 18) Clôture cognitive
     # -----------------------------
     with row6_col3:
@@ -8403,7 +8403,7 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         )
         st.caption("Plus la certitude domine G + N, plus le texte se ferme.")
 
-        # -----------------------------
+    # -----------------------------
     # 25) Syllogismes détectés
     # -----------------------------
     with row9_col1:
@@ -8463,11 +8463,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         value = min(result["fallacy_signal"] / 2, 1.0)
 
         if result["fallacy_signal"] == 0:
-            label, color = "Aucun signal", "#16a34a"
+            label, color = "Aucun signal", "#ca8a04"
         elif result["fallacy_signal"] == 1:
-            label, color = "Signal faible", "#ca8a04"
+            label, color = "Signal faible", "#f97316"
         elif result["fallacy_signal"] <= 3:
-            label, color = "Signal modéré", "#f97316"
+            label, color = "Signal modéré", "#ea580c"
         else:
             label, color = "Signal fort", "#dc2626"
 
@@ -8486,11 +8486,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         value = result["petition_score"]
 
         if value < 0.15:
-            label, color = "Faible", "#16a34a"
+            label, color = "Faible", "#ca8a04"
         elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
+            label, color = "Modérée", "#f97316"
         elif value < 0.60:
-            label, color = "Élevée", "#f97316"
+            label, color = "Élevée", "#ea580c"
         else:
             label, color = "Très élevée", "#dc2626"
 
@@ -8516,11 +8516,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         value = result["false_causality_basic_score"]
 
         if value < 0.15:
-            label, color = "Faible", "#16a34a"
+            label, color = "Faible", "#ca8a04"
         elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
+            label, color = "Modérée", "#f97316"
         elif value < 0.60:
-            label, color = "Élevée", "#f97316"
+            label, color = "Élevée", "#ea580c"
         else:
             label, color = "Très élevée", "#dc2626"
 
@@ -8546,11 +8546,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         value = result["hasty_generalization_score"]
 
         if value < 0.15:
-            label, color = "Faible", "#16a34a"
+            label, color = "Faible", "#ca8a04"
         elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
+            label, color = "Modérée", "#f97316"
         elif value < 0.60:
-            label, color = "Élevée", "#f97316"
+            label, color = "Élevée", "#ea580c"
         else:
             label, color = "Très élevée", "#dc2626"
 
@@ -8576,11 +8576,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         value = result["vague_authority_basic_score"]
 
         if value < 0.15:
-            label, color = "Faible", "#16a34a"
+            label, color = "Faible", "#ca8a04"
         elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
+            label, color = "Modérée", "#f97316"
         elif value < 0.60:
-            label, color = "Élevée", "#f97316"
+            label, color = "Élevée", "#ea580c"
         else:
             label, color = "Très élevée", "#dc2626"
 
@@ -8606,11 +8606,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         value = result["false_dilemma_score"]
 
         if value < 0.15:
-            label, color = "Faible", "#16a34a"
+            label, color = "Faible", "#ca8a04"
         elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
+            label, color = "Modérée", "#f97316"
         elif value < 0.60:
-            label, color = "Élevée", "#f97316"
+            label, color = "Élevée", "#ea580c"
         else:
             label, color = "Très élevée", "#dc2626"
 
@@ -8636,11 +8636,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         value = result["normative_qualification_score"]
 
         if value < 0.15:
-            label, color = "Faible", "#16a34a"
+            label, color = "Faible", "#ca8a04"
         elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
+            label, color = "Modérée", "#f97316"
         elif value < 0.60:
-            label, color = "Élevée", "#f97316"
+            label, color = "Élevée", "#ea580c"
         else:
             label, color = "Très élevée", "#dc2626"
 
@@ -8666,11 +8666,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         value = result["ideological_premise_sophism_score"]
 
         if value < 0.15:
-            label, color = "Faible", "#16a34a"
+            label, color = "Faible", "#ca8a04"
         elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
+            label, color = "Modérée", "#f97316"
         elif value < 0.60:
-            label, color = "Élevée", "#f97316"
+            label, color = "Élevée", "#ea580c"
         else:
             label, color = "Très élevée", "#dc2626"
 
@@ -8696,11 +8696,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         value = result["false_consensus_strong_score"]
 
         if value < 0.15:
-            label, color = "Faible", "#16a34a"
+            label, color = "Faible", "#ca8a04"
         elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
+            label, color = "Modérée", "#f97316"
         elif value < 0.60:
-            label, color = "Élevée", "#f97316"
+            label, color = "Élevée", "#ea580c"
         else:
             label, color = "Très élevée", "#dc2626"
 
@@ -8726,11 +8726,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         value = result["argument_from_nature_score"]
 
         if value < 0.15:
-            label, color = "Faible", "#16a34a"
+            label, color = "Faible", "#ca8a04"
         elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
+            label, color = "Modérée", "#f97316"
         elif value < 0.60:
-            label, color = "Élevée", "#f97316"
+            label, color = "Élevée", "#ea580c"
         else:
             label, color = "Très élevée", "#dc2626"
 
@@ -8756,11 +8756,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         value = result["descriptive_normative_confusion_score"]
 
         if value < 0.15:
-            label, color = "Faible", "#16a34a"
+            label, color = "Faible", "#ca8a04"
         elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
+            label, color = "Modérée", "#f97316"
         elif value < 0.60:
-            label, color = "Élevée", "#f97316"
+            label, color = "Élevée", "#ea580c"
         else:
             label, color = "Très élevée", "#dc2626"
 
@@ -8786,11 +8786,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         value = result["cherry_picking_score"]
 
         if value < 0.15:
-            label, color = "Faible", "#16a34a"
+            label, color = "Faible", "#ca8a04"
         elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
+            label, color = "Modérée", "#f97316"
         elif value < 0.60:
-            label, color = "Élevée", "#f97316"
+            label, color = "Élevée", "#ea580c"
         else:
             label, color = "Très élevée", "#dc2626"
 
@@ -8818,7 +8818,7 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
                     for marker in omissions:
                         st.error(marker)
 
-        # -----------------------------
+    # -----------------------------
     # 39) Victimisation stratégique
     # -----------------------------
     with row14_col1:
@@ -8828,11 +8828,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         value = result["victimization_score"]
 
         if value < 0.15:
-            label, color = "Faible", "#16a34a"
+            label, color = "Faible", "#ca8a04"
         elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
+            label, color = "Modérée", "#f97316"
         elif value < 0.60:
-            label, color = "Élevée", "#f97316"
+            label, color = "Élevée", "#ea580c"
         else:
             label, color = "Très élevée", "#dc2626"
 
@@ -8861,11 +8861,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         value = result["moral_polarization_score"]
 
         if value < 0.15:
-            label, color = "Faible", "#16a34a"
+            label, color = "Faible", "#ca8a04"
         elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
+            label, color = "Modérée", "#f97316"
         elif value < 0.60:
-            label, color = "Élevée", "#f97316"
+            label, color = "Élevée", "#ea580c"
         else:
             label, color = "Très élevée", "#dc2626"
 
@@ -8894,11 +8894,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         value = result["strategic_simplification_score"]
 
         if value < 0.15:
-            label, color = "Faible", "#16a34a"
+            label, color = "Faible", "#ca8a04"
         elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
+            label, color = "Modérée", "#f97316"
         elif value < 0.60:
-            label, color = "Élevée", "#f97316"
+            label, color = "Élevée", "#ea580c"
         else:
             label, color = "Très élevée", "#dc2626"
 
@@ -8927,11 +8927,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         value = result["frame_shift_score"]
 
         if value < 0.15:
-            label, color = "Faible", "#16a34a"
+            label, color = "Faible", "#ca8a04"
         elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
+            label, color = "Modérée", "#f97316"
         elif value < 0.60:
-            label, color = "Élevée", "#f97316"
+            label, color = "Élevée", "#ea580c"
         else:
             label, color = "Très élevée", "#dc2626"
 
@@ -8960,11 +8960,11 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         value = result["argument_asymmetry_score"]
 
         if value < 0.15:
-            label, color = "Faible", "#16a34a"
+            label, color = "Faible", "#ca8a04"
         elif value < 0.35:
-            label, color = "Modérée", "#ca8a04"
+            label, color = "Modérée", "#f97316"
         elif value < 0.60:
-            label, color = "Élevée", "#f97316"
+            label, color = "Élevée", "#ea580c"
         else:
             label, color = "Très élevée", "#dc2626"
 
