@@ -7607,12 +7607,6 @@ with col_center:
     ME_gauge = lie_result["ME"]
     gauge_intensity = lie_result["intensity"]
 
-    st.write("Tension cognitive (mécroyance vs mensonge)")
-    st.caption(
-        "Cette jauge indique si le discours relève plutôt d’une erreur sincère "
-        "(mécroyance) ou d’une possible manipulation. "
-        "Plus la jauge progresse, plus la structure du texte se rapproche du mensonge."
-    )
 
     st.markdown(f"""
     <div style="width:100%; margin-top:10px; margin-bottom:10px;">
