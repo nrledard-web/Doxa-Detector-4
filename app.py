@@ -7225,7 +7225,8 @@ La jauge monte fortement parce que le texte présente une combinaison de signaux
 elif gauge_value >= 0.45:
     st.info("### Pourquoi cette jauge s’allume ?")
 
-
+    st.markdown("""
+Le texte contient une tension entre mécroyance et manipulation.
 
 La certitude paraît plus forte que les preuves disponibles, mais les signaux ne suffisent pas encore à conclure à une manipulation nette.
 """)
