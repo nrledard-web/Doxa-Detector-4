@@ -7008,7 +7008,7 @@ if result:
         message_r = "Le texte présente un raisonnement robuste, structuré et bien soutenu."
     
     st.subheader(f"{couleur_r} Solidité argumentative : {etiquette_r}")
-with st.popover("ℹ️ Formule / explication"):
+    with st.popover("ℹ️ Formule / explication"):
 
     st.subheader(f"Solidité argumentative — {etiquette_r}")
     st.caption(f"Score observé : {round(score,1)}/20")
