@@ -7188,87 +7188,97 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         st.subheader(f"{T['verdict']} : {couleur_c} Crédibilité finale — {etiquette_c}")
         st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
         st.subheader(T["summary"])
-    
+
+        m1, m2 = st.columns(2)
+        m1.metric("HFS", round(result["hard_fact_score"], 1))
+        m2.metric("G — gnōsis", round(result["G"], 2))
+        
+        m3, m4 = st.columns(2)
+        m3.metric("N — nous", round(result["N"], 2))
+        m4.metric("D — doxa", round(result["D"], 2))
+        
         m5, m6 = st.columns(2)
-        m5.metric("QS", result["source_quality"])
-        m6.metric("RC", round(result["avg_claim_risk"], 1))
+        m5.metric("Pression discursive", round(result.get("discursive_pressure", 0), 2))
+        m6.metric("ID", round(result.get("ID", 0), 2))
+        
         m7, m8 = st.columns(2)
-        m7.metric("VC", round(result["avg_claim_verifiability"], 1))
-        m8.metric("F", len(result["red_flags"]))
+        m7.metric("Pénalité jauges", round(result.get("display_gauge_penalty", 0), 2))
+        m8.metric("Score final", round(final_score, 1))
         
-        st.markdown(f"""
-        Cette jauge synthétise la **crédibilité globale du texte**.
-        
-        Elle ne mesure pas seulement la cohérence du raisonnement : elle combine surtout la **qualité des sources**, la **solidité des affirmations**, leur **vérifiabilité** et les **fragilités détectées**.
-        
-        ---
-        
-        ### 1️⃣ Score de base
-        
-        `score_base = (QS + RC + VC) / 3`
-        
-        avec les valeurs de cette analyse :
-        
-        QS = {result["source_quality"]}  
-        RC = {round(result["avg_claim_risk"], 1)}  
-        VC = {round(result["avg_claim_verifiability"], 1)}
-        
-        Calcul :
-        
-        `score_base = ({result["source_quality"]} + {round(result["avg_claim_risk"],1)} + {round(result["avg_claim_verifiability"],1)}) / 3`
-        
-        `score_base ≈ {round((result["source_quality"] + result["avg_claim_risk"] + result["avg_claim_verifiability"]) / 3, 2)}`
-        
-        ---
-        
-        ### 2️⃣ Pénalité des fragilités
-        
-        `pénalité_fragilités = F × wF`
-        
-        F = {len(result["red_flags"])} fragilité(s) détectée(s)
-        
-        Les fragilités peuvent provenir par exemple de :
-        
-        - contradictions internes  
-        - cherry picking  
-        - sophismes ou enthymèmes  
-        - pression rhétorique  
-        - biais narratif  
-        
-        ---
-        
-        ### 3️⃣ Formule heuristique finale
-        
-        score_final ≈ (QS + RC + VC) / 3
-        
-        Score final observé :
-        
-        `score_final = {round(final_score,1)} / 20`
-        
-        ---
-        
-        ### Interprétation des pénalités
-        
-        Plus `F` est élevé :
-        
-        - plus les fragilités discursives sont nombreuses  
-        - plus la crédibilité finale diminue  
-        
-        Une valeur faible de `F` signifie :
-        
-        - peu de signaux problématiques détectés  
-        - raisonnement globalement plus stable  
-        - meilleure résistance aux biais rhétoriques  
-        
-        ---
-        
-        ### Interprétation du score final
-        
-        0–5 : crédibilité très fragile  
-        6–9 : crédibilité fragile  
-        10–14 : crédibilité prudente  
-        15–20 : crédibilité robuste
-        """)
+    st.markdown(f"""
+    Cette jauge synthétise la **crédibilité globale du texte**.
+    
+    Elle combine trois dimensions :
+    
+    - la solidité factuelle du texte  
+    - l’équilibre cognitif entre connaissance, compréhension et certitude  
+    - la pression discursive détectée dans le langage  
+    
+    ---
+    
+    ### 1️⃣ Solidité factuelle
+    
+    `HFS = hard_fact_score / 20`
+    
+    Dans cette analyse :
+    
+    `HFS = {round(result["hard_fact_score"], 1)} / 20`
+    
+    ---
+    
+    ### 2️⃣ Calibration cognitive
+    
+    `OC = (G + N) / (G + N + D)`
+    
+    avec :
+    
+    G = gnōsis  
+    N = nous  
+    D = doxa  
+    
+    Dans cette analyse :
+    
+    `OC = ({round(result["G"],2)} + {round(result["N"],2)}) / ({round(result["G"],2)} + {round(result["N"],2)} + {round(result["D"],2)})`
+    
+    `OC ≈ {round((result["G"] + result["N"]) / max((result["G"] + result["N"] + result["D"]), 1), 2)}`
+    
+    ---
+    
+    ### 3️⃣ Indice de pression discursive
+    
+    `ID = 1 − pression_discursive`
+    
+    avec :
+    
+    `pression_discursive = propagande + pression_rhétorique`
+    
+    Plus la pression discursive est forte, plus le score final diminue.
+    
+    ---
+    
+    ### 4️⃣ Formule heuristique principale
+    
+    `score_initial = 20 × HFS × OC × ID`
+    
+    ---
+    
+    ### 5️⃣ Ajustement final
+    
+    `score_final = score_initial − pénalité_jauges`
+    
+    Score final observé :
+    
+    `score_final = {round(final_score, 1)} / 20`
+    
+    ---
+    
+    ### Interprétation du score final
+    
+    0–5 : crédibilité très fragile  
+    6–9 : crédibilité fragile  
+    10–14 : crédibilité prudente  
+    15–20 : crédibilité robuste
+    """)
 
     st.markdown("""
     <div style="text-align:center; margin:25px 0; color:#bbb;">
