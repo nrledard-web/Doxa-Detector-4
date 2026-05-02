@@ -7051,7 +7051,6 @@ if result:
         gauge_intensity = lie_result["intensity"]
     
     with st.popover("ℹ️ Formule / résultats"):
-
         st.subheader(f"Verdict : {gauge_label}")
         st.caption(
             f"Position : {round(gauge_calc, 3)} / 1 — "
