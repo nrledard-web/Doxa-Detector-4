@@ -7035,6 +7035,7 @@ if result:
         "cohérence logique et présence d’éléments vérifiables. "
         "La crédibilité globale dépend aussi de la qualité des sources et de la vérifiabilité des affirmations."
     )
+    st.subheader("Barre de Mécryance")
     lie_result = compute_lie_gauge(result["M"], result["ME"])
     
     gauge_value = lie_result["gauge"]
