@@ -7231,11 +7231,6 @@ Le texte contient une tension entre mécroyance et manipulation.
 La certitude paraît plus forte que les preuves disponibles, mais les signaux ne suffisent pas encore à conclure à une manipulation nette.
 """)
 
-else:
-    st.caption(
-        "La jauge reste basse : le texte relève plutôt d’une erreur sincère "
-        "ou d’un désalignement cognitif."
-    )
 
     # =============================
     # Barre de crédibilité finale
