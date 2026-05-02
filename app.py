@@ -7547,16 +7547,6 @@ with col_center:
         with st.expander("Voir le détail des pénalités"):
             st.write(result.get("weighted_red_flags", []))
 
-        st.divider()
-
-    st.markdown(
-        """
-        <div style="font-size:20px; line-height:1.7;">
-        <b>Résultats essentiels</b>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
 
     st.divider()
 
