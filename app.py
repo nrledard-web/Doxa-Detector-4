@@ -7018,7 +7018,10 @@ st.caption(
     "cohérence logique et présence d’éléments vérifiables. "
     "La crédibilité globale dépend aussi de la qualité des sources et de la vérifiabilité des affirmations."
 )
-
+st.markdown(
+    f"<b style='color:{color_r}'>{etiquette_r}</b> — Score : {round(score, 1)}/20",
+    unsafe_allow_html=True
+)
 with st.popover("ℹ️ Formule / explication"):
     st.markdown(f"""
 ### Solidité argumentative — {etiquette_r}
@@ -7078,10 +7081,6 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-st.markdown(
-    f"<b style='color:{color_r}'>{etiquette_r}</b> — Score : {round(score, 1)}/20",
-    unsafe_allow_html=True
-)
 st.caption(message_r)
 st.markdown("""
 <div style="text-align:center; margin:25px 0; color:#888;">
