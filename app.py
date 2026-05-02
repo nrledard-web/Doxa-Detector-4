@@ -7183,6 +7183,85 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
     st.progress(min(final_score / 20, 1))
     st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
 
+    with st.popover("ℹ️ Formule / explication"):
+        st.markdown("""
+    Cette jauge synthétise la **crédibilité globale du texte**.
+    
+    Elle résulte d’un calcul en trois étapes.
+    
+    ---
+    
+    ### 1️⃣ Structure argumentative
+    
+    `score_structure = (G × 0.6) + (N × 0.4)`
+    
+    avec :
+    
+    G = gnōsis  
+    éléments factuels détectés dans le texte  
+    (nombres, dates, sources, citations, références)
+    
+    N = nous  
+    cohérence logique et structure argumentative  
+    (connecteurs logiques, relations causales, progression du raisonnement)
+    
+    ---
+    
+    ### 2️⃣ Vecteur des fragilités
+    
+    `P = [C, CP, S, R, B]`
+    
+    avec :
+    
+    C = contradictions internes  
+    CP = cherry picking  
+    S = sophismes ou enthymèmes  
+    R = pression rhétorique  
+    B = biais narratif  
+    
+    Chaque fragilité est pondérée par un coefficient de gravité :
+    
+    `W = [wC, wCP, wS, wR, wB]`
+    
+    La pénalité totale est donc :
+    
+    `pénalité_totale = P · W`
+    
+    c’est-à-dire :
+    
+    `pénalité_totale = (C × wC) + (CP × wCP) + (S × wS) + (R × wR) + (B × wB)`
+    
+    ---
+    
+    ### 3️⃣ Formule heuristique finale
+    
+    `score_final = ((G × 0.6) + (N × 0.4)) − (P · W)`
+    
+    ---
+    
+    ### Interprétation des pénalités
+    
+    Plus `pénalité_totale` est élevée :
+    
+    - plus les fragilités discursives sont nombreuses ou graves  
+    - plus la crédibilité du texte diminue
+    
+    Une pénalité proche de **0** signifie :
+    
+    - peu de contradictions  
+    - peu de biais rhétoriques  
+    - raisonnement globalement stable
+    
+    ---
+    
+    ### Interprétation du score final
+    
+    0–5 : crédibilité très fragile  
+    6–9 : crédibilité fragile  
+    10–14 : crédibilité prudente  
+    15–20 : crédibilité robuste
+    """)
+
     st.markdown("""
     <div style="text-align:center; margin:25px 0; color:#bbb;">
     ✦ ✦ ✦
