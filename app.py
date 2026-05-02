@@ -7032,28 +7032,28 @@ if result:
         "cohérence logique et présence d’éléments vérifiables. "
         "La crédibilité globale dépend aussi de la qualité des sources et de la vérifiabilité des affirmations."
     )
-lie_result = compute_lie_gauge(result["M"], result["ME"])
-
-gauge_value = lie_result["gauge"]
-gauge_label = lie_result["label"]
-gauge_color = lie_result["color"]
-ME_gauge = lie_result["ME"]
-gauge_intensity = lie_result["intensity"]
-
-M_val = result.get("M", 0)
-ME_val = result.get("ME", 0)
-
-m_norm = max(0.0, min(1.0, (M_val + 10) / 30))
-me_norm = max(0.0, min(1.0, ME_val / 20))
-delta_lie = me_norm - (1 - m_norm)
-gauge_calc = max(0.0, min(1.0, 0.5 + (delta_lie * 0.8)))
-
-st.write("Tension cognitive (mécroyance vs mensonge)")
-st.caption(
-    "Cette jauge indique si le discours relève plutôt d’une erreur sincère "
-    "(mécroyance) ou d’une possible manipulation. "
-    "Plus la jauge progresse, plus la structure du texte se rapproche du mensonge."
-)
+    lie_result = compute_lie_gauge(result["M"], result["ME"])
+    
+    gauge_value = lie_result["gauge"]
+    gauge_label = lie_result["label"]
+    gauge_color = lie_result["color"]
+    ME_gauge = lie_result["ME"]
+    gauge_intensity = lie_result["intensity"]
+    
+    M_val = result.get("M", 0)
+    ME_val = result.get("ME", 0)
+    
+    m_norm = max(0.0, min(1.0, (M_val + 10) / 30))
+    me_norm = max(0.0, min(1.0, ME_val / 20))
+    delta_lie = me_norm - (1 - m_norm)
+    gauge_calc = max(0.0, min(1.0, 0.5 + (delta_lie * 0.8)))
+    
+    st.write("Tension cognitive (mécroyance vs mensonge)")
+    st.caption(
+        "Cette jauge indique si le discours relève plutôt d’une erreur sincère "
+        "(mécroyance) ou d’une possible manipulation. "
+        "Plus la jauge progresse, plus la structure du texte se rapproche du mensonge."
+    )
 
     with st.popover("ℹ️ Formule / résultats"):
         st.markdown(f"""
