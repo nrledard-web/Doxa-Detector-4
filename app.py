@@ -7182,6 +7182,12 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
     st.subheader(f"{couleur_c} Crédibilité finale : {etiquette_c}")
     st.progress(min(final_score / 20, 1))
     st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
+
+    st.markdown("""
+    <div style="text-align:center; margin:25px 0; color:#bbb;">
+    ✦ ✦ ✦
+    </div>
+    """, unsafe_allow_html=True)
     
     st.markdown("""
     <div style="text-align:center; margin:25px 0; color:#888;">
