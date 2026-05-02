@@ -7093,15 +7093,66 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =============================
-# Tension cognitive
+# Calculs mécroyance / mensonge
 # =============================
 
-st.write("Tension cognitive (mécroyance vs mensonge)")
+lie_result = compute_lie_gauge(result["M"], result["ME"])
+
+gauge_value = lie_result["gauge"]
+gauge_label = lie_result["label"]
+gauge_color = lie_result["color"]
+gauge_intensity = lie_result["intensity"]
+
+M_val = result.get("M", 0)
+ME_val = result.get("ME", 0)
+
+m_norm = max(0.0, min(1.0, (M_val + 10) / 30))
+me_norm = max(0.0, min(1.0, ME_val / 20))
+delta_lie = me_norm - (1 - m_norm)
+gauge_calc = max(0.0, min(1.0, 0.5 + (delta_lie * 0.8)))
+
+if gauge_value < 0.20:
+    emoji = "🟤"
+elif gauge_value < 0.40:
+    emoji = "🟡"
+elif gauge_value < 0.60:
+    emoji = "🟠"
+else:
+    emoji = "🔴"
+
+st.subheader(f"{emoji} Tension cognitive : {gauge_label}")
 st.caption(
     "Cette jauge indique si le discours relève plutôt d’une erreur sincère "
     "(mécroyance) ou d’une possible manipulation. "
     "Plus la jauge progresse, plus la structure du texte se rapproche du mensonge."
 )
+# Barre visuelle de la jauge
+st.markdown(f"""
+<div style="width:100%; margin-top:10px; margin-bottom:10px;">
+    <div style="
+        width:100%;
+        height:26px;
+        background:#e5e7eb;
+        border-radius:12px;
+        overflow:hidden;
+        border:1px solid #cbd5e1;
+    ">
+        <div style="
+            width:{gauge_value*100}%;
+            height:100%;
+            background:{gauge_color};
+            transition:width 0.4s ease;
+        "></div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+st.markdown(
+    f"<b style='color:{gauge_color}'>{gauge_label}</b> — intensité : {round(gauge_intensity*100,1)}%",
+    unsafe_allow_html=True
+)
+
+st.caption("Erreur sincère ⟵⟶ Manipulation probable")
 
 with st.popover("ℹ️ Formule / résultats"):
 
