@@ -6998,7 +6998,7 @@ elif score < 9:
     message_r = "Le raisonnement existe, mais reste incomplet ou insuffisamment construit."
 elif score < 13:
     couleur_r = "🟡"
-    color_r = "#ca8a04"
+    color_r = "#facc15"
     etiquette_r = "Modérée"
     message_r = "Le texte présente une structure de raisonnement cohérente, mais plusieurs affirmations restent conceptuelles ou insuffisamment démontrées."
 elif score < 16:
