@@ -7184,6 +7184,24 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
     st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
 
     with st.popover("ℹ️ Formule / explication"):
+
+        st.subheader(f"{T['verdict']} : {couleur_c} Crédibilité finale — {etiquette_c}")
+        st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
+        st.subheader(T["summary"])
+    
+        m1, m2 = st.columns(2)
+        m1.metric("G — gnōsis", result["G"])
+        m2.metric("N — nous", result["N"])
+        m3, m4 = st.columns(2)
+        m3.metric("D — doxa", result["D"])
+        m4.metric("V — vérifiabilité", result["V"])
+        m5, m6 = st.columns(2)
+        m5.metric("QS", result["source_quality"])
+        m6.metric("RC", round(result["avg_claim_risk"], 1))
+        m7, m8 = st.columns(2)
+        m7.metric("VC", round(result["avg_claim_verifiability"], 1))
+        m8.metric("F", len(result["red_flags"]))
+        
         st.markdown("""
     Cette jauge synthétise la **crédibilité globale du texte**.
     
@@ -7554,32 +7572,10 @@ with col_center:
     life_score = round((result["hard_fact_score"] / 20) * 100, 1)
     mecroyance_bar = max(0.0, min(1.0, (result["M"] + 10) / 30))
 
-    col1, col2 = st.columns(2)
     with col1:
         st.write("Vitalité cognitive")
         st.progress(life_score / 100)
         st.caption(f"{life_score}%")
-    with col2:
-        st.write("Indice de mécroyance")
-        st.progress(mecroyance_bar)
-        st.caption(f"M = {result['M']}")
-
-    st.subheader(f"{T['verdict']} : {couleur_c} Crédibilité finale — {etiquette_c}")
-    st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
-    st.subheader(T["summary"])
-
-    m1, m2 = st.columns(2)
-    m1.metric("G — gnōsis", result["G"])
-    m2.metric("N — nous", result["N"])
-    m3, m4 = st.columns(2)
-    m3.metric("D — doxa", result["D"])
-    m4.metric("V — vérifiabilité", result["V"])
-    m5, m6 = st.columns(2)
-    m5.metric("QS", result["source_quality"])
-    m6.metric("RC", round(result["avg_claim_risk"], 1))
-    m7, m8 = st.columns(2)
-    m7.metric("VC", round(result["avg_claim_verifiability"], 1))
-    m8.metric("F", len(result["red_flags"]))
 
     st.divider()
 
