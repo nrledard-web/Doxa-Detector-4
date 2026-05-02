@@ -7013,6 +7013,26 @@ else:
     message_r = "Le texte présente un raisonnement robuste, structuré et bien soutenu."
 
 st.subheader(f"{couleur_r} Solidité argumentative : {etiquette_r}")
+# Barre épaisse colorée
+st.markdown(f"""
+<div style="width:100%; margin-top:10px; margin-bottom:10px;">
+    <div style="
+        width:100%;
+        height:26px;
+        background:#e5e7eb;
+        border-radius:12px;
+        overflow:hidden;
+        border:1px solid #cbd5e1;
+    ">
+        <div style="
+            width:{min(score / 20, 1) * 100}%;
+            height:100%;
+            background:{color_r};
+            transition:width 0.4s ease;
+        "></div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 st.caption(
     "Cette jauge mesure la solidité argumentative du texte : structure du raisonnement, "
     "cohérence logique et présence d’éléments vérifiables. "
@@ -7059,27 +7079,6 @@ N = nous
 7–13 : raisonnement partiel  
 14–20 : raisonnement robuste
 """)
-
-# Barre épaisse colorée
-st.markdown(f"""
-<div style="width:100%; margin-top:10px; margin-bottom:10px;">
-    <div style="
-        width:100%;
-        height:26px;
-        background:#e5e7eb;
-        border-radius:12px;
-        overflow:hidden;
-        border:1px solid #cbd5e1;
-    ">
-        <div style="
-            width:{min(score / 20, 1) * 100}%;
-            height:100%;
-            background:{color_r};
-            transition:width 0.4s ease;
-        "></div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
 
 st.caption(message_r)
 st.markdown("""
