@@ -7745,6 +7745,26 @@ else:
 
 st.markdown("### Gravité cognitive globale")
 
+render_custom_gauge(gravity, gravity_color)
+
+st.markdown(
+    f"""
+<div style='
+border:1px solid {gravity_color};
+border-radius:12px;
+padding:12px;
+margin-top:8px;
+background-color:rgba(255,255,255,0.03);
+'>
+<b style='color:{gravity_color};'>
+Gravité {gravity_label} — {gravity_pct}%
+</b><br>
+{gravity_text}
+</div>
+""",
+    unsafe_allow_html=True
+)
+
 with st.popover("ℹ️ Comprendre cette jauge"):
     st.markdown(f"""
 ### Gravité cognitive globale
@@ -7790,25 +7810,7 @@ Gravité : **{gravity_pct}%**
 Verdict : **{gravity_label}**
 """)
 
-render_custom_gauge(gravity, gravity_color)
 
-st.markdown(
-    f"""
-<div style='
-border:1px solid {gravity_color};
-border-radius:12px;
-padding:12px;
-margin-top:8px;
-background-color:rgba(255,255,255,0.03);
-'>
-<b style='color:{gravity_color};'>
-Gravité {gravity_label} — {gravity_pct}%
-</b><br>
-{gravity_text}
-</div>
-""",
-    unsafe_allow_html=True
-)
 # =============================
 # Cerveau DOXA
 # =============================
