@@ -7189,12 +7189,6 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
         st.subheader(T["summary"])
     
-        m1, m2 = st.columns(2)
-        m1.metric("G — gnōsis", result["G"])
-        m2.metric("N — nous", result["N"])
-        m3, m4 = st.columns(2)
-        m3.metric("D — doxa", result["D"])
-        m4.metric("V — vérifiabilité", result["V"])
         m5, m6 = st.columns(2)
         m5.metric("QS", result["source_quality"])
         m6.metric("RC", round(result["avg_claim_risk"], 1))
@@ -7245,7 +7239,7 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         
         ### 3️⃣ Formule heuristique finale
         
-        `score_final = ((QS + RC + VC) / 3) − (F × wF)`
+        score_final ≈ (QS + RC + VC) / 3
         
         Score final observé :
         
