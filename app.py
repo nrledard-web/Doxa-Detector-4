@@ -7235,7 +7235,11 @@ else:
         "La jauge reste basse : le texte releve plutot d'une erreur sincere "
         "ou d'un desalignement cognitif."
     )
-    
+    st.markdown("""
+<div style="text-align:center; margin:25px 0; color:#888;">
+────────── ✦ ──────────
+</div>
+""", unsafe_allow_html=True)
 
     # =============================
     # Barre de crédibilité finale
