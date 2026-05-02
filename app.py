@@ -7006,9 +7006,8 @@ if result:
         couleur_r = "🟢"
         etiquette_r = "Très solide"
         message_r = "Le texte présente un raisonnement robuste, structuré et bien soutenu."
-    
-    st.subheader(f"{couleur_r} Solidité argumentative : {etiquette_r}")
-with st.popover("ℹ️ Formule / explication"):
+
+    with st.popover("ℹ️ Formule / explication"):
 
     st.subheader(f"Solidité argumentative — {etiquette_r}")
     st.caption(f"Score observé : {round(score,1)}/20")
@@ -7088,6 +7087,8 @@ Un score de **{round(score,1)}/20** indique un raisonnement :
 Le texte possède une structure argumentative réelle,  
 mais certaines affirmations restent encore insuffisamment démontrées.
 """)
+    
+    st.subheader(f"{couleur_r} Solidité argumentative : {etiquette_r}")
     st.markdown("""
         <div style="text-align:center; margin:25px 0; color:#888;">
         ────────── ✦ ──────────
