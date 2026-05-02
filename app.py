@@ -7363,28 +7363,58 @@ else:
 
     if final_score < 6:
         couleur_c = "🔴"
+        color_c = "#dc2626"
         etiquette_c = "Très fragile"
         message_c = "Le texte présente de fortes fragilités structurelles ou vérifiables."
     elif final_score < 9:
         couleur_c = "🟠"
+        color_c = "#f97316"
         etiquette_c = "Fragile"
         message_c = "Le texte contient plusieurs fragilités importantes."
     elif final_score < 13:
         couleur_c = "🟡"
+        color_c = "#facc15"
         etiquette_c = "Prudente"
         message_c = "Le raisonnement est présent, mais certaines affirmations reposent davantage sur des idées générales que sur des éléments vérifiables."
     elif final_score < 16:
         couleur_c = "🟢"
+        color_c = "#22c55e"
         etiquette_c = "Solide"
         message_c = "Le texte présente une crédibilité globale correcte, avec peu de signaux problématiques."
     else:
         couleur_c = "🟢"
+        color_c = "#15803d"
         etiquette_c = "Très solide"
         message_c = "Le texte présente une structure cognitive robuste et peu de signaux de fragilité."
     
-    st.subheader(f"{couleur_c} Crédibilité finale : {etiquette_c}")
-    st.progress(min(final_score / 20, 1))
-    st.caption(f"Score final : {round(final_score, 1)}/20 — {message_c}")
+st.subheader(f"{couleur_c} Crédibilité finale : {etiquette_c}")
+
+st.markdown(f"""
+<div style="width:100%; margin-top:10px; margin-bottom:10px;">
+    <div style="
+        width:100%;
+        height:26px;
+        background:#e5e7eb;
+        border-radius:12px;
+        overflow:hidden;
+        border:1px solid #cbd5e1;
+    ">
+        <div style="
+            width:{min(final_score / 20, 1) * 100}%;
+            height:100%;
+            background:{color_c};
+            transition:width 0.4s ease;
+        "></div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+st.markdown(
+    f"<b style='color:{color_c}'>{etiquette_c}</b> — Score final : {round(final_score,1)}/20",
+    unsafe_allow_html=True
+)
+
+st.caption(message_c)
 
     with st.popover("ℹ️ Formule / explication"):
 
