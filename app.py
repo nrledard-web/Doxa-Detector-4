@@ -7570,13 +7570,6 @@ with col_center:
     fig_triangle = plot_cognitive_triangle_3d(result["G"], result["N"], result["D"])
     st.pyplot(fig_triangle, use_container_width=True)
 
-    st.subheader("Métriques cognitives")
-    col1, col2 = st.columns(2)
-    with col1:
-        st.metric("Indice de mécroyance (M)", round(result["M"], 2))
-    with col2:
-        st.metric("Indice de mensonge (ME)", round(result["ME"], 2))
-
     # =============================
     # Nouvelles jauges : dérives cognitives
     # =============================
