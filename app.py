@@ -7111,14 +7111,16 @@ me_norm = max(0.0, min(1.0, ME_val / 20))
 delta_lie = me_norm - (1 - m_norm)
 gauge_calc = max(0.0, min(1.0, 0.5 + (delta_lie * 0.8)))
 
-if gauge_value < 0.20:
+if gauge_color == "#a16207":
     emoji = "🟤"
-elif gauge_value < 0.40:
+elif gauge_color == "#ca8a04":
     emoji = "🟡"
-elif gauge_value < 0.60:
+elif gauge_color == "#f59e0b":
     emoji = "🟠"
-else:
+elif gauge_color == "#dc2626":
     emoji = "🔴"
+else:
+    emoji = "⚪"
 
 st.subheader(f"{emoji} Tension cognitive : {gauge_label}")
 st.caption(
