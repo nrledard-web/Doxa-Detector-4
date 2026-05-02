@@ -7784,12 +7784,93 @@ Elle mesure si sa structure présente des signes de **déséquilibre cognitif**,
 
 La jauge synthétise plusieurs dimensions :
 
-- équilibre entre **G — gnōsis**, **N — nous** et **D — doxa**
-- indice de mécroyance
-- pression discursive
-- solidité argumentative
-- red flags détectés
-- dérives de type pseudo-savoir, certitude excessive ou manipulation possible
+1️⃣ Niveau 1 — le noyau cognitif
+
+M=(G+N)−D
+
+Ce noyau mesure l’équilibre cognitif du discours.
+
+2️⃣ Niveau 2 — les dérivés du noyau
+
+indice de mécroyance
+M=(G+N)−D
+indice de mendacité
+ME=2D−(G+N)
+
+Ils mesurent :
+
+désalignement cognitif
+certitude excessive
+
+3️⃣ Niveau 3 — analyse linguistique
+
+pression discursive
+
+basée sur :
+
+dramatisation
+certitude absolue
+autorité vague
+ennemi abstrait
+solidité argumentative
+
+basée sur :
+
+connecteurs logiques
+contradictions
+structure argumentative
+red flags
+
+détection de procédés rhétoriques :
+
+sophismes
+généralisation
+naturalisation
+victimisation
+
+4️⃣ Niveau 4 — synthèse cognitive
+
+Tous ces indicateurs alimentent la stabilité cognitive.
+
+On peut la résumer ainsi :
+
+stabilité ≈ équilibre cognitif
+            − pression discursive
+            − red flags
+            + solidité argumentative
+
+Ce n’est pas une formule exacte mais un principe d’agrégation.
+
+5️⃣ Niveau 5 — gravité cognitive
+
+Enfin :
+
+gravit
+e
+ˊ
+=1−stabilit
+e
+ˊ
+
+Donc :
+
+stabilité	gravité
+forte	faible
+moyenne	modérée
+faible	élevée
+
+6️⃣ Ce que signifie réellement la gravité
+
+La gravité cognitive est donc :
+
+le niveau global de dérive du raisonnement détecté dans le discours.
+
+Elle combine :
+
+mécanique cognitive
+structure argumentative
+pression rhétorique
+signaux de manipulation
 
 #### Formule heuristique
 
