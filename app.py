@@ -7202,83 +7202,79 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         m7.metric("VC", round(result["avg_claim_verifiability"], 1))
         m8.metric("F", len(result["red_flags"]))
         
-        st.markdown("""
-    Cette jauge synthétise la **crédibilité globale du texte**.
-    
-    Elle résulte d’un calcul en trois étapes.
-    
-    ---
-    
-    ### 1️⃣ Structure argumentative
-    
-    `score_structure = (G × 0.6) + (N × 0.4)`
-    
-    avec :
-    
-    G = gnōsis  
-    éléments factuels détectés dans le texte  
-    (nombres, dates, sources, citations, références)
-    
-    N = nous  
-    cohérence logique et structure argumentative  
-    (connecteurs logiques, relations causales, progression du raisonnement)
-    
-    ---
-    
-    ### 2️⃣ Vecteur des fragilités
-    
-    `P = [C, CP, S, R, B]`
-    
-    avec :
-    
-    C = contradictions internes  
-    CP = cherry picking  
-    S = sophismes ou enthymèmes  
-    R = pression rhétorique  
-    B = biais narratif  
-    
-    Chaque fragilité est pondérée par un coefficient de gravité :
-    
-    `W = [wC, wCP, wS, wR, wB]`
-    
-    La pénalité totale est donc :
-    
-    `pénalité_totale = P · W`
-    
-    c’est-à-dire :
-    
-    `pénalité_totale = (C × wC) + (CP × wCP) + (S × wS) + (R × wR) + (B × wB)`
-    
-    ---
-    
-    ### 3️⃣ Formule heuristique finale
-    
-    `score_final = ((G × 0.6) + (N × 0.4)) − (P · W)`
-    
-    ---
-    
-    ### Interprétation des pénalités
-    
-    Plus `pénalité_totale` est élevée :
-    
-    - plus les fragilités discursives sont nombreuses ou graves  
-    - plus la crédibilité du texte diminue
-    
-    Une pénalité proche de **0** signifie :
-    
-    - peu de contradictions  
-    - peu de biais rhétoriques  
-    - raisonnement globalement stable
-    
-    ---
-    
-    ### Interprétation du score final
-    
-    0–5 : crédibilité très fragile  
-    6–9 : crédibilité fragile  
-    10–14 : crédibilité prudente  
-    15–20 : crédibilité robuste
-    """)
+        st.markdown(f"""
+        Cette jauge synthétise la **crédibilité globale du texte**.
+        
+        Elle ne mesure pas seulement la cohérence du raisonnement : elle combine surtout la **qualité des sources**, la **solidité des affirmations**, leur **vérifiabilité** et les **fragilités détectées**.
+        
+        ---
+        
+        ### 1️⃣ Score de base
+        
+        `score_base = (QS + RC + VC) / 3`
+        
+        avec les valeurs de cette analyse :
+        
+        QS = {result["source_quality"]}  
+        RC = {round(result["avg_claim_risk"], 1)}  
+        VC = {round(result["avg_claim_verifiability"], 1)}
+        
+        Calcul :
+        
+        `score_base = ({result["source_quality"]} + {round(result["avg_claim_risk"],1)} + {round(result["avg_claim_verifiability"],1)}) / 3`
+        
+        `score_base ≈ {round((result["source_quality"] + result["avg_claim_risk"] + result["avg_claim_verifiability"]) / 3, 2)}`
+        
+        ---
+        
+        ### 2️⃣ Pénalité des fragilités
+        
+        `pénalité_fragilités = F × wF`
+        
+        F = {len(result["red_flags"])} fragilité(s) détectée(s)
+        
+        Les fragilités peuvent provenir par exemple de :
+        
+        - contradictions internes  
+        - cherry picking  
+        - sophismes ou enthymèmes  
+        - pression rhétorique  
+        - biais narratif  
+        
+        ---
+        
+        ### 3️⃣ Formule heuristique finale
+        
+        `score_final = ((QS + RC + VC) / 3) − (F × wF)`
+        
+        Score final observé :
+        
+        `score_final = {round(final_score,1)} / 20`
+        
+        ---
+        
+        ### Interprétation des pénalités
+        
+        Plus `F` est élevé :
+        
+        - plus les fragilités discursives sont nombreuses  
+        - plus la crédibilité finale diminue  
+        
+        Une valeur faible de `F` signifie :
+        
+        - peu de signaux problématiques détectés  
+        - raisonnement globalement plus stable  
+        - meilleure résistance aux biais rhétoriques  
+        
+        ---
+        
+        ### Interprétation du score final
+        
+        0–5 : crédibilité très fragile  
+        6–9 : crédibilité fragile  
+        10–14 : crédibilité prudente  
+        15–20 : crédibilité robuste
+        """)
 
     st.markdown("""
     <div style="text-align:center; margin:25px 0; color:#bbb;">
