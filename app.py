@@ -7042,6 +7042,7 @@ st.markdown(
     f"<b style='color:{color_r}'>{etiquette_r}</b> — Score : {round(score, 1)}/20",
     unsafe_allow_html=True
 )
+st.caption(message_r)
 with st.popover("ℹ️ Formule / explication"):
     st.markdown(f"""
 ### Solidité argumentative — {etiquette_r}
@@ -7079,8 +7080,6 @@ N = nous
 7–13 : raisonnement partiel  
 14–20 : raisonnement robuste
 """)
-
-st.caption(message_r)
 st.markdown("""
 <div style="text-align:center; margin:25px 0; color:#888;">
 ────────── ✦ ──────────
