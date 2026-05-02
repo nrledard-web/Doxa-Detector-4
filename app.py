@@ -7751,16 +7751,29 @@ with st.popover("ℹ️ Comprendre cette jauge"):
 
 Cette jauge estime le **niveau global de dérive cognitive** du discours.
 
-Elle synthétise plusieurs signaux du moteur DOXA :
+Elle ne mesure pas directement si le texte est vrai ou faux.  
+Elle mesure si sa structure présente des signes de **déséquilibre cognitif**, de fermeture argumentative, de pression discursive ou de fragilité logique.
+
+#### Résultat de cette analyse
+
+**Gravité cognitive : {gravity_pct}%**
+
+**Verdict : {gravity_label}**
+
+#### Signaux pris en compte
+
+La jauge synthétise plusieurs dimensions :
 
 - équilibre entre **G — gnōsis**, **N — nous** et **D — doxa**
 - indice de mécroyance
 - pression discursive
 - solidité argumentative
 - red flags détectés
+- dérives de type pseudo-savoir, certitude excessive ou manipulation possible
 
 #### Formule heuristique
 
+```python
 gravité = 1 - stabilité_cognitive
 
 #### Interprétation
