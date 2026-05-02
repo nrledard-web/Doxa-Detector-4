@@ -7007,86 +7007,86 @@ if result:
         etiquette_r = "Très solide"
         message_r = "Le texte présente un raisonnement robuste, structuré et bien soutenu."
 
-    with st.popover("ℹ️ Formule / explication"):
-
-    st.subheader(f"Solidité argumentative — {etiquette_r}")
-    st.caption(f"Score observé : {round(score,1)}/20")
-
-    st.subheader("Résumé de l’analyse")
-
-    m1, m2 = st.columns(2)
-    m1.metric("Score argumentatif", round(score, 1))
-    m2.metric("Verdict", etiquette_r)
-
-    m3, m4 = st.columns(2)
-    m3.metric("G — gnōsis", round(result["G"], 2))
-    m4.metric("N — nous", round(result["N"], 2))
-
-    st.markdown(f"""
-Cette jauge évalue la **solidité argumentative du texte**.
-
-Elle mesure la capacité du discours à articuler :
-
-- des **éléments factuels** (sources, chiffres, références)
-- une **structure logique cohérente**
-
----
-
-### 1️⃣ Composantes du raisonnement
-
-G — **gnōsis**
-
-Savoir articulé : sources, données, références, éléments vérifiables.
-
-Dans cette analyse :
-
-`G = {round(result["G"],2)}`
-
----
-
-N — **nous**
-
-Compréhension intégrée : cohérence logique, enchaînement des idées, structure argumentative.
-
-Dans cette analyse :
-
-`N = {round(result["N"],2)}`
-
----
-
-### 2️⃣ Formule heuristique
-
-`score_argumentatif = (G × 0.6) + (N × 0.4)`
-
-Le savoir factuel pèse légèrement plus que la structure logique.
-
----
-
-### 3️⃣ Calcul dans cette analyse
-
-`score_argumentatif = ({round(result["G"],2)} × 0.6) + ({round(result["N"],2)} × 0.4)`
-
-`score_argumentatif ≈ {round(score,1)}`
-
----
-
-### Interprétation
-
-0–6 : raisonnement faible  
-7–13 : raisonnement partiel  
-14–20 : raisonnement robuste
-
----
-
-### Lecture du résultat
-
-Un score de **{round(score,1)}/20** indique un raisonnement :
-
-**{etiquette_r}**
-
-Le texte possède une structure argumentative réelle,  
-mais certaines affirmations restent encore insuffisamment démontrées.
-""")
+        with st.popover("ℹ️ Formule / explication"):
+    
+        st.subheader(f"Solidité argumentative — {etiquette_r}")
+        st.caption(f"Score observé : {round(score,1)}/20")
+    
+        st.subheader("Résumé de l’analyse")
+    
+        m1, m2 = st.columns(2)
+        m1.metric("Score argumentatif", round(score, 1))
+        m2.metric("Verdict", etiquette_r)
+    
+        m3, m4 = st.columns(2)
+        m3.metric("G — gnōsis", round(result["G"], 2))
+        m4.metric("N — nous", round(result["N"], 2))
+    
+        st.markdown(f"""
+    Cette jauge évalue la **solidité argumentative du texte**.
+    
+    Elle mesure la capacité du discours à articuler :
+    
+    - des **éléments factuels** (sources, chiffres, références)
+    - une **structure logique cohérente**
+    
+    ---
+    
+    ### 1️⃣ Composantes du raisonnement
+    
+    G — **gnōsis**
+    
+    Savoir articulé : sources, données, références, éléments vérifiables.
+    
+    Dans cette analyse :
+    
+    `G = {round(result["G"],2)}`
+    
+    ---
+    
+    N — **nous**
+    
+    Compréhension intégrée : cohérence logique, enchaînement des idées, structure argumentative.
+    
+    Dans cette analyse :
+    
+    `N = {round(result["N"],2)}`
+    
+    ---
+    
+    ### 2️⃣ Formule heuristique
+    
+    `score_argumentatif = (G × 0.6) + (N × 0.4)`
+    
+    Le savoir factuel pèse légèrement plus que la structure logique.
+    
+    ---
+    
+    ### 3️⃣ Calcul dans cette analyse
+    
+    `score_argumentatif = ({round(result["G"],2)} × 0.6) + ({round(result["N"],2)} × 0.4)`
+    
+    `score_argumentatif ≈ {round(score,1)}`
+    
+    ---
+    
+    ### Interprétation
+    
+    0–6 : raisonnement faible  
+    7–13 : raisonnement partiel  
+    14–20 : raisonnement robuste
+    
+    ---
+    
+    ### Lecture du résultat
+    
+    Un score de **{round(score,1)}/20** indique un raisonnement :
+    
+    **{etiquette_r}**
+    
+    Le texte possède une structure argumentative réelle,  
+    mais certaines affirmations restent encore insuffisamment démontrées.
+    """)
     
     st.subheader(f"{couleur_r} Solidité argumentative : {etiquette_r}")
     st.markdown("""
