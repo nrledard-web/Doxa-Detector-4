@@ -7561,59 +7561,6 @@ with col_center:
     )
     st.caption(result["cognitive_drift_interpretation"])
 
-    # =============================
-    # Suite du diagnostic
-    # =============================
-    delta_mm = round(result["M"] - result["ME"], 2)
-    st.caption(f"Écart cognitif (M − ME) : {delta_mm}")
-
-    if result["M"] > result["ME"] + 1:
-        dominant_pattern = "Structure dominante : mécroyance"
-    elif result["ME"] > result["M"] + 1:
-        dominant_pattern = "Structure dominante : mensonge stratégique"
-    else:
-        dominant_pattern = "Structure dominante : mixte ou ambiguë"
-
-    st.subheader("Structure cognitive dominante")
-    st.write(dominant_pattern)
-
-    if result["ME"] > result["M"] and result["ME"] > 0:
-        cognitive_type = "Mensonge stratégique possible"
-    elif result["M"] < 0:
-        cognitive_type = "Forte mécroyance / clôture cognitive"
-    else:
-        cognitive_type = "Cognition probablement sincère mais désalignée"
-
-    st.subheader("Interprétation cognitive")
-    st.write(cognitive_type)
-
-    if result["M"] - result["ME"] > 3:
-        diagnosis = "Structure de mécroyance forte"
-    elif result["M"] > result["ME"]:
-        diagnosis = "Structure de mécroyance modérée"
-    elif abs(result["M"] - result["ME"]) <= 1:
-        diagnosis = "Structure cognitive ambiguë"
-    else:
-        diagnosis = "Tromperie stratégique possible"
-
-    st.subheader("Diagnostic cognitif")
-    st.write(diagnosis)
-
-    st.caption("Erreur sincère ⟵⟶ Manipulation probable")
-
-    # Explication automatique de la jauge mensonge
-    if gauge_value >= 0.70:
-        st.warning("### Pourquoi cette jauge indique une manipulation probable ?")
-
-        st.markdown("""
-La jauge monte fortement parce que le texte presente une combinaison de signaux :
-
-- une certitude tres elevee
-- un niveau de preuves insuffisant face a cette certitude
-- une pression rhetorique importante
-- des affirmations difficiles a verifier
-- des formulations pouvant orienter le lecteur plutot que d'eclairer le raisonnement
-""")
 
         st.markdown("#### Facteurs detectes")
 
