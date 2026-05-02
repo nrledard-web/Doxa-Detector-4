@@ -7443,6 +7443,12 @@ else:
     
 st.subheader(f"{couleur_c} Crédibilité finale : {etiquette_c}")
 
+st.caption(
+    "Cette jauge synthétise la crédibilité globale du texte en combinant "
+    "la solidité factuelle, l’équilibre cognitif entre savoir et certitude, "
+    "et la pression discursive détectée dans le langage."
+)
+
 st.markdown(f"""
 <div style="width:100%; margin-top:10px; margin-bottom:10px;">
     <div style="
