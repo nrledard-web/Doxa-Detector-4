@@ -6954,6 +6954,20 @@ st.markdown(
     f"<b style='color:{score_color}'>Score analogique : {score_icon} {round(base_score,1)}/20 — {score_label}</b>",
     unsafe_allow_html=True
 )
+
+if base_score < 6:
+    analogique_message = "Le raisonnement paraît faible : les enchaînements logiques sont insuffisants ou trop fragmentaires."
+elif base_score < 9:
+    analogique_message = "Le raisonnement est fragile : une structure existe, mais elle reste incomplète ou peu démonstrative."
+elif base_score < 13:
+    analogique_message = "Le raisonnement est modéré : la structure logique est présente, mais plusieurs liens restent partiels ou insuffisamment soutenus."
+elif base_score < 16:
+    analogique_message = "Le raisonnement est solide : les idées s’enchaînent de manière globalement cohérente."
+else:
+    analogique_message = "Le raisonnement est très solide : le discours présente une progression claire, cohérente et bien structurée."
+
+st.caption(analogique_message)
+
 # Popover explicatif
 with st.popover("ℹ️ Formule / explication"):
     st.markdown(f"""
