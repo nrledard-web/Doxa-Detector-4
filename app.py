@@ -7013,8 +7013,6 @@ else:
     message_r = "Le texte présente un raisonnement robuste, structuré et bien soutenu."
 
 st.subheader(f"{couleur_r} Solidité argumentative : {etiquette_r}")
-st.caption(message_r)
-
 st.caption(
     "Cette jauge mesure la solidité argumentative du texte : structure du raisonnement, "
     "cohérence logique et présence d’éléments vérifiables. "
@@ -7084,7 +7082,7 @@ st.markdown(
     f"<b style='color:{color_r}'>{etiquette_r}</b> — Score : {round(score, 1)}/20",
     unsafe_allow_html=True
 )
-
+st.caption(message_r)
 st.markdown("""
 <div style="text-align:center; margin:25px 0; color:#888;">
 ────────── ✦ ──────────
