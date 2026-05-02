@@ -7293,68 +7293,6 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
     """, unsafe_allow_html=True)
 
 # =============================
-# Jauges structurelles avancées
-# =============================
-
-result = st.session_state.get("last_result")
-article_for_analysis = st.session_state.get("last_article", "")
-
-if not result:
-    st.info(T["paste_text_or_load_url"])
-    st.stop()
-
-st.subheader("Jauges structurelles avancées")
-
-gauges = [
-    (
-        "Saut logique",
-        result.get("logical_jump_score", 0),
-        result.get("logical_jump_label", "Non calculée"),
-        result.get("logical_jump_interpretation", "")
-    ),
-    (
-        "Densité argumentative",
-        result.get("argument_density_score", 0),
-        result.get("argument_density_label", "Non calculée"),
-        result.get("argument_density_interpretation", "")
-    ),
-    (
-        "Certitude forte composée",
-        result.get("strong_certainty_score", 0),
-        result.get("strong_certainty_label", "Non calculée"),
-        result.get("strong_certainty_interpretation", "")
-    ),
-]
-
-for title, score, label, interpretation in gauges:
-
-    if title == "Densité argumentative":
-        title_html = interpret_generic_quality_gauge(title, score)
-    elif title in ["Cohérence trompeuse", "Jauge propagandiste"]:
-        title_html = interpret_warning_risk_gauge(title, score)
-    else:
-        title_html = interpret_generic_risk_gauge(title, score)
-
-    st.markdown(title_html, unsafe_allow_html=True)
-    st.progress(score)
-    st.caption(f"{label} — {round(score * 100, 1)}%")
-
-    if interpretation:
-        st.write(interpretation)
-
-st.markdown("""
-<div style="text-align:center; margin:25px 0; color:#bbb;">
-✦ ✦ ✦
-</div>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-<div style="text-align:center; margin:25px 0; color:#888;">
-────────── ✦ ──────────
-</div>
-""", unsafe_allow_html=True)
-
-# =============================
 # Analyse sémantique du discours
 # =============================
 
@@ -8710,6 +8648,56 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
             unsafe_allow_html=True
         )
         st.caption("Plus la certitude domine G + N, plus le texte se ferme.")
+
+    # =============================
+    # Jauges structurelles avancées
+    # =============================
+    
+    result = st.session_state.get("last_result")
+    article_for_analysis = st.session_state.get("last_article", "")
+    
+    if not result:
+        st.info(T["paste_text_or_load_url"])
+        st.stop()
+    
+    st.subheader("Jauges structurelles avancées")
+    
+    gauges = [
+        (
+            "Saut logique",
+            result.get("logical_jump_score", 0),
+            result.get("logical_jump_label", "Non calculée"),
+            result.get("logical_jump_interpretation", "")
+        ),
+        (
+            "Densité argumentative",
+            result.get("argument_density_score", 0),
+            result.get("argument_density_label", "Non calculée"),
+            result.get("argument_density_interpretation", "")
+        ),
+        (
+            "Certitude forte composée",
+            result.get("strong_certainty_score", 0),
+            result.get("strong_certainty_label", "Non calculée"),
+            result.get("strong_certainty_interpretation", "")
+        ),
+    ]
+    
+    for title, score, label, interpretation in gauges:
+    
+        if title == "Densité argumentative":
+            title_html = interpret_generic_quality_gauge(title, score)
+        elif title in ["Cohérence trompeuse", "Jauge propagandiste"]:
+            title_html = interpret_warning_risk_gauge(title, score)
+        else:
+            title_html = interpret_generic_risk_gauge(title, score)
+    
+        st.markdown(title_html, unsafe_allow_html=True)
+        st.progress(score)
+        st.caption(f"{label} — {round(score * 100, 1)}%")
+    
+        if interpretation:
+            st.write(interpretation)
 
     # -----------------------------
     # 25) Syllogismes détectés
