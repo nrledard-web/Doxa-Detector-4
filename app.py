@@ -7790,7 +7790,7 @@ Gravité : **{gravity_pct}%**
 Verdict : **{gravity_label}**
 """)
 
-st.progress(gravity)
+render_custom_gauge(gravity, gravity_color)
 
 st.markdown(
     f"""
