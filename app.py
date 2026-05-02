@@ -7749,33 +7749,53 @@ with st.popover("ℹ️ Comprendre cette jauge"):
     st.markdown(f"""
 ### Gravité cognitive globale
 
-Cette jauge estime le **niveau global de dérive cognitive** détecté dans le discours.
+Cette jauge estime le **niveau global de dérive cognitive** du discours.
 
-Elle ne mesure pas directement si le texte est vrai ou faux.  
-Elle mesure plutôt si sa structure présente des signes de **déséquilibre cognitif**, de fermeture argumentative, de pression discursive ou de fragilité logique.
-
-#### Résultat de cette analyse
-
-**Gravité cognitive : {gravity_pct}%**
-
-**Verdict : {gravity_label}**
-
-#### Signaux pris en compte
-
-La jauge synthétise plusieurs dimensions :
+Elle synthétise plusieurs signaux du moteur DOXA :
 
 - équilibre entre **G — gnōsis**, **N — nous** et **D — doxa**
 - indice de mécroyance
 - pression discursive
 - solidité argumentative
 - red flags détectés
-- dérives de type pseudo-savoir, certitude excessive ou manipulation possible
 
 #### Formule heuristique
 
-```python
 gravité = 1 - stabilité_cognitive
 
+#### Interprétation
+
+0–20% : gravité faible  
+20–40% : gravité modérée  
+40–60% : gravité élevée  
+60–80% : gravité très élevée  
+80–100% : gravité critique
+
+#### Résultat
+
+Gravité : **{gravity_pct}%**  
+Verdict : **{gravity_label}**
+""")
+
+st.progress(gravity)
+
+st.markdown(
+    f"""
+<div style='
+border:1px solid {gravity_color};
+border-radius:12px;
+padding:12px;
+margin-top:8px;
+background-color:rgba(255,255,255,0.03);
+'>
+<b style='color:{gravity_color};'>
+Gravité {gravity_label} — {gravity_pct}%
+</b><br>
+{gravity_text}
+</div>
+""",
+    unsafe_allow_html=True
+)
 # =============================
 # Cerveau DOXA
 # =============================
