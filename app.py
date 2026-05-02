@@ -7050,6 +7050,37 @@ if result:
     me_norm = max(0.0, min(1.0, ME_val / 20))
     delta_lie = me_norm - (1 - m_norm)
     gauge_calc = max(0.0, min(1.0, 0.5 + (delta_lie * 0.8)))
+
+    st.markdown(f"""
+    <div style="width:100%; margin-top:10px; margin-bottom:10px;">
+        <div style="
+            width:100%;
+            height:26px;
+            background:#e5e7eb;
+            border-radius:12px;
+            overflow:hidden;
+            border:1px solid #cbd5e1;
+        ">
+            <div style="
+                width:{gauge_value*100}%;
+                height:100%;
+                background:{gauge_color};
+                transition:width 0.4s ease;
+            "></div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown(
+        f"<b style='color:{gauge_color}'>{gauge_label}</b> — intensité : {round(gauge_intensity*100,1)}%",
+        unsafe_allow_html=True
+    )
+
+    st.caption("Erreur sincère ⟵⟶ Manipulation probable")
+
+    # Explication automatique de la jauge mensonge
+    if gauge_value >= 0.70:
+        st.warning("### Pourquoi cette jauge indique une manipulation probable ?")
     
     st.write("Tension cognitive (mécroyance vs mensonge)")
     st.caption(
@@ -7158,37 +7189,6 @@ if result:
     
     st.subheader("Diagnostic cognitif")
     st.write(diagnosis)
-
-    st.markdown(f"""
-    <div style="width:100%; margin-top:10px; margin-bottom:10px;">
-        <div style="
-            width:100%;
-            height:26px;
-            background:#e5e7eb;
-            border-radius:12px;
-            overflow:hidden;
-            border:1px solid #cbd5e1;
-        ">
-            <div style="
-                width:{gauge_value*100}%;
-                height:100%;
-                background:{gauge_color};
-                transition:width 0.4s ease;
-            "></div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown(
-        f"<b style='color:{gauge_color}'>{gauge_label}</b> — intensité : {round(gauge_intensity*100,1)}%",
-        unsafe_allow_html=True
-    )
-
-    st.caption("Erreur sincère ⟵⟶ Manipulation probable")
-
-    # Explication automatique de la jauge mensonge
-    if gauge_value >= 0.70:
-        st.warning("### Pourquoi cette jauge indique une manipulation probable ?")
 
         st.markdown("""
 La jauge monte fortement parce que le texte presente une combinaison de signaux :
