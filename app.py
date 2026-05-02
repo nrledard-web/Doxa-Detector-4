@@ -477,6 +477,12 @@ client = get_openai_client()
 # -----------------------------
 # Header
 # -----------------------------
+st.markdown("""
+<h1 style="text-align:center; font-size:48px;">
+De la logique d’Aristote aux équations du discours
+</h1>
+""", unsafe_allow_html=True)
+
 st.markdown(
     """
 **DOXA Detector analyse la structure cognitive des discours grâce à un moteur analytique fondé sur des équations, des heuristiques linguistiques et des fonctions de calcul.**
