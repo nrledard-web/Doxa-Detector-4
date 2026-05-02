@@ -7205,80 +7205,80 @@ La certitude parait plus forte que les preuves disponibles, mais les signaux ne 
         m7.metric("Pénalité jauges", round(result.get("display_gauge_penalty", 0), 2))
         m8.metric("Score final", round(final_score, 1))
         
-    st.markdown(f"""
-    Cette jauge synthétise la **crédibilité globale du texte**.
-    
-    Elle combine trois dimensions :
-    
-    - la solidité factuelle du texte  
-    - l’équilibre cognitif entre connaissance, compréhension et certitude  
-    - la pression discursive détectée dans le langage  
-    
-    ---
-    
-    ### 1️⃣ Solidité factuelle
-    
-    `HFS = hard_fact_score / 20`
-    
-    Dans cette analyse :
-    
-    `HFS = {round(result["hard_fact_score"], 1)} / 20`
-    
-    ---
-    
-    ### 2️⃣ Calibration cognitive
-    
-    `OC = (G + N) / (G + N + D)`
-    
-    avec :
-    
-    G = gnōsis  
-    N = nous  
-    D = doxa  
-    
-    Dans cette analyse :
-    
-    `OC = ({round(result["G"],2)} + {round(result["N"],2)}) / ({round(result["G"],2)} + {round(result["N"],2)} + {round(result["D"],2)})`
-    
-    `OC ≈ {round((result["G"] + result["N"]) / max((result["G"] + result["N"] + result["D"]), 1), 2)}`
-    
-    ---
-    
-    ### 3️⃣ Indice de pression discursive
-    
-    `ID = 1 − pression_discursive`
-    
-    avec :
-    
-    `pression_discursive = propagande + pression_rhétorique`
-    
-    Plus la pression discursive est forte, plus le score final diminue.
-    
-    ---
-    
-    ### 4️⃣ Formule heuristique principale
-    
-    `score_initial = 20 × HFS × OC × ID`
-    
-    ---
-    
-    ### 5️⃣ Ajustement final
-    
-    `score_final = score_initial − pénalité_jauges`
-    
-    Score final observé :
-    
-    `score_final = {round(final_score, 1)} / 20`
-    
-    ---
-    
-    ### Interprétation du score final
-    
-    0–5 : crédibilité très fragile  
-    6–9 : crédibilité fragile  
-    10–14 : crédibilité prudente  
-    15–20 : crédibilité robuste
-    """)
+        st.markdown(f"""
+        Cette jauge synthétise la **crédibilité globale du texte**.
+        
+        Elle combine trois dimensions :
+        
+        - la solidité factuelle du texte  
+        - l’équilibre cognitif entre connaissance, compréhension et certitude  
+        - la pression discursive détectée dans le langage  
+        
+        ---
+        
+        ### 1️⃣ Solidité factuelle
+        
+        `HFS = hard_fact_score / 20`
+        
+        Dans cette analyse :
+        
+        `HFS = {round(result["hard_fact_score"], 1)} / 20`
+        
+        ---
+        
+        ### 2️⃣ Calibration cognitive
+        
+        `OC = (G + N) / (G + N + D)`
+        
+        avec :
+        
+        G = gnōsis  
+        N = nous  
+        D = doxa  
+        
+        Dans cette analyse :
+        
+        `OC = ({round(result["G"],2)} + {round(result["N"],2)}) / ({round(result["G"],2)} + {round(result["N"],2)} + {round(result["D"],2)})`
+        
+        `OC ≈ {round((result["G"] + result["N"]) / max((result["G"] + result["N"] + result["D"]), 1), 2)}`
+        
+        ---
+        
+        ### 3️⃣ Indice de pression discursive
+        
+        `ID = 1 − pression_discursive`
+        
+        avec :
+        
+        `pression_discursive = propagande + pression_rhétorique`
+        
+        Plus la pression discursive est forte, plus le score final diminue.
+        
+        ---
+        
+        ### 4️⃣ Formule heuristique principale
+        
+        `score_initial = 20 × HFS × OC × ID`
+        
+        ---
+        
+        ### 5️⃣ Ajustement final
+        
+        `score_final = score_initial − pénalité_jauges`
+        
+        Score final observé :
+        
+        `score_final = {round(final_score, 1)} / 20`
+        
+        ---
+        
+        ### Interprétation du score final
+        
+        0–5 : crédibilité très fragile  
+        6–9 : crédibilité fragile  
+        10–14 : crédibilité prudente  
+        15–20 : crédibilité robuste
+        """)
 
     st.markdown("""
     <div style="text-align:center; margin:25px 0; color:#bbb;">
