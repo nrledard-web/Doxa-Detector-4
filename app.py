@@ -6843,6 +6843,9 @@ if analyze_submitted:
 result = st.session_state.last_result
 article_for_analysis = st.session_state.last_article
 
+if not result:
+    st.stop()
+
 if result:
 
     # =====================================================
