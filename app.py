@@ -7549,10 +7549,6 @@ with col_center:
 
         st.divider()
 
-        # =============================
-        #
-        # =============================
-
     st.markdown(
         """
         <div style="font-size:20px; line-height:1.7;">
