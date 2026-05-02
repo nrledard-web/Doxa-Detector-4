@@ -7313,12 +7313,6 @@ gauges = [
         result.get("logical_jump_interpretation", "")
     ),
     (
-        "Asymétrie argumentative",
-        result.get("argument_asymmetry_score", 0),
-        result.get("argument_asymmetry_label", "Non calculée"),
-        result.get("argument_asymmetry_interpretation", "")
-    ),
-    (
         "Densité argumentative",
         result.get("argument_density_score", 0),
         result.get("argument_density_label", "Non calculée"),
