@@ -6994,18 +6994,15 @@ Verdict : **{score_label}**
 ---
 
 ### Signaux analysés
-
-La jauge s’appuie sur plusieurs indices linguistiques :
-
-- présence de connecteurs logiques (donc, car, cependant…)
-- structure argumentative des phrases
-- continuité logique du raisonnement
-- détection de contradictions internes
-
 Contrairement au fact-checking, elle n’évalue pas directement la vérité des affirmations.  
 Elle examine la **structure du discours** et la manière dont les idées sont reliées entre elles.
 
-Ces indices linguistiques et argumentatifs sont :
+La jauge s’appuie sur plusieurs indices linguistiques :
+
+- présence de connecteurs logiques
+- structure argumentative des phrases
+- continuité logique du raisonnement
+- détection de contradictions internes
 
 #### 1️⃣ Connecteurs logiques
 
