@@ -7032,60 +7032,129 @@ if result:
         "cohérence logique et présence d’éléments vérifiables. "
         "La crédibilité globale dépend aussi de la qualité des sources et de la vérifiabilité des affirmations."
     )
+lie_result = compute_lie_gauge(result["M"], result["ME"])
 
+gauge_value = lie_result["gauge"]
+gauge_label = lie_result["label"]
+gauge_color = lie_result["color"]
+ME_gauge = lie_result["ME"]
+gauge_intensity = lie_result["intensity"]
 
+M_val = result.get("M", 0)
+ME_val = result.get("ME", 0)
 
-    lie_result = compute_lie_gauge(result["M"], result["ME"])
+m_norm = max(0.0, min(1.0, (M_val + 10) / 30))
+me_norm = max(0.0, min(1.0, ME_val / 20))
+delta_lie = me_norm - (1 - m_norm)
+gauge_calc = max(0.0, min(1.0, 0.5 + (delta_lie * 0.8)))
 
-    gauge_value = lie_result["gauge"]
-    gauge_label = lie_result["label"]
-    gauge_color = lie_result["color"]
-    ME_gauge = lie_result["ME"]
-    gauge_intensity = lie_result["intensity"]
+st.write("Tension cognitive (mécroyance vs mensonge)")
+st.caption(
+    "Cette jauge indique si le discours relève plutôt d’une erreur sincère "
+    "(mécroyance) ou d’une possible manipulation. "
+    "Plus la jauge progresse, plus la structure du texte se rapproche du mensonge."
+)
 
-    st.write("Tension cognitive (mécroyance vs mensonge)")
-    st.caption(
-        "Cette jauge indique si le discours relève plutôt d’une erreur sincère "
-        "(mécroyance) ou d’une possible manipulation. "
-        "Plus la jauge progresse, plus la structure du texte se rapproche du mensonge."
-    )
-        # =============================
-        # Suite du diagnostic
-        # =============================
-        delta_mm = round(result["M"] - result["ME"], 2)
-        st.caption(f"Écart cognitif (M − ME) : {delta_mm}")
+    with st.popover("ℹ️ Formule / résultats"):
+        st.markdown(f"""
+    ### Jauge mécroyance / mensonge
     
-        if result["M"] > result["ME"] + 1:
-            dominant_pattern = "Structure dominante : mécroyance"
-        elif result["ME"] > result["M"] + 1:
-            dominant_pattern = "Structure dominante : mensonge stratégique"
-        else:
-            dominant_pattern = "Structure dominante : mixte ou ambiguë"
+    Cette jauge situe le discours sur un axe allant de la **mécroyance** au **mensonge stratégique**.
     
-        st.subheader("Structure cognitive dominante")
-        st.write(dominant_pattern)
+    ---
     
-        if result["ME"] > result["M"] and result["ME"] > 0:
-            cognitive_type = "Mensonge stratégique possible"
-        elif result["M"] < 0:
-            cognitive_type = "Forte mécroyance / clôture cognitive"
-        else:
-            cognitive_type = "Cognition probablement sincère mais désalignée"
+    ### Résultats de cette analyse
     
-        st.subheader("Interprétation cognitive")
-        st.write(cognitive_type)
+    M — mécroyance : **{round(M_val, 2)}**
     
-        if result["M"] - result["ME"] > 3:
-            diagnosis = "Structure de mécroyance forte"
-        elif result["M"] > result["ME"]:
-            diagnosis = "Structure de mécroyance modérée"
-        elif abs(result["M"] - result["ME"]) <= 1:
-            diagnosis = "Structure cognitive ambiguë"
-        else:
-            diagnosis = "Tromperie stratégique possible"
+    ME — mendacité : **{round(ME_val, 2)}**
     
-        st.subheader("Diagnostic cognitif")
-        st.write(diagnosis)
+    M normalisé : **{round(m_norm, 3)}**
+    
+    ME normalisé : **{round(me_norm, 3)}**
+    
+    Delta : **{round(delta_lie, 3)}**
+    
+    Position sur la jauge : **{round(gauge_calc, 3)}**
+    
+    Intensité : **{round(gauge_intensity * 100, 1)}%**
+    
+    Verdict : **{gauge_label}**
+    
+    ---
+    
+    ### Normalisation
+    
+    `m_norm = (M + 10) / 30`
+    
+    `me_norm = ME / 20`
+    
+    ---
+    
+    ### Formule heuristique
+    
+    `delta = me_norm − (1 − m_norm)`
+    
+    `gauge = 0.5 + (delta × 0.8)`
+    
+    La valeur finale est bornée entre **0** et **1**.
+    
+    ---
+    
+    ### Interprétation
+    
+    0.00 – 0.20 : mécroyance forte  
+    0.20 – 0.40 : mécroyance modérée  
+    0.40 – 0.60 : zone ambiguë  
+    0.60 – 0.80 : mensonge probable  
+    0.80 – 1.00 : mensonge extrême
+    
+    ---
+    
+    ### Lecture simple
+    
+    Plus **M** domine **ME**, plus le texte relève d’une erreur sincère ou d’un désalignement cognitif.
+    
+    Plus **ME** domine **M**, plus le texte se rapproche d’une possible manipulation stratégique.
+    """)
+    
+    # =============================
+    # Suite du diagnostic
+    # =============================
+    delta_mm = round(result["M"] - result["ME"], 2)
+    st.caption(f"Écart cognitif (M − ME) : {delta_mm}")
+    
+    if result["M"] > result["ME"] + 1:
+        dominant_pattern = "Structure dominante : mécroyance"
+    elif result["ME"] > result["M"] + 1:
+        dominant_pattern = "Structure dominante : mensonge stratégique"
+    else:
+        dominant_pattern = "Structure dominante : mixte ou ambiguë"
+    
+    st.subheader("Structure cognitive dominante")
+    st.write(dominant_pattern)
+    
+    if result["ME"] > result["M"] and result["ME"] > 0:
+        cognitive_type = "Mensonge stratégique possible"
+    elif result["M"] < 0:
+        cognitive_type = "Forte mécroyance / clôture cognitive"
+    else:
+        cognitive_type = "Cognition probablement sincère mais désalignée"
+    
+    st.subheader("Interprétation cognitive")
+    st.write(cognitive_type)
+    
+    if result["M"] - result["ME"] > 3:
+        diagnosis = "Structure de mécroyance forte"
+    elif result["M"] > result["ME"]:
+        diagnosis = "Structure de mécroyance modérée"
+    elif abs(result["M"] - result["ME"]) <= 1:
+        diagnosis = "Structure cognitive ambiguë"
+    else:
+        diagnosis = "Tromperie stratégique possible"
+    
+    st.subheader("Diagnostic cognitif")
+    st.write(diagnosis)
 
     st.markdown(f"""
     <div style="width:100%; margin-top:10px; margin-bottom:10px;">
