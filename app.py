@@ -7018,7 +7018,8 @@ avec :
 
 ### Lecture du résultat
 
-Un score de **{round(score, 1)}/20** indique ici une solidité argumentative **{etiquette_r.lower()}**.
+Un score de **{round(base_score,1)}/20** indique un raisonnement **{score_label.lower()}**.
+""")
 
 st.markdown("""
 <div style="text-align:center; margin:25px 0; color:#888;">
