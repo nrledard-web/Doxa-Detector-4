@@ -7078,153 +7078,160 @@ if result:
 
     st.caption("Erreur sincère ⟵⟶ Manipulation probable")
 
-    # Explication automatique de la jauge mensonge
-    if gauge_value >= 0.70:
-        st.warning("### Pourquoi cette jauge indique une manipulation probable ?")
-    
-    st.write("Tension cognitive (mécroyance vs mensonge)")
+# =============================
+# Tension cognitive
+# =============================
+
+st.write("Tension cognitive (mécroyance vs mensonge)")
+st.caption(
+    "Cette jauge indique si le discours relève plutôt d’une erreur sincère "
+    "(mécroyance) ou d’une possible manipulation. "
+    "Plus la jauge progresse, plus la structure du texte se rapproche du mensonge."
+)
+
+with st.popover("ℹ️ Formule / résultats"):
+    st.markdown(f"""
+### Jauge mécroyance / mensonge
+
+Cette jauge situe le discours sur un axe allant de la **mécroyance** au **mensonge stratégique**.
+
+---
+
+### Résultats de cette analyse
+
+M — mécroyance : **{round(M_val, 2)}**
+
+ME — mendacité : **{round(ME_val, 2)}**
+
+M normalisé : **{round(m_norm, 3)}**
+
+ME normalisé : **{round(me_norm, 3)}**
+
+Delta : **{round(delta_lie, 3)}**
+
+Position sur la jauge : **{round(gauge_calc, 3)}**
+
+Intensité : **{round(gauge_intensity * 100, 1)}%**
+
+Verdict : **{gauge_label}**
+
+---
+
+### Normalisation
+
+`m_norm = (M + 10) / 30`
+
+`me_norm = ME / 20`
+
+---
+
+### Formule heuristique
+
+`delta = me_norm − (1 − m_norm)`
+
+`gauge = 0.5 + (delta × 0.8)`
+
+La valeur finale est bornée entre **0** et **1**.
+
+---
+
+### Interprétation
+
+0.00 – 0.20 : mécroyance forte  
+0.20 – 0.40 : mécroyance modérée  
+0.40 – 0.60 : zone ambiguë  
+0.60 – 0.80 : mensonge probable  
+0.80 – 1.00 : mensonge extrême
+
+---
+
+### Lecture simple
+
+Plus **M** domine **ME**, plus le texte relève d’une erreur sincère ou d’un désalignement cognitif.
+
+Plus **ME** domine **M**, plus le texte se rapproche d’une possible manipulation stratégique.
+""")
+
+# =============================
+# Diagnostic cognitif
+# =============================
+
+delta_mm = round(result["M"] - result["ME"], 2)
+st.caption(f"Écart cognitif (M − ME) : {delta_mm}")
+
+if result["M"] > result["ME"] + 1:
+    dominant_pattern = "Structure dominante : mécroyance"
+elif result["ME"] > result["M"] + 1:
+    dominant_pattern = "Structure dominante : mensonge stratégique"
+else:
+    dominant_pattern = "Structure dominante : mixte ou ambiguë"
+
+st.subheader("Structure cognitive dominante")
+st.write(dominant_pattern)
+
+if result["ME"] > result["M"] and result["ME"] > 0:
+    cognitive_type = "Mensonge stratégique possible"
+elif result["M"] < 0:
+    cognitive_type = "Forte mécroyance / clôture cognitive"
+else:
+    cognitive_type = "Cognition probablement sincère mais désalignée"
+
+st.subheader("Interprétation cognitive")
+st.write(cognitive_type)
+
+if result["M"] - result["ME"] > 3:
+    diagnosis = "Structure de mécroyance forte"
+elif result["M"] > result["ME"]:
+    diagnosis = "Structure de mécroyance modérée"
+elif abs(result["M"] - result["ME"]) <= 1:
+    diagnosis = "Structure cognitive ambiguë"
+else:
+    diagnosis = "Tromperie stratégique possible"
+
+st.subheader("Diagnostic cognitif")
+st.write(diagnosis)
+
+# =============================
+# Explication automatique de la jauge mensonge
+# =============================
+
+if gauge_value >= 0.70:
+    st.warning("### Pourquoi cette jauge indique une manipulation probable ?")
+
+    st.markdown("""
+La jauge monte fortement parce que le texte présente une combinaison de signaux :
+
+- une certitude très élevée
+- un niveau de preuves insuffisant face à cette certitude
+- une pression rhétorique importante
+- des affirmations difficiles à vérifier
+- des formulations pouvant orienter le lecteur plutôt que d’éclairer le raisonnement
+""")
+
+    st.markdown("#### Facteurs détectés")
+
+    st.write(f"- Mécroyance M : {result['M']}")
+    st.write(f"- Mensonge stratégique ME : {result['ME']}")
+    st.write(f"- Certitude D : {result['D']}")
+    st.write(f"- Savoir G : {result['G']}")
+    st.write(f"- Compréhension N : {result['N']}")
+    st.write(f"- Pression rhétorique : {round(result.get('rhetorical_pressure', 0) * 100, 1)}%")
+    st.write(f"- Red flags détectés : {len(result.get('red_flags', []))}")
+
+elif gauge_value >= 0.45:
+    st.info("### Pourquoi cette jauge s’allume ?")
+
+    st.markdown("""
+Le texte contient une tension entre mécroyance et manipulation.
+
+La certitude paraît plus forte que les preuves disponibles, mais les signaux ne suffisent pas encore à conclure à une manipulation nette.
+""")
+
+else:
     st.caption(
-        "Cette jauge indique si le discours relève plutôt d’une erreur sincère "
-        "(mécroyance) ou d’une possible manipulation. "
-        "Plus la jauge progresse, plus la structure du texte se rapproche du mensonge."
+        "La jauge reste basse : le texte relève plutôt d’une erreur sincère "
+        "ou d’un désalignement cognitif."
     )
-
-    with st.popover("ℹ️ Formule / résultats"):
-        st.markdown(f"""
-    ### Jauge mécroyance / mensonge
-    
-    Cette jauge situe le discours sur un axe allant de la **mécroyance** au **mensonge stratégique**.
-    
-    ---
-    
-    ### Résultats de cette analyse
-    
-    M — mécroyance : **{round(M_val, 2)}**
-    
-    ME — mendacité : **{round(ME_val, 2)}**
-    
-    M normalisé : **{round(m_norm, 3)}**
-    
-    ME normalisé : **{round(me_norm, 3)}**
-    
-    Delta : **{round(delta_lie, 3)}**
-    
-    Position sur la jauge : **{round(gauge_calc, 3)}**
-    
-    Intensité : **{round(gauge_intensity * 100, 1)}%**
-    
-    Verdict : **{gauge_label}**
-    
-    ---
-    
-    ### Normalisation
-    
-    `m_norm = (M + 10) / 30`
-    
-    `me_norm = ME / 20`
-    
-    ---
-    
-    ### Formule heuristique
-    
-    `delta = me_norm − (1 − m_norm)`
-    
-    `gauge = 0.5 + (delta × 0.8)`
-    
-    La valeur finale est bornée entre **0** et **1**.
-    
-    ---
-    
-    ### Interprétation
-    
-    0.00 – 0.20 : mécroyance forte  
-    0.20 – 0.40 : mécroyance modérée  
-    0.40 – 0.60 : zone ambiguë  
-    0.60 – 0.80 : mensonge probable  
-    0.80 – 1.00 : mensonge extrême
-    
-    ---
-    
-    ### Lecture simple
-    
-    Plus **M** domine **ME**, plus le texte relève d’une erreur sincère ou d’un désalignement cognitif.
-    
-    Plus **ME** domine **M**, plus le texte se rapproche d’une possible manipulation stratégique.
-    """)
-    
-    # =============================
-    # Suite du diagnostic
-    # =============================
-    delta_mm = round(result["M"] - result["ME"], 2)
-    st.caption(f"Écart cognitif (M − ME) : {delta_mm}")
-    
-    if result["M"] > result["ME"] + 1:
-        dominant_pattern = "Structure dominante : mécroyance"
-    elif result["ME"] > result["M"] + 1:
-        dominant_pattern = "Structure dominante : mensonge stratégique"
-    else:
-        dominant_pattern = "Structure dominante : mixte ou ambiguë"
-    
-    st.subheader("Structure cognitive dominante")
-    st.write(dominant_pattern)
-    
-    if result["ME"] > result["M"] and result["ME"] > 0:
-        cognitive_type = "Mensonge stratégique possible"
-    elif result["M"] < 0:
-        cognitive_type = "Forte mécroyance / clôture cognitive"
-    else:
-        cognitive_type = "Cognition probablement sincère mais désalignée"
-    
-    st.subheader("Interprétation cognitive")
-    st.write(cognitive_type)
-    
-    if result["M"] - result["ME"] > 3:
-        diagnosis = "Structure de mécroyance forte"
-    elif result["M"] > result["ME"]:
-        diagnosis = "Structure de mécroyance modérée"
-    elif abs(result["M"] - result["ME"]) <= 1:
-        diagnosis = "Structure cognitive ambiguë"
-    else:
-        diagnosis = "Tromperie stratégique possible"
-    
-    st.subheader("Diagnostic cognitif")
-    st.write(diagnosis)
-
-        st.markdown("""
-La jauge monte fortement parce que le texte presente une combinaison de signaux :
-
-- une certitude tres elevee
-- un niveau de preuves insuffisant face a cette certitude
-- une pression rhetorique importante
-- des affirmations difficiles a verifier
-- des formulations pouvant orienter le lecteur plutot que d'eclairer le raisonnement
-""")
-
-        st.markdown("#### Facteurs detectes")
-
-        st.write(f"- Mecroyance M : {result['M']}")
-        st.write(f"- Mensonge strategique ME : {result['ME']}")
-        st.write(f"- Certitude D : {result['D']}")
-        st.write(f"- Savoir G : {result['G']}")
-        st.write(f"- Comprehension N : {result['N']}")
-        st.write(f"- Pression rhetorique : {round(result['rhetorical_pressure'] * 100, 1)}%")
-        st.write(f"- Red flags detectes : {len(result.get('red_flags', []))}")
-
-    elif gauge_value >= 0.45:
-        st.info("### Pourquoi cette jauge s'allume ?")
-
-        st.markdown("""
-Le texte contient une tension entre mecroyance et manipulation.
-
-La certitude parait plus forte que les preuves disponibles, mais les signaux ne suffisent pas encore a conclure a une manipulation nette.
-""")
-
-    else:
-        st.caption(
-            "La jauge reste basse : le texte releve plutot d'une erreur sincere "
-            "ou d'un desalignement cognitif."
-        )
-    
 
     # =============================
     # Barre de crédibilité finale
