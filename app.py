@@ -7058,14 +7058,13 @@ else:
     etiquette_r = "Très solide"
     message_r = "Le texte présente un raisonnement robuste, structuré et bien soutenu."
 
+st.subheader(f"{couleur_r} Solidité argumentative : {etiquette_r}")
+# Barre épaisse colorée
 st.caption(
     "Cette jauge mesure la solidité argumentative du texte : structure du raisonnement, "
     "cohérence logique et présence d’éléments vérifiables. "
     "La crédibilité globale dépend aussi de la qualité des sources et de la vérifiabilité des affirmations."
 )
-
-st.subheader(f"{couleur_r} Solidité argumentative : {etiquette_r}")
-# Barre épaisse colorée
 st.markdown(f"""
 <div style="width:100%; margin-top:10px; margin-bottom:10px;">
     <div style="
