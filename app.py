@@ -6980,117 +6980,117 @@ if result:
 """, unsafe_allow_html=True)
 
 
-    # =============================
-    # Barre de raisonnement
-    # =============================
-    
-    score = result.get("hard_fact_score", 0)
-    
-    if score < 6:
-        couleur_r = "🔴"
-        etiquette_r = "Très fragile"
-        message_r = "Le texte présente peu d’éléments de raisonnement structurés."
-    elif score < 9:
-        couleur_r = "🟠"
-        etiquette_r = "Fragile"
-        message_r = "Le raisonnement existe, mais reste incomplet ou insuffisamment construit."
-    elif score < 13:
-        couleur_r = "🟡"
-        etiquette_r = "Modérée"
-        message_r = "Le texte présente une structure de raisonnement cohérente, mais plusieurs affirmations restent conceptuelles ou insuffisamment démontrées."
-    elif score < 16:
-        couleur_r = "🟢"
-        etiquette_r = "Solide"
-        message_r = "Le raisonnement est structuré et globalement cohérent."
-    else:
-        couleur_r = "🟢"
-        etiquette_r = "Très solide"
-        message_r = "Le texte présente un raisonnement robuste, structuré et bien soutenu."
-    
-    st.subheader(f"{couleur_r} Solidité argumentative : {etiquette_r}")
-    with st.popover("ℹ️ Formule / explication"):
-        st.markdown("""
-    Cette jauge évalue la **solidité argumentative du texte**.
-    
-    ### Formule heuristique
-    
-    score_argumentatif = (G × 0.6) + (N × 0.4)
-    
-    avec :
-    
-    G = gnōsis (éléments factuels : sources, chiffres, références)
-    
-    N = nous (cohérence logique et structure argumentative)
-    
-    ### Interprétation
-    
-    0-6 : raisonnement faible  
-    7-13 : raisonnement partiel  
-    14-20 : raisonnement robuste
-    """)
-    st.progress(min(score / 20, 1))
-    st.caption(f"Score : {round(score, 1)}/20 — {message_r}")
-    st.caption(
-        "Cette jauge mesure la solidité argumentative du texte : structure du raisonnement, "
-        "cohérence logique et présence d’éléments vérifiables. "
-        "La crédibilité globale dépend aussi de la qualité des sources et de la vérifiabilité des affirmations."
-    )
-    st.progress(min(score / 20, 1))
-    st.caption(f"Score : {round(score, 1)}/20 — {message_r}")
-    st.caption(
-        "Cette jauge mesure la solidité argumentative du texte : structure du raisonnement, "
-        "cohérence logique et présence d’éléments vérifiables. "
-        "La crédibilité globale dépend aussi de la qualité des sources et de la vérifiabilité des affirmations."
-    )
-    st.markdown("""
-        <div style="text-align:center; margin:25px 0; color:#888;">
-        ────────── ✦ ──────────
-        </div>
-        """, unsafe_allow_html=True)
+# =============================
+# Barre de raisonnement
+# =============================
 
-    st.subheader("Barre de Mécroyance")
-    lie_result = compute_lie_gauge(result["M"], result["ME"])
-    
-    gauge_value = lie_result["gauge"]
-    gauge_label = lie_result["label"]
-    gauge_color = lie_result["color"]
-    ME_gauge = lie_result["ME"]
-    gauge_intensity = lie_result["intensity"]
-    
-    M_val = result.get("M", 0)
-    ME_val = result.get("ME", 0)
-    
-    m_norm = max(0.0, min(1.0, (M_val + 10) / 30))
-    me_norm = max(0.0, min(1.0, ME_val / 20))
-    delta_lie = me_norm - (1 - m_norm)
-    gauge_calc = max(0.0, min(1.0, 0.5 + (delta_lie * 0.8)))
+score = result.get("hard_fact_score", 0)
 
+if score < 6:
+    couleur_r = "🔴"
+    color_r = "#dc2626"
+    etiquette_r = "Très fragile"
+    message_r = "Le texte présente peu d’éléments de raisonnement structurés."
+elif score < 9:
+    couleur_r = "🟠"
+    color_r = "#f97316"
+    etiquette_r = "Fragile"
+    message_r = "Le raisonnement existe, mais reste incomplet ou insuffisamment construit."
+elif score < 13:
+    couleur_r = "🟡"
+    color_r = "#ca8a04"
+    etiquette_r = "Modérée"
+    message_r = "Le texte présente une structure de raisonnement cohérente, mais plusieurs affirmations restent conceptuelles ou insuffisamment démontrées."
+elif score < 16:
+    couleur_r = "🟢"
+    color_r = "#16a34a"
+    etiquette_r = "Solide"
+    message_r = "Le raisonnement est structuré et globalement cohérent."
+else:
+    couleur_r = "🟢"
+    color_r = "#15803d"
+    etiquette_r = "Très solide"
+    message_r = "Le texte présente un raisonnement robuste, structuré et bien soutenu."
+
+st.subheader(f"{couleur_r} Solidité argumentative : {etiquette_r}")
+
+with st.popover("ℹ️ Formule / explication"):
     st.markdown(f"""
-    <div style="width:100%; margin-top:10px; margin-bottom:10px;">
+### Solidité argumentative — {etiquette_r}
+
+Cette jauge évalue la **solidité argumentative du texte**.
+
+---
+
+### Résultats de cette analyse
+
+Score argumentatif : **{round(score, 1)}/20**
+
+G — gnōsis : **{round(result.get("G", 0), 2)}**
+
+N — nous : **{round(result.get("N", 0), 2)}**
+
+Verdict : **{etiquette_r}**
+
+---
+
+### Formule heuristique
+
+`score_argumentatif = (G × 0.6) + (N × 0.4)`
+
+avec :
+
+G = gnōsis  
+N = nous
+
+---
+
+### Interprétation
+
+0–6 : raisonnement faible  
+7–13 : raisonnement partiel  
+14–20 : raisonnement robuste
+""")
+
+# Barre épaisse colorée
+st.markdown(f"""
+<div style="width:100%; margin-top:10px; margin-bottom:10px;">
+    <div style="
+        width:100%;
+        height:26px;
+        background:#e5e7eb;
+        border-radius:12px;
+        overflow:hidden;
+        border:1px solid #cbd5e1;
+    ">
         <div style="
-            width:100%;
-            height:26px;
-            background:#e5e7eb;
-            border-radius:12px;
-            overflow:hidden;
-            border:1px solid #cbd5e1;
-        ">
-            <div style="
-                width:{gauge_value*100}%;
-                height:100%;
-                background:{gauge_color};
-                transition:width 0.4s ease;
-            "></div>
-        </div>
+            width:{min(score / 20, 1) * 100}%;
+            height:100%;
+            background:{color_r};
+            transition:width 0.4s ease;
+        "></div>
     </div>
-    """, unsafe_allow_html=True)
+</div>
+""", unsafe_allow_html=True)
 
-    st.markdown(
-        f"<b style='color:{gauge_color}'>{gauge_label}</b> — intensité : {round(gauge_intensity*100,1)}%",
-        unsafe_allow_html=True
-    )
+st.markdown(
+    f"<b style='color:{color_r}'>{etiquette_r}</b> — Score : {round(score, 1)}/20",
+    unsafe_allow_html=True
+)
 
-    st.caption("Erreur sincère ⟵⟶ Manipulation probable")
+st.caption(message_r)
+
+st.caption(
+    "Cette jauge mesure la solidité argumentative du texte : structure du raisonnement, "
+    "cohérence logique et présence d’éléments vérifiables. "
+    "La crédibilité globale dépend aussi de la qualité des sources et de la vérifiabilité des affirmations."
+)
+
+st.markdown("""
+<div style="text-align:center; margin:25px 0; color:#888;">
+────────── ✦ ──────────
+</div>
+""", unsafe_allow_html=True)
 
 # =============================
 # Tension cognitive
