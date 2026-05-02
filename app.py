@@ -7270,6 +7270,12 @@ for title, score, label, interpretation in gauges:
         st.write(interpretation)
 
 st.markdown("""
+<div style="text-align:center; margin:25px 0; color:#bbb;">
+✦ ✦ ✦
+</div>
+""", unsafe_allow_html=True)
+
+st.markdown("""
 <div style="text-align:center; margin:25px 0; color:#888;">
 ────────── ✦ ──────────
 </div>
