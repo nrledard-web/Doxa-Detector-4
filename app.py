@@ -7720,20 +7720,61 @@ st.markdown("""
 # Gravité cognitive globale
 # =============================
 gravity = result.get("cognitive_gravity", 0)
-
-st.markdown("### Gravité cognitive globale")
-st.progress(gravity)
+gravity_pct = round(gravity * 100, 1)
 
 if gravity < 0.2:
-    st.caption("Gravité faible — discours globalement sain.")
+    gravity_label = "Faible"
+    gravity_color = "#16a34a"
+    gravity_text = "Discours globalement sain."
 elif gravity < 0.4:
-    st.caption("Gravité modérée — quelques tensions cognitives.")
+    gravity_label = "Modérée"
+    gravity_color = "#ca8a04"
+    gravity_text = "Quelques tensions cognitives."
 elif gravity < 0.6:
-    st.caption("Gravité élevée — dérive discursive notable.")
+    gravity_label = "Élevée"
+    gravity_color = "#f97316"
+    gravity_text = "Dérive discursive notable."
 elif gravity < 0.8:
-    st.caption("Gravité très élevée — structure discursive problématique.")
+    gravity_label = "Très élevée"
+    gravity_color = "#dc2626"
+    gravity_text = "Structure discursive problématique."
 else:
-    st.caption("Gravité critique — convergence de manipulation ou désalignement cognitif.")
+    gravity_label = "Critique"
+    gravity_color = "#7f1d1d"
+    gravity_text = "Convergence de manipulation ou désalignement cognitif."
+
+st.markdown("### Gravité cognitive globale")
+
+with st.popover("ℹ️ Comprendre cette jauge"):
+    st.markdown(f"""
+### Gravité cognitive globale
+
+Cette jauge estime le **niveau global de dérive cognitive** détecté dans le discours.
+
+Elle ne mesure pas directement si le texte est vrai ou faux.  
+Elle mesure plutôt si sa structure présente des signes de **déséquilibre cognitif**, de fermeture argumentative, de pression discursive ou de fragilité logique.
+
+#### Résultat de cette analyse
+
+**Gravité cognitive : {gravity_pct}%**
+
+**Verdict : {gravity_label}**
+
+#### Signaux pris en compte
+
+La jauge synthétise plusieurs dimensions :
+
+- équilibre entre **G — gnōsis**, **N — nous** et **D — doxa**
+- indice de mécroyance
+- pression discursive
+- solidité argumentative
+- red flags détectés
+- dérives de type pseudo-savoir, certitude excessive ou manipulation possible
+
+#### Formule heuristique
+
+```python
+gravité = 1 - stabilité_cognitive
 
 # =============================
 # Cerveau DOXA
