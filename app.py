@@ -7780,97 +7780,111 @@ Elle mesure si sa structure présente des signes de **déséquilibre cognitif**,
 
 **Verdict : {gravity_label}**
 
-#### Signaux pris en compte
+### Signaux pris en compte
 
-La jauge synthétise plusieurs dimensions :
+La jauge synthétise plusieurs dimensions du moteur analytique.
 
-1️⃣ Niveau 1 — le noyau cognitif
+---
 
-M=(G+N)−D
+### 1️⃣ Niveau 1 — le noyau cognitif
 
-Ce noyau mesure l’équilibre cognitif du discours.
+**M = (G + N) − D**
 
-2️⃣ Niveau 2 — les dérivés du noyau
+Ce noyau mesure l’**équilibre cognitif du discours**.
 
-indice de mécroyance
-M=(G+N)−D
-indice de mendacité
-ME=2D−(G+N)
+- **G — gnōsis** : savoir explicite
+- **N — nous** : compréhension et cohérence
+- **D — doxa** : certitude
 
-Ils mesurent :
+---
 
-désalignement cognitif
-certitude excessive
+### 2️⃣ Niveau 2 — les dérivés du noyau
 
-3️⃣ Niveau 3 — analyse linguistique
+**Indice de mécroyance**
 
-pression discursive
+M = (G + N) − D
 
-basée sur :
+**Indice de mendacité**
 
-dramatisation
-certitude absolue
-autorité vague
-ennemi abstrait
-solidité argumentative
+ME = 2D − (G + N)
 
-basée sur :
+Ces indices mesurent :
 
-connecteurs logiques
-contradictions
-structure argumentative
-red flags
+- désalignement cognitif
+- certitude excessive
 
-détection de procédés rhétoriques :
+---
 
-sophismes
-généralisation
-naturalisation
-victimisation
+### 3️⃣ Niveau 3 — analyse linguistique
 
-4️⃣ Niveau 4 — synthèse cognitive
+#### Pression discursive
 
-Tous ces indicateurs alimentent la stabilité cognitive.
+Basée sur des marqueurs comme :
+
+- dramatisation
+- certitude absolue
+- autorité vague
+- ennemi abstrait
+
+#### Solidité argumentative
+
+Basée sur :
+
+- connecteurs logiques
+- contradictions
+- structure argumentative
+
+#### Red flags
+
+Détection de procédés rhétoriques :
+
+- sophismes
+- généralisation
+- naturalisation
+- victimisation
+
+---
+
+### 4️⃣ Niveau 4 — synthèse cognitive
+
+Tous ces indicateurs alimentent la **stabilité cognitive**.
 
 On peut la résumer ainsi :
 
-stabilité ≈ équilibre cognitif
-            − pression discursive
-            − red flags
-            + solidité argumentative
+`stabilité ≈ équilibre cognitif − pression discursive − red flags + solidité argumentative`
 
-Ce n’est pas une formule exacte mais un principe d’agrégation.
+Ce n’est pas une formule exacte mais un **principe d’agrégation**.
 
-5️⃣ Niveau 5 — gravité cognitive
+---
+
+### 5️⃣ Niveau 5 — gravité cognitive
 
 Enfin :
 
-gravit
-e
-ˊ
-=1−stabilit
-e
-ˊ
+`gravité = 1 − stabilité`
 
 Donc :
 
-stabilité	gravité
-forte	faible
-moyenne	modérée
-faible	élevée
+| stabilité | gravité |
+|----------|--------|
+| forte | faible |
+| moyenne | modérée |
+| faible | élevée |
 
-6️⃣ Ce que signifie réellement la gravité
+---
 
-La gravité cognitive est donc :
+### 6️⃣ Signification de la gravité
 
-le niveau global de dérive du raisonnement détecté dans le discours.
+La **gravité cognitive** représente :
+
+> le niveau global de dérive du raisonnement détecté dans le discours.
 
 Elle combine :
 
-mécanique cognitive
-structure argumentative
-pression rhétorique
-signaux de manipulation
+- mécanique cognitive
+- structure argumentative
+- pression rhétorique
+- signaux de manipulation
 
 #### Formule heuristique
 
