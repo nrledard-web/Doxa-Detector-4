@@ -7013,6 +7013,13 @@ else:
     message_r = "Le texte présente un raisonnement robuste, structuré et bien soutenu."
 
 st.subheader(f"{couleur_r} Solidité argumentative : {etiquette_r}")
+st.caption(message_r)
+
+st.caption(
+    "Cette jauge mesure la solidité argumentative du texte : structure du raisonnement, "
+    "cohérence logique et présence d’éléments vérifiables. "
+    "La crédibilité globale dépend aussi de la qualité des sources et de la vérifiabilité des affirmations."
+)
 
 with st.popover("ℹ️ Formule / explication"):
     st.markdown(f"""
@@ -7076,14 +7083,6 @@ st.markdown(f"""
 st.markdown(
     f"<b style='color:{color_r}'>{etiquette_r}</b> — Score : {round(score, 1)}/20",
     unsafe_allow_html=True
-)
-
-st.caption(message_r)
-
-st.caption(
-    "Cette jauge mesure la solidité argumentative du texte : structure du raisonnement, "
-    "cohérence logique et présence d’éléments vérifiables. "
-    "La crédibilité globale dépend aussi de la qualité des sources et de la vérifiabilité des affirmations."
 )
 
 st.markdown("""
