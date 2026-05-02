@@ -7104,42 +7104,81 @@ st.markdown(
 )
 st.caption(message_r)
 with st.popover("ℹ️ Formule / explication"):
-    st.markdown(f"""
-### Solidité argumentative — {etiquette_r}
 
+    st.subheader(f"Verdict : {couleur_r} Solidité argumentative — {etiquette_r}")
+    st.caption(f"Score argumentatif : {round(score, 1)}/20 — {message_r}")
+
+    st.subheader("Résumé de l’analyse")
+
+    m1, m2 = st.columns(2)
+    m1.metric("Score argumentatif", round(score, 1))
+    m2.metric("Verdict", etiquette_r)
+
+    m3, m4 = st.columns(2)
+    m3.metric("G — gnōsis", round(result.get("G", 0), 2))
+    m4.metric("N — nous", round(result.get("N", 0), 2))
+
+    st.markdown(f"""
 Cette jauge évalue la **solidité argumentative du texte**.
 
----
+Elle combine deux dimensions :
 
-### Résultats de cette analyse
-
-Score argumentatif : **{round(score, 1)}/20**
-
-G — gnōsis : **{round(result.get("G", 0), 2)}**
-
-N — nous : **{round(result.get("N", 0), 2)}**
-
-Verdict : **{etiquette_r}**
+- la densité du savoir articulé  
+- la cohérence logique du raisonnement  
 
 ---
 
-### Formule heuristique
+### 1️⃣ Gnōsis argumentative
 
-`score_argumentatif = (G × 0.6) + (N × 0.4)`
+`G = gnōsis`
 
 avec :
 
-G = gnōsis  
-N = nous
+G = savoir articulé : sources, chiffres, références, éléments vérifiables.
+
+Dans cette analyse :
+
+`G = {round(result.get("G", 0), 2)}`
 
 ---
 
-### Interprétation
+### 2️⃣ Nous argumentatif
+
+`N = nous`
+
+avec :
+
+N = compréhension intégrée : cohérence logique, structure argumentative, contextualisation.
+
+Dans cette analyse :
+
+`N = {round(result.get("N", 0), 2)}`
+
+---
+
+### 3️⃣ Formule heuristique principale
+
+`score_argumentatif = (G × 0.6) + (N × 0.4)`
+
+Le savoir articulé pèse légèrement plus que la cohérence logique.
+
+---
+
+### 4️⃣ Calcul dans cette analyse
+
+`score_argumentatif = ({round(result.get("G", 0), 2)} × 0.6) + ({round(result.get("N", 0), 2)} × 0.4)`
+
+`score_argumentatif ≈ {round(score, 1)} / 20`
+
+---
+
+### Interprétation du score argumentatif
 
 0–6 : raisonnement faible  
 7–13 : raisonnement partiel  
 14–20 : raisonnement robuste
 """)
+    
 st.markdown("""
 <div style="text-align:center; margin:25px 0; color:#888;">
 ────────── ✦ ──────────
