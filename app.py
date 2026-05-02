@@ -7307,12 +7307,6 @@ st.subheader("Jauges structurelles avancées")
 
 gauges = [
     (
-        "Pression narrative",
-        result.get("narrative_pressure_score", 0),
-        result.get("narrative_pressure_label", "Non calculée"),
-        result.get("narrative_pressure_interpretation", "")
-    ),
-    (
         "Saut logique",
         result.get("logical_jump_score", 0),
         result.get("logical_jump_label", "Non calculée"),
@@ -7329,18 +7323,6 @@ gauges = [
         result.get("argument_density_score", 0),
         result.get("argument_density_label", "Non calculée"),
         result.get("argument_density_interpretation", "")
-    ),
-    (
-        "Prédiction absolue",
-        result.get("absolute_prediction_score", 0),
-        result.get("absolute_prediction_label", "Non calculée"),
-        result.get("absolute_prediction_interpretation", "")
-    ),
-    (
-        "Amplification de menace",
-        result.get("threat_amplification_advanced_score", 0),
-        result.get("threat_amplification_advanced_label", "Non calculée"),
-        result.get("threat_amplification_advanced_interpretation", "")
     ),
     (
         "Certitude forte composée",
