@@ -7173,9 +7173,6 @@ elif result["ME"] > result["M"] + 1:
 else:
     dominant_pattern = "Structure dominante : mixte ou ambiguë"
 
-st.subheader("Structure cognitive dominante")
-st.write(dominant_pattern)
-
 if result["ME"] > result["M"] and result["ME"] > 0:
     cognitive_type = "Mensonge stratégique possible"
 elif result["M"] < 0:
