@@ -7506,7 +7506,7 @@ with col_center:
 
     st.markdown("### 🧠 Modules d’analyse DOXA")
 
-    with st.expander("🧠 Voir le résumé complet", expanded=False):
+    with st.expander("🧠 Voir le résumé complet des pénalités", expanded=False):
 
         # =============================
         # Pénalités appliquées
