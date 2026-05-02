@@ -7002,6 +7002,58 @@ La jauge s’appuie sur plusieurs indices linguistiques :
 - continuité logique du raisonnement
 - détection de contradictions internes
 
+Contrairement au fact-checking, elle n’évalue pas directement la vérité des affirmations.  
+Elle examine la **structure du discours** et la manière dont les idées sont reliées entre elles.
+
+Ces indices linguistiques et argumentatifs sont :
+
+#### 1️⃣ Connecteurs logiques
+
+L’algorithme détecte les mots qui structurent le raisonnement :
+
+- donc
+- car
+- puisque
+- cependant
+- pourtant
+- ainsi
+- en effet
+
+Ces connecteurs signalent souvent une relation logique entre deux propositions :  
+**cause, conséquence, opposition ou justification**.
+
+Un discours qui utilise ces connecteurs de manière cohérente présente généralement une structure argumentative plus explicite.
+
+#### 2️⃣ Structure argumentative des phrases
+
+Le système examine si les phrases suivent des formes argumentatives classiques :
+
+- affirmation → justification
+- prémisse → conclusion
+- observation → interprétation
+
+Ces structures indiquent qu’un raisonnement est **articulé et développé**, plutôt qu’une simple succession d’opinions.
+
+#### 3️⃣ Continuité logique du raisonnement
+
+L’analyse observe si les idées se suivent de manière progressive :
+
+- une idée introduit la suivante
+- les phrases restent dans le même cadre logique
+- les conclusions découlent des propositions précédentes
+
+Un raisonnement continu et cohérent augmente la **solidité argumentative** du texte.
+
+#### 4️⃣ Détection de contradictions internes
+
+Le moteur recherche aussi des signaux de rupture logique :
+
+- affirmations incompatibles dans le même texte
+- revirements implicites
+- enchaînements contradictoires
+
+Ces incohérences diminuent le score car elles fragilisent la structure du raisonnement.
+
 ---
 
 ### Formule heuristique
