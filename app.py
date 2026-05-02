@@ -6954,7 +6954,7 @@ st.markdown(
     f"<b style='color:{score_color}'>Score analogique : {score_icon} {round(base_score,1)}/20 — {score_label}</b>",
     unsafe_allow_html=True
 )
-
+st.caption(message_r)
 # Popover explicatif
 with st.popover("ℹ️ Formule / explication"):
     st.markdown(f"""
