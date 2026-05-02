@@ -7007,39 +7007,44 @@ if result:
         etiquette_r = "Très solide"
         message_r = "Le texte présente un raisonnement robuste, structuré et bien soutenu."
     
-    st.subheader(f"{couleur_r} Solidité argumentative : {etiquette_r}")
-        with st.popover("ℹ️ Formule / explication"):
-            st.markdown("""
-        Cette jauge évalue la **solidité argumentative du texte**.
-        
-        ### Formule heuristique
-        
-        score_argumentatif = (G × 0.6) + (N × 0.4)
-        
-        avec :
-        
-        G = gnōsis (éléments factuels : sources, chiffres, références)
-        
-        N = nous (cohérence logique et structure argumentative)
-        
-        ### Interprétation
-        
-        0-6 : raisonnement faible  
-        7-13 : raisonnement partiel  
-        14-20 : raisonnement robuste
-        """)
-        st.progress(min(score / 20, 1))
-        st.caption(f"Score : {round(score, 1)}/20 — {message_r}")
-        st.caption(
-            "Cette jauge mesure la solidité argumentative du texte : structure du raisonnement, "
-            "cohérence logique et présence d’éléments vérifiables. "
-            "La crédibilité globale dépend aussi de la qualité des sources et de la vérifiabilité des affirmations."
-        )
-        st.markdown("""
-            <div style="text-align:center; margin:25px 0; color:#888;">
-            ────────── ✦ ──────────
-            </div>
-            """, unsafe_allow_html=True)
+st.subheader(f"{couleur_r} Solidité argumentative : {etiquette_r}")
+
+with st.popover("ℹ️ Formule / explication"):
+    st.markdown("""
+Cette jauge évalue la **solidité argumentative du texte**.
+
+### Formule heuristique
+
+score_argumentatif = (G × 0.6) + (N × 0.4)
+
+avec :
+
+G = gnōsis (éléments factuels : sources, chiffres, références)
+
+N = nous (cohérence logique et structure argumentative)
+
+### Interprétation
+
+0–6 : raisonnement faible  
+7–13 : raisonnement partiel  
+14–20 : raisonnement robuste
+""")
+
+st.progress(min(score / 20, 1))
+
+st.caption(f"Score : {round(score, 1)}/20 — {message_r}")
+
+st.caption(
+    "Cette jauge mesure la solidité argumentative du texte : structure du raisonnement, "
+    "cohérence logique et présence d’éléments vérifiables. "
+    "La crédibilité globale dépend aussi de la qualité des sources et de la vérifiabilité des affirmations."
+)
+
+st.markdown("""
+<div style="text-align:center; margin:25px 0; color:#888;">
+────────── ✦ ──────────
+</div>
+""", unsafe_allow_html=True)
     
         st.subheader("Barre de Mécroyance")
         lie_result = compute_lie_gauge(result["M"], result["ME"])
