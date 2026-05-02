@@ -7035,11 +7035,11 @@ if result:
         "cohérence logique et présence d’éléments vérifiables. "
         "La crédibilité globale dépend aussi de la qualité des sources et de la vérifiabilité des affirmations."
     )
-            st.markdown("""
-    <div style="text-align:center; margin:25px 0; color:#888;">
-    ────────── ✦ ──────────
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("""
+        <div style="text-align:center; margin:25px 0; color:#888;">
+        ────────── ✦ ──────────
+        </div>
+        """, unsafe_allow_html=True)
 
     st.subheader("Barre de Mécroyance")
     lie_result = compute_lie_gauge(result["M"], result["ME"])
