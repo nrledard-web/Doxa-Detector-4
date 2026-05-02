@@ -478,7 +478,7 @@ client = get_openai_client()
 # Header
 # -----------------------------
 st.markdown("""
-<h1 style="text-align:center; font-size:48px;">
+<h1 style="text-align:center; font-size:36px;">
 De la logique d’Aristote aux équations du discours
 </h1>
 """, unsafe_allow_html=True)
