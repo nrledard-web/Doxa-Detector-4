@@ -8266,30 +8266,58 @@ with col_center:
     # =============================
     st.subheader("Dérives cognitives")
 
-    dr1, dr2, = st.columns(2)
-
+    dr1, dr2 = st.columns(2)
+    
     with dr1:
-
+    
         st.markdown("### Pseudo-savoir")
         st.caption("Accumulation de savoirs mal intégrés ou mal compris.")
-
-        value = min(result["drift_pseudo_savoir"] / 10, 1.0)
-
-        if result["drift_pseudo_savoir"] < 1:
+    
+        pseudo_score = result.get("drift_pseudo_savoir", 0)
+        value = min(pseudo_score / 10, 1.0)
+    
+        if pseudo_score < 1:
             label, color = "Faible", "#16a34a"
-        elif result["drift_pseudo_savoir"] < 3:
+        elif pseudo_score < 3:
             label, color = "Modérée", "#ca8a04"
-        elif result["drift_pseudo_savoir"] < 6:
+        elif pseudo_score < 6:
             label, color = "Élevée", "#f97316"
         else:
             label, color = "Très élevée", "#dc2626"
-
+    
         render_custom_gauge(value, color)
+    
         st.markdown(
-            f"<b style='color:{color}'>{label}</b> — {result['drift_pseudo_savoir']}",
+            f"<b style='color:{color}'>{label}</b> — {pseudo_score:.2f}",
             unsafe_allow_html=True
         )
-
+    
+        with st.popover("ℹ️"):
+            st.markdown(f"""
+    ### Pseudo-savoir
+    
+    Le pseudo-savoir correspond à une **accumulation de références ou de notions mal intégrées dans le raisonnement**.
+    
+    Le discours peut donner une impression de savoir, mais certaines idées sont :
+    
+    - mal comprises
+    - mal interprétées
+    - utilisées hors contexte
+    - ou simplement juxtaposées sans articulation logique.
+    
+    #### Score observé
+    
+    **Pseudo-savoir : {pseudo_score:.2f}**
+    
+    **Verdict : {label}**
+    
+    #### Interprétation
+    
+    0–1 : pseudo-savoir faible  
+    1–3 : pseudo-savoir modéré  
+    3–6 : pseudo-savoir élevé  
+    6–10 : pseudo-savoir très élevé
+    """)
     with dr2:
         st.markdown("### Intuition dogmatique")
         st.caption("Conviction forte sans base de savoir suffisante.")
