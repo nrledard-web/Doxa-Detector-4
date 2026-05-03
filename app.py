@@ -7941,7 +7941,7 @@ Une vitalité cognitive de **{life_score}%** indique une vitalité **{life_label
 # =============================
 
 st.markdown("### Cerveau DOXA")
-
+brain = result.get("doxa_brain", {})
 st.metric(
     "Stabilité cognitive",
     f"{brain.get('cognitive_stability', 0):.2f}"
@@ -7949,8 +7949,6 @@ st.metric(
 
 st.caption(brain.get("brain_verdict", "Diagnostic indisponible."))
 st.info(brain.get("brain_advice", ""))
-
-brain = result.get("doxa_brain", {})
 
 with st.expander("Résumé du cerveau DOXA"):
     st.write(brain.get("brain_summary", "Aucun résumé disponible."))
