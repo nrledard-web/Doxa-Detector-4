@@ -7852,7 +7852,25 @@ else:
     life_text = "Vitalité cognitive très solide — le discours présente une forte robustesse cognitive."
 
 st.markdown("### Vitalité cognitive")
+render_custom_gauge(life_value, life_color)
 
+st.markdown(
+    f"""
+<div style='
+border:1px solid {life_color};
+border-radius:12px;
+padding:12px;
+margin-top:8px;
+background-color:rgba(255,255,255,0.03);
+'>
+<b style='color:{life_color};'>
+Vitalité cognitive {life_label} — {life_score}%
+</b><br>
+{life_text}
+</div>
+""",
+    unsafe_allow_html=True
+)
 with st.popover("ℹ️ Comprendre cette jauge"):
     st.markdown(f"""
 ### Vitalité cognitive
@@ -7917,25 +7935,6 @@ Une vitalité cognitive de **{life_score}%** indique une vitalité **{life_label
 {life_text}
 """)
 
-render_custom_gauge(life_value, life_color)
-
-st.markdown(
-    f"""
-<div style='
-border:1px solid {life_color};
-border-radius:12px;
-padding:12px;
-margin-top:8px;
-background-color:rgba(255,255,255,0.03);
-'>
-<b style='color:{life_color};'>
-Vitalité cognitive {life_label} — {life_score}%
-</b><br>
-{life_text}
-</div>
-""",
-    unsafe_allow_html=True
-)
 
 # =============================
 # Cerveau DOXA
