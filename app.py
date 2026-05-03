@@ -6869,9 +6869,9 @@ if result:
 # AIDE DE LECTURE DES JAUGES
 # =====================================================
 
-def show_gauge_help():
-    with st.expander("📘 Comment lire les jauges", expanded=False):
-        st.markdown("""
+    def show_gauge_help():
+        with st.expander("📘 Comment lire les jauges", expanded=False):
+            st.markdown("""
 Chaque jauge mesure un mécanisme du discours : raisonnement, pression rhétorique, biais argumentatifs ou degré de certitude.
 
 Les jauges n’indiquent pas si un texte est vrai ou faux, mais **la solidité de sa structure cognitive**.
@@ -6906,45 +6906,45 @@ Les discours philosophiques, moraux ou spéculatifs obtiennent souvent des score
 """)
 
 
-def show_word_lists_help():
-    with st.popover("ℹ️ Rôle des listes de mots"):
-        st.markdown("""
-### Rôle des listes de mots
-
-Certaines jauges utilisent des **dictionnaires de mots pondérés**.
-
-Le système ne comprend pas le sens : il applique des coefficients.
-
-> mot détecté → contribution au score
-
-Cela permet de mesurer des **signaux linguistiques**, pas une vérité.
-
-### Limite
-
-Un mot isolé peut tromper :
-
-- “crise” → + émotion
-- “pas de crise” → faux positif
-
-### Améliorations possibles
-
-- négation
-- atténuation
-- intensification
-- répétition
-
-### Résumé
-
-➡️ Signal brut, interprété avec les autres jauges.
-""")
+    def show_word_lists_help():
+        with st.popover("ℹ️ Rôle des listes de mots"):
+            st.markdown("""
+    ### Rôle des listes de mots
+    
+    Certaines jauges utilisent des **dictionnaires de mots pondérés**.
+    
+    Le système ne comprend pas le sens : il applique des coefficients.
+    
+    > mot détecté → contribution au score
+    
+    Cela permet de mesurer des **signaux linguistiques**, pas une vérité.
+    
+    ### Limite
+    
+    Un mot isolé peut tromper :
+    
+    - “crise” → + émotion
+    - “pas de crise” → faux positif
+    
+    ### Améliorations possibles
+    
+    - négation
+    - atténuation
+    - intensification
+    - répétition
+    
+    ### Résumé
+    
+    ➡️ Signal brut, interprété avec les autres jauges.
+    """)
 
 # =====================================================
 # AFFICHAGE
 # =====================================================
-
-if result:
-    show_gauge_help()
-    show_word_lists_help()
+    
+    if result:
+        show_gauge_help()
+        show_word_lists_help()
 
 st.markdown("""
 <div style="text-align:center; margin:25px 0; color:#888;">
