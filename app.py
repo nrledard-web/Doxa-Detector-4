@@ -7190,32 +7190,31 @@ with st.popover("ℹ️ Formule / explication"):
 
 Cette jauge estime la **solidité argumentative globale** du texte.
 
-Elle ne mesure pas seulement la présence de connecteurs logiques.  
-Elle combine la structure du raisonnement avec la présence d’éléments vérifiables.
+Elle combine la structure du raisonnement, la présence d’éléments vérifiables, la qualité des sources et les fragilités rhétoriques détectées.
 
 ### Signaux pris en compte
 
 La jauge s’appuie notamment sur :
 
-- la présence d’éléments factuels
-- la vérifiabilité des affirmations
-- la structure logique du raisonnement
-- les marqueurs de justification, de conclusion et de nuance
-- la cohérence générale du discours
+- **G — gnōsis**
+- **N — nous**
+- **V — vérifiabilité globale**
+- **QS — qualité des sources**
+- **VC — vérifiabilité moyenne des affirmations**
+- **D — doxa**
+- **R — risque rhétorique**
+- **RC — risque moyen des affirmations**
+- **P — pénalités de crédibilité**
 
-### Formule heuristique simplifiée
+### Formule heuristique réelle
 
-Le score affiché correspond ici à :
+`HFS brut = (0.18×G + 0.12×N + 0.20×V + 0.22×QS + 0.18×VC) − (0.16×D + 0.12×R + 0.18×RC + P)`
 
-`score = hard_fact_score`
+Puis :
 
-Ce score est exprimé sur **20**.
+`HFS = HFS brut + 8 + bonus_épistémique`
 
-Il sert d’indicateur de solidité argumentative, car il mesure à la fois :
-
-- la densité du raisonnement
-- l’ancrage factuel
-- la présence d’éléments vérifiables
+Le score final est borné entre **0 et 20**.
 
 ### Interprétation
 
