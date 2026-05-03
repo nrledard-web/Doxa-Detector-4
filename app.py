@@ -7220,11 +7220,6 @@ Un score de **{round(score, 1)}/20** indique une solidité argumentative **{etiq
 {message_r}
 """)
 
-          
-────────── ✦ ──────────
-</div>
-""", unsafe_allow_html=True)
-
 # =============================
 # Calculs mécroyance / mensonge
 # =============================
