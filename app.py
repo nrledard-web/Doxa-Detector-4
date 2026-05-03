@@ -6907,36 +6907,81 @@ Les discours philosophiques, moraux ou spéculatifs obtiennent souvent des score
 
 
     def show_word_lists_help():
-        with st.popover("ℹ️ Rôle des listes de mots"):
-            st.markdown("""
-    ### Rôle des listes de mots
-    
-    Certaines jauges utilisent des **dictionnaires de mots pondérés**.
-    
-    Le système ne comprend pas le sens : il applique des coefficients.
-    
-    > mot détecté → contribution au score
-    
-    Cela permet de mesurer des **signaux linguistiques**, pas une vérité.
-    
-    ### Limite
-    
-    Un mot isolé peut tromper :
-    
-    - “crise” → + émotion
-    - “pas de crise” → faux positif
-    
-    ### Améliorations possibles
-    
-    - négation
-    - atténuation
-    - intensification
-    - répétition
-    
-    ### Résumé
-    
-    ➡️ Signal brut, interprété avec les autres jauges.
-    """)
+    with st.popover("ℹ️ Rôle des listes de mots"):
+        st.markdown("""
+### Comment certaines jauges lisent le texte
+
+Certaines jauges ne cherchent pas à “comprendre” le texte comme un humain.
+
+Elles repèrent simplement des mots ou expressions connus pour porter une **charge émotionnelle, rhétorique ou cognitive**.
+
+Chaque mot agit comme un **signal** :
+
+> plus il y a de mots marqués, plus la jauge s’allume
+
+---
+
+### Ce que la jauge détecte réellement
+
+Elle ne dit pas si le texte est vrai ou faux.
+
+Elle mesure :
+
+- l’intensité du langage utilisé  
+- la pression exercée sur le lecteur  
+- la présence de formulations typiques (crise, urgence, jamais, catastrophe…)
+
+👉 Autrement dit : **comment le texte cherche à faire réagir**, pas ce qu’il prouve.
+
+---
+
+### Exemple
+
+- “Une crise majeure menace le pays” → langage chargé → jauge monte  
+- “Il n’y a pas de crise actuellement” → mot détecté malgré la négation → signal imparfait  
+
+---
+
+### Pourquoi ce système ?
+
+Parce qu’un discours peut être :
+
+- **très convaincant sans être solide**
+- **très chargé sans être démontré**
+
+Cette jauge capte cette dimension.
+
+---
+
+### Limite importante
+
+Elle lit des mots, pas leur intention.
+
+Elle peut donc :
+
+- surestimer certains textes neutres  
+- ou manquer des nuances
+
+---
+
+### Comment interpréter
+
+👉 Cette jauge n’est jamais à lire seule.
+
+Elle indique un **niveau de pression linguistique**, à croiser avec :
+
+- la solidité argumentative  
+- la vérifiabilité  
+- l’équilibre G / N / D  
+
+---
+
+### Résumé
+
+➡️ Elle mesure **l’impact du langage**  
+➡️ Pas la vérité du contenu  
+➡️ Ni l’intention réelle de l’auteur
+""")
 
 # =====================================================
 # AFFICHAGE
