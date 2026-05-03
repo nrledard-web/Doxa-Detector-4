@@ -7920,15 +7920,6 @@ Dans cette analyse :
 Même si la stabilité est élevée, le régime dominant peut signaler une fragilité particulière, comme du **pseudo-savoir**, une **mécroyance probable** ou une **orientation rhétorique**.
 """)
 
-with st.expander("📊 Résumé détaillé du cerveau DOXA"):
-    st.write(brain_summary)
-
-    col1, col2, col3, col4 = st.columns(4)
-
-    col1.metric("Indice classique", round(result.get("M", 0), 2), help=T["help_classic_score"])
-    col2.metric("Indice ajusté", round(result.get("improved", 0), 2), help=T["help_improved_score"])
-    col3.metric("Score de raisonnement", round(result.get("hard_fact_score", 0), 1), help=T["help_hard_fact_score"])
-    col4.metric("Vitalité cognitive", f"{life_score}%")
 
 # =============================
 # Gravité cognitive globale
@@ -8150,7 +8141,16 @@ Une vitalité cognitive de **{life_score}%** indique une vitalité **{life_label
 
 {life_text}
 """)
+    
+with st.expander("📊 Résumé détaillé du cerveau DOXA"):
+    st.write(brain_summary)
 
+    col1, col2, col3, col4 = st.columns(4)
+
+    col1.metric("Indice classique", round(result.get("M", 0), 2), help=T["help_classic_score"])
+    col2.metric("Indice ajusté", round(result.get("improved", 0), 2), help=T["help_improved_score"])
+    col3.metric("Score de raisonnement", round(result.get("hard_fact_score", 0), 1), help=T["help_hard_fact_score"])
+    col4.metric("Vitalité cognitive", f"{life_score}%")
     
 # =============================
 # Partage des résultats
