@@ -8552,7 +8552,6 @@ with col_center:
 
     with pd1:
         st.markdown("### Pression rhétorique")
-    st.subheader("Jauge de pression rhétorique")
     st.caption(
         "Cette jauge ne mesure pas un mensonge certain, mais l’intensité des procédés discursifs "
         "susceptibles d’orienter, de verrouiller ou de dramatiser un discours."
