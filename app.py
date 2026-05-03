@@ -8684,24 +8684,24 @@ with col_center:
     rp_label, rp_color = interpret_rhetorical_pressure(rp)
     
     st.markdown(f"""
-    <div style="width:100%; margin-top:10px; margin-bottom:10px;">
-    <div style="
-        width:100%;
-        height:26px;
-        background:#e5e7eb;
-        border-radius:12px;
-        overflow:hidden;
-        border:1px solid #cbd5e1;
-    ">
-        <div style="
-            width:{rp*100}%;
-            height:100%;
-            background:{rp_color};
-            transition:width 0.4s ease;
-        "></div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
+        <div style="width:100%; margin-top:10px; margin-bottom:10px;">
+            <div style="
+                width:100%;
+                height:26px;
+                background:#e5e7eb;
+                border-radius:12px;
+                overflow:hidden;
+                border:1px solid #cbd5e1;
+            ">
+                <div style="
+                    width:{rp*100}%;
+                    height:100%;
+                    background:{rp_color};
+                    transition:width 0.4s ease;
+                "></div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
     
     st.markdown(
         f"<b style='color:{rp_color}'>{rp_label}</b> — {round(rp*100, 1)}%",
