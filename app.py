@@ -8265,6 +8265,7 @@ with col_center:
 # Nouvelles jauges : dérives cognitives
 # =============================
 st.subheader("Dérives cognitives")
+dr1, dr2, dr3 = st.columns(3)
 
 with dr1:
     st.markdown("### Pseudo-savoir")
