@@ -6865,48 +6865,87 @@ if not result:
 
 if result:
 
-    # =====================================================
-    # AIDE DE LECTURE DES JAUGES
-    # =====================================================
-    
-    def show_gauge_help():
-        with st.expander("📘 Comment lire les jauges", expanded=False):
-            st.markdown("""
-        Chaque jauge mesure un mécanisme du discours : raisonnement, pression rhétorique, biais argumentatifs ou degré de certitude.
-        
-        Les jauges n’indiquent pas si un texte est vrai ou faux, mais **la solidité de sa structure cognitive**.
-        
-        - 🟢 **Vert** → structure saine ou raisonnement solide
-        - 🟡 **Jaune** → vigilance modérée ou raisonnement partiellement fragile
-        - 🟠 **Orange** → fragilité importante, raisonnement incomplet ou insuffisamment démontré
-        - 🔴 **Rouge** → dérive cognitive importante ou manipulation possible
-        - 🟤 **Marron clair** → mécanisme d’analyse cognitive (pression rhétorique, dérive argumentative, tension mécroyance/mensonge)
-        
-        **Les textes les plus solides sont ceux qui allument le moins de jauges, ou qui restent majoritairement dans le vert.**
-        
-        ---
-        
-        ### Poids des jauges
-        
-        Toutes les jauges n’ont pas la même influence sur le résultat final.
-        
-        Certaines jauges structurelles ont un **coefficient plus élevé**, car elles signalent des problèmes fondamentaux dans le raisonnement.
-        
-        **Une petite jauge avec un coefficient élevé peut peser autant qu’une grande jauge secondaire.**
-        
-        Le score final dépend donc **à la fois de l’intensité des jauges et de leur poids dans l’analyse.**
-        
-        ---
-        
-        ### Important
-        
-        Un texte peut être **cohérent sans être démonstratif**.
-        
-        Les discours philosophiques, moraux ou spéculatifs obtiennent souvent des scores intermédiaires, car ils reposent davantage sur **des idées générales que sur des faits vérifiables**.
-        """)
-            
-    show_gauge_help()
-    st.markdown("""
+# =====================================================
+# AIDE DE LECTURE DES JAUGES
+# =====================================================
+
+def show_gauge_help():
+    with st.expander("📘 Comment lire les jauges", expanded=False):
+        st.markdown("""
+Chaque jauge mesure un mécanisme du discours : raisonnement, pression rhétorique, biais argumentatifs ou degré de certitude.
+
+Les jauges n’indiquent pas si un texte est vrai ou faux, mais **la solidité de sa structure cognitive**.
+
+- 🟢 **Vert** → structure saine ou raisonnement solide
+- 🟡 **Jaune** → vigilance modérée ou raisonnement partiellement fragile
+- 🟠 **Orange** → fragilité importante, raisonnement incomplet ou insuffisamment démontré
+- 🔴 **Rouge** → dérive cognitive importante ou manipulation possible
+- 🟤 **Marron clair** → mécanisme d’analyse cognitive
+
+**Les textes les plus solides sont ceux qui allument le moins de jauges, ou qui restent majoritairement dans le vert.**
+
+---
+
+### Poids des jauges
+
+Toutes les jauges n’ont pas la même influence sur le résultat final.
+
+Certaines jauges structurelles ont un **coefficient plus élevé**, car elles signalent des problèmes fondamentaux dans le raisonnement.
+
+**Une jauge secondaire à fort coefficient peut peser autant qu’une jauge plus visible.**
+
+Le score final dépend donc **à la fois de l’intensité des jauges et de leur poids dans l’analyse.**
+
+---
+
+### Important
+
+Un texte peut être **cohérent sans être démonstratif**.
+
+Les discours philosophiques, moraux ou spéculatifs obtiennent souvent des scores intermédiaires.
+""")
+
+
+def show_word_lists_help():
+    with st.popover("ℹ️ Rôle des listes de mots"):
+        st.markdown("""
+### Rôle des listes de mots
+
+Certaines jauges utilisent des **dictionnaires de mots pondérés**.
+
+Le système ne comprend pas le sens : il applique des coefficients.
+
+> mot détecté → contribution au score
+
+Cela permet de mesurer des **signaux linguistiques**, pas une vérité.
+
+### Limite
+
+Un mot isolé peut tromper :
+
+- “crise” → + émotion
+- “pas de crise” → faux positif
+
+### Améliorations possibles
+
+- négation
+- atténuation
+- intensification
+- répétition
+
+### Résumé
+
+➡️ Signal brut, interprété avec les autres jauges.
+""")
+
+# =====================================================
+# AFFICHAGE
+# =====================================================
+
+show_gauge_help()
+show_word_lists_help()
+
+st.markdown("""
 <div style="text-align:center; margin:25px 0; color:#888;">
 ────────── ✦ ──────────
 </div>
