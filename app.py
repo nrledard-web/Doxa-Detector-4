@@ -8383,6 +8383,64 @@ with col_center:
 
     st.divider()
 
+    # -----------------------------
+    # Fermeture cognitive
+    # -----------------------------
+    st.markdown("### Fermeture cognitive")
+    st.caption("Excès de certitude par rapport au savoir et à la compréhension.")
+
+    value = min(result["drift_mecroyance"] / 10, 1.0)
+
+    if result["drift_mecroyance"] < 1:
+        label, color = "Faible", "#16a34a"
+    elif result["drift_mecroyance"] < 3:
+        label, color = "Modérée", "#ca8a04"
+    elif result["drift_mecroyance"] < 6:
+        label, color = "Élevée", "#f97316"
+    else:
+        label, color = "Très élevée", "#dc2626"
+
+    render_custom_gauge(value, color)
+
+    st.markdown(
+        f"<b style='color:{color}'>{label}</b> — {result['drift_mecroyance']}",
+        unsafe_allow_html=True
+    )
+
+    with st.popover("ℹ️ Comprendre cette jauge"):
+        st.markdown("### Fermeture cognitive")
+
+        st.write(
+            "Cette jauge mesure un déséquilibre où la certitude affirmée dépasse "
+            "le savoir articulé et la compréhension intégrée."
+        )
+
+        st.markdown("**Formule utilisée**")
+        st.code("Fermeture cognitive = max(0, D - (G + N))")
+
+        st.markdown("**Avec les valeurs actuelles**")
+        st.write(
+            f"D = {result['D']:.2f} | "
+            f"G = {result['G']:.2f} | "
+            f"N = {result['N']:.2f}"
+        )
+
+        st.code(
+            f"max(0, {result['D']:.2f} - ({result['G']:.2f} + {result['N']:.2f})) "
+            f"= {result['drift_mecroyance']:.2f}"
+        )
+
+        st.markdown("**Interprétation**")
+        st.write(
+            "Plus ce score est élevé, plus le texte affirme avec certitude alors que "
+            "les bases de savoir et de compréhension restent insuffisantes."
+        )
+
+        st.markdown("**Normalisation graphique**")
+        st.code("value = min(drift_mecroyance / 10, 1.0)")
+
+      st.divider()
+
     st.subheader("Jauge de pression rhétorique")
     st.caption(
         "Cette jauge ne mesure pas un mensonge certain, mais l’intensité des procédés discursifs "
