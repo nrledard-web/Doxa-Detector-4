@@ -8460,13 +8460,14 @@ with col_center:
     st.markdown("### Indice global de dérive cognitive")
     st.caption("Synthèse des trois dérives cognitives.")
     
-    global_value = min(result["global_cognitive_drift"] / 10, 1.0)
+    global_score = result["global_cognitive_drift"]
+    global_value = min(global_score / 10, 1.0)
     
-    if result["global_cognitive_drift"] < 1:
+    if global_score < 1:
         global_label, global_color = "Faible", "#16a34a"
-    elif result["global_cognitive_drift"] < 3:
+    elif global_score < 3:
         global_label, global_color = "Modérée", "#ca8a04"
-    elif result["global_cognitive_drift"] < 6:
+    elif global_score < 6:
         global_label, global_color = "Élevée", "#f97316"
     else:
         global_label, global_color = "Très élevée", "#dc2626"
@@ -8474,11 +8475,47 @@ with col_center:
     render_custom_gauge(global_value, global_color)
     
     st.markdown(
-        f"<b style='color:{global_color}'>{global_label}</b> — {result['global_cognitive_drift']}",
+        f"<b style='color:{global_color}'>{global_label}</b> — {global_score}",
         unsafe_allow_html=True
     )
     
     st.caption(result["cognitive_drift_interpretation"])
+    
+    
+    # -----------------------------
+    # POPOVER
+    # -----------------------------
+    with st.popover("ℹ️ Comprendre cette jauge", use_container_width=True):
+    
+        st.markdown("""
+    ### Indice global de dérive cognitive
+    
+    Cette jauge synthétise les trois dérives cognitives fondamentales :
+    
+    - **Pseudo-savoir**
+    - **Intuition dogmatique**
+    - **Fermeture cognitive (mécroyance)**
+    
+    ---
+    
+    ### Principe fondamental
+    
+    **M = (G + N) − D**
+    
+    - **G** : savoir (faits, sources, données)
+    - **N** : compréhension (cohérence, nuance)
+    - **D** : certitude (affirmation, rigidité)
+    
+    ---
+    
+    ### Dérives mesurées
+    
+    **1. Fermeture cognitive**
+    
+    Excès de certitude par rapport au savoir et à la compréhension.
+    
+    ```python
+    drift_mecroyance = max(0, -M)
 
     st.divider()
 
