@@ -8548,7 +8548,7 @@ with col_center:
     st.subheader("🗣️ Pressions discursives")
     st.caption("Forces rhétoriques influençant la perception et l’interprétation du discours.")
     
-    with pd1:
+    with :
         st.markdown("### Pression rhétorique")
     st.subheader("Jauge de pression rhétorique")
     st.caption(
@@ -8635,14 +8635,6 @@ with col_center:
         )
         
         st.caption("Pression rhétorique faible ⟵⟶ Pression rhétorique forte")
-    
-    with pd2:
-        st.markdown("### Charge émotionnelle")
-        # jauge ici
-    
-    with pd3:
-        st.markdown("### Asymétrie argumentative")
-        # jauge ici
     
     st.divider()
     
