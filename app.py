@@ -8292,32 +8292,76 @@ with col_center:
             unsafe_allow_html=True
         )
     
-        with st.popover("ℹ️"):
-            st.markdown(f"""
+    with st.popover("ℹ️ Comprendre cette jauge"):
+        st.markdown(f"""
     ### Pseudo-savoir
     
-    Le pseudo-savoir correspond à une **accumulation de références ou de notions mal intégrées dans le raisonnement**.
+    Cette jauge détecte les situations où un discours mobilise des **éléments de savoir**, mais sans les intégrer correctement dans un raisonnement cohérent.
     
-    Le discours peut donner une impression de savoir, mais certaines idées sont :
+    Le texte peut alors donner **l’impression d’être savant ou informé**, alors que certaines références sont :
     
     - mal comprises
     - mal interprétées
     - utilisées hors contexte
-    - ou simplement juxtaposées sans articulation logique.
+    - ou simplement accumulées sans véritable articulation.
     
-    #### Score observé
+    ---
     
-    **Pseudo-savoir : {pseudo_score:.2f}**
+    ### Score observé
     
-    **Verdict : {label}**
+    Pseudo-savoir : **{pseudo_score:.2f}**
     
-    #### Interprétation
+    Verdict : **{label}**
+    
+    ---
+    
+    ### Signaux pris en compte
+    
+    Le moteur DOXA détecte notamment :
+    
+    - accumulation de références sans articulation logique
+    - interprétations approximatives
+    - analogies ou comparaisons fragiles
+    - confusion logique ou scientifique
+    - dissonances internes dans le raisonnement
+    
+    ---
+    
+    ### Interprétation
     
     0–1 : pseudo-savoir faible  
     1–3 : pseudo-savoir modéré  
     3–6 : pseudo-savoir élevé  
     6–10 : pseudo-savoir très élevé
+    
+    ---
+    
+    ### Lecture du résultat
+    
+    Un score de **{pseudo_score:.2f}** indique un niveau de pseudo-savoir **{label.lower()}**.
+    
+    {text}
     """)
+    
+    render_custom_gauge(value, color)
+    
+    st.markdown(
+        f"""
+    <div style='
+    border:1px solid {color};
+    border-radius:12px;
+    padding:12px;
+    margin-top:8px;
+    background-color:rgba(255,255,255,0.03);
+    '>
+    <b style='color:{color};'>
+    Pseudo-savoir {label} — {pseudo_score:.2f}
+    </b><br>
+    {text}
+    </div>
+    """,
+        unsafe_allow_html=True
+    )
     with dr2:
         st.markdown("### Intuition dogmatique")
         st.caption("Conviction forte sans base de savoir suffisante.")
