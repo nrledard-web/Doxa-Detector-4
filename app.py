@@ -6942,8 +6942,9 @@ Un mot isolé peut tromper :
 # AFFICHAGE
 # =====================================================
 
-show_gauge_help()
-show_word_lists_help()
+if result:
+    show_gauge_help()
+    show_word_lists_help()
 
 st.markdown("""
 <div style="text-align:center; margin:25px 0; color:#888;">
