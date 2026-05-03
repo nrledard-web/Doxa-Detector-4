@@ -7940,24 +7940,214 @@ Une vitalité cognitive de **{life_score}%** indique une vitalité **{life_label
 # Cerveau DOXA
 # =============================
 
-st.markdown("### Cerveau DOXA")
 brain = result.get("doxa_brain", {})
-st.metric(
-    "Stabilité cognitive",
-    f"{brain.get('cognitive_stability', 0):.2f}"
+
+st.markdown("### 🧠 Cerveau DOXA")
+
+st.markdown(
+    f"""
+<div style='
+border:1px solid #334155;
+border-radius:16px;
+padding:18px;
+margin:12px 0 18px 0;
+background:linear-gradient(135deg, rgba(15,23,42,0.06), rgba(30,41,59,0.03));
+'>
+    <div style='font-size:20px; font-weight:800; margin-bottom:6px;'>
+        Diagnostic cognitif global
+    </div>
+    <div style='font-size:15px; color:#475569;'>
+        {brain.get("brain_verdict", "Diagnostic indisponible.")}
+    </div>
+</div>
+""",
+    unsafe_allow_html=True
 )
 
-st.caption(brain.get("brain_verdict", "Diagnostic indisponible."))
-st.info(brain.get("brain_advice", ""))
+# Variables principales
+stability = brain.get("cognitive_stability", 0)
+gravity = brain.get("cognitive_gravity", 1 - stability)
+dominant_regime = brain.get("dominant_regime", "Non déterminé")
+brain_summary = brain.get("brain_summary", "Aucun résumé disponible.")
+brain_advice = brain.get("brain_advice", "")
 
-with st.expander("Résumé du cerveau DOXA"):
-    st.write(brain.get("brain_summary", "Aucun résumé disponible."))
+# Couleur stabilité
+if stability >= 0.80:
+    stability_label = "Stable"
+    stability_color = "#16a34a"
+elif stability >= 0.60:
+    stability_label = "Assez stable"
+    stability_color = "#facc15"
+elif stability >= 0.40:
+    stability_label = "Instable"
+    stability_color = "#f97316"
+else:
+    stability_label = "Très instable"
+    stability_color = "#dc2626"
+
+# Ligne de métriques principales
+c1, c2, c3, c4 = st.columns(4)
+
+c1.metric("Stabilité cognitive", f"{stability:.2f}")
+c2.metric("Gravité cognitive", f"{gravity:.2f}")
+c3.metric("Régime dominant", dominant_regime)
+c4.metric("Vitalité cognitive", f"{life_score}%")
+
+# Grosse jauge de stabilité
+st.markdown("#### Stabilité cognitive")
+
+render_custom_gauge(stability, stability_color)
+
+st.markdown(
+    f"""
+<div style='
+border:1px solid {stability_color};
+border-radius:12px;
+padding:12px;
+margin-top:8px;
+background-color:rgba(255,255,255,0.03);
+'>
+<b style='color:{stability_color};'>
+Stabilité {stability_label} — {stability:.2f}
+</b><br>
+{brain.get("brain_advice", "Le discours présente peu de signaux de dérive cognitive.")}
+</div>
+""",
+    unsafe_allow_html=True
+)
+
+with st.popover("ℹ️ Comprendre le cerveau DOXA"):
+    st.markdown(f"""
+### Cerveau DOXA
+
+Le **Cerveau DOXA** est une synthèse générale de l’analyse.
+
+Il regroupe les principaux indicateurs cognitifs du discours afin de produire un diagnostic global.
+
+---
+
+### Résultat de cette analyse
+
+**État : {stability_label}**
+
+**Stabilité cognitive : {stability:.2f}**
+
+**Gravité cognitive : {gravity:.2f}**
+
+**Régime dominant : {dominant_regime}**
+
+---
+
+### 1️⃣ Stabilité cognitive
+
+La stabilité cognitive indique si le discours reste globalement équilibré ou s’il présente des signes de dérive.
+
+Une stabilité élevée signifie que le texte présente peu de signaux de désalignement cognitif.
+
+Dans cette analyse :
+
+`stabilité = {stability:.2f}`
+
+---
+
+### 2️⃣ Gravité cognitive
+
+La gravité cognitive représente le niveau global de dérive détecté dans le discours.
+
+Elle est liée à la stabilité :
+
+`gravité = 1 − stabilité`
+
+Dans cette analyse :
+
+`gravité = {gravity:.2f}`
+
+---
+
+### 3️⃣ Régime dominant
+
+Le régime dominant indique la tendance cognitive principale du texte.
+
+Il peut signaler par exemple :
+
+- discours équilibré
+- mécroyance probable
+- pseudo-savoir
+- manipulation rhétorique
+- mensonge stratégique
+- structure mixte ou ambiguë
+
+Dans cette analyse :
+
+**{dominant_regime}**
+
+---
+
+### 4️⃣ Indice classique
+
+L’indice classique correspond au noyau cognitif :
+
+`M = (G + N) − D`
+
+Dans cette analyse :
+
+`M = {round(result.get("M", 0), 2)}`
+
+---
+
+### 5️⃣ Indice ajusté
+
+L’indice ajusté ajoute des corrections complémentaires au score classique.
+
+Il permet d’obtenir une lecture plus large du niveau de robustesse cognitive du discours.
+
+Dans cette analyse :
+
+`Indice ajusté = {round(result.get("improved", 0), 2)}`
+
+---
+
+### 6️⃣ Score de raisonnement
+
+Le score de raisonnement correspond au **Hard Fact Score**.
+
+Il mesure la solidité factuelle et argumentative du texte.
+
+Dans cette analyse :
+
+`Score de raisonnement = {round(result.get("hard_fact_score", 0), 1)}/20`
+
+---
+
+### 7️⃣ Vitalité cognitive
+
+La vitalité cognitive est le score de raisonnement converti en pourcentage.
+
+Formule :
+
+`vitalité = (hard_fact_score / 20) × 100`
+
+Dans cette analyse :
+
+`vitalité = {life_score}%`
+
+---
+
+### Lecture globale
+
+{brain_summary}
+
+Même si la stabilité est élevée, le régime dominant peut signaler une fragilité particulière, comme du **pseudo-savoir**, une **mécroyance probable** ou une **orientation rhétorique**.
+""")
+
+with st.expander("📊 Résumé détaillé du cerveau DOXA"):
+    st.write(brain_summary)
 
     col1, col2, col3, col4 = st.columns(4)
 
-    col1.metric("Indice classique", result["M"], help=T["help_classic_score"])
-    col2.metric("Indice ajusté", result["improved"], help=T["help_improved_score"])
-    col3.metric("Score de raisonnement", result["hard_fact_score"], help=T["help_hard_fact_score"])
+    col1.metric("Indice classique", round(result.get("M", 0), 2), help=T["help_classic_score"])
+    col2.metric("Indice ajusté", round(result.get("improved", 0), 2), help=T["help_improved_score"])
+    col3.metric("Score de raisonnement", round(result.get("hard_fact_score", 0), 1), help=T["help_hard_fact_score"])
     col4.metric("Vitalité cognitive", f"{life_score}%")
     
 # =============================
