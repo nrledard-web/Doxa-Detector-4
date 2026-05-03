@@ -8638,8 +8638,51 @@ with pd1:
         )
 
 with pd2:
+    st.popover("ℹ️ Comprendre cette jauge"):
     st.markdown("### Charge émotionnelle")
-    # jauge ici
+
+    st.write(
+        "Cette jauge mesure l’intensité affective du vocabulaire utilisé. "
+        "Elle repère les mots qui peuvent orienter la lecture par l’émotion plutôt que par la démonstration."
+    )
+
+    st.markdown("**Principe**")
+    st.write(
+        "Le texte est comparé à une liste de marqueurs émotionnels. "
+        "Chaque terme détecté augmente le score de charge émotionnelle."
+    )
+
+    st.markdown("**Formule utilisée**")
+    st.code(
+        "hits = termes émotionnels détectés\n"
+        "score = min(len(hits) * 2.2 / 10, 1.0)"
+    )
+
+    st.markdown("**Valeur actuelle**")
+    st.write(f"Score : **{round(emotional_value * 100, 1)}%**")
+    st.write(f"Niveau : **{emotional_label}**")
+
+    st.code(
+        f"score = min({len(result.get('emotional_intensity_markers', []))} × 2.2 / 10, 1.0)\n"
+        f"score = {emotional_value:.3f}"
+    )
+
+    st.markdown("**Interprétation actuelle**")
+    st.write(result["emotional_intensity_interpretation"])
+
+    st.markdown("**Lecture**")
+    st.write(
+        "🟢 Faible : vocabulaire peu chargé émotionnellement\n"
+        "🟡 Modérée : quelques marqueurs affectifs\n"
+        "🟠 Élevée : charge émotionnelle notable\n"
+        "🔴 Très élevée : émotion fortement mobilisée pour orienter la lecture"
+    )
+
+    st.markdown("**Attention**")
+    st.write(
+        "Une charge émotionnelle élevée ne signifie pas que le texte est faux. "
+        "Elle indique seulement que le discours agit fortement sur l’affect du lecteur."
+    )
 
 with pd3:
     st.markdown("### Asymétrie argumentative")
