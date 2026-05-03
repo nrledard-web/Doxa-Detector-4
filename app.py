@@ -7821,6 +7821,7 @@ gravité =
 + 0.10 × fermeture cognitive
 + 0.05 × faiblesse factuelle
 
+#### Interprétation
 0 → discours sain
 1 → dérive cognitive maximale
 """)
