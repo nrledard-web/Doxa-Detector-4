@@ -8668,6 +8668,8 @@ drift_mecroyance = max(0, -M)
     
     st.markdown("### Régime cognitif dominant")
     # affichage ici
+    ...
+    """)
     
     st.subheader("Jauge de pression rhétorique")
     st.caption(
