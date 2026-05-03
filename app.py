@@ -8265,9 +8265,8 @@ with col_center:
 # Nouvelles jauges : dérives cognitives
 # =============================
 st.subheader("Dérives cognitives")
-dr1, dr2, = st.columns(2)
 
-with dr1:
+with :
     st.markdown("### Pseudo-savoir")
     st.caption("Accumulation de savoirs mal intégrés ou mal compris.")
 
@@ -8327,7 +8326,7 @@ Très élevée : > 6
         unsafe_allow_html=True
     )
 
-    with dr2:
+    with :
         st.markdown("### Intuition dogmatique")
         st.caption("Conviction forte sans base de savoir suffisante.")
 
