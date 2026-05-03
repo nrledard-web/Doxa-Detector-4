@@ -8340,6 +8340,63 @@ with col_center:
     st.caption(result["cognitive_drift_interpretation"])
     
     st.divider()
+
+    # -----------------------------
+    # Intuition dogmatique
+    # -----------------------------
+    st.markdown("### Intuition dogmatique")
+    st.caption("Conviction forte sans base de savoir suffisante.")
+
+    value = min(result["drift_intuition_dogmatique"] / 10, 1.0)
+
+    if result["drift_intuition_dogmatique"] < 1:
+        label, color = "Faible", "#16a34a"
+    elif result["drift_intuition_dogmatique"] < 3:
+        label, color = "Modérée", "#ca8a04"
+    elif result["drift_intuition_dogmatique"] < 6:
+        label, color = "Élevée", "#f97316"
+    else:
+        label, color = "Très élevée", "#dc2626"
+
+    render_custom_gauge(value, color)
+
+    st.markdown(
+        f"<b style='color:{color}'>{label}</b> — {result['drift_intuition_dogmatique']}",
+        unsafe_allow_html=True
+    )
+
+    with st.popover("ℹ️ Comprendre cette jauge"):
+        st.markdown("### Intuition dogmatique")
+
+        st.write(
+            "Cette jauge mesure un déséquilibre où l’intuition ou la compréhension apparente "
+            "s’allie à une certitude forte, mais sans base de savoir suffisamment articulée."
+        )
+
+        st.markdown("**Formule utilisée**")
+        st.code("Intuition dogmatique = max(0, (N + D) - G)")
+
+        st.markdown("**Avec les valeurs actuelles**")
+        st.write(
+            f"N = {result['N']:.2f} | "
+            f"D = {result['D']:.2f} | "
+            f"G = {result['G']:.2f}"
+        )
+
+        st.code(
+            f"max(0, ({result['N']:.2f} + {result['D']:.2f}) - {result['G']:.2f}) "
+            f"= {result['drift_intuition_dogmatique']:.2f}"
+        )
+
+        st.markdown("**Interprétation**")
+        st.write(
+            "Plus ce score est élevé, plus le texte semble reposer sur une intuition affirmée "
+            "ou une compréhension subjective, mais insuffisamment soutenue par des éléments de savoir."
+        )
+
+        st.markdown("**Normalisation graphique**")
+        st.code("value = min(drift_intuition_dogmatique / 10, 1.0)")
+        st.divider()
     
     st.subheader("Jauge de pression rhétorique")
     st.caption(
