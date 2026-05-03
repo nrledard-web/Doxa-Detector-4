@@ -8655,8 +8655,6 @@ with col_center:
     
     st.markdown("### Régime cognitif dominant")
     # affichage ici
-    ...
-    """)
     
     st.subheader("Jauge de pression rhétorique")
     st.caption(
