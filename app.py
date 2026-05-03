@@ -8270,12 +8270,7 @@ with col_center:
     # Pseudo-savoir
     # -----------------------------
     st.markdown("### Pseudo-savoir")
-    st.caption("Accumulation de savoirs mal intégrés ou mal compris.")
-
-    with st.popover("ℹ️ Comprendre cette jauge"):
-        st.write("Explication de la jauge...")
-
-    value = min(result["drift_pseudo_savoir"] / 10, 1.0)
+        value = min(result["drift_pseudo_savoir"] / 10, 1.0)
 
     if result["drift_pseudo_savoir"] < 1:
         label, color = "Faible", "#16a34a"
@@ -8285,6 +8280,10 @@ with col_center:
         label, color = "Élevée", "#f97316"
     else:
         label, color = "Très élevée", "#dc2626"
+    st.caption("Accumulation de savoirs mal intégrés ou mal compris.")
+
+    with st.popover("ℹ️ Comprendre cette jauge"):
+        st.write("Explication de la jauge...")
 
     render_custom_gauge(value, color)
 
