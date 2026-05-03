@@ -6921,7 +6921,7 @@ Chaque mot agit comme un **signal** :
 
 ---
 
-### Ce que la jauge détecte réellement
+### Ce qu'une jauge détecte réellement
 
 Elle ne dit pas si le texte est vrai ou faux.
 
@@ -6949,15 +6949,15 @@ Parce qu’un discours peut être :
 - **très convaincant sans être solide**
 - **très chargé sans être démontré**
 
-Cette jauge capte cette dimension.
+Ces jauge captent cette dimension.
 
 ---
 
 ### Limite importante
 
-Elle lit des mots, pas leur intention.
+Elles lisent des mots, pas leur intention.
 
-Elle peut donc :
+Elles peuvent donc :
 
 - surestimer certains textes neutres  
 - ou manquer des nuances
@@ -6966,9 +6966,9 @@ Elle peut donc :
 
 ### Comment interpréter
 
-👉 Cette jauge n’est jamais à lire seule.
+👉 Ces jauges ne sont jamais à lire seules.
 
-Elle indique un **niveau de pression linguistique**, à croiser avec :
+Elles indiquent un **niveau de pression linguistique**, à croiser avec :
 
 - la solidité argumentative  
 - la vérifiabilité  
@@ -6978,7 +6978,7 @@ Elle indique un **niveau de pression linguistique**, à croiser avec :
 
 ### Résumé
 
-➡️ Elle mesure **l’impact du langage**  
+➡️ Elles mesurent **l’impact du langage**  
 ➡️ Pas la vérité du contenu  
 ➡️ Ni l’intention réelle de l’auteur
 """)
