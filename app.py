@@ -8345,22 +8345,7 @@ with col_center:
     
     render_custom_gauge(value, color)
     
-    st.markdown(
-        f"""
-    <div style='
-    border:1px solid {color};
-    border-radius:12px;
-    padding:12px;
-    margin-top:8px;
-    background-color:rgba(255,255,255,0.03);
-    '>
-    <b style='color:{color};'>
-    Pseudo-savoir {label} — {pseudo_score:.2f}
-    </b><br>
-    </div>
-    """,
-        unsafe_allow_html=True
-    )
+
     with dr2:
         st.markdown("### Intuition dogmatique")
         st.caption("Conviction forte sans base de savoir suffisante.")
