@@ -8292,39 +8292,36 @@ with col_center:
 
     with st.popover("ℹ️ Comprendre cette jauge"):
         st.markdown("### Pseudo-savoir")
-        st.write(
-            "Cette jauge mesure l’accumulation d’éléments présentés comme du savoir "
-            "mais insuffisamment intégrés ou mal compris dans le raisonnement."
-        )
-        st.markdown("**Normalisation**")
-        st.code("value = min(drift_pseudo_savoir / 10, 1.0)")
-        st.markdown("**Résultat actuel**")
-        st.write(f"Score brut : {result['drift_pseudo_savoir']:.2f} / 10")
 
-    st.markdown("### Intuition dogmatique")
-    st.caption("Conviction forte sans base de savoir suffisante.")
-    
-    value = min(result["drift_intuition_dogmatique"] / 10, 1.0)
-    
-    if result["drift_intuition_dogmatique"] < 1:
-        label, color = "Faible", "#16a34a"
-    elif result["drift_intuition_dogmatique"] < 3:
-        label, color = "Modérée", "#ca8a04"
-    elif result["drift_intuition_dogmatique"] < 6:
-        label, color = "Élevée", "#f97316"
-    else:
-        label, color = "Très élevée", "#dc2626"
-    
-    render_custom_gauge(value, color)
-    st.markdown(
-        f"<b style='color:{color}'>{label}</b> — {result['drift_intuition_dogmatique']}",
-        unsafe_allow_html=True
-    )
-    
-    st.markdown("### Indice global de dérive cognitive")
-    st.caption("Synthèse des trois dérives cognitives.")
-    
-    global_value = min(result["global_cognitive_drift"] / 10, 1.0)
+        st.write(
+            "Cette jauge mesure un déséquilibre où le texte accumule du savoir apparent "
+            "ou des éléments de connaissance, mais sans compréhension suffisamment intégrée."
+        )
+
+        st.markdown("**Formule utilisée**")
+        st.code("Pseudo-savoir = max(0, (G + D) - N)")
+
+        st.markdown("**Avec les valeurs actuelles**")
+        st.write(
+            f"G = {result['G']:.2f} | "
+            f"D = {result['D']:.2f} | "
+            f"N = {result['N']:.2f}"
+        )
+
+        st.code(
+            f"max(0, ({result['G']:.2f} + {result['D']:.2f}) - {result['N']:.2f}) "
+            f"= {result['drift_pseudo_savoir']:.2f}"
+        )
+
+        st.markdown("**Interprétation**")
+        st.write(
+            "Plus ce score est élevé, plus le texte donne une impression de savoir "
+            "sans que ce savoir soit suffisamment digéré, relié ou compris."
+        )
+
+        st.markdown("**Normalisation graphique**")
+        st.code("value = min(drift_pseudo_savoir / 10, 1.0)")
+        global_value = min(result["global_cognitive_drift"] / 10, 1.0)
     
     if result["global_cognitive_drift"] < 1:
         global_label, global_color = "Faible", "#16a34a"
