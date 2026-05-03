@@ -8483,34 +8483,33 @@ with col_center:
     
     
     with st.popover("ℹ️ Comprendre cette jauge", use_container_width=True):
-
-    st.markdown(f"""
-### Indice global de dérive cognitive
-
-Cette jauge synthétise les trois dérives cognitives fondamentales :
-
-- **Pseudo-savoir**
-- **Intuition dogmatique**
-- **Fermeture cognitive / mécroyance**
-
----
-
-### Formule fondatrice
-
-**M = (G + N) − D**
-
-- **G** = savoir articulé
-- **N** = compréhension intégrée
-- **D** = certitude / doxa
-
----
-
-### Dérives utilisées
-
-**1. Fermeture cognitive**
-
-```python
-drift_mecroyance = max(0, -M)
+        st.markdown(f"""
+    ### Indice global de dérive cognitive
+    
+    Cette jauge synthétise les trois dérives cognitives fondamentales :
+    
+    - **Pseudo-savoir**
+    - **Intuition dogmatique**
+    - **Fermeture cognitive / mécroyance**
+    
+    ---
+    
+    ### Formule fondatrice
+    
+    **M = (G + N) − D**
+    
+    - **G** = savoir articulé
+    - **N** = compréhension intégrée
+    - **D** = certitude / doxa
+    
+    ---
+    
+    ### Dérives utilisées
+    
+    **1. Fermeture cognitive**
+    
+    ```python
+    drift_mecroyance = max(0, -M)
 
     st.divider()
 
