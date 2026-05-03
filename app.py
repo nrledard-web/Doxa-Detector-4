@@ -7950,9 +7950,9 @@ st.metric(
 st.caption(brain.get("brain_verdict", "Diagnostic indisponible."))
 st.info(brain.get("brain_advice", ""))
 
-with st.expander("Résumé du cerveau DOXA"):
-    brain = result.get("doxa_brain", {})
+brain = result.get("doxa_brain", {})
 
+with st.expander("Résumé du cerveau DOXA"):
     st.write(brain.get("brain_summary", "Aucun résumé disponible."))
 
     col1, col2, col3, col4 = st.columns(4)
