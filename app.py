@@ -7825,6 +7825,119 @@ gravité =
 """)
 
 # =============================
+# Vitalité cognitive
+# =============================
+life_score = round((result.get("hard_fact_score", 0) / 20) * 100, 1)
+life_value = life_score / 100
+
+if life_score < 30:
+    life_label = "Faible"
+    life_color = "#dc2626"
+    life_text = "Vitalité cognitive faible — le discours manque d’appuis solides."
+elif life_score < 50:
+    life_label = "Fragile"
+    life_color = "#f97316"
+    life_text = "Vitalité cognitive fragile — plusieurs éléments restent insuffisamment fondés."
+elif life_score < 70:
+    life_label = "Modérée"
+    life_color = "#facc15"
+    life_text = "Vitalité cognitive modérée — le discours présente des appuis, mais reste perfectible."
+elif life_score < 85:
+    life_label = "Solide"
+    life_color = "#16a34a"
+    life_text = "Vitalité cognitive solide — le discours est globalement structuré et appuyé."
+else:
+    life_label = "Très solide"
+    life_color = "#15803d"
+    life_text = "Vitalité cognitive très solide — le discours présente une forte robustesse cognitive."
+
+st.markdown("### Vitalité cognitive")
+
+with st.popover("ℹ️ Comprendre cette jauge"):
+    st.markdown(f"""
+### Vitalité cognitive
+
+Cette jauge exprime la **vitalité cognitive du discours** sous forme de pourcentage.
+
+Elle indique dans quelle mesure le texte présente une structure suffisamment fondée, vérifiable et équilibrée.
+
+---
+
+### Résultat de cette analyse
+
+Vitalité cognitive : **{life_score}%**
+
+Verdict : **{life_label}**
+
+---
+
+### Formule heuristique réelle
+
+`vitalité_cognitive = (hard_fact_score / 20) × 100`
+
+Dans cette analyse :
+
+`vitalité_cognitive = ({round(result.get("hard_fact_score", 0), 1)} / 20) × 100`
+
+Soit :
+
+**{life_score}%**
+
+---
+
+### Ce que mesure cette jauge
+
+Elle dépend directement du **HFS — Hard Fact Score**.
+
+Elle tient donc compte de :
+
+- la vérifiabilité des affirmations
+- la qualité des sources
+- l’équilibre entre **G**, **N** et **D**
+- le risque rhétorique
+- les pénalités de crédibilité
+- le bonus épistémique éventuel
+
+---
+
+### Interprétation
+
+- **0–30%** : vitalité faible
+- **30–50%** : vitalité fragile
+- **50–70%** : vitalité modérée
+- **70–85%** : vitalité solide
+- **85–100%** : vitalité très solide
+
+---
+
+### Lecture du résultat
+
+Une vitalité cognitive de **{life_score}%** indique une vitalité **{life_label.lower()}**.
+
+{life_text}
+""")
+
+render_custom_gauge(life_value, life_color)
+
+st.markdown(
+    f"""
+<div style='
+border:1px solid {life_color};
+border-radius:12px;
+padding:12px;
+margin-top:8px;
+background-color:rgba(255,255,255,0.03);
+'>
+<b style='color:{life_color};'>
+Vitalité cognitive {life_label} — {life_score}%
+</b><br>
+{life_text}
+</div>
+""",
+    unsafe_allow_html=True
+)
+
+# =============================
 # Cerveau DOXA
 # =============================
 brain = result.get("doxa_brain", {})
