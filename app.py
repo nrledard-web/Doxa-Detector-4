@@ -8704,6 +8704,7 @@ drift_mecroyance = max(0, -M)
     )
     
     st.caption("Pression rhétorique faible ⟵⟶ Pression rhétorique forte")
+    """)
     
     st.divider()
     
