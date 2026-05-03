@@ -7810,6 +7810,19 @@ La jauge combine plusieurs indicateurs détectés dans le texte :
 - **faiblesse factuelle**
 
 Ces signaux sont agrégés pour produire un **diagnostic global de santé cognitive du discours**.
+
+Formule heuristique
+
+gravité =
+0.25 × mensonge
++ 0.20 × pression rhétorique
++ 0.20 × propagande
++ 0.20 × dissonance factuelle
++ 0.10 × fermeture cognitive
++ 0.05 × faiblesse factuelle
+
+0 → discours sain
+1 → dérive cognitive maximale
 """)
 
 # =============================
