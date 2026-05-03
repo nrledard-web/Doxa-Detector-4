@@ -8546,7 +8546,6 @@ with col_center:
     # 🗣️ 2. PRESSIONS DISCURSIVES
     # =============================
     st.subheader("🗣️ Pressions discursives")
-    st.caption("Forces rhétoriques influençant la perception et l’interprétation du discours.")
     
     pd1, pd2, pd3 = st.columns(3)
     
