@@ -8728,8 +8728,58 @@ with col_center:
         f"<b style='color:{rp_color}'>{rp_label}</b> — {round(rp*100, 1)}%",
         unsafe_allow_html=True
     )
+    with st.popover("ℹ️ Comprendre cette jauge"):
+        st.markdown("### Pression rhétorique")
     
-    st.caption("Pression rhétorique faible ⟵⟶ Pression rhétorique forte")
+        st.write(
+            "Cette jauge mesure l’intensité des procédés discursifs qui orientent "
+            "la perception du lecteur sans nécessairement reposer sur des preuves."
+        )
+    
+        st.markdown("**Principe**")
+        st.write(
+            "Chaque mécanisme rhétorique détecté (certitude, dramatisation, ennemi, etc.) "
+            "augmente la pression globale selon un poids spécifique."
+        )
+    
+        st.markdown("**Formule utilisée**")
+        st.code("""
+    weighted_score = Σ (occurrences × poids)
+    pression = min(weighted_score / 10, 1.0)
+    """)
+    
+        st.markdown("**Poids des mécanismes**")
+        st.code("""
+    certitude = 1.2
+    autorite = 1.0
+    dramatisation = 1.3
+    generalisation = 1.1
+    naturalisation = 1.4
+    ennemi = 1.5
+    causalite = 1.4
+    moralisation = 1.2
+    """)
+    
+        st.markdown("**Valeur actuelle**")
+        st.write(f"Pression rhétorique = {round(rp * 100, 1)}%")
+    
+        st.code(f"pression = {rp:.3f}")
+    
+        st.markdown("**Interprétation**")
+        st.write(
+            "Plus la valeur est élevée, plus le discours utilise des leviers rhétoriques "
+            "pour orienter la conclusion plutôt que de la démontrer."
+        )
+    
+        st.markdown("**Lecture**")
+        st.write(
+            "🟢 Faible : discours neutre\n"
+            "🟡 Modérée : orientation légère\n"
+            "🟠 Élevée : discours orienté\n"
+            "🔴 Très élevée : forte pression narrative"
+        )
+        
+        st.caption("Pression rhétorique faible ⟵⟶ Pression rhétorique forte")
     
     st.divider()
     
