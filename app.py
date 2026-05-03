@@ -7220,11 +7220,12 @@ Un score de **{round(score, 1)}/20** indique une solidité argumentative **{etiq
 {message_r}
 """)
 
-            st.markdown("""
-        <div style="text-align:center; margin:25px 0; color:#888;">
-        ────────── ✦ ──────────
-        </div>
-        """, unsafe_allow_html=True)
+st.markdown("""
+<div style="text-align:center; margin:25px 0; color:#888;">
+────────── ✦ ──────────
+</div>
+""", unsafe_allow_html=True)
+
 
 # =============================
 # Calculs mécroyance / mensonge
