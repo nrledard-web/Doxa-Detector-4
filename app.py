@@ -8266,85 +8266,29 @@ with col_center:
     # =============================
     st.subheader("Dérives cognitives")
 
-    dr1, dr2 = st.columns(2)
-    
+    dr1, dr2, = st.columns(2)
+
     with dr1:
-    
+
         st.markdown("### Pseudo-savoir")
         st.caption("Accumulation de savoirs mal intégrés ou mal compris.")
-    
-        pseudo_score = result.get("drift_pseudo_savoir", 0)
-        value = min(pseudo_score / 10, 1.0)
-    
-        if pseudo_score < 1:
+
+        value = min(result["drift_pseudo_savoir"] / 10, 1.0)
+
+        if result["drift_pseudo_savoir"] < 1:
             label, color = "Faible", "#16a34a"
-        elif pseudo_score < 3:
+        elif result["drift_pseudo_savoir"] < 3:
             label, color = "Modérée", "#ca8a04"
-        elif pseudo_score < 6:
+        elif result["drift_pseudo_savoir"] < 6:
             label, color = "Élevée", "#f97316"
         else:
             label, color = "Très élevée", "#dc2626"
-    
+
         render_custom_gauge(value, color)
-    
         st.markdown(
-            f"<b style='color:{color}'>{label}</b> — {pseudo_score:.2f}",
+            f"<b style='color:{color}'>{label}</b> — {result['drift_pseudo_savoir']}",
             unsafe_allow_html=True
         )
-    
-    with st.popover("ℹ️ Comprendre cette jauge"):
-        st.markdown(f"""
-    ### Pseudo-savoir
-    
-    Cette jauge détecte les situations où un discours mobilise des **éléments de savoir**, mais sans les intégrer correctement dans un raisonnement cohérent.
-    
-    Le texte peut alors donner **l’impression d’être savant ou informé**, alors que certaines références sont :
-    
-    - mal comprises
-    - mal interprétées
-    - utilisées hors contexte
-    - ou simplement accumulées sans véritable articulation.
-    
-    ---
-    
-    ### Score observé
-    
-    Pseudo-savoir : **{pseudo_score:.2f}**
-    
-    Verdict : **{label}**
-    
-    ---
-    
-    ### Signaux pris en compte
-    
-    Le moteur DOXA détecte notamment :
-    
-    - accumulation de références sans articulation logique
-    - interprétations approximatives
-    - analogies ou comparaisons fragiles
-    - confusion logique ou scientifique
-    - dissonances internes dans le raisonnement
-    
-    ---
-    
-    ### Interprétation
-    
-    0–1 : pseudo-savoir faible  
-    1–3 : pseudo-savoir modéré  
-    3–6 : pseudo-savoir élevé  
-    6–10 : pseudo-savoir très élevé
-    
-    ---
-    
-    ### Lecture du résultat
-    
-    Un score de **{pseudo_score:.2f}** indique un niveau de pseudo-savoir **{label.lower()}**.
-    
-    pseudo_text = "Le discours accumule des savoirs mal intégrés ou mal compris."
-    """)
-    
-    render_custom_gauge(value, color)
-    
 
     with dr2:
         st.markdown("### Intuition dogmatique")
