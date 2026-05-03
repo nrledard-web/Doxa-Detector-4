@@ -7939,7 +7939,6 @@ Une vitalité cognitive de **{life_score}%** indique une vitalité **{life_label
 # =============================
 # Cerveau DOXA
 # =============================
-brain = result.get("doxa_brain", {})
 
 st.markdown("### Cerveau DOXA")
 
@@ -7952,12 +7951,17 @@ st.caption(brain.get("brain_verdict", "Diagnostic indisponible."))
 st.info(brain.get("brain_advice", ""))
 
 with st.expander("Résumé du cerveau DOXA"):
+    brain = result.get("doxa_brain", {})
+
     st.write(brain.get("brain_summary", "Aucun résumé disponible."))
-    col1, col2, col3 = st.columns(3)
+
+    col1, col2, col3, col4 = st.columns(4)
+
     col1.metric("Indice classique", result["M"], help=T["help_classic_score"])
     col2.metric("Indice ajusté", result["improved"], help=T["help_improved_score"])
     col3.metric("Score de raisonnement", result["hard_fact_score"], help=T["help_hard_fact_score"])
-
+    col4.metric("Vitalité cognitive", f"{life_score}%", help="Vitalité cognitive dérivée du hard fact score")
+    
 # =============================
 # Partage des résultats
 # =============================
