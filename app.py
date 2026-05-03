@@ -8486,30 +8486,18 @@ with col_center:
         st.markdown(f"""
     ### Indice global de dérive cognitive
     
-    Cette jauge synthétise les trois dérives cognitives fondamentales :
+    - Pseudo-savoir
+    - Intuition dogmatique
+    - Fermeture cognitive
     
-    - **Pseudo-savoir**
-    - **Intuition dogmatique**
-    - **Fermeture cognitive / mécroyance**
+    Formule :
+    M = (G + N) − D
     
-    ---
+    Score : {global_score}
+    Niveau : {global_label}
     
-    ### Formule fondatrice
-    
-    **M = (G + N) − D**
-    
-    - **G** = savoir articulé
-    - **N** = compréhension intégrée
-    - **D** = certitude / doxa
-    
-    ---
-    
-    ### Dérives utilisées
-    
-    **1. Fermeture cognitive**
-    
-    ```python
-    drift_mecroyance = max(0, -M)
+    {result["cognitive_drift_interpretation"]}
+    """)
 
     st.divider()
 
