@@ -6907,8 +6907,8 @@ Les discours philosophiques, moraux ou spéculatifs obtiennent souvent des score
 
 
     def show_word_lists_help():
-    with st.popover("ℹ️ Rôle des listes de mots"):
-        st.markdown("""
+        with st.popover("ℹ️ Rôle des listes de mots"):
+            st.markdown("""
 ### Comment certaines jauges lisent le texte
 
 Certaines jauges ne cherchent pas à “comprendre” le texte comme un humain.
