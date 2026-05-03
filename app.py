@@ -7191,10 +7191,12 @@ Le score est ensuite borné entre **0 et 1**, puis converti en note sur **20** s
 #### Lecture du résultat
 
 Un score de **{score_analogique}/20** indique un raisonnement **{verdict_analogique.lower()}**.
-""")
+
     
 st.markdown("""
 <div style="text-align:center; margin:25px 0; color:#888;">
+""")
+          
 ────────── ✦ ──────────
 </div>
 """, unsafe_allow_html=True)
