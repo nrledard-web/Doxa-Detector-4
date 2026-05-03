@@ -8340,7 +8340,7 @@ with col_center:
     
     Un score de **{pseudo_score:.2f}** indique un niveau de pseudo-savoir **{label.lower()}**.
     
-    {text}
+    pseudo_text = "Le discours accumule des savoirs mal intégrés ou mal compris."
     """)
     
     render_custom_gauge(value, color)
