@@ -7774,136 +7774,41 @@ Cette jauge estime le **niveau global de dérive cognitive** du discours.
 Elle ne mesure pas directement si le texte est vrai ou faux.  
 Elle mesure si sa structure présente des signes de **déséquilibre cognitif**, de fermeture argumentative, de pression discursive ou de fragilité logique.
 
-#### Résultat de cette analyse
+### Calcul de la gravité cognitive
 
-**Gravité cognitive : {gravity_pct}%**
+La gravité cognitive est calculée comme une moyenne pondérée de plusieurs signaux de dérive du discours.
 
-**Verdict : {gravity_label}**
+Formule utilisée :
 
-### Signaux pris en compte
+gravité =
+0.25 × mensonge
++ 0.20 × pression rhétorique
++ 0.20 × propagande
++ 0.20 × dissonance factuelle
++ 0.10 × fermeture cognitive
++ 0.05 × faiblesse factuelle
 
-La jauge synthétise plusieurs dimensions du moteur analytique.
+Chaque facteur est normalisé entre 0 et 1.
 
----
+Le score final représente le niveau global de dérive cognitive du discours.
 
-### 1️⃣ Niveau 1 — le noyau cognitif
+### Interprétation de la jauge
 
-**M = (G + N) − D**
+La gravité cognitive indique le **niveau global de dérive du discours**.
 
-Ce noyau mesure l’**équilibre cognitif du discours**.
+Elle varie entre **0 et 1**.
 
-- **G — gnōsis** : savoir explicite
-- **N — nous** : compréhension et cohérence
-- **D — doxa** : certitude
+| Gravité | Interprétation |
+|--------|---------------|
+| 0.00 – 0.20 | Gravité faible — discours globalement sain |
+| 0.20 – 0.40 | Gravité modérée — quelques tensions cognitives |
+| 0.40 – 0.60 | Gravité élevée — dérive discursive notable |
+| 0.60 – 0.80 | Gravité très élevée — structure discursive problématique |
+| 0.80 – 1.00 | Gravité critique — convergence de manipulation ou désalignement cognitif |
 
----
-
-### 2️⃣ Niveau 2 — les dérivés du noyau
-
-**Indice de mécroyance**
-
-M = (G + N) − D
-
-**Indice de mendacité**
-
-ME = 2D − (G + N)
-
-Ces indices mesurent :
-
-- désalignement cognitif
-- certitude excessive
-
----
-
-### 3️⃣ Niveau 3 — analyse linguistique
-
-#### Pression discursive
-
-Basée sur des marqueurs comme :
-
-- dramatisation
-- certitude absolue
-- autorité vague
-- ennemi abstrait
-
-#### Solidité argumentative
-
-Basée sur :
-
-- connecteurs logiques
-- contradictions
-- structure argumentative
-
-#### Red flags
-
-Détection de procédés rhétoriques :
-
-- sophismes
-- généralisation
-- naturalisation
-- victimisation
-
----
-
-### 4️⃣ Niveau 4 — synthèse cognitive
-
-Tous ces indicateurs alimentent la **stabilité cognitive**.
-
-On peut la résumer ainsi :
-
-`stabilité ≈ équilibre cognitif − pression discursive − red flags + solidité argumentative`
-
-Ce n’est pas une formule exacte mais un **principe d’agrégation**.
-
----
-
-### 5️⃣ Niveau 5 — gravité cognitive
-
-Enfin :
-
-`gravité = 1 − stabilité`
-
-Donc :
-
-| stabilité | gravité |
-|----------|--------|
-| forte | faible |
-| moyenne | modérée |
-| faible | élevée |
-
----
-
-### 6️⃣ Signification de la gravité
-
-La **gravité cognitive** représente :
-
-> le niveau global de dérive du raisonnement détecté dans le discours.
-
-Elle combine :
-
-- mécanique cognitive
-- structure argumentative
-- pression rhétorique
-- signaux de manipulation
-
-#### Formule heuristique
-
-```python
-gravité = 1 - stabilité_cognitive
-
-#### Interprétation
-
-0–20% : gravité faible  
-20–40% : gravité modérée  
-40–60% : gravité élevée  
-60–80% : gravité très élevée  
-80–100% : gravité critique
-
-#### Résultat
-
-Gravité : **{gravity_pct}%**  
-Verdict : **{gravity_label}**
-""")
+Cette jauge synthétise plusieurs signaux de dérive cognitive du discours :
+mensonge potentiel, pression rhétorique, propagande, dissonance factuelle,
+fermeture cognitive et faiblesse factuelle.
 
 
 # =============================
