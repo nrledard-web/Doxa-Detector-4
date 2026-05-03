@@ -8441,6 +8441,185 @@ with col_center:
 
     st.divider()
 
+    # =============================
+# 🧠 1. DÉRIVES COGNITIVES FONDAMENTALES
+# =============================
+st.subheader("🧠 Dérives cognitives fondamentales")
+st.caption("Dérives internes du raisonnement liées à l’équilibre entre connaissance (G), compréhension (N) et certitude (D).")
+
+dc1, dc2, dc3 = st.columns(3)
+
+with dc1:
+    st.markdown("### Pseudo-savoir")
+    # jauge ici
+
+with dc2:
+    st.markdown("### Intuition dogmatique")
+    # jauge ici
+
+with dc3:
+    st.markdown("### Fermeture cognitive")
+    # jauge ici
+
+st.markdown("### Indice global de dérive cognitive")
+# jauge synthèse ici
+
+st.divider()
+
+
+# =============================
+# 🗣️ 2. PRESSIONS DISCURSIVES
+# =============================
+st.subheader("🗣️ Pressions discursives")
+st.caption("Forces rhétoriques influençant la perception et l’interprétation du discours.")
+
+pd1, pd2, pd3 = st.columns(3)
+
+with pd1:
+    st.markdown("### Pression rhétorique")
+    # jauge ici
+
+with pd2:
+    st.markdown("### Charge émotionnelle")
+    # jauge ici
+
+with pd3:
+    st.markdown("### Asymétrie argumentative")
+    # jauge ici
+
+st.divider()
+
+
+# =============================
+# 🧩 3. STRUCTURE DU RAISONNEMENT
+# =============================
+st.subheader("🧩 Structure du raisonnement")
+st.caption("Analyse de la cohérence interne du discours, indépendamment de sa vérifiabilité.")
+
+sr1, sr2 = st.columns(2)
+
+with sr1:
+    st.markdown("### Cohérence discursive")
+    # jauge ici
+
+with sr2:
+    st.markdown("### Cohérence trompeuse")
+    # jauge ici
+
+st.divider()
+
+
+# =============================
+# 🧭 4. ORIENTATION IDÉOLOGIQUE
+# =============================
+st.subheader("🧭 Orientation idéologique")
+st.caption("Détection des structures narratives orientées ou propagandistes.")
+
+oi1, oi2, oi3 = st.columns(3)
+
+with oi1:
+    st.markdown("### Jauge propagandiste")
+    # jauge ici
+
+with oi2:
+    st.markdown("### Narration propagandiste")
+    # jauge ici
+
+with oi3:
+    st.markdown("### Polarisation / Ennemi abstrait")
+    # jauge ici
+
+st.divider()
+
+
+# =============================
+# ⚖️ 5. ANALYSE LOGIQUE
+# =============================
+st.subheader("⚖️ Analyse logique")
+st.caption("Identification des erreurs de raisonnement et des structures logiques.")
+
+al1, al2, al3 = st.columns(3)
+
+with al1:
+    st.markdown("### Confusion logique")
+    # jauge ici
+
+with al2:
+    st.markdown("### Fausse causalité")
+    # jauge ici
+
+with al3:
+    st.markdown("### Faux dilemme")
+    # jauge ici
+
+al4, al5, al6 = st.columns(3)
+
+with al4:
+    st.markdown("### Pétition de principe")
+    # jauge ici
+
+with al5:
+    st.markdown("### Cherry picking")
+    # jauge ici
+
+with al6:
+    st.markdown("### Sophismes détectés")
+    # jauge ici
+
+st.markdown("### Syllogismes / Enthymèmes")
+# bloc logique ici
+
+st.divider()
+
+
+# =============================
+# 🧪 6. BIAIS DE FORMULATION
+# =============================
+st.subheader("🧪 Biais de formulation")
+st.caption("Biais liés au langage, à la présentation et à l’apparence de crédibilité.")
+
+bf1, bf2, bf3 = st.columns(3)
+
+with bf1:
+    st.markdown("### Autorité vague")
+    # jauge ici
+
+with bf2:
+    st.markdown("### Qualification normative")
+    # jauge ici
+
+with bf3:
+    st.markdown("### Scientificité rhétorique")
+    # jauge ici
+
+bf4, bf5 = st.columns(2)
+
+with bf4:
+    st.markdown("### Glissement sémantique")
+    # jauge ici
+
+with bf5:
+    st.markdown("### Faux consensus")
+    # jauge ici
+
+st.divider()
+
+
+# =============================
+# 📊 7. SYNTHÈSE FINALE
+# =============================
+st.subheader("📊 Synthèse finale")
+st.caption("Vision globale du discours après analyse des différentes dimensions.")
+
+st.markdown("### Verdict global")
+# verdict ici
+
+st.markdown("### Crédibilité finale")
+# jauge ici
+
+st.markdown("### Régime cognitif dominant")
+# affichage ici
+
     st.subheader("Jauge de pression rhétorique")
     st.caption(
         "Cette jauge ne mesure pas un mensonge certain, mais l’intensité des procédés discursifs "
@@ -8479,7 +8658,7 @@ with col_center:
     
     st.divider()
 
-        # -----------------------------
+    # -----------------------------
     # Indice global de dérive cognitive
     # -----------------------------
     st.markdown("### Indice global de dérive cognitive")
