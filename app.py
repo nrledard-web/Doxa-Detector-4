@@ -8265,30 +8265,69 @@ with col_center:
     # Nouvelles jauges : dérives cognitives
     # =============================
     st.subheader("Dérives cognitives")
-
-    dr1, dr2, = st.columns(2)
-
-    with dr1:
-
         st.markdown("### Pseudo-savoir")
-        st.caption("Accumulation de savoirs mal intégrés ou mal compris.")
+        with st.popover("ℹ️ Comprendre cette jauge"):
+    
+    st.markdown("### Pseudo-savoir")
+    
+    st.write(
+        "Cette jauge mesure l’accumulation d’éléments présentés comme du savoir "
+        "mais insuffisamment intégrés ou mal compris dans le raisonnement."
+    )
+    
+    st.markdown("**Principe**")
+    
+    st.write(
+        "Le pseudo-savoir apparaît lorsqu’un texte mobilise des références, "
+        "des chiffres ou des concepts sans véritable articulation logique "
+        "ou sans démonstration suffisante."
+    )
+    
+    st.markdown("**Normalisation de la jauge**")
+    
+    st.code("value = min(drift_pseudo_savoir / 10, 1.0)")
+    
+    st.markdown("**Résultat actuel**")
+    
+    st.write(f"Score brut : {result['drift_pseudo_savoir']:.2f} / 10")
+    
+    st.markdown("**Seuils d’interprétation**")
+    
+    st.write("""
+    Faible : < 1  
+    Modérée : 1 – 3  
+    Élevée : 3 – 6  
+    Très élevée : > 6
+    """)
+    
+    st.markdown("**Interprétation**")
+    
+    if result["drift_pseudo_savoir"] < 1:
+        st.write("Le texte mobilise peu de savoirs mal intégrés.")
+    elif result["drift_pseudo_savoir"] < 3:
+        st.write("Quelques éléments de savoir semblent mal articulés.")
+    elif result["drift_pseudo_savoir"] < 6:
+        st.write("Plusieurs éléments présentés comme du savoir restent fragiles ou mal reliés.")
+    else:
+        st.write("Le texte accumule des éléments de savoir mal compris ou insuffisamment démontrés.")
+    st.caption("Accumulation de savoirs mal intégrés ou mal compris.")
 
-        value = min(result["drift_pseudo_savoir"] / 10, 1.0)
+    value = min(result["drift_pseudo_savoir"] / 10, 1.0)
 
-        if result["drift_pseudo_savoir"] < 1:
-            label, color = "Faible", "#16a34a"
-        elif result["drift_pseudo_savoir"] < 3:
-            label, color = "Modérée", "#ca8a04"
-        elif result["drift_pseudo_savoir"] < 6:
-            label, color = "Élevée", "#f97316"
-        else:
-            label, color = "Très élevée", "#dc2626"
+    if result["drift_pseudo_savoir"] < 1:
+        label, color = "Faible", "#16a34a"
+    elif result["drift_pseudo_savoir"] < 3:
+        label, color = "Modérée", "#ca8a04"
+    elif result["drift_pseudo_savoir"] < 6:
+        label, color = "Élevée", "#f97316"
+    else:
+        label, color = "Très élevée", "#dc2626"
 
-        render_custom_gauge(value, color)
-        st.markdown(
-            f"<b style='color:{color}'>{label}</b> — {result['drift_pseudo_savoir']}",
-            unsafe_allow_html=True
-        )
+    render_custom_gauge(value, color)
+    st.markdown(
+        f"<b style='color:{color}'>{label}</b> — {result['drift_pseudo_savoir']}",
+        unsafe_allow_html=True
+    )
 
     with dr2:
         st.markdown("### Intuition dogmatique")
