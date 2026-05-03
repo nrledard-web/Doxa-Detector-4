@@ -19,6 +19,53 @@ try:
 except Exception:
     client = None
 
+import math
+
+NEGATIONS = {"pas", "aucun", "jamais", "ni", "rien"}
+ATTENUATORS = {"peut-être", "semble", "probable", "possible"}
+INTENSIFIERS = {"grave", "extrême", "massif", "violent"}
+
+def tokenize(text):
+    return re.findall(r"\b[\wà-ÿ'-]+\b", text.lower())
+
+def compute_emotional_score(text, emotion_dict):
+    words = tokenize(text)
+    total_score = 0.0
+    word_count = len(words)
+
+    for i, word in enumerate(words):
+
+        # gestion simple du pluriel
+        base_word = word.rstrip("s")
+
+        if base_word in emotion_dict:
+            base_weight = emotion_dict[base_word]
+            modifier = 1.0
+
+            # fenêtre locale
+            context = words[max(0, i-2):i+3]
+
+            context_set = set(context)
+
+            # négation
+            if context_set & NEGATIONS:
+                modifier *= 0.2
+
+            # atténuation
+            if context_set & ATTENUATORS:
+                modifier *= 0.6
+
+            # intensification
+            if context_set & INTENSIFIERS:
+                modifier *= 1.4
+
+            total_score += base_weight * modifier
+
+    # normalisation + stabilisation
+    score = total_score / (math.log(1 + word_count) + 1)
+
+    return min(score, 1.0)
+
 st.markdown("""
 <style>
 
