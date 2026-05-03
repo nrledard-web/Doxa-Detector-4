@@ -8056,10 +8056,6 @@ with col_center:
     life_score = round((result["hard_fact_score"] / 20) * 100, 1)
     mecroyance_bar = max(0.0, min(1.0, (result["M"] + 10) / 30))
 
-    with col1:
-        st.write("Vitalité cognitive")
-        st.progress(life_score / 100)
-        st.caption(f"{life_score}%")
 
     st.divider()
 
