@@ -8321,8 +8321,15 @@ with col_center:
 
         st.markdown("**Normalisation graphique**")
         st.code("value = min(drift_pseudo_savoir / 10, 1.0)")
-        global_value = min(result["global_cognitive_drift"] / 10, 1.0)
-    
+
+    # -----------------------------
+    # Indice global de dérive cognitive
+    # -----------------------------
+    st.markdown("### Indice global de dérive cognitive")
+    st.caption("Synthèse des trois dérives cognitives.")
+
+    global_value = min(result["global_cognitive_drift"] / 10, 1.0)
+
     if result["global_cognitive_drift"] < 1:
         global_label, global_color = "Faible", "#16a34a"
     elif result["global_cognitive_drift"] < 3:
@@ -8331,12 +8338,14 @@ with col_center:
         global_label, global_color = "Élevée", "#f97316"
     else:
         global_label, global_color = "Très élevée", "#dc2626"
-    
+
     render_custom_gauge(global_value, global_color)
+
     st.markdown(
         f"<b style='color:{global_color}'>{global_label}</b> — {result['global_cognitive_drift']}",
         unsafe_allow_html=True
     )
+
     st.caption(result["cognitive_drift_interpretation"])
     
     st.divider()
@@ -8397,9 +8406,6 @@ with col_center:
         st.markdown("**Normalisation graphique**")
         st.code("value = min(drift_intuition_dogmatique / 10, 1.0)")
 
-        
-        st.markdown("**Normalisation graphique**")
-        st.code("value = min(drift_intuition_dogmatique / 10, 1.0)")
 
     st.divider()
 
