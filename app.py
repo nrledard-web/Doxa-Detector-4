@@ -7173,65 +7173,24 @@ with st.popover("ℹ️ Formule / explication"):
     m3.metric("G — gnōsis", round(result.get("G", 0), 2))
     m4.metric("N — nous", round(result.get("N", 0), 2))
 
-    st.markdown(f"""
-Cette jauge évalue la **solidité argumentative du texte**.
+st.markdown(f"""
+### Formule heuristique
 
-Elle combine deux dimensions :
+La jauge s’appuie principalement sur la densité argumentative du texte.
 
-- la densité du savoir articulé  
-- la cohérence logique du raisonnement  
+`densité_argumentative = ((marqueurs_raison + marqueurs_conclusion + marqueurs_nuance) / nombre_de_mots) × 35`
 
----
+Le score est ensuite borné entre **0 et 1**, puis converti en note sur **20** si nécessaire.
 
-### 1️⃣ Gnōsis argumentative
+#### Marqueurs pris en compte
 
-`G = gnōsis`
+- marqueurs de raison : *car, parce que, puisque…*
+- marqueurs de conclusion : *donc, ainsi, par conséquent…*
+- marqueurs de nuance : *cependant, toutefois, néanmoins…*
 
-avec :
+#### Lecture du résultat
 
-G = savoir articulé : sources, chiffres, références, éléments vérifiables.
-
-Dans cette analyse :
-
-`G = {round(result.get("G", 0), 2)}`
-
----
-
-### 2️⃣ Nous argumentatif
-
-`N = nous`
-
-avec :
-
-N = compréhension intégrée : cohérence logique, structure argumentative, contextualisation.
-
-Dans cette analyse :
-
-`N = {round(result.get("N", 0), 2)}`
-
----
-
-### 3️⃣ Formule heuristique principale
-
-`score_argumentatif = (G × 0.6) + (N × 0.4)`
-
-Le savoir articulé pèse légèrement plus que la cohérence logique.
-
----
-
-### 4️⃣ Calcul dans cette analyse
-
-`score_argumentatif = ({round(result.get("G", 0), 2)} × 0.6) + ({round(result.get("N", 0), 2)} × 0.4)`
-
-`score_argumentatif ≈ {round(score, 1)} / 20`
-
----
-
-### Interprétation du score argumentatif
-
-0–6 : raisonnement faible  
-7–13 : raisonnement partiel  
-14–20 : raisonnement robuste
+Un score de **{score_analogique}/20** indique un raisonnement **{verdict_analogique.lower()}**.
 """)
     
 st.markdown("""
