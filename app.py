@@ -8439,7 +8439,7 @@ with col_center:
         st.markdown("**Normalisation graphique**")
         st.code("value = min(drift_mecroyance / 10, 1.0)")
 
-      st.divider()
+    st.divider()
 
     st.subheader("Jauge de pression rhétorique")
     st.caption(
