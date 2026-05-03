@@ -7774,41 +7774,136 @@ Cette jauge estime le **niveau global de dérive cognitive** du discours.
 Elle ne mesure pas directement si le texte est vrai ou faux.  
 Elle mesure si sa structure présente des signes de **déséquilibre cognitif**, de fermeture argumentative, de pression discursive ou de fragilité logique.
 
-### Calcul de la gravité cognitive
+#### Résultat de cette analyse
 
-La gravité cognitive est calculée comme une moyenne pondérée de plusieurs signaux de dérive du discours.
+**Gravité cognitive : {gravity_pct}%**
 
-Formule utilisée : 
+**Verdict : {gravity_label}**
 
-gravité =
-0.25 × mensonge
-+ 0.20 × pression rhétorique
-+ 0.20 × propagande
-+ 0.20 × dissonance factuelle
-+ 0.10 × fermeture cognitive
-+ 0.05 × faiblesse factuelle
+### Signaux pris en compte
 
-Chaque facteur est normalisé entre 0 et 1.
+La jauge synthétise plusieurs dimensions du moteur analytique.
 
-Le score final représente le niveau global de dérive cognitive du discours.
+---
 
-### Interprétation de la jauge
+### 1️⃣ Niveau 1 — le noyau cognitif
 
-La gravité cognitive indique le **niveau global de dérive du discours**.
+**M = (G + N) − D**
 
-Elle varie entre **0 et 1**.
+Ce noyau mesure l’**équilibre cognitif du discours**.
 
-| Gravité | Interprétation |
-|--------|---------------|
-| 0.00 – 0.20 | Gravité faible — discours globalement sain |
-| 0.20 – 0.40 | Gravité modérée — quelques tensions cognitives |
-| 0.40 – 0.60 | Gravité élevée — dérive discursive notable |
-| 0.60 – 0.80 | Gravité très élevée — structure discursive problématique |
-| 0.80 – 1.00 | Gravité critique — convergence de manipulation ou désalignement cognitif |
+- **G — gnōsis** : savoir explicite
+- **N — nous** : compréhension et cohérence
+- **D — doxa** : certitude
 
-Cette jauge synthétise plusieurs signaux de dérive cognitive du discours :
-mensonge potentiel, pression rhétorique, propagande, dissonance factuelle,
-fermeture cognitive et faiblesse factuelle.
+---
+
+### 2️⃣ Niveau 2 — les dérivés du noyau
+
+**Indice de mécroyance**
+
+M = (G + N) − D
+
+**Indice de mendacité**
+
+ME = 2D − (G + N)
+
+Ces indices mesurent :
+
+- désalignement cognitif
+- certitude excessive
+
+---
+
+### 3️⃣ Niveau 3 — analyse linguistique
+
+#### Pression discursive
+
+Basée sur des marqueurs comme :
+
+- dramatisation
+- certitude absolue
+- autorité vague
+- ennemi abstrait
+
+#### Solidité argumentative
+
+Basée sur :
+
+- connecteurs logiques
+- contradictions
+- structure argumentative
+
+#### Red flags
+
+Détection de procédés rhétoriques :
+
+- sophismes
+- généralisation
+- naturalisation
+- victimisation
+
+---
+
+### 4️⃣ Niveau 4 — synthèse cognitive
+
+Tous ces indicateurs alimentent la **stabilité cognitive**.
+
+On peut la résumer ainsi :
+
+`stabilité ≈ équilibre cognitif − pression discursive − red flags + solidité argumentative`
+
+Ce n’est pas une formule exacte mais un **principe d’agrégation**.
+
+---
+
+### 5️⃣ Niveau 5 — gravité cognitive
+
+Enfin :
+
+`gravité = 1 − stabilité`
+
+Donc :
+
+| stabilité | gravité |
+|----------|--------|
+| forte | faible |
+| moyenne | modérée |
+| faible | élevée |
+
+---
+
+### 6️⃣ Signification de la gravité
+
+La **gravité cognitive** représente :
+
+> le niveau global de dérive du raisonnement détecté dans le discours.
+
+Elle combine :
+
+- mécanique cognitive
+- structure argumentative
+- pression rhétorique
+- signaux de manipulation
+
+#### Formule heuristique
+
+```python
+gravité = 1 - stabilité_cognitive
+
+#### Interprétation
+
+0–20% : gravité faible  
+20–40% : gravité modérée  
+40–60% : gravité élevée  
+60–80% : gravité très élevée  
+80–100% : gravité critique
+
+#### Résultat
+
+Gravité : **{gravity_pct}%**  
+Verdict : **{gravity_label}**
+""")
 
 
 # =============================
@@ -8028,23 +8123,25 @@ with col_center:
     rp = result["rhetorical_pressure"]
     rp_label, rp_color = interpret_rhetorical_pressure(rp)
 
-    st.markdown(
-    f"""
-<div style='
-border:1px solid {gravity_color};
-border-radius:12px;
-padding:12px;
-margin-top:8px;
-background-color:rgba(255,255,255,0.03);
-'>
-<b style='color:{gravity_color};'>
-Gravité {gravity_label} — {gravity_pct}%
-</b><br>
-{gravity_text}
-</div>
-""",
-    unsafe_allow_html=True
-)
+    st.markdown(f"""
+    <div style="width:100%; margin-top:10px; margin-bottom:10px;">
+        <div style="
+            width:100%;
+            height:26px;
+            background:#e5e7eb;
+            border-radius:12px;
+            overflow:hidden;
+            border:1px solid #cbd5e1;
+        ">
+            <div style="
+                width:{rp*100}%;
+                height:100%;
+                background:{rp_color};
+                transition:width 0.4s ease;
+            "></div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
     st.markdown(
         f"<b style='color:{rp_color}'>{rp_label}</b> — {round(rp*100, 1)}%",
