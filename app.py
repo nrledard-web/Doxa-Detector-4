@@ -7778,7 +7778,7 @@ Elle mesure si sa structure présente des signes de **déséquilibre cognitif**,
 
 La gravité cognitive est calculée comme une moyenne pondérée de plusieurs signaux de dérive du discours.
 
-Formule utilisée :
+Formule utilisée : 
 
 gravité =
 0.25 × mensonge
