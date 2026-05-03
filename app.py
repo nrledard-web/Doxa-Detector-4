@@ -7173,29 +7173,53 @@ with st.popover("ℹ️ Formule / explication"):
     m3.metric("G — gnōsis", round(result.get("G", 0), 2))
     m4.metric("N — nous", round(result.get("N", 0), 2))
 
-st.markdown(f"""
-### Formule heuristique
+    st.markdown(f"""
+### Ce que mesure cette jauge
 
-La jauge s’appuie principalement sur la densité argumentative du texte.
+Cette jauge estime la **solidité argumentative globale** du texte.
 
-`densité_argumentative = ((marqueurs_raison + marqueurs_conclusion + marqueurs_nuance) / nombre_de_mots) × 35`
+Elle ne mesure pas seulement la présence de connecteurs logiques.  
+Elle combine la structure du raisonnement avec la présence d’éléments vérifiables.
 
-Le score est ensuite borné entre **0 et 1**, puis converti en note sur **20** si nécessaire.
+### Signaux pris en compte
 
-#### Marqueurs pris en compte
+La jauge s’appuie notamment sur :
 
-- marqueurs de raison : *car, parce que, puisque…*
-- marqueurs de conclusion : *donc, ainsi, par conséquent…*
-- marqueurs de nuance : *cependant, toutefois, néanmoins…*
+- la présence d’éléments factuels
+- la vérifiabilité des affirmations
+- la structure logique du raisonnement
+- les marqueurs de justification, de conclusion et de nuance
+- la cohérence générale du discours
 
-#### Lecture du résultat
+### Formule heuristique simplifiée
 
-Un score de **{score_analogique}/20** indique un raisonnement **{verdict_analogique.lower()}**.
+Le score affiché correspond ici à :
 
-    
-st.markdown("""
-<div style="text-align:center; margin:25px 0; color:#888;">
+`score = hard_fact_score`
+
+Ce score est exprimé sur **20**.
+
+Il sert d’indicateur de solidité argumentative, car il mesure à la fois :
+
+- la densité du raisonnement
+- l’ancrage factuel
+- la présence d’éléments vérifiables
+
+### Interprétation
+
+- **0–6** : raisonnement très fragile
+- **6–9** : raisonnement fragile
+- **9–13** : raisonnement modéré
+- **13–16** : raisonnement solide
+- **16–20** : raisonnement très solide
+
+### Lecture du résultat
+
+Un score de **{round(score, 1)}/20** indique une solidité argumentative **{etiquette_r.lower()}**.
+
+{message_r}
 """)
+
           
 ────────── ✦ ──────────
 </div>
