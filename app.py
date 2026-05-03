@@ -8290,7 +8290,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-    with :
+    with dr2 :
         st.markdown("### Intuition dogmatique")
         st.caption("Conviction forte sans base de savoir suffisante.")
 
