@@ -8273,9 +8273,11 @@ with col_center:
     st.pyplot(fig_triangle, use_container_width=True)
 
     # =============================
-    # Dérives cognitives
+    # 🧠 1. DÉRIVES COGNITIVES FONDAMENTALES
     # =============================
-    st.subheader("Dérives cognitives")
+    st.subheader("🧠 Dérives cognitives fondamentales")
+    st.caption("Dérives internes du raisonnement liées à l’équilibre entre connaissance (G), compréhension (N) et certitude (D).")
+    
 
     # -----------------------------
     # Pseudo-savoir
@@ -8478,30 +8480,8 @@ with col_center:
     
     st.caption(result["cognitive_drift_interpretation"])
 
-    # =============================
-    # 🧠 1. DÉRIVES COGNITIVES FONDAMENTALES
-    # =============================
-    st.subheader("🧠 Dérives cognitives fondamentales")
-    st.caption("Dérives internes du raisonnement liées à l’équilibre entre connaissance (G), compréhension (N) et certitude (D).")
-    
-    dc1, dc2, dc3 = st.columns(3)
-    
-    with dc1:
-        st.markdown("### Pseudo-savoir")
-        # jauge ici
-    
-    with dc2:
-        st.markdown("### Intuition dogmatique")
-        # jauge ici
-    
-    with dc3:
-        st.markdown("### Fermeture cognitive")
-        # jauge ici
-    
-    st.markdown("### Indice global de dérive cognitive")
-    # jauge synthèse ici
-    
     st.divider()
+
     
     
     # =============================
