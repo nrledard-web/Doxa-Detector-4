@@ -10524,23 +10524,23 @@ d_game = st.slider("D — doxa (certitude / saturation)", 0.0, 10.0, 5.0, 0.5)
 
 m_game = round((g_game + n_game) - d_game, 1)
 
-st.markdown(
-    f"""
-    <div style="
-        background:#f1f5f9;
-        border-radius:14px;
-        padding:18px;
-        margin-top:10px;
-        border:1px solid #dbe3ec;
-        text-align:center;
-        font-size:1.3rem;
-        font-weight:700;
-    ">
-        M = ({g_game:.1f} + {n_game:.1f}) − {d_game:.1f} =
-        <span style="color:#0b6e4f;">{m_game:.1f}</span>
-    </div>
-    """,
-    unsafe_allow_html=True,
+html_m_game = f"""
+<div style='
+    background:#f1f5f9;
+    border-radius:14px;
+    padding:18px;
+    margin-top:10px;
+    border:1px solid #dbe3ec;
+    text-align:center;
+    font-size:1.3rem;
+    font-weight:700;
+'>
+    M = ({g_game:.1f} + {n_game:.1f}) − {d_game:.1f} =
+    <span style='color:#0b6e4f;'>{m_game:.1f}</span>
+</div>
+"""
+
+st.markdown(html_m_game, unsafe_allow_html=True)
 )
 
 if m_game < 0:
