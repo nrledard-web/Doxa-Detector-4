@@ -8290,26 +8290,25 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-    with dr2 :
-        st.markdown("### Intuition dogmatique")
-        st.caption("Conviction forte sans base de savoir suffisante.")
+    st.markdown("### Intuition dogmatique")
+    st.caption("Conviction forte sans base de savoir suffisante.")
 
-        value = min(result["drift_intuition_dogmatique"] / 10, 1.0)
+    value = min(result["drift_intuition_dogmatique"] / 10, 1.0)
 
-        if result["drift_intuition_dogmatique"] < 1:
-            label, color = "Faible", "#16a34a"
-        elif result["drift_intuition_dogmatique"] < 3:
-            label, color = "Modérée", "#ca8a04"
-        elif result["drift_intuition_dogmatique"] < 6:
-            label, color = "Élevée", "#f97316"
-        else:
-            label, color = "Très élevée", "#dc2626"
+    if result["drift_intuition_dogmatique"] < 1:
+        label, color = "Faible", "#16a34a"
+    elif result["drift_intuition_dogmatique"] < 3:
+        label, color = "Modérée", "#ca8a04"
+    elif result["drift_intuition_dogmatique"] < 6:
+        label, color = "Élevée", "#f97316"
+    else:
+        label, color = "Très élevée", "#dc2626"
 
-        render_custom_gauge(value, color)
-        st.markdown(
-            f"<b style='color:{color}'>{label}</b> — {result['drift_intuition_dogmatique']}",
-            unsafe_allow_html=True
-        )
+    render_custom_gauge(value, color)
+    st.markdown(
+        f"<b style='color:{color}'>{label}</b> — {result['drift_intuition_dogmatique']}",
+        unsafe_allow_html=True
+    )
 
     st.markdown("### Indice global de dérive cognitive")
     st.caption("Synthèse des trois dérives cognitives.")
