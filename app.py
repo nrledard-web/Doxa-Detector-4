@@ -8357,7 +8357,6 @@ with col_center:
     <b style='color:{color};'>
     Pseudo-savoir {label} — {pseudo_score:.2f}
     </b><br>
-    {text}
     </div>
     """,
         unsafe_allow_html=True
