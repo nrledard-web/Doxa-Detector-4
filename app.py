@@ -8691,7 +8691,6 @@ with col_center:
     )
     
     st.caption("Pression rhétorique faible ⟵⟶ Pression rhétorique forte")
-    """)
     
     st.divider()
     
