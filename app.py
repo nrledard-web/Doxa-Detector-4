@@ -6979,9 +6979,9 @@ with st.popover("ℹ️ Formule / explication"):
     st.markdown(f"""
 ### Analyse analogique du raisonnement
 
-Cette jauge analyse la **cohérence linguistique du raisonnement**.
+Cette jauge analyse la **solidité cognitive et argumentative du raisonnement**.
 
-Elle ne mesure pas la vérité des affirmations mais la **structure logique apparente du discours**.
+Elle ne mesure pas seulement la vérité brute des affirmations : elle estime la **structure logique apparente du discours**, son niveau de vérifiabilité et les fragilités rhétoriques détectées.
 
 ---
 
@@ -6994,36 +6994,22 @@ Verdict : **{score_label}**
 ---
 
 ### Signaux analysés
-Contrairement au fact-checking, elle n’évalue pas directement la vérité des affirmations.  
-Elle examine la **structure du discours** et la manière dont les idées sont reliées entre elles.
 
-La jauge s’appuie sur plusieurs indices linguistiques :
+La jauge examine la **structure du discours** et la manière dont les idées sont reliées, justifiées et appuyées.
 
-- présence de connecteurs logiques
-- structure argumentative des phrases
-- continuité logique du raisonnement
-- détection de contradictions internes
+Elle s’appuie sur plusieurs dimensions :
 
-#### 1️⃣ Connecteurs logiques
+- présence d’éléments vérifiables
+- qualité des sources
+- vérifiabilité moyenne des affirmations
+- équilibre entre **G — gnōsis**, **N — nous** et **D — doxa**
+- risque rhétorique
+- pénalités de crédibilité
+- bonus épistémique pour certaines formulations sobres ou prudentes
 
-L’algorithme détecte les mots qui structurent le raisonnement :
+#### 1️⃣ Structure du raisonnement
 
-- donc
-- car
-- puisque
-- cependant
-- pourtant
-- ainsi
-- en effet
-
-Ces connecteurs signalent souvent une relation logique entre deux propositions :  
-**cause, conséquence, opposition ou justification**.
-
-Un discours qui utilise ces connecteurs de manière cohérente présente généralement une structure argumentative plus explicite.
-
-#### 2️⃣ Structure argumentative des phrases
-
-Le système examine si les phrases suivent des formes argumentatives classiques :
+Le système observe si le texte contient des éléments de raisonnement structurés :
 
 - affirmation → justification
 - prémisse → conclusion
@@ -7031,43 +7017,69 @@ Le système examine si les phrases suivent des formes argumentatives classiques 
 
 Ces structures indiquent qu’un raisonnement est **articulé et développé**, plutôt qu’une simple succession d’opinions.
 
-#### 3️⃣ Continuité logique du raisonnement
+#### 2️⃣ Vérifiabilité des affirmations
 
-L’analyse observe si les idées se suivent de manière progressive :
+Le moteur tient compte des éléments qui rendent une affirmation plus contrôlable :
 
-- une idée introduit la suivante
-- les phrases restent dans le même cadre logique
-- les conclusions découlent des propositions précédentes
+- chiffres
+- dates
+- entités nommées
+- sources ou références
+- formulations factuelles précises
 
-Un raisonnement continu et cohérent augmente la **solidité argumentative** du texte.
+#### 3️⃣ Risque rhétorique
 
-#### 4️⃣ Détection de contradictions internes
+Le score est diminué lorsque le texte contient des signaux de fragilité :
 
-Le moteur recherche aussi des signaux de rupture logique :
+- certitude excessive
+- pression rhétorique
+- affirmations peu vérifiables
+- risque moyen des affirmations
+- pénalités de crédibilité
 
-- affirmations incompatibles dans le même texte
-- revirements implicites
-- enchaînements contradictoires
+#### 4️⃣ Équilibre cognitif
 
-Ces incohérences diminuent le score car elles fragilisent la structure du raisonnement.
+La jauge tient aussi compte du rapport entre :
+
+- **G** : savoir explicite
+- **N** : compréhension / nuance
+- **D** : certitude ou rigidité
+
+Un discours plus équilibré entre savoir, compréhension et certitude obtient un meilleur score.
 
 ---
 
-### Formule heuristique
+### Formule heuristique réelle
 
-`score = 10 + (ratio_connecteurs × 8) − (contradictions × 2)`
+`HFS brut = (0.18×G + 0.12×N + 0.20×V + 0.22×QS + 0.18×VC) − (0.16×D + 0.12×R + 0.18×RC + P)`
 
-avec :
+Puis :
 
-`ratio_connecteurs = connecteurs logiques / nombre de phrases`
+`HFS = HFS brut + 8 + bonus_épistémique`
+
+Le score final est borné entre **0 et 20**.
+
+Avec :
+
+- **G** : gnōsis
+- **N** : nous
+- **V** : vérifiabilité globale
+- **QS** : qualité des sources
+- **VC** : vérifiabilité moyenne des affirmations
+- **D** : doxa
+- **R** : risque rhétorique
+- **RC** : risque moyen des affirmations
+- **P** : pénalités de crédibilité
 
 ---
 
 ### Interprétation
 
-0–6 : raisonnement faible  
-7–13 : raisonnement partiel  
-14–20 : raisonnement robuste
+0–6 : raisonnement très fragile  
+6–9 : raisonnement fragile  
+9–13 : raisonnement modéré  
+13–16 : raisonnement solide  
+16–20 : raisonnement très solide
 
 ---
 
