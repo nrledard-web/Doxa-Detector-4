@@ -8270,7 +8270,9 @@ with col_center:
     # Pseudo-savoir
     # -----------------------------
     st.markdown("### Pseudo-savoir")
-        value = min(result["drift_pseudo_savoir"] / 10, 1.0)
+    st.caption("Accumulation de savoirs mal intégrés ou mal compris.")
+
+    value = min(result["drift_pseudo_savoir"] / 10, 1.0)
 
     if result["drift_pseudo_savoir"] < 1:
         label, color = "Faible", "#16a34a"
@@ -8280,10 +8282,6 @@ with col_center:
         label, color = "Élevée", "#f97316"
     else:
         label, color = "Très élevée", "#dc2626"
-    st.caption("Accumulation de savoirs mal intégrés ou mal compris.")
-
-    with st.popover("ℹ️ Comprendre cette jauge"):
-        st.write("Explication de la jauge...")
 
     render_custom_gauge(value, color)
 
@@ -8291,6 +8289,17 @@ with col_center:
         f"<b style='color:{color}'>{label}</b> — {result['drift_pseudo_savoir']}",
         unsafe_allow_html=True
     )
+
+    with st.popover("ℹ️ Comprendre cette jauge"):
+        st.markdown("### Pseudo-savoir")
+        st.write(
+            "Cette jauge mesure l’accumulation d’éléments présentés comme du savoir "
+            "mais insuffisamment intégrés ou mal compris dans le raisonnement."
+        )
+        st.markdown("**Normalisation**")
+        st.code("value = min(drift_pseudo_savoir / 10, 1.0)")
+        st.markdown("**Résultat actuel**")
+        st.write(f"Score brut : {result['drift_pseudo_savoir']:.2f} / 10")
 
     st.markdown("### Intuition dogmatique")
     st.caption("Conviction forte sans base de savoir suffisante.")
