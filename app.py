@@ -10507,8 +10507,7 @@ if show_method:
         f"- **{T['revisability']}** : `(G + N + V) - D`\n"
         f"- **{T['cognitive_closure']}** : `(D * S) / (G + N)`\n\n"
         f"{T['disclaimer']}"
-    ...
-    """)
+)
 
 # -----------------------------
 # Laboratoire interactif
