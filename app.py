@@ -7780,33 +7780,37 @@ Elle mesure si sa structure présente des signes de **déséquilibre cognitif**,
 
 **Verdict : {gravity_label}**
 
-### Signaux pris en compte
 
-La jauge synthétise plusieurs dimensions du moteur analytique.
+### Interprétation de la gravité cognitive
 
----
+La **gravité cognitive** indique le **niveau global de dérive du raisonnement** dans le discours analysé.
 
+Plus la gravité est faible, plus le discours est **cognitivement sain et équilibré**.  
+Plus elle est élevée, plus le texte présente des **signaux de manipulation, de pression rhétorique ou de désalignement entre faits et certitudes**.
 
+#### Échelle d’interprétation
 
-#### Formule heuristique
+| Gravité | Lecture |
+|--------|--------|
+| **0.00 – 0.20** | Gravité faible — discours globalement sain |
+| **0.20 – 0.40** | Gravité modérée — quelques tensions cognitives |
+| **0.40 – 0.60** | Gravité élevée — dérive discursive notable |
+| **0.60 – 0.80** | Gravité très élevée — structure discursive problématique |
+| **0.80 – 1.00** | Gravité critique — convergence de manipulation ou désalignement cognitif |
 
-```python
-gravité = 1 - stabilité_cognitive
+#### Signaux pris en compte
 
-#### Interprétation
+La jauge combine plusieurs indicateurs détectés dans le texte :
 
-0–20% : gravité faible  
-20–40% : gravité modérée  
-40–60% : gravité élevée  
-60–80% : gravité très élevée  
-80–100% : gravité critique
+- indice de **mensonge potentiel**
+- **pression rhétorique**
+- **propagande discursive**
+- **dissonance factuelle**
+- **fermeture cognitive**
+- **faiblesse factuelle**
 
-#### Résultat
-
-Gravité : **{gravity_pct}%**  
-Verdict : **{gravity_label}**
+Ces signaux sont agrégés pour produire un **diagnostic global de santé cognitive du discours**.
 """)
-
 
 # =============================
 # Cerveau DOXA
