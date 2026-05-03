@@ -7960,7 +7960,7 @@ with st.expander("Résumé du cerveau DOXA"):
     col1.metric("Indice classique", result["M"], help=T["help_classic_score"])
     col2.metric("Indice ajusté", result["improved"], help=T["help_improved_score"])
     col3.metric("Score de raisonnement", result["hard_fact_score"], help=T["help_hard_fact_score"])
-    col4.metric("Vitalité cognitive", f"{life_score}%", help="Vitalité cognitive dérivée du hard fact score")
+    col4.metric("Vitalité cognitive", f"{life_score}%")
     
 # =============================
 # Partage des résultats
