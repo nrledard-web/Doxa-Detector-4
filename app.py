@@ -8661,263 +8661,263 @@ st.divider()
     # -----------------------------
     # Indice global de dérive cognitive
     # -----------------------------
-    st.markdown("### Indice global de dérive cognitive")
-    st.caption("Synthèse des trois dérives cognitives.")
+st.markdown("### Indice global de dérive cognitive")
+st.caption("Synthèse des trois dérives cognitives.")
 
-    global_value = min(result["global_cognitive_drift"] / 10, 1.0)
+global_value = min(result["global_cognitive_drift"] / 10, 1.0)
 
-    if result["global_cognitive_drift"] < 1:
-        global_label, global_color = "Faible", "#16a34a"
-    elif result["global_cognitive_drift"] < 3:
-        global_label, global_color = "Modérée", "#ca8a04"
-    elif result["global_cognitive_drift"] < 6:
-        global_label, global_color = "Élevée", "#f97316"
+if result["global_cognitive_drift"] < 1:
+    global_label, global_color = "Faible", "#16a34a"
+elif result["global_cognitive_drift"] < 3:
+    global_label, global_color = "Modérée", "#ca8a04"
+elif result["global_cognitive_drift"] < 6:
+    global_label, global_color = "Élevée", "#f97316"
+else:
+    global_label, global_color = "Très élevée", "#dc2626"
+
+render_custom_gauge(global_value, global_color)
+
+st.markdown(
+    f"<b style='color:{global_color}'>{global_label}</b> — {result['global_cognitive_drift']}",
+    unsafe_allow_html=True
+)
+
+st.caption(result["cognitive_drift_interpretation"])
+
+
+st.subheader("Cohérence trompeuse")
+st.caption(
+    "Cette jauge mesure si le texte paraît cohérent tout en restant fragile, orienté ou insuffisamment vérifiable."
+)
+
+value = result.get("deceptive_coherence", 0)
+label = result.get("deceptive_coherence_label", "—")
+
+if value < 0.25:
+    color = "#ca8a04"
+elif value < 0.50:
+    color = "#ca8a04"
+elif value < 0.75:
+    color = "#f97316"
+else:
+    color = "#dc2626"
+
+render_custom_gauge(value, color)
+
+st.markdown(
+    f"<b style='color:{color}'>{label}</b> — {round(value * 100, 1)}%",
+    unsafe_allow_html=True
+)
+
+st.caption("Cohérence apparente ⟵⟶ Cohérence trompeuse")
+
+st.divider()
+st.subheader("Jauge propagandiste")
+st.caption(
+    "Cette jauge combine la tension cognitive, la pression rhétorique, "
+    "les motifs idéologiques détectés et le degré de fermeture cognitive. "
+    "Elle aide à estimer si le texte relève d’un simple discours orienté "
+    "ou d’une structure plus franchement propagandiste."
+)
+
+closure_for_discourse = (
+    (result["D"] * (1 + len(result["red_flags"]) / 5)) / (result["G"] + result["N"])
+    if (result["G"] + result["N"]) > 0 else 10
+)
+
+propaganda_value = compute_propaganda_gauge(
+    lie_gauge=gauge_value,
+    rhetorical_pressure=rp,
+    political_pattern_score=result["political_pattern_score"],
+    closure=closure_for_discourse
+)
+
+propaganda_label, propaganda_color, propaganda_text = interpret_propaganda_gauge(propaganda_value)
+
+render_custom_gauge(propaganda_value, propaganda_color)
+
+st.markdown(
+    f"<b style='color:{propaganda_color}'>{propaganda_label}</b> — {round(propaganda_value*100, 1)}%",
+    unsafe_allow_html=True
+)
+
+st.caption("Discours peu orienté ⟵⟶ Structure propagandiste")
+st.caption(propaganda_text)
+
+discursive_profile = interpret_discursive_profile(
+    lie_gauge=gauge_value,
+    rhetorical_pressure=rp,
+    propaganda_gauge=propaganda_value,
+    premise_score=result["premise_score"],
+    logic_confusion_score=result["logic_confusion_score"],
+    scientific_simulation_score=result["scientific_simulation_score"],
+    discursive_coherence_score=result["discursive_coherence_score"],
+)
+
+st.subheader("Profil discursif global")
+st.write(discursive_profile)
+
+st.divider()
+st.subheader("Cartographie discursive complémentaire")
+
+st.caption(
+    "Cette cartographie regroupe les principaux mécanismes discursifs détectables "
+    "dans un texte : jugements de valeur, prémisses implicites, structures propagandistes, "
+    "confusions logiques, simulations scientifiques, biais narratifs et mécanismes de "
+    "fermeture cognitive.\n\n"
+    "Elle est complétée par une analyse logique des raisonnements "
+    "(syllogismes, enthymèmes et sophismes) ainsi que par des indicateurs "
+    "stratégiques permettant d’identifier certaines formes de manipulation argumentative."
+)
+
+row1_col1, row1_col2, row1_col3 = st.columns(3)
+row2_col1, row2_col2, row2_col3 = st.columns(3)
+row3_col1, row3_col2, row3_col3 = st.columns(3)
+row4_col1, row4_col2, row4_col3 = st.columns(3)
+row5_col1, row5_col2, row5_col3 = st.columns(3)
+row6_col1, row6_col2, row6_col3 = st.columns(3)
+row7_col1, row7_col2, row7_col3 = st.columns(3)
+row8_col1, row8_col2, row8_col3 = st.columns(3)
+row9_col1, row9_col2, row9_col3 = st.columns(3)
+row10_col1, row10_col2, row10_col3 = st.columns(3)
+row11_col1, row11_col2, row11_col3 = st.columns(3)
+row12_col1, row12_col2, row12_col3 = st.columns(3)
+row13_col1, row13_col2, row13_col3 = st.columns(3)
+row14_col1, row14_col2, row14_col3 = st.columns(3)
+row15_col1, row15_col2 = st.columns(2)
+
+
+# -----------------------------
+# 1) Qualifications normatives
+# -----------------------------
+with row1_col1:
+    st.markdown("### Qualification normative")
+    st.caption("Jugements de valeur présentés comme des faits.")
+
+    normative_value = result["normative_score"]
+
+    if normative_value < 0.20:
+        normative_label, normative_color = "Faible", "#ca8a04"
+    elif normative_value < 0.40:
+        normative_label, normative_color = "Modérée", "#f97316"
+    elif normative_value < 0.70:
+        normative_label, normative_color = "Élevée", "#ea580c"
     else:
-        global_label, global_color = "Très élevée", "#dc2626"
+        normative_label, normative_color = "Très élevée", "#dc2626"
 
-    render_custom_gauge(global_value, global_color)
+    render_custom_gauge(normative_value, normative_color)
 
     st.markdown(
-        f"<b style='color:{global_color}'>{global_label}</b> — {result['global_cognitive_drift']}",
+        f"<b style='color:{normative_color}'>{normative_label}</b> — {round(normative_value * 100, 1)}%",
         unsafe_allow_html=True
     )
+    st.caption(result["normative_interpretation"])
 
-    st.caption(result["cognitive_drift_interpretation"])
+    with st.expander("Voir les marqueurs", expanded=False):
+        normative_terms = result.get("normative_terms", [])
+        judgment_markers = result.get("normative_judgment_markers", [])
 
-    
-    st.subheader("Cohérence trompeuse")
-    st.caption(
-        "Cette jauge mesure si le texte paraît cohérent tout en restant fragile, orienté ou insuffisamment vérifiable."
-    )
-    
-    value = result.get("deceptive_coherence", 0)
-    label = result.get("deceptive_coherence_label", "—")
-    
-    if value < 0.25:
-        color = "#ca8a04"
-    elif value < 0.50:
-        color = "#ca8a04"
-    elif value < 0.75:
-        color = "#f97316"
+        if not normative_terms and not judgment_markers:
+            st.info("Aucun marqueur saillant détecté.")
+        else:
+            if normative_terms:
+                st.markdown("**Termes normatifs**")
+                for term in normative_terms:
+                    st.error(term)
+            if judgment_markers:
+                st.markdown("**Marqueurs de jugement**")
+                for term in judgment_markers:
+                    st.warning(term)
+
+# -----------------------------
+# 2) Prémisses idéologiques implicites
+# -----------------------------
+with row1_col2:
+    st.markdown("### Prémisses implicites")
+    st.caption("Idées présentées comme évidentes sans démonstration.")
+
+    premise_value = result["premise_score"]
+
+    if premise_value < 0.20:
+        premise_label, premise_color = "Faible", "#ca8a04"
+    elif premise_value < 0.40:
+        premise_label, premise_color = "Modérée", "#f97316"
+    elif premise_value < 0.70:
+        premise_label, premise_color = "Élevée", "#ea580c"
     else:
-        color = "#dc2626"
-    
-    render_custom_gauge(value, color)
-    
+        premise_label, premise_color = "Très élevée", "#dc2626"
+
+    render_custom_gauge(premise_value, premise_color)
+
     st.markdown(
-        f"<b style='color:{color}'>{label}</b> — {round(value * 100, 1)}%",
+        f"<b style='color:{premise_color}'>{premise_label}</b> — {round(premise_value * 100, 1)}%",
         unsafe_allow_html=True
     )
-    
-    st.caption("Cohérence apparente ⟵⟶ Cohérence trompeuse")
-    
-    st.divider()
-    st.subheader("Jauge propagandiste")
-    st.caption(
-        "Cette jauge combine la tension cognitive, la pression rhétorique, "
-        "les motifs idéologiques détectés et le degré de fermeture cognitive. "
-        "Elle aide à estimer si le texte relève d’un simple discours orienté "
-        "ou d’une structure plus franchement propagandiste."
-    )
-    
-    closure_for_discourse = (
-        (result["D"] * (1 + len(result["red_flags"]) / 5)) / (result["G"] + result["N"])
-        if (result["G"] + result["N"]) > 0 else 10
-    )
-    
-    propaganda_value = compute_propaganda_gauge(
-        lie_gauge=gauge_value,
-        rhetorical_pressure=rp,
-        political_pattern_score=result["political_pattern_score"],
-        closure=closure_for_discourse
-    )
-    
-    propaganda_label, propaganda_color, propaganda_text = interpret_propaganda_gauge(propaganda_value)
-    
+    st.caption(result["premise_interpretation"])
+
+    with st.expander("Voir les marqueurs", expanded=False):
+        premise_markers = result.get("premise_markers", [])
+
+        if not premise_markers:
+            st.info("Aucune prémisse implicite saillante détectée.")
+        else:
+            for marker in premise_markers:
+                st.warning(marker)
+
+# -----------------------------
+# 3) Propagande narrative
+# -----------------------------
+with row1_col3:
+    st.markdown("### Narration propagandiste")
+    st.caption("Urgence, ennemi abstrait, certitude et charge émotionnelle.")
+
+    propaganda_value = result["propaganda_score"]
+
+    if propaganda_value < 0.20:
+        propaganda_label, propaganda_color = "Faible", "#ca8a04"
+    elif propaganda_value < 0.40:
+        propaganda_label, propaganda_color = "Modérée", "#f97316"
+    elif propaganda_value < 0.70:
+        propaganda_label, propaganda_color = "Élevée", "#ea580c"
+    else:
+        propaganda_label, propaganda_color = "Très élevée", "#dc2626"
+
     render_custom_gauge(propaganda_value, propaganda_color)
-    
+
     st.markdown(
-        f"<b style='color:{propaganda_color}'>{propaganda_label}</b> — {round(propaganda_value*100, 1)}%",
+        f"<b style='color:{propaganda_color}'>{propaganda_label}</b> — {round(propaganda_value * 100, 1)}%",
         unsafe_allow_html=True
     )
-    
-    st.caption("Discours peu orienté ⟵⟶ Structure propagandiste")
-    st.caption(propaganda_text)
-    
-    discursive_profile = interpret_discursive_profile(
-        lie_gauge=gauge_value,
-        rhetorical_pressure=rp,
-        propaganda_gauge=propaganda_value,
-        premise_score=result["premise_score"],
-        logic_confusion_score=result["logic_confusion_score"],
-        scientific_simulation_score=result["scientific_simulation_score"],
-        discursive_coherence_score=result["discursive_coherence_score"],
-    )
-    
-    st.subheader("Profil discursif global")
-    st.write(discursive_profile)
-    
-    st.divider()
-    st.subheader("Cartographie discursive complémentaire")
-    
-    st.caption(
-        "Cette cartographie regroupe les principaux mécanismes discursifs détectables "
-        "dans un texte : jugements de valeur, prémisses implicites, structures propagandistes, "
-        "confusions logiques, simulations scientifiques, biais narratifs et mécanismes de "
-        "fermeture cognitive.\n\n"
-        "Elle est complétée par une analyse logique des raisonnements "
-        "(syllogismes, enthymèmes et sophismes) ainsi que par des indicateurs "
-        "stratégiques permettant d’identifier certaines formes de manipulation argumentative."
-    )
-    
-    row1_col1, row1_col2, row1_col3 = st.columns(3)
-    row2_col1, row2_col2, row2_col3 = st.columns(3)
-    row3_col1, row3_col2, row3_col3 = st.columns(3)
-    row4_col1, row4_col2, row4_col3 = st.columns(3)
-    row5_col1, row5_col2, row5_col3 = st.columns(3)
-    row6_col1, row6_col2, row6_col3 = st.columns(3)
-    row7_col1, row7_col2, row7_col3 = st.columns(3)
-    row8_col1, row8_col2, row8_col3 = st.columns(3)
-    row9_col1, row9_col2, row9_col3 = st.columns(3)
-    row10_col1, row10_col2, row10_col3 = st.columns(3)
-    row11_col1, row11_col2, row11_col3 = st.columns(3)
-    row12_col1, row12_col2, row12_col3 = st.columns(3)
-    row13_col1, row13_col2, row13_col3 = st.columns(3)
-    row14_col1, row14_col2, row14_col3 = st.columns(3)
-    row15_col1, row15_col2 = st.columns(2)
-    
+    st.caption(result["propaganda_interpretation"])
 
-    # -----------------------------
-    # 1) Qualifications normatives
-    # -----------------------------
-    with row1_col1:
-        st.markdown("### Qualification normative")
-        st.caption("Jugements de valeur présentés comme des faits.")
+    with st.expander("Voir les marqueurs", expanded=False):
+        enemy_terms = result.get("propaganda_enemy_terms", [])
+        urgency_terms = result.get("propaganda_urgency_terms", [])
+        certainty_terms = result.get("propaganda_certainty_terms", [])
+        emotional_terms = result.get("propaganda_emotional_terms", [])
 
-        normative_value = result["normative_score"]
-
-        if normative_value < 0.20:
-            normative_label, normative_color = "Faible", "#ca8a04"
-        elif normative_value < 0.40:
-            normative_label, normative_color = "Modérée", "#f97316"
-        elif normative_value < 0.70:
-            normative_label, normative_color = "Élevée", "#ea580c"
+        if not any([enemy_terms, urgency_terms, certainty_terms, emotional_terms]):
+            st.info("Aucun marqueur narratif saillant détecté.")
         else:
-            normative_label, normative_color = "Très élevée", "#dc2626"
+            if enemy_terms:
+                st.markdown("**Ennemi / bloc adverse**")
+                for term in enemy_terms:
+                    st.error(term)
 
-        render_custom_gauge(normative_value, normative_color)
+            if urgency_terms:
+                st.markdown("**Urgence / menace**")
+                for term in urgency_terms:
+                    st.warning(term)
 
-        st.markdown(
-            f"<b style='color:{normative_color}'>{normative_label}</b> — {round(normative_value * 100, 1)}%",
-            unsafe_allow_html=True
-        )
-        st.caption(result["normative_interpretation"])
+            if certainty_terms:
+                st.markdown("**Certitude absolue**")
+                for term in certainty_terms:
+                    st.warning(term)
 
-        with st.expander("Voir les marqueurs", expanded=False):
-            normative_terms = result.get("normative_terms", [])
-            judgment_markers = result.get("normative_judgment_markers", [])
-
-            if not normative_terms and not judgment_markers:
-                st.info("Aucun marqueur saillant détecté.")
-            else:
-                if normative_terms:
-                    st.markdown("**Termes normatifs**")
-                    for term in normative_terms:
-                        st.error(term)
-                if judgment_markers:
-                    st.markdown("**Marqueurs de jugement**")
-                    for term in judgment_markers:
-                        st.warning(term)
-
-    # -----------------------------
-    # 2) Prémisses idéologiques implicites
-    # -----------------------------
-    with row1_col2:
-        st.markdown("### Prémisses implicites")
-        st.caption("Idées présentées comme évidentes sans démonstration.")
-
-        premise_value = result["premise_score"]
-
-        if premise_value < 0.20:
-            premise_label, premise_color = "Faible", "#ca8a04"
-        elif premise_value < 0.40:
-            premise_label, premise_color = "Modérée", "#f97316"
-        elif premise_value < 0.70:
-            premise_label, premise_color = "Élevée", "#ea580c"
-        else:
-            premise_label, premise_color = "Très élevée", "#dc2626"
-
-        render_custom_gauge(premise_value, premise_color)
-
-        st.markdown(
-            f"<b style='color:{premise_color}'>{premise_label}</b> — {round(premise_value * 100, 1)}%",
-            unsafe_allow_html=True
-        )
-        st.caption(result["premise_interpretation"])
-
-        with st.expander("Voir les marqueurs", expanded=False):
-            premise_markers = result.get("premise_markers", [])
-
-            if not premise_markers:
-                st.info("Aucune prémisse implicite saillante détectée.")
-            else:
-                for marker in premise_markers:
-                    st.warning(marker)
-
-    # -----------------------------
-    # 3) Propagande narrative
-    # -----------------------------
-    with row1_col3:
-        st.markdown("### Narration propagandiste")
-        st.caption("Urgence, ennemi abstrait, certitude et charge émotionnelle.")
-
-        propaganda_value = result["propaganda_score"]
-
-        if propaganda_value < 0.20:
-            propaganda_label, propaganda_color = "Faible", "#ca8a04"
-        elif propaganda_value < 0.40:
-            propaganda_label, propaganda_color = "Modérée", "#f97316"
-        elif propaganda_value < 0.70:
-            propaganda_label, propaganda_color = "Élevée", "#ea580c"
-        else:
-            propaganda_label, propaganda_color = "Très élevée", "#dc2626"
-
-        render_custom_gauge(propaganda_value, propaganda_color)
-
-        st.markdown(
-            f"<b style='color:{propaganda_color}'>{propaganda_label}</b> — {round(propaganda_value * 100, 1)}%",
-            unsafe_allow_html=True
-        )
-        st.caption(result["propaganda_interpretation"])
-
-        with st.expander("Voir les marqueurs", expanded=False):
-            enemy_terms = result.get("propaganda_enemy_terms", [])
-            urgency_terms = result.get("propaganda_urgency_terms", [])
-            certainty_terms = result.get("propaganda_certainty_terms", [])
-            emotional_terms = result.get("propaganda_emotional_terms", [])
-
-            if not any([enemy_terms, urgency_terms, certainty_terms, emotional_terms]):
-                st.info("Aucun marqueur narratif saillant détecté.")
-            else:
-                if enemy_terms:
-                    st.markdown("**Ennemi / bloc adverse**")
-                    for term in enemy_terms:
-                        st.error(term)
-
-                if urgency_terms:
-                    st.markdown("**Urgence / menace**")
-                    for term in urgency_terms:
-                        st.warning(term)
-
-                if certainty_terms:
-                    st.markdown("**Certitude absolue**")
-                    for term in certainty_terms:
-                        st.warning(term)
-
-                if emotional_terms:
-                    st.markdown("**Charge émotionnelle**")
-                    for term in emotional_terms:
-                        st.error(term)
+            if emotional_terms:
+                st.markdown("**Charge émotionnelle**")
+                for term in emotional_terms:
+                    st.error(term)
 
         # -----------------------------
     # 4) Cohérence discursive
