@@ -4573,14 +4573,25 @@ def compute_red_flag_penalties(metrics: dict) -> dict:
     }
 
 def compute_cognitive_drifts(G, N, D):
-    drift_mecroyance = max(0, D - (G + N))
+    M = (G + N) - D
+
+    drift_mecroyance = max(0, -M)
     drift_pseudo_savoir = max(0, (G + D) - N)
     drift_intuition_dogmatique = max(0, (N + D) - G)
 
-    global_drift = round(
-        (drift_mecroyance + drift_pseudo_savoir + drift_intuition_dogmatique) / 3,
-        2
+    dominant_value = max(
+        drift_mecroyance,
+        drift_pseudo_savoir,
+        drift_intuition_dogmatique
     )
+
+    average_value = (
+        drift_mecroyance +
+        drift_pseudo_savoir +
+        drift_intuition_dogmatique
+    ) / 3
+
+    global_drift = round(dominant_value * 0.6 + average_value * 0.4, 2)
 
     values = {
         "mecroyance": round(drift_mecroyance, 2),
@@ -4588,22 +4599,22 @@ def compute_cognitive_drifts(G, N, D):
         "intuition_dogmatique": round(drift_intuition_dogmatique, 2),
     }
 
-    dominant_value = max(
-        drift_mecroyance,
-        drift_pseudo_savoir,
-        drift_intuition_dogmatique
-    )
-    
-    average_value = (
-        drift_mecroyance +
-        drift_pseudo_savoir +
-        drift_intuition_dogmatique
-    ) / 3
-    
-    global_drift = round(
-        dominant_value * 0.6 + average_value * 0.4,
-        2
-    )
+    dominant = max(values, key=values.get)
+
+    if dominant == "mecroyance":
+        interpretation = "Dérive dominante : mécroyance."
+    elif dominant == "pseudo_savoir":
+        interpretation = "Dérive dominante : pseudo-savoir."
+    else:
+        interpretation = "Dérive dominante : intuition dogmatique."
+
+    return {
+        "drift_mecroyance": values["mecroyance"],
+        "drift_pseudo_savoir": values["pseudo_savoir"],
+        "drift_intuition_dogmatique": values["intuition_dogmatique"],
+        "global_cognitive_drift": global_drift,
+        "cognitive_drift_interpretation": interpretation,
+    }
 
 def classify_cognitive_regime(result: dict) -> dict:
     M = result["M"]
