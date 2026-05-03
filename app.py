@@ -7811,7 +7811,7 @@ La jauge combine plusieurs indicateurs détectés dans le texte :
 
 Ces signaux sont agrégés pour produire un **diagnostic global de santé cognitive du discours**.
 
-Formule heuristique
+#### Formule heuristique
 
 gravité =
 0.25 × mensonge
