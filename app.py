@@ -7174,7 +7174,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 st.markdown(
-    f"<b style='color:{score_color}'>Score analogique : {score_icon} {round(base_score,1)}/20 — {score_label}</b>",
+    f"<b style='color:{score_color}'>Score analogique : {score_icon} {round(display_score,1)}/20 — {score_label}</b>",
     unsafe_allow_html=True
 )
 
@@ -7204,7 +7204,7 @@ Elle ne mesure pas seulement la vérité brute des affirmations : elle estime la
 
 ### Résultats de cette analyse
 
-Score analogique : **{round(base_score,1)}/20**
+Score analogique : **{round(display_score,1)}/20**
 
 Verdict : **{score_label}**
 
@@ -7302,7 +7302,7 @@ Avec :
 
 ### Lecture du résultat
 
-Un score de **{round(base_score,1)}/20** indique un raisonnement **{score_label.lower()}**.
+Un score de **{round(display_score,1)}/20** indique un raisonnement **{score_label.lower()}**.
 """)
 
 st.markdown("""
