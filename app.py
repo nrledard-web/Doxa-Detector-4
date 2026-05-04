@@ -8103,11 +8103,11 @@ Dans cette analyse :
 
 L’indice ajusté ajoute des corrections complémentaires au score classique.
 
-Il permet d’obtenir une lecture plus large du niveau de robustesse cognitive du discours.
+Il permet d’obtenir une lecture plus large du niveau de robustesse cognitive du discours, en tenant compte non seulement du noyau **M = (G + N) − D**, mais aussi des pénalités, des fragilités discursives et des jauges secondaires détectées.
 
 Dans cette analyse :
 
-`Indice ajusté = {round(result.get("improved", 0), 2)}`
+**Indice ajusté = {round(result.get("M_adjusted", result.get("ME", 0)), 2)}**
 
 ---
 
