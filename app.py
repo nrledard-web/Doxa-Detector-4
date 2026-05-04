@@ -8242,15 +8242,29 @@ La jauge combine plusieurs indicateurs détectés dans le texte :
 
 Ces signaux sont agrégés pour produire un **diagnostic global de santé cognitive du discours**.
 
-#### Formule heuristique
+### Formule heuristique
+
+La gravité cognitive est calculée à partir de plusieurs composantes combinées :
+
+- indice stratégique (tension entre mécroyance et mensonge)
+- fermeture cognitive (déséquilibre entre G, N et D)
+- pression discursive (rhétorique, émotion, simplification)
+- impact du mensonge potentiel
+- pression secondaire (accumulation des jauges activées)
+
+Formule simplifiée :
 
 gravité =
-0.25 × mensonge
-+ 0.20 × pression rhétorique
-+ 0.20 × propagande
-+ 0.20 × dissonance factuelle
-+ 0.10 × fermeture cognitive
-+ 0.05 × faiblesse factuelle
+    (indice stratégique × 0.35)
+  + (fermeture cognitive × 0.30)
+  + (pression discursive × 0.20)
+  + (impact du mensonge × 0.40)
+
+Puis ajustement :
+
+gravité = gravité + (pression secondaire × 0.45)
+
+Le score final est borné entre 0 et 1.
 
 #### Interprétation
 0 → discours sain
