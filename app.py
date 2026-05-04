@@ -4434,19 +4434,22 @@ def compute_brain_indices(result: dict) -> dict:
             lie_impact * 0.30
         )
     )
+    secondary_pressure = compute_secondary_alert_pressure(result)
+    
+    gravity = min(1.0, gravity + secondary_pressure * 0.45)
+    stability = max(0.0, stability - secondary_pressure * 0.35)
 
-    return {
-        "IR": round(IR, 3),
-        "IL": round(IL, 3),
-        "IC": round(IC, 3),
-        "strategic_index": round(strategic_index, 3),
-        "closure_index": round(closure_index, 3),
-        "lie_impact": round(lie_impact, 3),
-        "gravity": round(gravity, 3),
-        "stability": round(stability, 3),
-        "brain_profile": profile,
-    }
-
+return {
+    "IR": round(IR, 3),
+    "IL": round(IL, 3),
+    "IC": round(IC, 3),
+    "strategic_index": round(strategic_index, 3),
+    "closure_index": round(closure_index, 3),
+    "lie_impact": round(lie_impact, 3),
+    "gravity": round(gravity, 3),
+    "stability": round(stability, 3),
+    "brain_profile": profile,
+}
     
 def analyze_claim(sentence: str) -> Claim:
     s = sentence.lower()
