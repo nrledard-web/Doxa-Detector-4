@@ -5223,8 +5223,7 @@ def analyze_article(text: str) -> Dict:
     index_page_analysis = detect_index_or_multilink_page(text)
     causal_overreach_analysis = compute_causal_overreach(text)
     vague_authority_analysis = compute_vague_authority(text)
-    emotional_score = compute_emotional_score(text, EMOTION_DICT)
-
+    emotional_score = compute_emotional_score(text, EMOTIONAL_DICT)
     emotional_intensity_analysis = {
         "score": emotional_score,
         "markers": [
