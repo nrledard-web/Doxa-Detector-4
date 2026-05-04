@@ -6345,9 +6345,9 @@ def detect_discourse_type(result):
         )
 
     if N >= 5 and rhetorical_pressure < 0.5 and propaganda < 0.5:
-    return (
-        "Discours conceptuel",
-        "Le texte développe une réflexion structurée reposant principalement sur des idées générales, avec peu d’ancrage empirique."
+        return (
+            "Discours conceptuel",
+            "Le texte développe une réflexion structurée reposant principalement sur des idées générales, avec peu d’ancrage empirique."
     )
 
     return (
