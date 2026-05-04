@@ -1433,6 +1433,7 @@ def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict
         clean_keyword = keyword.strip()
 
         core_query = clean_keyword.lower()
+        core_query = core_query.replace(" wiki", "").replace(" wikipedia", "").strip()
 
         for article_word in ["le ", "la ", "les ", "un ", "une ", "des "]:
             if core_query.startswith(article_word):
