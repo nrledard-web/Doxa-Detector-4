@@ -7964,6 +7964,7 @@ background:linear-gradient(135deg, rgba(15,23,42,0.06), rgba(30,41,59,0.03));
 # Variables principales
 stability = brain.get("cognitive_stability", 0)
 gravity = brain.get("cognitive_gravity", 1 - stability)
+
 dominant_regime = brain.get("dominant_regime", "Non déterminé")
 brain_summary = brain.get("brain_summary", "Aucun résumé disponible.")
 brain_advice = brain.get("brain_advice", "")
@@ -7971,22 +7972,8 @@ brain_advice = brain.get("brain_advice", "")
 # ✅ Correction dynamique avec jauges secondaires
 secondary_pressure = compute_secondary_alert_pressure(result)
 
-
-st.write("DEBUG secondary_pressure =", secondary_pressure)
-
-st.write({
-    "propaganda_score": result.get("propaganda_score"),
-    "argument_asymmetry_score": result.get("argument_asymmetry_score"),
-    "emotional_intensity_score": result.get("emotional_intensity_score"),
-    "normative_score": result.get("normative_score"),
-    "premise_score": result.get("premise_score"),
-    "internal_dissonance_score": result.get("internal_dissonance_score"),
-    "scientific_simulation_score": result.get("scientific_simulation_score"),
-})
-
-
-gravity = min(1.0, gravity + secondary_pressure * 0.45)
-stability = max(0.0, stability - secondary_pressure * 0.35)
+gravity = min(1.0, gravity + secondary_pressure * 0.65)
+stability = max(0.0, stability - secondary_pressure * 0.55)
 
 # Couleur stabilité
 if stability >= 0.80:
@@ -8027,7 +8014,7 @@ background-color:rgba(255,255,255,0.03);
 <b style='color:{stability_color};'>
 Stabilité {stability_label} — {stability:.2f}
 </b><br>
-{brain.get("brain_advice", "Le discours présente peu de signaux de dérive cognitive.")}
+Le discours reste structuré, mais les jauges secondaires détectées modifient sa stabilité cognitive.
 </div>
 """,
     unsafe_allow_html=True
