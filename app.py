@@ -10036,8 +10036,6 @@ for title, score, label, interpretation in gauges:
         title_html = interpret_generic_risk_gauge(title, score)
     
     # ✅ Plancher visuel : jamais moins de 10%
-    score = max(score, 0.10)
-    score = min(score, 1.0)
     
     st.markdown(title_html, unsafe_allow_html=True)
     st.progress(score)
