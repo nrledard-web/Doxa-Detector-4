@@ -29,7 +29,6 @@ def tokenize(text):
     return re.findall(r"\b[\wà-ÿ'-]+\b", text.lower())
 
 def compute_emotional_score(text, emotion_dict):
-    st.write("🔥 compute_emotional_score ACTIF")
     words = tokenize(text)
     total_score = 0.0
     word_count = len(words)
