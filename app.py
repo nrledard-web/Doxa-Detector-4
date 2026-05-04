@@ -4327,6 +4327,14 @@ def detect_aristotelian_fallacies(text: str):
         "argument_from_nature": argument_from_nature,
         "descriptive_normative_confusion": descriptive_normative_confusion,
     }
+
+    return {
+        ...
+        "descriptive_normative_confusion": descriptive_normative_confusion,
+    }
+
+def compute_brain_indices(result: dict) -> dict:
+
 def compute_brain_indices(result: dict) -> dict:
     def clamp01(x):
         return max(0.0, min(1.0, x))
@@ -4393,14 +4401,47 @@ def compute_brain_indices(result: dict) -> dict:
     else:
         profile = "Structure mixte ou ambiguë"
 
+    # -----------------------------
+    # Stabilité / gravité du cerveau DOXA
+    # avec impact modulé du mensonge
+    # -----------------------------
+
+    cognitive_density = clamp01((G + N) / 20)
+
+    lie_gauge = result.get("lie_gauge", strategic_index)
+    if lie_gauge > 1:
+        lie_gauge = lie_gauge / 100
+
+    lie_impact = lie_gauge * (1 - cognitive_density)
+
+    gravity = clamp01(
+        strategic_index * 0.35 +
+        closure_index * 0.30 +
+        IR * 0.20 +
+        lie_impact * 0.40
+    )
+
+    stability = clamp01(
+        1 -
+        (
+            gravity * 0.60 +
+            closure_index * 0.25 +
+            lie_impact * 0.30
+        )
+    )
+
     return {
         "IR": round(IR, 3),
         "IL": round(IL, 3),
         "IC": round(IC, 3),
         "strategic_index": round(strategic_index, 3),
         "closure_index": round(closure_index, 3),
+        "lie_impact": round(lie_impact, 3),
+        "gravity": round(gravity, 3),
+        "stability": round(stability, 3),
         "brain_profile": profile,
     }
+
     
 def analyze_claim(sentence: str) -> Claim:
     s = sentence.lower()
