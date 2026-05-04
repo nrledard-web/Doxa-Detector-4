@@ -7196,21 +7196,86 @@ with st.popover("ℹ️ Formule / explication"):
     st.markdown(f"""
 ### Analyse analogique du raisonnement
 
-Cette jauge analyse la **solidité cognitive et argumentative du raisonnement**.
+Cette jauge estime la **solidité cognitive et argumentative du raisonnement**.
 
-Elle ne mesure pas seulement la vérité brute des affirmations : elle estime la **structure logique apparente du discours**, son niveau de vérifiabilité et les fragilités rhétoriques détectées.
+Elle ne mesure pas seulement la vérité brute des affirmations : elle évalue la **structure logique du discours**, sa vérifiabilité et les fragilités détectées.
 
 ---
 
 ### Résultats de cette analyse
 
-Score analogique : **{round(display_score,1)}/20**
+Score analogique affiché : **{round(display_score,1)}/20**  
+Score brut calculé : **{round(real_score,1)}/20**
 
 Verdict : **{score_label}**
 
 ---
 
-### Signaux analysés
+### Lecture du score
+
+Un score faible ne signifie pas nécessairement absence totale de contenu, mais plutôt une **accumulation de signaux de fragilité**.
+
+Plusieurs jauges secondaires peuvent être activées simultanément :
+
+- pression rhétorique  
+- certitude excessive  
+- simplification narrative  
+- déséquilibre entre savoir et affirmation  
+- pénalités de crédibilité  
+
+Lorsque ces signaux s’additionnent, ils **réduisent fortement la solidité apparente du raisonnement**, même si le texte reste structuré en surface.
+
+---
+
+### Plancher visuel
+
+Le score affiché applique un **plancher minimal de 2/20** afin d’éviter une barre vide.
+
+Le score réel (**{round(real_score,1)}**) reste utilisé pour tous les calculs internes.
+
+---
+
+### Formule heuristique réelle
+
+`HFS brut = (0.18×G + 0.12×N + 0.20×V + 0.22×QS + 0.18×VC) − (0.16×D + 0.12×R + 0.18×RC + P)`
+
+Puis :
+
+`HFS = HFS brut + 8 + bonus_épistémique`
+
+Le score final est borné entre **0 et 20**.
+
+Avec :
+
+- **G** : gnōsis  
+- **N** : nous  
+- **V** : vérifiabilité globale  
+- **QS** : qualité des sources  
+- **VC** : vérifiabilité moyenne des affirmations  
+- **D** : doxa  
+- **R** : risque rhétorique  
+- **RC** : risque moyen des affirmations  
+- **P** : pénalités de crédibilité  
+
+---
+
+### Interprétation
+
+0–6 : raisonnement très fragile  
+6–9 : raisonnement fragile  
+9–13 : raisonnement modéré  
+13–16 : raisonnement solide  
+16–20 : raisonnement très solide  
+
+---
+
+### Conclusion
+
+Un score de **{round(display_score,1)}/20** indique un raisonnement **{score_label.lower()}**,  
+avec une **présence notable de signaux de fragilité cognitive**.
+""")
+
+#### Comment cette analyse se calcule exactement
 
 La jauge examine la **structure du discours** et la manière dont les idées sont reliées, justifiées et appuyées.
 
