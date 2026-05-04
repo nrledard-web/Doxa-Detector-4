@@ -7485,7 +7485,7 @@ elif gauge_color == "#dc2626":
 else:
     emoji = "⚪"
 
-st.subheader(f"{emoji} Détection de mensonge structurel : {gauge_label}")
+st.subheader(f"{emoji} Tension cognitive : {gauge_label}")
 st.caption(
     "Cette jauge indique si le discours relève plutôt d’une erreur sincère "
     "(mécroyance) ou d’une possible manipulation. "
