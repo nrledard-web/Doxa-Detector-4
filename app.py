@@ -5312,19 +5312,22 @@ def analyze_article(text: str) -> Dict:
         "drift_pseudo_savoir": drifts["drift_pseudo_savoir"],
     })
 
-    V = clamp(G * 0.8 + N * 0.2, 0, 10)
+V = clamp(G * 0.8 + N * 0.2, 0, 10)
 
-    R = clamp(
-        (
-            D * 0.50 +
-            emotional_intensity_analysis["score"] * 10 * 0.25 +
-            propaganda_analysis["score"] * 10 * 0.25
-        ),
-        0,
-        10
-    )
+# modulation émotion par N (nous)
+emotional_effect = emotional_intensity_analysis["score"] * (1 - (N / 10))
 
-    improved = round((G + N + V) - (D + R), 1)
+R = clamp(
+    (
+        D * 0.55 +
+        emotional_effect * 10 * 0.20 +
+        propaganda_analysis["score"] * 10 * 0.25
+    ),
+    0,
+    10
+)
+
+improved = round((G + N + V) - (D + R), 1)
 
     # -----------------------------
     # Syllogismes / inférences
