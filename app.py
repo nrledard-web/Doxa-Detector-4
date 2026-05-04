@@ -9443,40 +9443,6 @@ with row3_col2:
                 st.warning(marker)
 
 # -----------------------------
-# 9) Charge émotionnelle
-# -----------------------------
-with row3_col3:
-    st.markdown("### Charge émotionnelle")
-    st.caption("Intensité affective du lexique utilisé pour orienter la lecture.")
-
-    emotional_value = result["emotional_intensity_score"]
-
-    if emotional_value < 0.15:
-        emotional_label, emotional_color = "Faible", "#ca8a04"
-    elif emotional_value < 0.35:
-        emotional_label, emotional_color = "Modérée", "#f97316"
-    elif emotional_value < 0.60:
-        emotional_label, emotional_color = "Élevée", "#ea580c"
-    else:
-        emotional_label, emotional_color = "Très élevée", "#dc2626"
-
-    render_custom_gauge(emotional_value, emotional_color)
-
-    st.markdown(
-        f"<b style='color:{emotional_color}'>{emotional_label}</b> — {round(emotional_value * 100, 1)}%",
-        unsafe_allow_html=True
-    )
-    st.caption(result["emotional_intensity_interpretation"])
-
-    with st.expander("Voir les marqueurs", expanded=False):
-        markers = result.get("emotional_intensity_markers", [])
-        if not markers:
-            st.info("Aucun marqueur émotionnel notable détecté.")
-        else:
-            for marker in markers:
-                st.warning(marker)
-
-# -----------------------------
 # 10) Généralisation abusive
 # -----------------------------
 with row4_col1:
