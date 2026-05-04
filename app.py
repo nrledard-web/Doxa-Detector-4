@@ -6344,7 +6344,7 @@ def detect_discourse_type(result):
             "Raisonnement structuré, mais avec une vérifiabilité ou une démonstration encore partielle."
         )
 
-    if N >= 5 and rhetorical_pressure < 0.5 and propaganda < 0.5:
+    if N >= 5 and rhetorical_pressure < 0.65 and propaganda < 0.65:
         return (
             "Discours conceptuel",
             "Le texte développe une réflexion structurée reposant principalement sur des idées générales, avec peu d’ancrage empirique."
