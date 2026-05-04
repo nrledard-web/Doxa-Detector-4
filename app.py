@@ -8148,7 +8148,9 @@ Même si la stabilité est élevée, le régime dominant peut signaler une fragi
 # =============================
 # Gravité cognitive globale
 # =============================
-gravity = result.get("cognitive_gravity", 0)
+# 👉 utiliser la gravité corrigée déjà calculée
+# NE PAS relire result ici
+# gravity est déjà modifiée plus haut
 gravity_pct = round(gravity * 100, 1)
 
 if gravity < 0.2:
