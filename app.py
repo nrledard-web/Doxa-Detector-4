@@ -4333,8 +4333,6 @@ def detect_aristotelian_fallacies(text: str):
     }
 
 def compute_brain_indices(result: dict) -> dict:
-
-def compute_brain_indices(result: dict) -> dict:
     def clamp01(x):
         return max(0.0, min(1.0, x))
 
