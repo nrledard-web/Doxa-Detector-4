@@ -5222,7 +5222,24 @@ def analyze_article(text: str) -> Dict:
     index_page_analysis = detect_index_or_multilink_page(text)
     causal_overreach_analysis = compute_causal_overreach(text)
     vague_authority_analysis = compute_vague_authority(text)
-    emotional_intensity_analysis = compute_emotional_intensity(text)
+    emotional_score = compute_emotional_score(text, EMOTION_DICT)
+
+    emotional_intensity_analysis = {
+        "score": emotional_score,
+        "markers": [
+            w for w in tokenize(text)
+            if w.rstrip("s") in EMOTION_DICT
+        ],
+        "interpretation": (
+            "Le texte mobilise une charge émotionnelle faible."
+            if emotional_score < 0.15 else
+            "Le texte mobilise une charge émotionnelle modérée."
+            if emotional_score < 0.35 else
+            "Le texte mobilise une charge émotionnelle notable."
+            if emotional_score < 0.60 else
+            "Le texte mobilise une charge émotionnelle très forte."
+        )
+    }
     generalization_analysis = compute_generalization(text)
     abstract_enemy_analysis = compute_abstract_enemy(text)
     certainty_analysis = compute_certainty(text)
