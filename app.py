@@ -4802,6 +4802,24 @@ def compute_global_penalties(result: dict) -> dict:
         "red_flags_penalty_count": red_flags_count,
     }
 
+def compute_secondary_alert_pressure(result: dict) -> float:
+    signals = [
+        result.get("propaganda_score", 0) * 1.4,
+        result.get("argument_asymmetry_score", 0) * 1.2,
+        result.get("emotional_intensity_score", 0) * 1.0,
+        result.get("normative_score", 0) * 1.1,
+        result.get("premise_score", 0) * 1.1,
+        result.get("coherence_trompeuse_score", 0) * 1.3,
+        result.get("logic_confusion_score", 0) * 1.0,
+        result.get("scientific_simulation_score", 0) * 1.0,
+        result.get("hasty_generalization_score", 0) * 1.0,
+        result.get("false_dilemma_score", 0) * 0.9,
+        result.get("dissonance_score", 0) * 1.2,
+    ]
+
+    pressure = sum(signals) / 12
+    return round(min(pressure, 1.0), 3)
+
 def compute_doxa_brain(result: dict) -> dict:
     """
     Synthèse finale du cerveau DOXA.
