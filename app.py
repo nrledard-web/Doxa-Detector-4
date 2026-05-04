@@ -7281,53 +7281,124 @@ La jauge examine la **structure du discours** et la manière dont les idées son
 
 Elle se base sur plusieurs dimensions :
 
-- présence d'éléments vérifiables
-- qualité des sources
-- vérifiabilité moyenne des affirmations
-- équilibre entre **G — gnōsis**, **N — nous** et **D — doxa**
-- risque rhétorique
-- pénalités de crédibilité
-- bonus épistémique pour certaines formulations sobres ou prudentes
+# =============================
+# Analyse analogique du raisonnement
+# =============================
 
-#### 1️⃣ Structure du raisonnement
+st.subheader("Analyse analogique du raisonnement")
 
-Le système observe si le texte contient des éléments de raisonnement structurés :
+st.caption(
+    "Analyse analogique du raisonnement à partir des structures du langage afin d’estimer la solidité épistémique du discours."
+)
 
-- affirmation → justification
-- prémisse → conclusion
-- observation → interprétation
+real_score = result.get("final_credibility_score", result.get("hard_fact_score", 0))
 
-Ces structures indiquent qu’un raisonnement est **articulé et développé**, plutôt qu’une simple succession d’opinions.
+# Plancher VISUEL uniquement
+display_score = max(real_score, 2.0)
+display_score = min(display_score, 20.0)
 
-#### 2️⃣ Vérifiabilité des affirmations
+# Couleurs et verdict — basés sur le score affiché
+if display_score < 6:
+    score_icon = "🔴"
+    score_color = "#dc2626"
+    score_label = "Faible"
+elif display_score < 9:
+    score_icon = "🟠"
+    score_color = "#f97316"
+    score_label = "Fragile"
+elif display_score < 13:
+    score_icon = "🟡"
+    score_color = "#facc15"
+    score_label = "Modérée"
+elif display_score < 16:
+    score_icon = "🟢"
+    score_color = "#22c55e"
+    score_label = "Solide"
+else:
+    score_icon = "🟢"
+    score_color = "#15803d"
+    score_label = "Très solide"
 
-Le moteur tient compte des éléments qui rendent une affirmation plus contrôlable :
+# Barre épaisse colorée
+st.markdown(f"""
+<div style="width:100%; margin-top:10px; margin-bottom:10px;">
+    <div style="
+        width:100%;
+        height:26px;
+        background:#e5e7eb;
+        border-radius:12px;
+        overflow:hidden;
+        border:1px solid #cbd5e1;
+    ">
+        <div style="
+            width:{min(display_score / 20, 1) * 100}%;
+            height:100%;
+            background:{score_color};
+            transition:width 0.4s ease;
+        "></div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
-- chiffres
-- dates
-- entités nommées
-- sources ou références
-- formulations factuelles précises
+st.markdown(
+    f"<b style='color:{score_color}'>Score analogique : {score_icon} {round(display_score,1)}/20 — {score_label}</b>",
+    unsafe_allow_html=True
+)
 
-#### 3️⃣ Risque rhétorique
+if display_score < 6:
+    analogique_message = "Le raisonnement paraît faible : les enchaînements logiques sont insuffisants ou trop fragmentaires."
+elif display_score < 9:
+    analogique_message = "Le raisonnement est fragile : une structure existe, mais elle reste incomplète ou peu démonstrative."
+elif display_score < 13:
+    analogique_message = "Le raisonnement est modéré : la structure logique est présente, mais plusieurs liens restent partiels ou insuffisamment soutenus."
+elif display_score < 16:
+    analogique_message = "Le raisonnement est solide : les idées s’enchaînent de manière globalement cohérente."
+else:
+    analogique_message = "Le raisonnement est très solide : le discours présente une progression claire, cohérente et bien structurée."
 
-Le score est diminué lorsque le texte contient des signaux de fragilité :
+st.caption(analogique_message)
 
-- certitude excessive
-- pression rhétorique
-- affirmations peu vérifiables
-- risque moyen des affirmations
-- pénalités de crédibilité
+# Popover explicatif
+with st.popover("ℹ️ Formule / explication"):
+    st.markdown(f"""
+### Analyse analogique du raisonnement
 
-#### 4️⃣ Équilibre cognitif
+Cette jauge estime la **solidité cognitive et argumentative du raisonnement**.
 
-La jauge tient aussi compte du rapport entre :
+Elle ne mesure pas seulement la vérité brute des affirmations : elle évalue la **structure logique du discours**, sa vérifiabilité et les fragilités détectées.
 
-- **G** : savoir explicite
-- **N** : compréhension / nuance
-- **D** : certitude ou rigidité
+---
 
-Un discours plus équilibré entre savoir, compréhension et certitude obtient un meilleur score.
+### Résultats de cette analyse
+
+Score analogique affiché : **{round(display_score,1)}/20**  
+Score brut calculé : **{round(real_score,1)}/20**
+
+Verdict : **{score_label}**
+
+---
+
+### Lecture du score
+
+Un score faible ne signifie pas nécessairement absence totale de contenu, mais plutôt une **accumulation de signaux de fragilité**.
+
+Plusieurs jauges secondaires peuvent être activées simultanément :
+
+- pression rhétorique  
+- certitude excessive  
+- simplification narrative  
+- déséquilibre entre savoir et affirmation  
+- pénalités de crédibilité  
+
+Lorsque ces signaux s’additionnent, ils **réduisent fortement la solidité apparente du raisonnement**, même si le texte reste structuré en surface.
+
+---
+
+### Plancher visuel
+
+Le score affiché applique un **plancher minimal de 2/20** afin d’éviter une barre vide.
+
+Le score réel (**{round(real_score,1)}**) reste utilisé pour tous les calculs internes.
 
 ---
 
@@ -7343,15 +7414,15 @@ Le score final est borné entre **0 et 20**.
 
 Avec :
 
-- **G** : gnōsis
-- **N** : nous
-- **V** : vérifiabilité globale
-- **QS** : qualité des sources
-- **VC** : vérifiabilité moyenne des affirmations
-- **D** : doxa
-- **R** : risque rhétorique
-- **RC** : risque moyen des affirmations
-- **P** : pénalités de crédibilité
+- **G** : gnōsis  
+- **N** : nous  
+- **V** : vérifiabilité globale  
+- **QS** : qualité des sources  
+- **VC** : vérifiabilité moyenne des affirmations  
+- **D** : doxa  
+- **R** : risque rhétorique  
+- **RC** : risque moyen des affirmations  
+- **P** : pénalités de crédibilité  
 
 ---
 
@@ -7361,13 +7432,14 @@ Avec :
 6–9 : raisonnement fragile  
 9–13 : raisonnement modéré  
 13–16 : raisonnement solide  
-16–20 : raisonnement très solide
+16–20 : raisonnement très solide  
 
 ---
 
-### Lecture du résultat
+### Conclusion
 
-Un score de **{round(display_score,1)}/20** indique un raisonnement **{score_label.lower()}**.
+Un score de **{round(display_score,1)}/20** indique un raisonnement **{score_label.lower()}**,  
+avec une **présence notable de signaux de fragilité cognitive**.
 """)
 
 st.markdown("""
