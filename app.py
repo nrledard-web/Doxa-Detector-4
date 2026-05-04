@@ -4329,7 +4329,6 @@ def detect_aristotelian_fallacies(text: str):
     }
 
     return {
-        ...
         "descriptive_normative_confusion": descriptive_normative_confusion,
     }
 
