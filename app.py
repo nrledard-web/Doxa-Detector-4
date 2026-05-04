@@ -7968,6 +7968,12 @@ dominant_regime = brain.get("dominant_regime", "Non déterminé")
 brain_summary = brain.get("brain_summary", "Aucun résumé disponible.")
 brain_advice = brain.get("brain_advice", "")
 
+# ✅ Correction dynamique avec jauges secondaires
+secondary_pressure = compute_secondary_alert_pressure(result)
+
+gravity = min(1.0, gravity + secondary_pressure * 0.45)
+stability = max(0.0, stability - secondary_pressure * 0.35)
+
 # Couleur stabilité
 if stability >= 0.80:
     stability_label = "Stable"
