@@ -2852,32 +2852,33 @@ CERTAINTY_TERMS = [
     "la preuve que"
 ]
 
-EMOTIONAL_INTENSITY_TERMS = [
-    "scandale",
-    "honte",
-    "catastrophe",
-    "désastre",
-    "trahison",
-    "danger",
-    "peur",
-    "menace",
-    "crise",
-    "urgent",
-    "incroyable",
-    "terrible",
-    "révolution",
-    "effondrement",
-    "panique",
-    "massacre",
-    "destruction",
-    "panic",
-    "scandal",
-    "outrage",
-    "fear",
-    "collapse",
-    "crisis",
-    "urgent",
-]
+EMOTIONAL_DICT = {
+    "scandale": 0.6,
+    "honte": 0.5,
+    "catastrophe": 0.8,
+    "désastre": 0.75,
+    "trahison": 0.6,
+    "danger": 0.5,
+    "peur": 0.6,
+    "menace": 0.5,
+    "crise": 0.5,
+    "urgent": 0.6,
+    "incroyable": 0.35,
+    "terrible": 0.5,
+    "révolution": 0.55,
+    "effondrement": 0.7,
+    "panique": 0.7,
+    "massacre": 0.85,
+    "destruction": 0.75,
+
+    # anglais (optionnel)
+    "panic": 0.7,
+    "scandal": 0.6,
+    "outrage": 0.6,
+    "fear": 0.6,
+    "collapse": 0.7,
+    "crisis": 0.5,
+}
 # -----------------------------
 # Faux consensus
 # -----------------------------
