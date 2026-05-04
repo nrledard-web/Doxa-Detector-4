@@ -1570,7 +1570,7 @@ def compute_lie_gauge(M: float, ME: float):
         label = "Mensonge probable"
         color = "#dc2626"
     else:
-        label = "Mensonge extrême"
+        label = "Mensonge structurel détecté"
         color = "#991b1b"
 
     intensity = abs(gauge - 0.5) * 2
