@@ -8014,7 +8014,7 @@ background-color:rgba(255,255,255,0.03);
 <b style='color:{stability_color};'>
 Stabilité {stability_label} — {stability:.2f}
 </b><br>
-Le discours reste structuré, mais les jauges secondaires détectées modifient sa stabilité cognitive.
+"Le discours reste relativement cohérent, mais plusieurs signaux secondaires réduisent son équilibre cognitif."
 </div>
 """,
     unsafe_allow_html=True
@@ -8278,7 +8278,7 @@ elif life_score < 70:
 elif life_score < 85:
     life_label = "Solide"
     life_color = "#16a34a"
-    life_text = "Vitalité cognitive solide — le discours est globalement structuré et appuyé."
+    life_text = "Le discours contient une matière cognitive dense : les idées sont développées, reliées et appuyées."
 else:
     life_label = "Très solide"
     life_color = "#15803d"
