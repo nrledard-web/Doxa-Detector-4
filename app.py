@@ -4760,27 +4760,27 @@ def compute_global_penalties(result: dict) -> dict:
     penalty += min(red_flags_count * 0.25, 2.0)
 
     # 2) Dérives discursives déjà calculées
-    penalty += result.get("normative_score", 0) * 0.8
-    penalty += result.get("premise_score", 0) * 1.0
-    penalty += result.get("propaganda_score", 0) * 1.2
-    penalty += result.get("logic_confusion_score", 0) * 1.0
-    penalty += result.get("scientific_simulation_score", 0) * 0.8
-
+    penalty += result.get("normative_score", 0) * 0.6
+    penalty += result.get("premise_score", 0) * 0.7
+    penalty += result.get("propaganda_score", 0) * 0.8
+    penalty += result.get("logic_confusion_score", 0) * 0.7
+    penalty += result.get("scientific_simulation_score", 0) * 0.6
+    
     # 3) Sophismes simples
-    penalty += result.get("petition_score", 0) * 0.8
-    penalty += result.get("false_causality_basic_score", 0) * 0.9
-    penalty += result.get("hasty_generalization_score", 0) * 0.8
-    penalty += result.get("false_dilemma_score", 0) * 0.8
-
+    penalty += result.get("petition_score", 0) * 0.5
+    penalty += result.get("false_causality_basic_score", 0) * 0.6
+    penalty += result.get("hasty_generalization_score", 0) * 0.5
+    penalty += result.get("false_dilemma_score", 0) * 0.5
+    
     # 4) Verrouillage / manipulation
-    penalty += result.get("doxic_rigidity_score", 0) * 1.0
-    penalty += result.get("narrative_overdetermination_score", 0) * 0.9
-    penalty += result.get("moral_polarization_score", 0) * 0.8
-    penalty += result.get("strategic_simplification_score", 0) * 0.8
-    penalty += result.get("argument_asymmetry_score", 0) * 0.7
-
-    # Plafond pour éviter de casser artificiellement le score
-    penalty = round(min(penalty, 6.0), 2)
+    penalty += result.get("doxic_rigidity_score", 0) * 0.7
+    penalty += result.get("narrative_overdetermination_score", 0) * 0.6
+    penalty += result.get("moral_polarization_score", 0) * 0.6
+    penalty += result.get("strategic_simplification_score", 0) * 0.6
+    penalty += result.get("argument_asymmetry_score", 0) * 0.5
+    
+    # Plafond plus doux
+    penalty = round(min(penalty, 4.0), 2)
 
     if penalty < 1:
         label = "Faible"
