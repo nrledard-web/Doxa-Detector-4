@@ -7124,28 +7124,26 @@ st.caption(
     "Analyse analogique du raisonnement à partir des structures du langage afin d’estimer la solidité épistémique du discours."
 )
 
-base_score = result.get("final_credibility_score", result.get("hard_fact_score", 0))
-
 real_score = result.get("final_credibility_score", result.get("hard_fact_score", 0))
 
-# 👉 plancher VISUEL uniquement
+# Plancher VISUEL uniquement
 display_score = max(real_score, 2.0)
 display_score = min(display_score, 20.0)
 
-# Couleurs et verdict
-if base_score < 6:
+# Couleurs et verdict — basés sur le score affiché
+if display_score < 6:
     score_icon = "🔴"
     score_color = "#dc2626"
     score_label = "Faible"
-elif base_score < 9:
+elif display_score < 9:
     score_icon = "🟠"
     score_color = "#f97316"
     score_label = "Fragile"
-elif base_score < 13:
+elif display_score < 13:
     score_icon = "🟡"
     score_color = "#facc15"
     score_label = "Modérée"
-elif base_score < 16:
+elif display_score < 16:
     score_icon = "🟢"
     score_color = "#22c55e"
     score_label = "Solide"
@@ -7166,7 +7164,7 @@ st.markdown(f"""
         border:1px solid #cbd5e1;
     ">
         <div style="
-            width:{min(base_score / 20, 1) * 100}%;
+            width:{min(display_score / 20, 1) * 100}%;
             height:100%;
             background:{score_color};
             transition:width 0.4s ease;
@@ -7180,13 +7178,13 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-if base_score < 6:
+if display_score < 6:
     analogique_message = "Le raisonnement paraît faible : les enchaînements logiques sont insuffisants ou trop fragmentaires."
-elif base_score < 9:
+elif display_score < 9:
     analogique_message = "Le raisonnement est fragile : une structure existe, mais elle reste incomplète ou peu démonstrative."
-elif base_score < 13:
+elif display_score < 13:
     analogique_message = "Le raisonnement est modéré : la structure logique est présente, mais plusieurs liens restent partiels ou insuffisamment soutenus."
-elif base_score < 16:
+elif display_score < 16:
     analogique_message = "Le raisonnement est solide : les idées s’enchaînent de manière globalement cohérente."
 else:
     analogique_message = "Le raisonnement est très solide : le discours présente une progression claire, cohérente et bien structurée."
