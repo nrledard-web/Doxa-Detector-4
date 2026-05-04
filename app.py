@@ -6980,62 +6980,65 @@ Les discours philosophiques, moraux ou spéculatifs obtiennent souvent des score
 
 Certaines jauges ne cherchent pas à “comprendre” le texte comme un humain.
 
-Elles repèrent simplement des mots ou expressions connus pour porter une **charge émotionnelle, rhétorique ou cognitive**.
+Elles repèrent des mots ou expressions associés à une charge émotionnelle, rhétorique ou cognitive, et analysent leur contexte d’utilisation.
 
-Chaque mot agit comme un **signal** :
+Chaque mot agit comme un signal :
 
-> plus il y a de mots marqués, plus la jauge s’allume
+plus il y a de mots marqués, plus les jauges s’allument.
+
+Cependant, ces signaux sont modulés par leur environnement (négation, atténuation, intensification), ce qui permet une lecture plus nuancée.
 
 ---
 
-### Ce qu'une jauge détecte réellement
+Ce que ces jauges détectent réellement
 
-Elle ne dit pas si le texte est vrai ou faux.
+Elles ne disent pas si le texte est vrai ou faux.
 
-Elle mesure :
+Elles mesurent :
 
 - l’intensité du langage utilisé  
 - la pression exercée sur le lecteur  
-- la présence de formulations typiques (crise, urgence, jamais, catastrophe…)
+- la manière dont les formulations orientent la perception (crise, urgence, jamais, catastrophe…)
 
-👉 Autrement dit : **comment le texte cherche à faire réagir**, pas ce qu’il prouve.
-
----
-
-### Exemple
-
-- “Une crise majeure menace le pays” → langage chargé → jauge monte  
-- “Il n’y a pas de crise actuellement” → mot détecté malgré la négation → signal imparfait  
+👉 Autrement dit : comment le texte cherche à faire réagir, pas ce qu’il prouve.
 
 ---
 
-### Pourquoi ce système ?
+Exemple
+
+“Une crise majeure menace le pays” → langage chargé → les jauges montent  
+“Il n’y a pas de crise actuellement” → présence de négation → signal atténué  
+“Il semble possible qu’une crise survienne” → signal modéré par l’incertitude  
+
+---
+
+Pourquoi ce système ?
 
 Parce qu’un discours peut être :
 
-- **très convaincant sans être solide**
-- **très chargé sans être démontré**
+- très convaincant sans être solide  
+- très chargé sans être démontré  
 
-Ces jauge captent cette dimension.
+Ces jauges captent cette dimension.
 
 ---
 
-### Limite importante
+Limite importante
 
-Elles lisent des mots, pas leur intention.
+Elles analysent des structures linguistiques, pas une intention consciente.
 
 Elles peuvent donc :
 
 - surestimer certains textes neutres  
-- ou manquer des nuances
+- ou manquer des nuances complexes  
 
 ---
 
-### Comment interpréter
+Comment interpréter
 
 👉 Ces jauges ne sont jamais à lire seules.
 
-Elles indiquent un **niveau de pression linguistique**, à croiser avec :
+Elles indiquent un niveau de pression linguistique, à croiser avec :
 
 - la solidité argumentative  
 - la vérifiabilité  
@@ -7043,11 +7046,12 @@ Elles indiquent un **niveau de pression linguistique**, à croiser avec :
 
 ---
 
-### Résumé
+Résumé
 
-➡️ Elles mesurent **l’impact du langage**  
-➡️ Pas la vérité du contenu  
-➡️ Ni l’intention réelle de l’auteur
+➡️ Elles mesurent l’impact du langage  
+➡️ Elles intègrent partiellement le contexte  
+➡️ Elles n’évaluent pas directement la vérité du contenu
+➡️ Elles n’interprètent pas l’intention réelle de l’auteur
 """)
 
 # =====================================================
