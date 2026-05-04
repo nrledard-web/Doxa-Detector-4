@@ -5638,7 +5638,7 @@ def analyze_article(text: str) -> Dict:
         "doxic_rigidity_score": doxic_rigidity_analysis["score"],
         "narrative_overdetermination_score": narrative_overdetermination_analysis["score"],
         "argument_asymmetry_score": argument_asymmetry_analysis["score"],
-        "coherence_trompeuse_score": deceptive_coherence_score,
+        "coherence_trompeuse_score": 0,
         "dissonance_score": internal_dissonance_analysis["score"],
     })
     # -----------------------------
