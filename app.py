@@ -5228,7 +5228,7 @@ def analyze_article(text: str) -> Dict:
         "score": emotional_score,
         "markers": [
             w for w in tokenize(text)
-            if w.rstrip("s") in EMOTION_DICT
+            if w.rstrip("s") in EMOTIONAL_DICT
         ],
         "interpretation": (
             "Le texte mobilise une charge émotionnelle faible."
