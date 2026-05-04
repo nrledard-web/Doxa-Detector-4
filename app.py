@@ -7126,9 +7126,11 @@ st.caption(
 
 base_score = result.get("final_credibility_score", result.get("hard_fact_score", 0))
 
-# ✅ plancher cognitif AVANT couleur, barre, texte, popover
-base_score = max(base_score, 2.0)
-base_score = min(base_score, 20.0)
+real_score = result.get("final_credibility_score", result.get("hard_fact_score", 0))
+
+# 👉 plancher VISUEL uniquement
+display_score = max(real_score, 2.0)
+display_score = min(display_score, 20.0)
 
 # Couleurs et verdict
 if base_score < 6:
