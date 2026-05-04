@@ -6332,7 +6332,7 @@ def detect_discourse_type(result):
             "Raisonnement appuyé sur des éléments vérifiables, des sources ou des faits identifiables."
         )
 
-    if N >= 7 and G < 4 and V < 5 and rhetorical_pressure < 0.3:
+    if N >= 6 and V < 6 and G < 6 and rhetorical_pressure < 0.45 and propaganda < 0.5:
         return (
             "Discours spéculatif / philosophique",
             "Réflexion conceptuelle cohérente, mais reposant surtout sur des idées générales plutôt que sur des éléments vérifiables."
