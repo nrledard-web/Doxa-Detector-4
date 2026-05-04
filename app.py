@@ -7348,7 +7348,7 @@ elif score < 16:
     couleur_r = "🟢"
     color_r = "#16a34a"
     etiquette_r = "Solide"
-    message_r = "Le raisonnement est structuré et globalement cohérent."
+    message_r = "Le discours est bien organisé en surface, mais cette cohérence ne garantit pas sa validité épistémique."
 else:
     couleur_r = "🟢"
     color_r = "#15803d"
