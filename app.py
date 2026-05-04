@@ -7126,6 +7126,10 @@ st.caption(
 
 base_score = result.get("final_credibility_score", result.get("hard_fact_score", 0))
 
+# ✅ plancher cognitif AVANT couleur, barre, texte, popover
+base_score = max(base_score, 2.0)
+base_score = min(base_score, 20.0)
+
 # Couleurs et verdict
 if base_score < 6:
     score_icon = "🔴"
@@ -7173,11 +7177,6 @@ st.markdown(
     f"<b style='color:{score_color}'>Score analogique : {score_icon} {round(base_score,1)}/20 — {score_label}</b>",
     unsafe_allow_html=True
 )
-# ✅ plancher cognitif
-base_score = max(base_score, 2.0)
-
-# sécurité haute (propre)
-base_score = min(base_score, 20.0)
 
 if base_score < 6:
     analogique_message = "Le raisonnement paraît faible : les enchaînements logiques sont insuffisants ou trop fragmentaires."
