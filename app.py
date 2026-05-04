@@ -7279,9 +7279,9 @@ avec une **présence notable de signaux de fragilité cognitive**.
 
 La jauge examine la **structure du discours** et la manière dont les idées sont reliées, justifiées et appuyées.
 
-Elle s’appuie sur plusieurs dimensions :
+Elle s'appuie sur plusieurs dimensions :
 
-- présence d’éléments vérifiables
+- présence d'éléments vérifiables
 - qualité des sources
 - vérifiabilité moyenne des affirmations
 - équilibre entre **G — gnōsis**, **N — nous** et **D — doxa**
