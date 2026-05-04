@@ -1471,9 +1471,16 @@ def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict
             title_l = title.lower()
             url_l = url.lower()
             
-            # On garde seulement si l’expression exacte est dans le TITRE ou l’URL
-            if core_query not in title_l and core_query.replace(" ", "-") not in url_l:
-                continue
+            # Filtre souple : au moins un mot significatif dans le titre, l'extrait ou l'URL
+            query_words = [w for w in core_query.split() if len(w) > 3]
+            
+            if query_words:
+                title_hits = sum(1 for w in query_words if w in title_l)
+                snippet_hits = sum(1 for w in query_words if w in snippet.lower())
+                url_hits = sum(1 for w in query_words if w in url_l)
+            
+                if title_hits + snippet_hits + url_hits < 1:
+                    continue
 
             bad_url_parts = [
                 "/tag/",
@@ -1507,7 +1514,7 @@ def search_articles_by_keyword(keyword: str, max_results: int = 10) -> List[Dict
             if web_noise["is_noise"]:
                 continue
 
-            analysis = analyze_article(text)
+            # analysis = analyze_article(text)
 
             articles.append({
                 "title": title,
