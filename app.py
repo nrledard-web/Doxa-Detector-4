@@ -7275,7 +7275,7 @@ Un score de **{round(display_score,1)}/20** indique un raisonnement **{score_lab
 avec une **présence notable de signaux de fragilité cognitive**.
 """)
 
-#### Comment cette analyse se calcule exactement
+### Comment cette analyse se calcule exactement
 
 La jauge examine la **structure du discours** et la manière dont les idées sont reliées, justifiées et appuyées.
 
