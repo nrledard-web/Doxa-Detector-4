@@ -8045,7 +8045,7 @@ background-color:rgba(255,255,255,0.03);
 <b style='color:{stability_color};'>
 Stabilité {stability_label} — {stability:.2f}
 </b><br>
-"Le discours reste relativement cohérent, mais plusieurs signaux secondaires réduisent son équilibre cognitif."
+"Le discours reste relativement cohérent, mais plusieurs signaux réduisent son équilibre cognitif."
 </div>
 """,
     unsafe_allow_html=True
