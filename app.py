@@ -7971,6 +7971,20 @@ brain_advice = brain.get("brain_advice", "")
 # ✅ Correction dynamique avec jauges secondaires
 secondary_pressure = compute_secondary_alert_pressure(result)
 
+
+st.write("DEBUG secondary_pressure =", secondary_pressure)
+
+st.write({
+    "propaganda_score": result.get("propaganda_score"),
+    "argument_asymmetry_score": result.get("argument_asymmetry_score"),
+    "emotional_intensity_score": result.get("emotional_intensity_score"),
+    "normative_score": result.get("normative_score"),
+    "premise_score": result.get("premise_score"),
+    "internal_dissonance_score": result.get("internal_dissonance_score"),
+    "scientific_simulation_score": result.get("scientific_simulation_score"),
+})
+
+
 gravity = min(1.0, gravity + secondary_pressure * 0.45)
 stability = max(0.0, stability - secondary_pressure * 0.35)
 
