@@ -13,12 +13,6 @@ from ddgs import DDGS
 from newspaper import Article
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
-try:
-    from openai import OpenAI
-    client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
-except Exception:
-    client = None
-
 import math
 
 NEGATIONS = {"pas", "aucun", "jamais", "ni", "rien"}
@@ -780,12 +774,9 @@ def compute_linguistic_suspicion(text: str) -> dict:
         "trigger_count": raw_score,
         "structural_polarization": structural_polarization,
     }
-
-
 # -----------------------------
 # Bibliothèques rhétoriques
 # -----------------------------
-
 VICTIMISATION = [
     "on nous empêche d'agir",
     "on veut nous faire taire",
@@ -802,7 +793,6 @@ VICTIMISATION = [
     "we are being silenced",
     "we are under attack"
 ]
-
 MORALISATION = [
     "c'est une question de responsabilité",
     "c'est notre devoir",
@@ -817,8 +807,27 @@ MORALISATION = [
     "it is our duty",
     "it would be irresponsible",
     "we must protect our children"
+    "il serait irresponsable de",
+    "nous avons le devoir de",
+    "nous avons la responsabilité de",
+    "la justice exige",
+    "la morale exige",
+    "il est moralement nécessaire",
+    "personne ne peut rester indifférent",
+    "nous ne pouvons pas rester indifférents",
+    "il serait immoral de",
+    "il serait injuste de",
+    "il est de notre devoir",
+    "nous devons protéger",
+    "nous devons défendre",
+    "nous devons agir",
+    "nous devons faire face",
+    "it would be irresponsible",
+    "we have a duty to",
+    "we have a responsibility to",
+    "justice requires",
+    "we cannot remain indifferent"
 ]
-
 URGENCE = [
     "il faut agir maintenant",
     "il faut agir immédiatement",
@@ -834,7 +843,6 @@ URGENCE = [
     "before it is too late",
     "immediately"
 ]
-
 PROMESSE_EXCESSIVE = [
     "nous allons tout changer",
     "nous allons changer la vie",
@@ -849,7 +857,6 @@ PROMESSE_EXCESSIVE = [
     "we will restore prosperity",
     "we will guarantee security"
 ]
-
 POPULISME_ANTI_ELITE = [
     "les élites ont trahi",
     "les élites méprisent le peuple",
@@ -870,7 +877,6 @@ POPULISME_ANTI_ELITE = [
     "the establishment betrayed the people",
     "the system is rigged"
 ]
-
 PROGRESSISME_IDENTITAIRE = [
     "les dominations systémiques",
     "la violence systémique",
@@ -896,7 +902,6 @@ PROGRESSISME_IDENTITAIRE = [
     "lived experience matters",
     "the personal is political"
 ]
-
 SOCIALISME_COMMUNISME = [
     "les travailleurs exploités",
     "la lutte des classes",
@@ -921,7 +926,6 @@ SOCIALISME_COMMUNISME = [
     "the wealthy must pay",
     "public ownership"
 ]
-
 CONFUSION_DELEGITIMATION = [
     "tout populisme est d'extrême droite",
     "le populisme mène toujours au fascisme",
@@ -937,10 +941,6 @@ CONFUSION_DELEGITIMATION = [
     "any criticism is hate",
     "if you disagree you are on the wrong side of history"
 ]
-
-# -----------------------------
-# Bibliothèques rhétoriques
-# -----------------------------
 AUTORITE_ACADEMIQUE_VAGUE = [
     "selon plusieurs études",
     "selon certaines études",
@@ -973,7 +973,6 @@ AUTORITE_ACADEMIQUE_VAGUE = [
     "experts agree",
     "many specialists"
 ]
-
 DILUTION_RESPONSABILITE = [
     "il ne s'agit pas d'accuser",
     "il ne s'agit pas de blâmer",
@@ -1018,28 +1017,6 @@ CAUSALITE_IMPLICITE = [
     "this proves that",
     "this shows that",
     "this leads to",
-]
-MORALISATION_DISCOURS = [
-    "il serait irresponsable de",
-    "nous avons le devoir de",
-    "nous avons la responsabilité de",
-    "la justice exige",
-    "la morale exige",
-    "il est moralement nécessaire",
-    "personne ne peut rester indifférent",
-    "nous ne pouvons pas rester indifférents",
-    "il serait immoral de",
-    "il serait injuste de",
-    "il est de notre devoir",
-    "nous devons protéger",
-    "nous devons défendre",
-    "nous devons agir",
-    "nous devons faire face",
-    "it would be irresponsible",
-    "we have a duty to",
-    "we have a responsibility to",
-    "justice requires",
-    "we cannot remain indifferent"
 ]
 ABSOLUTE_PREDICTION_MARKERS = [
     "il est certain que",
@@ -1154,7 +1131,6 @@ def detect_political_patterns(text: str):
         "delegitimation": CONFUSION_DELEGITIMATION,
         "dilution": DILUTION_RESPONSABILITE,
         "causalite": CAUSALITE_IMPLICITE,
-        "moralisation_discours": MORALISATION_DISCOURS,
     }
 
     results = {}
@@ -1173,25 +1149,28 @@ def detect_political_patterns(text: str):
 def compute_rhetorical_pressure(results: dict) -> float:
     """
     Calcule une pression rhétorique pondérée entre 0.0 et 1.0
-    à partir des catégories détectées.
+    à partir des scores rhétoriques modernes et des registres émotionnels.
     """
-    weights = {
-        "certitude": 1.2,
-        "autorite": 1.0,
-        "dramatisation": 1.3,
-        "generalisation": 1.1,
-        "naturalisation": 1.4,
-        "ennemi": 1.5,
-        "causalite": 1.4,
-        "moralisation": 1.2,
-    }
 
-    weighted_score = 0.0
+    rhetorical = results.get("rhetorical_scores", {})
+    emotions = results.get("emotional_registers", {})
 
-    for cat, count in results.items():
-        weighted_score += count * weights.get(cat, 1.0)
+    if not rhetorical:
+        return 0.0
 
-    return min(weighted_score / 10, 1.0)
+    pressure = (
+        rhetorical.get("amplification", 0) * 0.16
+        + rhetorical.get("saturation_rhetorique", 0) * 0.20
+        + rhetorical.get("persuasion", 0) * 0.12
+        + rhetorical.get("attaque", 0) * 0.14
+        + rhetorical.get("implicite", 0) * 0.08
+        + rhetorical.get("soupcon_systemique", 0) * 0.10
+        + rhetorical.get("coherence_performative", 0) * 0.08
+        + emotions.get("colere", 0) * 0.08
+        + emotions.get("peur", 0) * 0.04
+    )
+
+    return round(min(pressure, 1.0), 3)
 
 
 def interpret_rhetorical_pressure(value: float):
@@ -1246,9 +1225,16 @@ def compute_propaganda_gauge(
     victimization: float,
     semantic_shift: float,
     false_dilemma: float,
+
+    saturation_rhetorique: float = 0.0,
+    soupcon_systemique: float = 0.0,
+    attaque: float = 0.0,
+    amplification: float = 0.0,
+    colere: float = 0.0,
+    peur: float = 0.0,
 ):
     """
-    Jauge propagandiste structurelle.
+    Jauge propagandiste structurelle modernisée.
     """
 
     ideological_core = (
@@ -1260,11 +1246,21 @@ def compute_propaganda_gauge(
         + false_dilemma
     ) / 6
 
+    rhetorical_core = (
+        saturation_rhetorique * 0.30
+        + soupcon_systemique * 0.25
+        + attaque * 0.20
+        + amplification * 0.15
+        + colere * 0.07
+        + peur * 0.03
+    )
+
     score = (
-        0.20 * lie_gauge +
-        0.15 * rhetorical_pressure +
-        0.15 * closure +
-        0.50 * ideological_core
+        0.18 * lie_gauge +
+        0.18 * rhetorical_pressure +
+        0.12 * closure +
+        0.32 * ideological_core +
+        0.20 * rhetorical_core
     )
 
     return clamp(score, 0.0, 1.0)
@@ -1302,14 +1298,113 @@ def interpret_discursive_profile(
         return "Discours pseudo-objectif ou pseudo-scientifique"
     elif lie_gauge >= 0.65 and rhetorical_pressure >= 0.45:
         return "Structure discursive manipulatoire probable"
+    
     elif discursive_coherence_score >= 13 and premise_score < 0.20 and logic_confusion_score < 0.20:
         return "Discours plutôt cohérent et peu verrouillant"
+    
+    elif (
+        discursive_coherence_score >= 11
+        and rhetorical_pressure < 0.35
+        and lie_gauge < 0.45
+        and premise_score >= 0.20
+    ):
+        return "Discours analytique ou spéculatif relativement nuancé"
+    
+    elif (
+        scientific_simulation_score < 0.30
+        and logic_confusion_score < 0.30
+        and rhetorical_pressure < 0.30
+        and premise_score >= 0.25
+    ):
+        return "Discours conceptuel ou philosophique"
+    
     elif propaganda_gauge >= 0.45 or rhetorical_pressure >= 0.45:
         return "Discours fortement orienté"
+    
     elif lie_gauge < 0.40 and rhetorical_pressure < 0.35:
         return "Discours plutôt sincère ou peu verrouillant"
+    
     else:
         return "Discours ambigu ou mixte"
+
+# =========================================================
+# MODULATION CONTEXTUELLE DES DISCOURS
+# =========================================================
+
+DISCOURSE_MODIFIERS = {
+
+    "philosophique": {
+        "false_dilemma_score": 0.45,
+        "logical_jump_score": 0.60,
+        "strong_certainty_score": 0.45,
+        "misleading_comparison_score": 0.45,
+        "scientific_simulation_score": 0.60,
+        "frame_shift_score": 0.55,
+    },
+
+    "technocratique": {
+        "scientific_simulation_score": 1.25,
+        "abstraction_score": 1.15,
+        "premise_score": 1.10,
+    },
+
+    "pamphlétaire": {
+        "emotional_intensity_score": 0.75,
+        "propaganda_score": 1.10,
+        "rhetorical_pressure": 1.10,
+    },
+
+    "journalistique": {
+        "scientific_simulation_score": 0.85,
+        "false_dilemma_score": 0.80,
+    },
+
+    "religieux": {
+        "false_dilemma_score": 0.60,
+        "logical_jump_score": 0.70,
+    },
+    
+    "economie_politique": {
+        "false_dilemma_score": 0.40,
+        "logical_jump_score": 0.70,
+        "strong_certainty_score": 0.45,
+        "misleading_comparison_score": 0.65,
+        "scientific_simulation_score": 0.75,
+        "premise_score": 0.70,
+        "propaganda_score": 0.65,
+        "threat_amplification_score": 0.55,
+        "coherence_trompeuse_score": 0.75,
+    },
+}
+
+def apply_discourse_modifiers(result: dict):
+
+    discourse = result.get("discourse_type_rhetoric", "").lower()
+    
+    if "philosophique" in discourse:
+        discourse_key = "philosophique"
+    elif "technocratique" in discourse:
+        discourse_key = "technocratique"
+    elif "economie_politique" in discourse:
+        discourse_key = "economie_politique"
+    elif "pamphlétaire" in discourse:
+        discourse_key = "pamphlétaire"
+    elif "journalistique" in discourse:
+        discourse_key = "journalistique"
+    elif "religieux" in discourse:
+        discourse_key = "religieux"
+    else:
+        discourse_key = discourse
+    
+    modifiers = DISCOURSE_MODIFIERS.get(discourse_key, {})
+
+    for key, factor in modifiers.items():
+
+        if key in result:
+            result[key] = round(result[key] * factor, 3)
+
+    return result
+    
 
 def interpret_closure_gauge(value: float):
     """
@@ -1651,9 +1746,12 @@ def compute_lie_gauge(M: float, ME: float):
     else:
         label = "Mensonge structurel détecté"
         color = "#991b1b"
-
-    intensity = abs(gauge - 0.5) * 2
-
+    
+    if gauge < 0.5:
+        intensity = (0.5 - gauge) * 0.8
+    else:
+        intensity = (gauge - 0.5) * 2
+    
     return {
         "gauge": round(gauge, 3),
         "label": label,
@@ -2507,6 +2605,7 @@ SCIENTIFIC_SIMULATION_MARKERS = {
         "mécanisme", "processus", "paradigme",
         "system", "structure", "dynamics", "model", "mechanism", "process"
     ],
+    
     "chiffres_sans_source": [
         "pour cent",
         "une étude récente",
@@ -3004,31 +3103,53 @@ CERTAINTY_TERMS = [
 ]
 
 EMOTIONAL_DICT = {
-    "scandale": 0.6,
-    "honte": 0.5,
-    "catastrophe": 0.8,
-    "désastre": 0.75,
-    "trahison": 0.6,
-    "danger": 0.5,
-    "peur": 0.6,
-    "menace": 0.5,
-    "crise": 0.5,
-    "urgent": 0.6,
+    # émotion directe
+    "choc": 0.55,
     "incroyable": 0.35,
-    "terrible": 0.5,
-    "révolution": 0.55,
-    "effondrement": 0.7,
-    "panique": 0.7,
-    "massacre": 0.85,
+    "terrible": 0.55,
+    "peur": 0.60,
+    "panique": 0.75,
+    "honte": 0.55,
+    "scandale": 0.65,
+    "trahison": 0.65,
+
+    # menace / crise
+    "menace": 0.55,
+    "danger": 0.55,
+    "crise": 0.50,
+    "urgent": 0.60,
+    "urgence": 0.60,
+    "catastrophe": 0.80,
+    "désastre": 0.75,
+    "effondrement": 0.80,
     "destruction": 0.75,
 
-    # anglais (optionnel)
-    "panic": 0.7,
-    "scandal": 0.6,
-    "outrage": 0.6,
-    "fear": 0.6,
-    "collapse": 0.7,
-    "crisis": 0.5,
+    # émotion géopolitique froide
+    "mortelle": 0.70,
+    "mourir": 0.70,
+    "survie": 0.75,
+    "guerre": 0.65,
+    "paix": 0.35,
+    "encerclement": 0.70,
+    "tournant": 0.45,
+    "réveil brutal": 0.75,
+    "brutal": 0.55,
+
+    # mobilisation collective
+    "bataille": 0.60,
+    "destin": 0.45,
+    "maîtres de notre destin": 0.65,
+    "valeurs": 0.35,
+    "disparaître": 0.70,
+    "disparaîtra": 0.70,
+
+    # anglais optionnel
+    "panic": 0.70,
+    "scandal": 0.60,
+    "outrage": 0.60,
+    "fear": 0.60,
+    "collapse": 0.75,
+    "crisis": 0.50,
 }
 # -----------------------------
 # Faux consensus
@@ -3503,6 +3624,47 @@ def detect_propaganda_narrative(text: str):
         "interpretation": interpretation,
     }
 
+def compute_modern_propaganda_score(result: dict) -> dict:
+    rhetorical = result.get("rhetorical_scores", {})
+    emotions = result.get("emotional_registers", {})
+
+    base_score = result.get("propaganda_score", 0)
+
+    modern_score = (
+        base_score * 0.35
+        + rhetorical.get("saturation_rhetorique", 0) * 0.15
+        + rhetorical.get("soupcon_systemique", 0) * 0.15
+        + rhetorical.get("attaque", 0) * 0.10
+        + rhetorical.get("amplification", 0) * 0.10
+        + emotions.get("colere", 0) * 0.10
+        + emotions.get("peur", 0) * 0.05
+    )
+
+    if (
+        rhetorical.get("soupcon_systemique", 0) > 0.45
+        and rhetorical.get("saturation_rhetorique", 0) > 0.40
+        and emotions.get("colere", 0) > 0.40
+    ):
+        modern_score += 0.10
+
+    score = round(min(modern_score, 1.0), 3)
+
+    if score < 0.15:
+        interpretation = "Le texte ne présente pas de structure propagandiste marquée."
+    elif score < 0.35:
+        interpretation = "Le texte contient quelques procédés d’orientation narrative ou émotionnelle."
+    elif score < 0.55:
+        interpretation = "Le texte présente une orientation propagandiste modérée."
+    elif score < 0.75:
+        interpretation = "Le texte combine plusieurs mécanismes typiques d’une propagande discursive."
+    else:
+        interpretation = "Le texte est fortement structuré par des mécanismes propagandistes."
+
+    return {
+        "score": score,
+        "interpretation": interpretation,
+    }
+
 def compute_causal_overreach(text: str):
     if not text or not text.strip():
         return {
@@ -3557,30 +3719,42 @@ def compute_vague_authority(text: str):
         "interpretation": interpretation,
     }
 
-def compute_emotional_intensity(text: str):
-    if not text or not text.strip():
+def compute_emotional_intensity(result: dict):
+    emotions = result.get("emotional_registers", {})
+
+    if not emotions:
         return {
             "score": 0.0,
             "markers": [],
             "interpretation": "Aucune charge émotionnelle saillante détectée."
         }
 
-    t = text.lower()
-    hits = unique_keep_order([term for term in EMOTIONAL_INTENSITY_TERMS if contains_term(t, term)])
-    score = min(len(hits) * 2.2 / 10, 1.0)
+    score = (
+        emotions.get("peur", 0) * 0.22
+        + emotions.get("colere", 0) * 0.26
+        + emotions.get("urgence", 0) * 0.18
+        + emotions.get("fatalisme", 0) * 0.12
+        + emotions.get("victimisation", 0) * 0.12
+        + emotions.get("exaltation", 0) * 0.10
+    )
+
+    markers = [
+        name for name, value in emotions.items()
+        if value > 0
+    ]
 
     if score < 0.15:
         interpretation = "Le texte reste peu chargé émotionnellement."
     elif score < 0.35:
-        interpretation = "Le texte contient quelques marqueurs émotionnels."
+        interpretation = "Le texte contient une charge émotionnelle modérée."
     elif score < 0.60:
         interpretation = "Le texte mobilise une charge émotionnelle notable."
     else:
         interpretation = "Le texte repose fortement sur une intensité émotionnelle orientant la lecture."
 
     return {
-        "score": round(score, 3),
-        "markers": hits,
+        "score": round(min(score, 1.0), 3),
+        "markers": markers,
         "interpretation": interpretation,
     }
 
@@ -3888,13 +4062,30 @@ def compute_argument_asymmetry(text: str):
 
     text_lower = text.lower()
 
-    attack_count = sum(text_lower.count(term) for term in ATTACK_TERMS)
-    argument_count = sum(text_lower.count(term) for term in ARGUMENT_TERMS)
+    attack_hits = [
+        term for term in ATTACK_TERMS
+        if contains_term(text_lower, term)
+    ]
 
-    if argument_count == 0:
-        score = min(attack_count * 0.25, 1.0)
+    argument_hits = [
+        term for term in ARGUMENT_TERMS
+        if contains_term(text_lower, term)
+    ]
+
+    attack_count = len(unique_keep_order(attack_hits))
+    argument_count = len(unique_keep_order(argument_hits))
+
+    # Sécurité : pas d’asymétrie d’attaque sans attaque réelle.
+    if attack_count == 0:
+        score = 0.0
+
+    # Si le texte attaque mais n’argumente pas, score modéré, pas automatique à 100%.
+    elif argument_count == 0:
+        score = min(attack_count * 0.18, 0.65)
+
     else:
-        score = min((attack_count / argument_count) * 0.25, 1.0)
+        ratio = attack_count / max(argument_count, 1)
+        score = min(ratio * 0.22, 1.0)
 
     if score < 0.15:
         interpretation = "Le texte reste globalement équilibré argumentativement."
@@ -3911,7 +4102,8 @@ def compute_argument_asymmetry(text: str):
         "argument_count": argument_count,
         "interpretation": interpretation,
     }
-THREAT_AMPLIFICATION_TERMS = [
+THREAT_AMPLIFICATION_MARKERS = [
+    # menace extrême
     "menace existentielle",
     "danger extrême",
     "danger mortel",
@@ -3926,6 +4118,21 @@ THREAT_AMPLIFICATION_TERMS = [
     "crise terminale",
     "menace historique",
     "danger absolu",
+
+    # menace froide / stratégique
+    "notre europe est mortelle",
+    "elle peut mourir",
+    "peut mourir",
+    "question de la paix et de la guerre",
+    "paix et de la guerre",
+    "situation d'encerclement",
+    "encerclement",
+    "ce monde-là est fini",
+    "bataille pour notre survie",
+    "notre survie",
+    "le réveil doit être brutal",
+    "réveil brutal",
+    "à un tournant",
 ]
 
 def compute_threat_amplification(text: str):
@@ -4822,11 +5029,57 @@ def detect_vague_authority_basic(text: str):
 
 def detect_false_dilemma(text: str):
     text_lower = text.lower()
-    matches = [p for p in FALSE_DILEMMA_PATTERNS if contains_term(text_lower, p) or p in text_lower]
+
+    matches = [
+        p for p in FALSE_DILEMMA_PATTERNS
+        if contains_term(text_lower, p) or p in text_lower
+    ]
+
+    nuance_markers = [
+        "plusieurs options",
+        "plusieurs facteurs",
+        "plusieurs solutions",
+        "doivent être distingués",
+        "ne signifie pas nécessairement",
+        "éviter deux excès",
+        "d'autres options",
+        "d’autres options",
+        "nuancer",
+        "cependant",
+        "toutefois",
+        "néanmoins",
+    ]
+
+    nuance_hits = [
+        marker for marker in nuance_markers
+        if contains_term(text_lower, marker)
+    ]
+
+    raw_score = len(matches) * 0.25
+    nuance_reduction = min(len(nuance_hits) * 0.07, 0.35)
+
+    score = max(0.0, min(raw_score - nuance_reduction, 1.0))
+
+    if score <= 0.05 and matches and nuance_hits:
+        interpretation = (
+            "Des oppositions binaires existent, mais elles sont compensées "
+            "par des marqueurs d’ouverture ou de nuance."
+        )
+    elif score >= 0.60:
+        interpretation = "Réduction forte du réel à deux options."
+    elif score >= 0.35:
+        interpretation = "Réduction artificielle du réel à deux options."
+    elif score >= 0.15:
+        interpretation = "Simplification binaire légère ou partielle."
+    else:
+        interpretation = "Aucun faux dilemme saillant détecté."
+
     return {
-        "score": min(len(matches) * 0.5, 1.0),
+        "score": round(score, 3),
         "matches": matches,
-        "interpretation": "Réduction artificielle du réel à deux options." if matches else "Aucun faux dilemme saillant détecté."
+        "nuance_markers": nuance_hits,
+        "nuance_count": len(nuance_hits),
+        "interpretation": interpretation,
     }
 
 def detect_ad_hominem(text: str):
@@ -5166,30 +5419,28 @@ def detect_statistical_manipulation(text: str):
 # Comparaison trompeuse
 # -----------------------------
 
-MISLEADING_COMPARISON_MARKERS = [
-    "x fois plus",
-    "deux fois plus",
-    "trois fois plus",
-    "plus que jamais",
-    "moins que jamais",
-    "record historique",
-    "niveau jamais atteint",
-    "explosion comparée à",
-    "comparé à",
-    "par rapport à",
-    "contrairement à",
-    "beaucoup plus que",
-    "bien plus que",
-    "nettement supérieur",
-    "nettement inférieur",
+MISSING_REFERENCE_MARKERS = [
+    "selon une étude",
+    "selon des chiffres",
+    "les données montrent",
+    "les statistiques montrent",
+    "des experts affirment",
+    "une étude récente",
+    "une étude choc",
+    "des chercheurs affirment",
+    "des spécialistes estiment",
+    "les chiffres prouvent",
 ]
 
 def detect_misleading_comparison(text: str):
+
     if not text or not text.strip():
         return {
             "score": 0.0,
             "markers": [],
-            "interpretation": "Aucune comparaison trompeuse notable détectée."
+            "interpretation": (
+                "Aucune comparaison trompeuse notable détectée."
+            )
         }
 
     t = normalize_text_for_markers(text)
@@ -5197,10 +5448,25 @@ def detect_misleading_comparison(text: str):
     markers = []
 
     # -----------------------------
-    # 1) Marqueurs directs
+    # 1) Marqueurs réellement orientants
     # -----------------------------
-    for m in MISLEADING_COMPARISON_MARKERS:
-        if contains_term(t, m) or m in t:
+    strong_markers = [
+        "x fois plus",
+        "deux fois plus",
+        "trois fois plus",
+        "plus que jamais",
+        "moins que jamais",
+        "record historique",
+        "niveau jamais atteint",
+        "explosion comparée à",
+        "beaucoup plus que",
+        "bien plus que",
+        "nettement supérieur",
+        "nettement inférieur",
+    ]
+
+    for m in strong_markers:
+        if contains_term(t, m):
             markers.append(m)
 
     # -----------------------------
@@ -5215,53 +5481,115 @@ def detect_misleading_comparison(text: str):
     ]
 
     reference_terms = [
-        "en 2020",
-        "en 2021",
-        "en 2022",
         "par rapport à",
         "comparé à",
         "selon",
         "source",
         "étude",
         "moyenne",
+        "en 2020",
+        "en 2021",
+        "en 2022",
+        "en 2023",
+        "en 2024",
     ]
 
-    comparison_hits = sum(1 for w in comparison_terms if f" {w} " in f" {t} ")
-    reference_hits = sum(1 for w in reference_terms if w in t)
+    comparison_hits = sum(
+        1 for w in comparison_terms
+        if f" {w} " in f" {t} "
+    )
 
-    if comparison_hits >= 2 and reference_hits == 0:
-        markers.append("comparaisons sans base comparative claire")
+    reference_hits = sum(
+        1 for w in reference_terms
+        if contains_term(t, w)
+    )
+
+    if comparison_hits >= 3 and reference_hits == 0:
+        markers.append("comparaisons sans référentiel clair")
 
     # -----------------------------
     # 3) Amplification comparative
     # -----------------------------
     if (
-        any(w in t for w in ["jamais", "historique", "sans précédent"])
-        and any(w in t for w in ["plus", "moins", "hausse", "baisse"])
+        any(w in t for w in [
+            "jamais",
+            "historique",
+            "sans précédent"
+        ])
+        and any(w in t for w in [
+            "plus",
+            "moins",
+            "hausse",
+            "baisse"
+        ])
     ):
         markers.append("comparaison amplifiée")
 
+    # -----------------------------
+    # 4) Réduction par nuance
+    # -----------------------------
+    nuance_markers = [
+        "plusieurs facteurs",
+        "plusieurs options",
+        "doivent être distingués",
+        "ne signifie pas nécessairement",
+        "cependant",
+        "toutefois",
+        "néanmoins",
+        "nuancer",
+        "éviter deux excès",
+    ]
+
+    nuance_hits = [
+        m for m in nuance_markers
+        if contains_term(t, m)
+    ]
+
     markers = unique_keep_order(markers)
 
-    score = min(len(markers) * 0.25, 1.0)
+    raw_score = len(markers) * 0.18
+    nuance_reduction = min(len(nuance_hits) * 0.06, 0.30)
 
-    if score < 0.15:
-        interpretation = "Peu de comparaisons problématiques détectées."
+    score = max(0.0, min(raw_score - nuance_reduction, 1.0))
+
+    # -----------------------------
+    # Interprétation
+    # -----------------------------
+    if score <= 0.05 and markers and nuance_hits:
+        interpretation = (
+            "Certaines comparaisons existent, mais elles sont fortement "
+            "contextualisées ou nuancées."
+        )
+
+    elif score < 0.15:
+        interpretation = (
+            "Peu de comparaisons problématiques détectées."
+        )
+
     elif score < 0.35:
-        interpretation = "Quelques comparaisons peuvent orienter la perception."
+        interpretation = (
+            "Quelques comparaisons peuvent orienter la perception."
+        )
+
     elif score < 0.60:
-        interpretation = "Le texte utilise plusieurs comparaisons fragiles ou insuffisamment contextualisées."
+        interpretation = (
+            "Le texte utilise plusieurs comparaisons fragiles "
+            "ou insuffisamment contextualisées."
+        )
+
     else:
-        interpretation = "Le discours repose fortement sur des comparaisons potentiellement trompeuses."
+        interpretation = (
+            "Le discours repose fortement sur des comparaisons "
+            "potentiellement trompeuses."
+        )
 
     return {
         "score": round(score, 3),
         "markers": markers,
+        "nuance_markers": nuance_hits,
+        "nuance_count": len(nuance_hits),
         "interpretation": interpretation,
     }
-# -----------------------------
-# Données sans référentiel
-# -----------------------------
 
 MISSING_REFERENCE_MARKERS = [
     "selon une étude",
@@ -5277,97 +5605,31 @@ MISSING_REFERENCE_MARKERS = [
 ]
 
 def detect_missing_reference_data(text: str):
+
     if not text or not text.strip():
         return {
             "score": 0.0,
             "markers": [],
-            "interpretation": "Aucune donnée sans référentiel notable détectée."
+            "interpretation": "Aucune donnée sans référentiel détectée."
         }
 
     t = normalize_text_for_markers(text)
 
-    markers = []
-
-    # -----------------------------
-    # 1) Chiffres détectés
-    # -----------------------------
-    numbers = re.findall(r"\d+(?:[\.,]\d+)?\s*%?", text)
-
-    # -----------------------------
-    # 2) Références méthodologiques
-    # -----------------------------
-    methodology_terms = [
-        "source",
-        "méthode",
-        "méthodologie",
-        "échantillon",
-        "rapport",
-        "publication",
-        "université",
-        "revue",
-        "données",
-        "statista",
-        "insee",
-        "ocde",
-        "oms",
-        "who",
-        "étude publiée",
-    ]
-
-    methodology_hits = [
-        m for m in methodology_terms
-        if contains_term(t, m) or m in t
-    ]
-
-    # -----------------------------
-    # 3) Marqueurs vagues
-    # -----------------------------
-    vague_hits = [
+    markers = [
         m for m in MISSING_REFERENCE_MARKERS
-        if contains_term(t, m) or m in t
+        if contains_term(t, m)
     ]
 
-    markers.extend(vague_hits)
-
-    # -----------------------------
-    # 4) Chiffres sans base claire
-    # -----------------------------
-    if len(numbers) >= 2 and len(methodology_hits) <= 1:
-        markers.append("données quantitatives peu contextualisées")
-
-    # -----------------------------
-    # 5) Projection sans modèle
-    # -----------------------------
-    projection_terms = [
-        "d'ici",
-        "d’ici",
-        "vont",
-        "va",
-        "prévoit",
-        "prévision",
-        "projection",
-        "pourrait",
-    ]
-
-    if (
-        any(p in t for p in projection_terms)
-        and len(numbers) >= 1
-        and len(methodology_hits) == 0
-    ):
-        markers.append("projection chiffrée sans méthodologie explicite")
-
-    markers = unique_keep_order(markers)
-
-    score = min(len(markers) * 0.25, 1.0)
+    score = min(len(markers) * 0.20, 1.0)
 
     if score < 0.15:
         interpretation = "Les données semblent suffisamment contextualisées."
     elif score < 0.35:
-        interpretation = "Certaines données manquent de référentiel ou de contexte."
+        interpretation = "Quelques données manquent de référentiel clair."
     elif score < 0.60:
-        interpretation = "Le texte présente plusieurs données insuffisamment référencées."
+        interpretation = "Plusieurs affirmations reposent sur des données peu contextualisées."
     else:
-        interpretation = "Le discours s’appuie fortement sur des données sans référentiel méthodologique clair."
+        interpretation = "Le discours utilise fortement des données sans référentiel précis."
 
     return {
         "score": round(score, 3),
@@ -5799,6 +6061,30 @@ def detect_aristotelian_fallacies(text: str):
 def compute_brain_indices(result: dict) -> dict:
     def clamp01(x):
         return max(0.0, min(1.0, x))
+
+    if isinstance(article, dict):
+        emotional_result = compute_emotional_intensity({
+            "emotional_registers": article.get("emotional_registers", {})
+        })
+    else:
+        emotional_result = {
+            "score": 0.0,
+            "markers": [],
+            "interpretation": "Aucune charge émotionnelle saillante détectée."
+        }
+    
+    result["emotional_intensity_score"] = emotional_result["score"]
+    result["emotional_intensity_markers"] = emotional_result["markers"]
+    result["emotional_intensity_interpretation"] = emotional_result["interpretation"]
+
+    argument_density_result = compute_argument_density(article)
+
+    result["argument_density_score"] = argument_density_result["score"]
+    result["argument_density_label"] = argument_density_result["label"]
+    result["argument_density_units"] = argument_density_result["units"]
+    result["argument_density_markers"] = argument_density_result["markers"]
+    result["argument_density_word_count"] = argument_density_result["word_count"]
+    result["argument_density_interpretation"] = argument_density_result["interpretation"]
 
     G = result["G"]
     N = result["N"]
@@ -6267,7 +6553,7 @@ def compute_global_penalties(result: dict) -> dict:
     }
 
 def compute_secondary_alert_pressure(result: dict) -> float:
-    signals = [
+    weighted_signals = [
         result.get("propaganda_score", 0) * 1.4,
         result.get("argument_asymmetry_score", 0) * 1.2,
         result.get("emotional_intensity_score", 0) * 1.0,
@@ -6281,7 +6567,13 @@ def compute_secondary_alert_pressure(result: dict) -> float:
         result.get("dissonance_score", 0) * 1.2,
     ]
 
-    pressure = sum(signals) / 12
+    total_weight = (
+        1.4 + 1.2 + 1.0 + 1.1 + 1.1 +
+        1.3 + 1.0 + 1.0 + 1.0 + 0.9 + 1.2
+    )
+
+    pressure = sum(weighted_signals) / total_weight
+
     return round(min(pressure, 1.0), 3)
 
 def compute_doxa_brain(result: dict) -> dict:
@@ -6610,6 +6902,22 @@ def compute_argument_asymmetry(text):
         "interpretation": "Le discours paraît unilatéral ou peu révisable." if score >= 0.4 else "Présence suffisante de nuances ou d'équilibre."
     }
 
+STRATEGIC_REASONING_MARKERS = [
+    "cela commence par",
+    "c’est pourquoi",
+    "nous devons",
+    "cela signifie",
+    "face à",
+    "dans ce contexte",
+    "par conséquent",
+    "à long terme",
+    "capacité à",
+    "cela suppose",
+    "ce qui implique",
+    "nous ne pouvons plus",
+    "il y a la question",
+]
+
 def compute_argument_density(text):
     words = re.findall(r"\b[\wÀ-ÿ'-]+\b", text.lower())
     word_count = max(len(words), 1)
@@ -6617,18 +6925,33 @@ def compute_argument_density(text):
     reason_markers = count_marker_occurrences(text, REASON_MARKERS)
     conclusion_markers = count_marker_occurrences(text, CONCLUSION_MARKERS)
     nuance_markers = count_marker_occurrences(text, NUANCE_MARKERS)
+    strategic_markers = count_marker_occurrences(text, STRATEGIC_REASONING_MARKERS)
 
-    # La nuance soutient l’argumentation, mais ne vaut pas une preuve.
     argumentative_units = (
         reason_markers
         + conclusion_markers
         + (nuance_markers * 0.35)
+        + (strategic_markers * 0.75)
     )
 
     score = min((argumentative_units / word_count) * 22, 1)
 
+    markers = []
+
+    if reason_markers > 0:
+        markers.append(f"Marqueurs de justification : {reason_markers}")
+
+    if conclusion_markers > 0:
+        markers.append(f"Marqueurs de conclusion : {conclusion_markers}")
+
+    if nuance_markers > 0:
+        markers.append(f"Marqueurs de nuance : {nuance_markers} × 0.35")
+
+    if strategic_markers > 0:
+        markers.append(f"Marqueurs de raisonnement stratégique : {strategic_markers} × 0.75")
+
     if score < 0.15:
-        interpretation = "Le texte affirme davantage qu'il n'argumente."
+        interpretation = "Le texte affirme davantage qu'il n'argumente explicitement."
     elif score < 0.35:
         interpretation = "Le texte contient une densité argumentative limitée."
     elif score < 0.60:
@@ -6640,6 +6963,8 @@ def compute_argument_density(text):
         "score": round(score, 3),
         "label": label_level(score),
         "units": round(argumentative_units, 2),
+        "markers": markers,
+        "word_count": word_count,
         "interpretation": interpretation
     }
 
@@ -6732,25 +7057,61 @@ def compute_strong_certainty(text):
 
     found_markers = [
         marker for marker in STRONG_CERTAINTY_MARKERS
-        if contains_term(t, marker) or marker in t
+        if contains_term(t, marker)
+    ]
+
+    hedge_markers = [
+        "pas nécessairement",
+        "peut",
+        "peuvent",
+        "pourrait",
+        "pourraient",
+        "semble",
+        "semblent",
+        "plusieurs facteurs",
+        "plusieurs options",
+        "doivent être distingués",
+        "à ce stade",
+        "selon",
+        "cependant",
+        "toutefois",
+        "néanmoins",
+        "sans tenir compte",
+        "devrait éviter",
+    ]
+
+    hedge_hits = [
+        marker for marker in hedge_markers
+        if contains_term(t, marker)
     ]
 
     marker_count = len(found_markers)
 
-    score = min((marker_count / sentences) * 3.0, 1)
+    raw_score = (marker_count / sentences) * 3.0
 
+    hedge_reduction = min(len(hedge_hits) * 0.08, 0.45)
+
+    score = max(0.0, min(raw_score - hedge_reduction, 1.0))
+    
+    if score <= 0.05 and hedge_hits and found_markers:
+        interpretation = (
+            "Des formulations assertives existent, mais elles sont fortement compensées "
+            "par des marqueurs de nuance et de prudence."
+        )
+    elif score >= 0.4:
+        interpretation = "Le texte emploie une certitude forte ou verrouillante."
+    else:
+        interpretation = "Peu de certitude forte composée détectée."
+    
     return {
         "score": round(score, 3),
         "label": label_level(score),
         "markers": found_markers,
+        "hedge_markers": hedge_hits,
         "marker_count": marker_count,
-        "interpretation": (
-            "Le texte emploie une certitude forte ou verrouillante."
-            if score >= 0.4
-            else "Peu de certitude forte composée détectée."
-        )
+        "hedge_count": len(hedge_hits),
+        "interpretation": interpretation,
     }
-
 # =====================================================
 # DÉTECTION DES DOMAINES CONCEPTUELS
 # =====================================================
@@ -6781,7 +7142,46 @@ RELIGIOUS_MARKERS = [
     "prophète", "révélation", "évangile", "coran", "bible",
     "péché", "salut", "grâce", "paradis", "enfer",
 ]
-
+GEOSTRATEGIC_MARKERS = [
+    "souveraineté",
+    "défense",
+    "sécurité",
+    "frontières",
+    "puissance",
+    "autonomie stratégique",
+    "intérêts",
+    "alliés",
+    "otan",
+    "investissement européen",
+    "industrie",
+    "prospérité",
+    "guerre",
+    "paix",
+    "encerclement",
+    "grandes puissances",
+    "modèle économique",
+    "défense européenne",
+    "sécurité européenne",
+    "puissance européenne",
+    "intelligence artificielle",
+    "biotechnologies",
+    "énergie décarbonée",
+    "espace",
+]
+POLITICAL_MARKERS = [
+    "politique",
+    "état",
+    "gouvernement",
+    "démocratie",
+    "république",
+    "nation",
+    "europe",
+    "président",
+    "loi",
+    "institution",
+    "peuple",
+    "économie",
+]
 
 def detect_conceptual_domains(text: str):
     t = text.lower()
@@ -6790,12 +7190,16 @@ def detect_conceptual_domains(text: str):
         "journalistique": 0,
         "philosophique": 0,
         "religieux": 0,
+        "geostrategique": 0,
+        "politique": 0,
     }
 
     terms = {
         "journalistique": [],
         "philosophique": [],
         "religieux": [],
+        "geostrategique": [],
+        "politique": [],
     }
 
     for marker in JOURNALISTIC_MARKERS:
@@ -6812,6 +7216,16 @@ def detect_conceptual_domains(text: str):
         if contains_term(t, marker):
             domains["religieux"] += 1
             terms["religieux"].append(marker)
+
+    for marker in GEOSTRATEGIC_MARKERS:
+        if contains_term(t, marker):
+            domains["geostrategique"] += 1
+            terms["geostrategique"].append(marker)
+
+    for marker in POLITICAL_MARKERS:
+        if contains_term(t, marker):
+            domains["politique"] += 1
+            terms["politique"].append(marker)
 
     return domains, terms
 
@@ -6842,23 +7256,7 @@ def analyze_article(text: str) -> Dict:
     index_page_analysis = detect_index_or_multilink_page(text)
     causal_overreach_analysis = compute_causal_overreach(text)
     vague_authority_analysis = compute_vague_authority(text)
-    emotional_score = compute_emotional_score(text, EMOTIONAL_DICT)
-    emotional_intensity_analysis = {
-        "score": emotional_score,
-        "markers": [
-            w for w in tokenize(text)
-            if w.rstrip("s") in EMOTIONAL_DICT
-        ],
-        "interpretation": (
-            "Le texte mobilise une charge émotionnelle faible."
-            if emotional_score < 0.15 else
-            "Le texte mobilise une charge émotionnelle modérée."
-            if emotional_score < 0.35 else
-            "Le texte mobilise une charge émotionnelle notable."
-            if emotional_score < 0.60 else
-            "Le texte mobilise une charge émotionnelle très forte."
-        )
-    }
+    
     generalization_analysis = compute_generalization(text)
     abstract_enemy_analysis = compute_abstract_enemy(text)
     certainty_analysis = compute_certainty(text)
@@ -6886,6 +7284,19 @@ def analyze_article(text: str) -> Dict:
     strong_certainty_analysis = compute_strong_certainty(text)
 
     conceptual_domains, conceptual_terms = detect_conceptual_domains(text)
+    
+    rhetorical_scores = detect_rhetorical_structures(text)
+    disc_type_rhetoric, disc_explanation_rhetoric, discourse_scores = detect_discourse_type_from_rhetoric(
+        text,
+        rhetorical_scores
+    )
+    emotional_registers = detect_emotional_registers(text)
+    temp_result_for_emotion = {
+        "emotional_registers": emotional_registers
+    }
+
+    emotional_intensity_analysis = compute_emotional_intensity(temp_result_for_emotion)
+    statistical_manipulation_analysis = detect_statistical_manipulation(text)
     
     statistical_manipulation_analysis = detect_statistical_manipulation(text)
     misleading_comparison_analysis = detect_misleading_comparison(text)
@@ -7448,7 +7859,7 @@ def analyze_article(text: str) -> Dict:
 
         "argument_asymmetry_score": argument_asymmetry_analysis["score"],
         "argument_attack_count": argument_asymmetry_analysis.get("attack_count", 0), 
-        "argument_support_count": argument_asymmetry_analysis.get("support_count", argument_asymmetry_analysis.get("nuances", 0)),
+        "argument_support_count": argument_asymmetry_analysis.get("argument_count", 0),
         "argument_asymmetry_interpretation": argument_asymmetry_analysis["interpretation"],
        
         "argument_asymmetry_label": argument_asymmetry_analysis["label"],
@@ -7488,6 +7899,19 @@ def analyze_article(text: str) -> Dict:
         "advanced_deceptive_coherence_score": advanced_deceptive_coherence_analysis["score"],
         "advanced_deceptive_coherence_markers": advanced_deceptive_coherence_analysis["markers"],
         "advanced_deceptive_coherence_interpretation": advanced_deceptive_coherence_analysis["interpretation"],
+
+        "emotional_intensity_score": emotional_intensity_analysis["score"],
+        "emotional_intensity_markers": emotional_intensity_analysis["markers"],
+        "emotional_intensity_interpretation": emotional_intensity_analysis["interpretation"],
+
+        "false_dilemma_nuance_count": aristotelian_fallacies["false_dilemma"].get("nuance_count", 0),
+        "false_dilemma_nuance_markers": aristotelian_fallacies["false_dilemma"].get("nuance_markers", []),
+
+        "rhetorical_scores": rhetorical_scores,
+        "discourse_type_rhetoric": disc_type_rhetoric,
+        "discourse_explanation_rhetoric": disc_explanation_rhetoric,
+        "discourse_scores": discourse_scores,
+        "emotional_registers": emotional_registers,
         
         "linguistic_trigger_count": ling["trigger_count"],
         "linguistic_pressure_hits": ling["rhetorical_pressure"],
@@ -7498,7 +7922,7 @@ def analyze_article(text: str) -> Dict:
         "political_pattern_score": political_pattern_score,
         "political_results": political_results,
         "matched_terms": matched_terms,
-        "rhetorical_pressure": rhetorical_pressure,
+        "rhetorical_pressure": 0,
         "V": V,
         "R": R,
         "improved": improved,
@@ -7558,7 +7982,31 @@ def analyze_article(text: str) -> Dict:
         "conceptual_domains": conceptual_domains,
         "conceptual_terms": conceptual_terms,
     }
+    
+    result["rhetorical_pressure"] = compute_rhetorical_pressure(result)
+    
+    modern_propaganda = compute_modern_propaganda_score(result)
+    
+    result["propaganda_score"] = modern_propaganda["score"]
+    result["propaganda_interpretation"] = modern_propaganda["interpretation"]
+    
+    emotional_intensity_analysis = compute_emotional_intensity(result)
+    
+    result["emotional_intensity_score"] = emotional_intensity_analysis["score"]
+    result["emotional_intensity_markers"] = emotional_intensity_analysis["markers"]
+    result["emotional_intensity_interpretation"] = emotional_intensity_analysis["interpretation"]
 
+    result["strong_certainty_hedge_count"] = strong_certainty_analysis.get("hedge_count", 0)
+    result["strong_certainty_hedge_markers"] = strong_certainty_analysis.get("hedge_markers", [])
+
+    # Sécurité asymétrie argumentative
+    if result.get("argument_attack_count", 0) == 0:
+        result["argument_asymmetry_score"] = 0.0
+        result["argument_asymmetry_interpretation"] = "Aucune rhétorique d’attaque dominante détectée."
+    
+    # Modulation contextuelle selon le type de discours
+    result = apply_discourse_modifiers(result)
+    
     result["brain"] = brain
     result = classify_cognitive_regime(result)
 
@@ -7906,6 +8354,463 @@ def fetch_text_for_textarea(url: str) -> str:
     except Exception:
         return ""
 
+# =============================
+# Détection rhétorique interne
+# =============================
+
+def contains_term(text: str, term: str) -> bool:
+    """
+    Détecte un mot ou une expression sans faux positif grossier.
+    Exemple : détecte 'corrompu' dans 'corrompus' ou 'corrompues'.
+    """
+    t = text.lower()
+    term = term.lower().strip()
+
+    pattern = r"\b" + re.escape(term) + r"\w*\b"
+    return re.search(pattern, t) is not None
+
+
+def count_markers(text: str, markers: list) -> int:
+    return sum(1 for m in markers if contains_term(text, m))
+
+
+def compute_performative_coherence(text: str) -> float:
+    sentences = [
+        s.strip()
+        for s in re.split(r"[.!?;:]+", text)
+        if len(s.strip()) > 8
+    ]
+
+    if len(sentences) < 3:
+        return 0.0
+
+    # Répétitions de débuts de phrases
+    starts = []
+    for s in sentences:
+        words = s.lower().split()
+        if len(words) >= 2:
+            starts.append(" ".join(words[:2]))
+
+    repeated_starts = len(starts) - len(set(starts))
+
+    # Connecteurs d’équilibre / opposition
+    balance_markers = [
+        "mais", "pourtant", "cependant", "alors que",
+        "tandis que", "d'un côté", "de l'autre",
+        "non seulement", "mais encore"
+    ]
+
+    balance_count = count_markers(text, balance_markers)
+
+    # Structures binaires / symétriques simples
+    symmetry_count = len(re.findall(
+        r"\b(de|du|des|la|le|les)\s+\w+\s+(et|ou)\s+\b(de|du|des|la|le|les)\s+\w+",
+        text.lower()
+    ))
+
+    raw = repeated_starts + balance_count + symmetry_count
+
+    return round(min(raw / 6, 1.0), 3)
+
+def compute_cognitive_compression(text: str) -> float:
+    words = re.findall(r"\b[\wà-ÿ'-]+\b", text.lower())
+    sentences = [
+        s.strip()
+        for s in re.split(r"[.!?;:]+", text)
+        if len(s.strip()) > 5
+    ]
+
+    if not words or not sentences:
+        return 0.0
+
+    connectors = [
+        "car", "parce que", "puisque", "donc", "ainsi", "cependant",
+        "pourtant", "mais", "or", "en effet", "toutefois", "néanmoins",
+        "par conséquent", "dès lors", "alors"
+    ]
+
+    connector_count = count_markers(text, connectors)
+
+    avg_sentence_len = len(words) / max(len(sentences), 1)
+
+    short_sentence_ratio = sum(
+        1 for s in sentences
+        if len(s.split()) <= 8
+    ) / len(sentences)
+
+    lexical_density = len([
+        w for w in words
+        if w not in STOPWORDS
+    ]) / len(words)
+
+    low_connector_ratio = 1 - min(connector_count / max(len(sentences), 1), 1)
+
+    score = (
+        lexical_density * 0.45
+        + short_sentence_ratio * 0.25
+        + low_connector_ratio * 0.30
+    )
+
+    return round(min(score, 1.0), 3)
+
+def compute_rhetorical_saturation(text: str) -> float:
+    t = text.lower()
+
+    emotional_markers = [
+        "catastrophe", "chaos", "effondrement", "urgence",
+        "historique", "terrible", "massif", "dramatique",
+        "grave", "dangereux", "inacceptable", "scandale"
+    ]
+
+    repetition_markers = [
+        "toujours", "jamais", "encore", "sans cesse",
+        "tout", "rien", "absolument", "totalement"
+    ]
+
+    exclamation_count = text.count("!")
+
+    emotional_score = count_markers(t, emotional_markers)
+    repetition_score = count_markers(t, repetition_markers)
+
+    # accumulation simple : longues phrases avec nombreuses virgules
+    accumulation_score = sum(
+        1 for s in re.split(r"[.!?]", text)
+        if s.count(",") >= 4
+    )
+
+    raw = (
+        emotional_score * 1.2
+        + repetition_score
+        + accumulation_score
+        + exclamation_count * 0.5
+    )
+
+    return round(min(raw / 14, 1.0), 3)
+
+def compute_dissimulation_attenuation(text: str) -> float:
+    t = text.lower()
+
+    attenuation_markers = [
+        "incident",
+        "ajustement",
+        "réorganisation",
+        "dommages collatéraux",
+        "mesure exceptionnelle",
+        "situation complexe",
+        "contexte difficile",
+        "malheureusement",
+        "certains effets",
+        "quelques problèmes",
+        "cas isolés",
+        "nécessaire adaptation",
+        "mesure temporaire",
+        "simple opération",
+        "simple procédure",
+        "sans impact majeur",
+        "limité",
+        "partiel",
+        "modéré",
+        "encadré"
+    ]
+
+    euphemism_markers = [
+        "plan social",
+        "optimisation",
+        "rationalisation",
+        "flexibilisation",
+        "réduction d'effectifs",
+        "intervention",
+        "neutralisation",
+        "pacification"
+    ]
+
+    raw = (
+        count_markers(t, attenuation_markers)
+        + count_markers(t, euphemism_markers) * 1.4
+    )
+
+    return round(min(raw / 10, 1.0), 3)
+
+def detect_emotional_registers(text: str) -> dict:
+    registers = {
+        "peur": [
+            "peur", "crainte", "menace", "danger", "risque", "panique",
+            "angoisse", "inquiétude", "insécurité", "catastrophe"
+        ],
+        "colere": [
+            "colère", "scandale", "inacceptable", "honte", "trahison",
+            "corrompu", "mensonge", "abus", "révolte", "indignation"
+            "domination", "confiscation", "contrôle", "censure",
+            "verrouillé", "défiance", "injustice", "oppression",
+            "mépris", "trahison", "privilégiée", "corruption"
+        ],
+        "urgence": [
+            "immédiatement", "urgent", "urgence", "avant qu'il ne soit trop tard",
+            "il faut agir", "maintenant", "sans délai", "crise majeure"
+        ],
+        "fatalisme": [
+            "inévitable", "tout est perdu", "plus rien", "aucune solution",
+            "condamné", "effondrement", "fin d'un cycle", "basculement"
+        ],
+        "victimisation": [
+            "victimes", "abandonnés", "méprisés", "humiliés", "opprimés",
+            "sacrifiés", "oubliés", "sans défense"
+        ],
+        "exaltation": [
+            "réveil", "libération", "espoir", "victoire", "renaissance",
+            "sursaut", "courage", "grandeur", "héroïque"
+        ],
+    }
+
+    scores = {}
+
+    for register, words in registers.items():
+        raw = count_markers(text, words)
+        scores[register] = round(min(raw / 5, 1.0), 3)
+
+    return scores
+
+def detect_rhetorical_structures(text: str):
+    t = text.lower()
+
+    markers = {
+        "amplification": [
+            "jamais", "toujours", "absolument", "totalement", "inévitable",
+            "catastrophe", "effondrement", "historique", "massivement",
+            "extrême", "radical", "terrible", "dramatique"
+        ],
+
+        "implicite": [
+            "on nous cache", "comme par hasard", "tout le monde sait",
+            "inutile de rappeler", "je ne dis pas que", "ce n'est pas un hasard",
+            "il suffit de voir", "chacun sait",
+        
+            "derrière", "cache", "les mêmes intérêts", "rien d'accidentel",
+            "comme si", "semble", "paraît", "ce qu'ils niaient",
+            "on nous explique", "faire confiance", "ouvrir les yeux",
+        
+            *CAUSALITE_IMPLICITE,
+            *IDEOLOGICAL_PREMISE_MARKERS,
+            *IDEOLOGICAL_FRAMING_PATTERNS,
+        ],
+                "soupcon_systemique": [
+            "on nous cache",
+            "comme par hasard",
+            "les mêmes intérêts",
+            "ce n'est pas un hasard",
+            "ouvrir les yeux",
+            "vérité cachée",
+            "les médias mentent",
+            "les élites corrompues",
+            "système",
+            "manipulation",
+            "contrôle",
+            "propagande",
+            "mensonge",
+            "ils savaient",
+            "ce qu'ils niaient",
+            "rien d'accidentel",
+            "derrière",
+            "mécanique cachée",
+            "agenda",
+            "censure"
+        ],
+
+        "persuasion": [
+            "il faut", "nous devons", "réveillez-vous", "ouvrez les yeux",
+            "la vérité", "évidemment", "clairement", "sans aucun doute"
+        ],
+
+        "attaque": [
+            "traîtres", "corrompus", "vendus", "menteurs", "hypocrites",
+            "parasites", "criminels", "complices", "collabos",
+            "corrompu", "manipulation", "contrôle", "détruisent",
+            "imposent", "culpabilisation", "mensonge", "propagande"
+        ],
+
+        "abstraction": [
+            "vérité", "être", "néant", "conscience", "raison", "liberté",
+            "justice", "essence", "existence", "morale", "âme", "sens"
+        ],
+
+        "narrativité": [
+            "depuis", "alors", "ensuite", "désormais", "aujourd'hui",
+            "hier", "demain", "histoire", "destin", "peuple", "nation"
+        ],
+
+        "poeticite": [
+            "ombre", "lumière", "silence", "flamme", "ciel", "âme",
+            "souffle", "écho", "chant", "nuit", "soleil", "sang"
+        ],
+
+        "technicite": [
+            "étude", "rapport", "source", "données", "statistique",
+            "méthode", "analyse", "pourcentage", "%", "selon", "chiffres"
+        ],
+        
+        "economie_politique": [
+            "dette", "dette publique", "déficit", "budget", "budgétaire",
+            "croissance", "inflation", "emprunt", "taux", "intérêts",
+            "refinancement", "recettes publiques", "dépenses",
+            "prélèvements", "fiscalité", "investissement public",
+            "politique industrielle", "protection sociale",
+            "ressources disponibles", "marges de manœuvre",
+            "macroéconomique", "économie", "investisseurs",
+            "charge des intérêts", "modèle de société"
+        ],
+    }
+    scores = {}
+
+    for family, words in markers.items():
+        raw = count_markers(t, words)
+        scores[family] = min(raw / 6, 1.0)
+
+    scores["coherence_performative"] = compute_performative_coherence(text)
+    scores["compression_cognitive"] = compute_cognitive_compression(text)
+    scores["saturation_rhetorique"] = compute_rhetorical_saturation(text)
+    scores["dissimulation_attenuation"] = compute_dissimulation_attenuation(text)
+
+    return scores
+
+# =============================
+# Type de discours enrichi
+# =============================
+
+def detect_discourse_type_from_rhetoric(text: str, rhetorical_scores: dict):
+    scores = {
+        "politique": 0,
+        "pamphlétaire": 0,
+        "philosophique": 0,
+        "religieux": 0,
+        "poétique": 0,
+        "argumentatif": 0,
+        "scientifique": 0,
+        "conspirationniste": 0,
+        "journalistique": 0,
+        "technocratique": 0,
+        "economie_politique": 0,
+    }
+
+    scores["pamphlétaire"] += rhetorical_scores.get("attaque", 0) * 1.6
+    scores["pamphlétaire"] += rhetorical_scores.get("amplification", 0) * 0.7
+    scores["pamphlétaire"] += rhetorical_scores.get("coherence_performative", 0) * 0.4
+    scores["pamphlétaire"] += rhetorical_scores.get("saturation_rhetorique", 0) * 0.45
+
+    scores["politique"] += rhetorical_scores.get("narrativité", 0) * 0.8
+    scores["politique"] += rhetorical_scores.get("attaque", 0) * 0.7
+    scores["politique"] += rhetorical_scores.get("saturation_rhetorique", 0) * 0.3
+    scores["politique"] += rhetorical_scores.get("dissimulation_attenuation", 0) * 0.5
+
+    scores["economie_politique"] += rhetorical_scores.get("economie_politique", 0) * 1.8
+    scores["economie_politique"] += rhetorical_scores.get("technicite", 0) * 0.5
+    scores["economie_politique"] += rhetorical_scores.get("coherence_performative", 0) * 0.3
+    scores["economie_politique"] += rhetorical_scores.get("abstraction", 0) * 0.2
+
+    scores["philosophique"] += rhetorical_scores.get("abstraction", 0) * 1.5
+    scores["philosophique"] += rhetorical_scores.get("implicite", 0) * 0.4
+    scores["philosophique"] += rhetorical_scores.get("coherence_performative", 0) * 0
+
+    scores["poétique"] += rhetorical_scores.get("poeticite", 0) * 1.4
+    scores["poétique"] += rhetorical_scores.get("abstraction", 0) * 0.4
+    scores["poétique"] += rhetorical_scores.get("coherence_performative", 0) * 0.10
+
+    scores["scientifique"] += rhetorical_scores.get("technicite", 0) * 1.1
+    scores["scientifique"] += rhetorical_scores.get("dissimulation_attenuation", 0) * 0.3
+
+    scores["journalistique"] += rhetorical_scores.get("technicite", 0) * 0.9
+    scores["journalistique"] += rhetorical_scores.get("narrativité", 0) * 0.5
+    scores["journalistique"] += rhetorical_scores.get("coherence_performative", 0) * 0.3
+    scores["journalistique"] += rhetorical_scores.get("saturation_rhetorique", 0) * 0.4
+
+    scores["technocratique"] += rhetorical_scores.get("dissimulation_attenuation", 0) * 1.8
+    scores["technocratique"] += rhetorical_scores.get("technicite", 0) * 0.5
+    scores["technocratique"] += rhetorical_scores.get("coherence_performative", 0) * 0.2
+    scores["technocratique"] += rhetorical_scores.get("compression_cognitive", 0) * 0.2
+
+    scores["conspirationniste"] += rhetorical_scores.get("soupcon_systemique", 0) * 0.6
+    scores["conspirationniste"] += rhetorical_scores.get("implicite", 0) * 0.2
+    scores["conspirationniste"] += rhetorical_scores.get("amplification", 0) * 0.4
+    scores["conspirationniste"] += rhetorical_scores.get("narrativité", 0) * 0.15
+    
+    if (
+        rhetorical_scores.get("soupcon_systemique", 0) > 0.4
+        and rhetorical_scores.get("implicite", 0) > 0.4
+        and (
+            rhetorical_scores.get("attaque", 0) > 0.3
+            or rhetorical_scores.get("saturation_rhetorique", 0) > 0.5
+        )
+    ):
+        scores["conspirationniste"] += 0.25
+
+    scores["argumentatif"] += rhetorical_scores.get("technicite", 0) * 0.6
+    scores["argumentatif"] += rhetorical_scores.get("persuasion", 0) * 0.6
+    scores["argumentatif"] += rhetorical_scores.get("dissimulation_attenuation", 0) * 0.4
+
+    scores["philosophique"] += rhetorical_scores.get("compression_cognitive", 0) * 0.03
+    scores["pamphlétaire"] += rhetorical_scores.get("compression_cognitive", 0) * 0.3
+    scores["poétique"] += rhetorical_scores.get("compression_cognitive", 0) * 0.05
+
+    sorted_scores = sorted(scores.items(), key=lambda x: x[1], reverse=True)
+    
+    dominant, dominant_value = sorted_scores[0]
+    secondary, secondary_value = sorted_scores[1]
+    
+    if dominant_value < 0.15:
+        return (
+            "Discours indéterminé",
+            "Aucune dominante rhétorique claire détectée.",
+            scores
+        )
+    
+    # Construction hybride
+    if secondary_value >= dominant_value * 0.6:
+        discourse_label = f"{dominant.capitalize()} à dominante {secondary}"
+    else:
+        discourse_label = dominant.capitalize()
+    
+    explanation = (
+        f"Dominante détectée par les marqueurs rhétoriques : "
+        f"{dominant}."
+    )
+    
+    return discourse_label, explanation, scores
+
+def explain_discourse_profile(result):
+    rhetorical = result.get("rhetorical_scores", {})
+    discourse = result.get("discourse_scores", {})
+
+    if not rhetorical or not discourse:
+        return "Aucun profil discursif détaillé disponible."
+
+    top_rhetorical = sorted(
+        rhetorical.items(),
+        key=lambda x: x[1],
+        reverse=True
+    )[:5]
+
+    top_discourse = sorted(
+        discourse.items(),
+        key=lambda x: x[1],
+        reverse=True
+    )[:3]
+
+    rhet_text = ", ".join(
+        f"{name.replace('_', ' ').replace('soupcon', 'soupçon').replace('systemique', 'systémique').replace('rhetorique', 'rhétorique')} ({round(score, 2)})"
+        for name, score in top_rhetorical
+        if score > 0
+    )
+
+    disc_text = ", ".join(
+        f"{name} ({round(score, 2)})"
+        for name, score in top_discourse
+        if score > 0
+    )
+
+    return (
+        f"Le profil dominant repose principalement sur : {rhet_text}. "
+        f"Les types discursifs les plus proches sont : {disc_text}."
+    )
+
 # =====================================================
 # TYPE DE DISCOURS DÉTECTÉ
 # =====================================================
@@ -7939,6 +8844,7 @@ def detect_discourse_type(result):
     literary_score = domains.get("litteraire", 0)
     scientific_domain = domains.get("scientifique", 0)
     political_score = domains.get("politique", 0)
+    geostrategic_score = domains.get("geostrategique", 0)
 
     # =====================================================
     # A) ROMANESQUE / NARRATIF
@@ -8035,9 +8941,19 @@ def detect_discourse_type(result):
             "Discours religieux",
             "Le texte mobilise un registre religieux, spirituel ou doctrinal."
         )
+    # =====================================================
+    # 3) Geostrategic
+    # =====================================================
+    if geostrategic_score >= 4 or (
+        political_score >= 3 and geostrategic_score >= 2
+    ):
+        return (
+            "Discours politico-stratégique",
+            "Le texte développe principalement une vision géopolitique, institutionnelle ou stratégique."
+        )
 
     # =====================================================
-    # 3) PHILOSOPHIQUE
+    # 4) PHILOSOPHIQUE
     # =====================================================
     if (
         philosophical >= 3
@@ -8050,7 +8966,7 @@ def detect_discourse_type(result):
         )
 
     # =====================================================
-    # 4) JOURNALISTIQUE INTERPRÉTATIF
+    # 5) JOURNALISTIQUE INTERPRÉTATIF
     # =====================================================
     if (
         journalistic >= 2
@@ -8063,7 +8979,7 @@ def detect_discourse_type(result):
         )
 
     # =====================================================
-    # 5) JOURNALISTIQUE FACTUEL
+    # 6) JOURNALISTIQUE FACTUEL
     # =====================================================
     if (
         journalistic >= 2
@@ -8076,7 +8992,7 @@ def detect_discourse_type(result):
         )
 
     # =====================================================
-    # 6) FACTUEL
+    # 7) FACTUEL
     # =====================================================
     if (
         G >= 6
@@ -8104,7 +9020,7 @@ def detect_discourse_type(result):
         )
 
     # =====================================================
-    # 7) DISCOURS ORIENTÉ / ALARMISTE
+    # 8) DISCOURS ORIENTÉ / ALARMISTE
     # =====================================================
     if (
         result.get("threat_amplification_score", 0) >= 0.6
@@ -8118,7 +9034,7 @@ def detect_discourse_type(result):
         )
 
     # =====================================================
-    # 8) PSEUDO-ANALYTIQUE / CIVILISATIONNEL
+    # 9) PSEUDO-ANALYTIQUE / CIVILISATIONNEL
     # =====================================================
     if (
         result.get("scientific_simulation_score", 0) >= 0.25
@@ -8132,7 +9048,7 @@ def detect_discourse_type(result):
         )
 
     # =====================================================
-    # 7) POLÉMIQUE
+    # 10) POLÉMIQUE
     # =====================================================
     if (
         rhetorical_pressure >= 0.45
@@ -8144,7 +9060,7 @@ def detect_discourse_type(result):
         )
 
     # =====================================================
-    # 8) ANALYTIQUE
+    # 11) ANALYTIQUE
     # =====================================================
     if (
         N >= 6
@@ -8156,7 +9072,7 @@ def detect_discourse_type(result):
         )
 
     # =====================================================
-    # 9) SPÉCULATIF
+    # 12) SPÉCULATIF
     # =====================================================
     if (
         N >= 6
@@ -8169,7 +9085,7 @@ def detect_discourse_type(result):
         )
 
     # =====================================================
-    # 10) INDÉTERMINÉ
+    # 13) INDÉTERMINÉ
     # =====================================================
     return (
         "Discours indéterminé",
@@ -9185,10 +10101,23 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-disc_type, disc_explanation = detect_discourse_type(result)
-
 st.markdown("### Type de discours détecté")
-st.info(f"**{disc_type}** — {disc_explanation}")
+
+st.info(
+    f"**{result.get('discourse_type_rhetoric', 'Indéterminé')}** — "
+    f"{result.get('discourse_explanation_rhetoric', '')}"
+)
+st.caption(explain_discourse_profile(result))
+
+with st.expander("Voir les scores rhétoriques détaillés", expanded=False):
+    st.markdown("#### Scores rhétoriques")
+    st.json(result.get("rhetorical_scores", {}))
+
+    st.markdown("#### Scores des types de discours")
+    st.json(result.get("discourse_scores", {}))
+
+    st.markdown("#### Registres émotionnels")
+    st.json(result.get("emotional_registers", {}))
 
 st.markdown("""
 <div style="text-align:center; margin:25px 0; color:#888;">
@@ -9800,36 +10729,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# =============================
-# Analyse sémantique du discours
-# =============================
-
-st.subheader("Analyse sémantique du discours")
-st.caption(
-    "Analyse la cohérence du sens et la stabilité conceptuelle du discours afin d’affiner l’évaluation épistémique."
-)
-
-semantic_score = result.get("semantic_score", None)
-
-if st.session_state.get("semantic_mode", False):
-
-    if semantic_score is not None:
-
-        st.progress(semantic_score / 20)
-        st.caption(f"Score sémantique : {semantic_score}/20")
-
-        delta = round(semantic_score - base_score, 1)
-
-        st.metric(
-            "Influence sémantique sur l’évaluation épistémique",
-            f"{delta:+}/20"
-        )
-
-    else:
-        st.info("Analyse sémantique activée, mais aucun score n’est encore calculé.")
-
-else:
-    st.info("Activez l’analyse sémantique pour calculer cette jauge.")
 
 st.markdown("""
 <div style="text-align:center; margin:25px 0; color:#888;">
@@ -10313,6 +11212,36 @@ st.link_button(
     f"mailto:?subject=Analyse DOXA Detector&body={encoded}",
     use_container_width=True
 )
+# =============================
+# Analyse sémantique du discours
+# =============================
+
+st.subheader("Analyse sémantique du discours")
+st.caption(
+    "Analyse la cohérence du sens et la stabilité conceptuelle du discours afin d’affiner l’évaluation épistémique."
+)
+
+semantic_score = result.get("semantic_score", None)
+
+if st.session_state.get("semantic_mode", False):
+
+    if semantic_score is not None:
+
+        st.progress(semantic_score / 20)
+        st.caption(f"Score sémantique : {semantic_score}/20")
+
+        delta = round(semantic_score - base_score, 1)
+
+        st.metric(
+            "Influence sémantique sur l’évaluation épistémique",
+            f"{delta:+}/20"
+        )
+
+    else:
+        st.info("Analyse sémantique activée, mais aucun score n’est encore calculé.")
+
+else:
+    st.info("Activez l’analyse sémantique pour calculer cette jauge.")
 
 # -----------------------------
 # Mode sémantique
@@ -10759,27 +11688,48 @@ with pd1:
         )
 
         st.markdown("**Principe**")
+        
         st.write(
-            "Chaque mécanisme rhétorique détecté — certitude, dramatisation, ennemi, causalité, etc. — "
-            "augmente la pression globale selon un poids spécifique."
+            "Le calcul repose sur plusieurs dimensions rhétoriques capables "
+            "d’orienter la perception du lecteur sans nécessairement démontrer "
+            "les affirmations avancées."
         )
-
+        
+        st.write(
+            "Le modèle combine notamment l’amplification, la saturation rhétorique, "
+            "la persuasion, l’attaque, les sous-entendus implicites, le soupçon "
+            "systémique et la cohérence performative."
+        )
+        
         st.markdown("**Formule utilisée**")
+        
         st.code(
-            "weighted_score = Σ(occurrences × poids)\n"
-            "pression = min(weighted_score / 10, 1.0)"
+            "pression = (\n"
+            " amplification × 0.18\n"
+            "+ saturation_rhetorique × 0.22\n"
+            "+ persuasion × 0.14\n"
+            "+ attaque × 0.16\n"
+            "+ implicite × 0.10\n"
+            "+ soupcon_systemique × 0.10\n"
+            "+ coherence_performative × 0.10\n"
+            ")\n"
+            "pression = min(pression, 1.0)"
+            "+ colere × 0.08\n"
+            "+ peur × 0.04\n"
         )
-
+        
         st.markdown("**Poids des mécanismes**")
+        
         st.code(
-            "certitude = 1.2\n"
-            "autorite = 1.0\n"
-            "dramatisation = 1.3\n"
-            "generalisation = 1.1\n"
-            "naturalisation = 1.4\n"
-            "ennemi = 1.5\n"
-            "causalite = 1.4\n"
-            "moralisation = 1.2"
+            "amplification = 0.18\n"
+            "saturation_rhetorique = 0.22\n"
+            "persuasion = 0.14\n"
+            "attaque = 0.16\n"
+            "implicite = 0.10\n"
+            "soupcon_systemique = 0.10\n"
+            "coherence_performative = 0.10"
+            "colere = 0.08\n"
+            "peur = 0.04"
         )
 
         st.markdown("**Valeur actuelle**")
@@ -10841,23 +11791,45 @@ with pd2:
         )
     
         st.markdown("**Principe**")
+        
         st.write(
-            "Le texte est comparé à une liste de marqueurs émotionnels. "
-            "Chaque terme détecté augmente le score de charge émotionnelle."
+            "La charge émotionnelle mesure l’intensité affective du discours "
+            "à partir de plusieurs registres émotionnels : peur, colère, urgence, "
+            "fatalisme, victimisation et exaltation."
         )
-    
+        
+        st.write(
+            "Chaque registre possède un poids différent selon sa capacité "
+            "à orienter émotionnellement la lecture."
+        )
+        
         st.markdown("**Formule utilisée**")
+        
         st.code(
-            "hits = termes émotionnels détectés\n"
-            "score = min(len(hits) * 2.2 / 10, 1.0)"
+            "score = (\n"
+            " peur × 0.22\n"
+            "+ colere × 0.26\n"
+            "+ urgence × 0.18\n"
+            "+ fatalisme × 0.12\n"
+            "+ victimisation × 0.12\n"
+            "+ exaltation × 0.10\n"
+            ")\n"
+            "score = min(score, 1.0)"
         )
     
         st.markdown("**Valeur actuelle**")
         st.write(f"Score : **{round(emotional_value * 100, 1)}%**")
         st.write(f"Niveau : **{emotional_label}**")
     
+        emotionals = result.get("emotional_registers", {})
+        
         st.code(
-            f"score = min({len(result.get('emotional_intensity_markers', []))} × 2.2 / 10, 1.0)\n"
+            f"peur = {emotionals.get('peur', 0):.2f}\n"
+            f"colère = {emotionals.get('colere', 0):.2f}\n"
+            f"urgence = {emotionals.get('urgence', 0):.2f}\n"
+            f"fatalisme = {emotionals.get('fatalisme', 0):.2f}\n"
+            f"victimisation = {emotionals.get('victimisation', 0):.2f}\n"
+            f"exaltation = {emotionals.get('exaltation', 0):.2f}\n\n"
             f"score = {emotional_value:.3f}"
         )
     
@@ -10926,11 +11898,13 @@ with pd3:
 
         st.markdown("**Formule utilisée**")
         st.code(
-            "if argument_count == 0:\n"
-            "    score = attack_count * 0.25\n"
+            "if attack_count == 0:\n"
+            "    score = 0.0\n"
+            "elif argument_count == 0:\n"
+            "    score = min(attack_count * 0.18, 0.65)\n"
             "else:\n"
-            "    score = (attack_count / argument_count) * 0.25\n\n"
-            "score = min(score, 1.0)",
+            "    ratio = attack_count / argument_count\n"
+            "    score = min(ratio * 0.22, 1.0)",
             language="python"
         )
 
@@ -11900,6 +12874,13 @@ with oi1:
         victimization=result.get("victimization_score", 0),
         semantic_shift=result.get("semantic_shift_score", 0),
         false_dilemma=result.get("false_dilemma_score", 0),
+    
+        saturation_rhetorique=result.get("rhetorical_scores", {}).get("saturation_rhetorique", 0),
+        soupcon_systemique=result.get("rhetorical_scores", {}).get("soupcon_systemique", 0),
+        attaque=result.get("rhetorical_scores", {}).get("attaque", 0),
+        amplification=result.get("rhetorical_scores", {}).get("amplification", 0),
+        colere=result.get("emotional_registers", {}).get("colere", 0),
+        peur=result.get("emotional_registers", {}).get("peur", 0),
     )
     
     propaganda_label, propaganda_color, propaganda_text = interpret_propaganda_gauge(propaganda_value)
@@ -11937,8 +12918,10 @@ with oi1:
     
         st.markdown("**Principe**")
         st.write(
-            "Elle combine quatre dimensions : la jauge de mensonge ou de tension stratégique, "
-            "la pression rhétorique, les manœuvres discursives détectées et la fermeture cognitive."
+            "Elle combine la tension stratégique, la pression rhétorique, "
+            "la fermeture cognitive, les motifs idéologiques classiques, "
+            "ainsi que les nouveaux signaux rhétoriques et émotionnels : "
+            "saturation, soupçon systémique, attaque, amplification, colère et peur."
         )
     
         st.markdown("**Formule utilisée**")
@@ -11947,16 +12930,12 @@ with oi1:
             "    lie_gauge=gauge_value,\n"
             "    rhetorical_pressure=rp,\n"
             "    closure=closure_for_discourse,\n"
-            "    false_consensus=false_consensus_score,\n"
-            "    moral_polarization=moral_polarization_score,\n"
-            "    binary_opposition=binary_opposition_score,\n"
-            "    victimization=victimization_score,\n"
-            "    semantic_shift=semantic_shift_score,\n"
-            "    false_dilemma=false_dilemma_score\n"
+            "    ideological_core=(false_consensus + moral_polarization + binary_opposition + victimization + semantic_shift + false_dilemma) / 6,\n"
+            "    rhetorical_core=(saturation×0.30 + soupcon×0.25 + attaque×0.20 + amplification×0.15 + colere×0.07 + peur×0.03)\n"
             ")",
             language="python"
         )
-    
+            
         st.markdown("**Valeur actuelle**")
         st.write(f"Score : **{round(propaganda_value * 100, 1)}%**")
         st.write(f"Niveau : **{propaganda_label}**")
@@ -11965,6 +12944,16 @@ with oi1:
         st.write(f"Pression rhétorique : **{round(rp * 100, 1)}%**")
         st.write(f"Motifs idéologiques : **{result['political_pattern_score']}**")
         st.write(f"Fermeture cognitive : **{round(closure_for_discourse, 2)}**")
+
+        rhetorical_scores = result.get("rhetorical_scores", {})
+        emotional_registers = result.get("emotional_registers", {})
+        
+        st.write(f"Saturation rhétorique : **{round(rhetorical_scores.get('saturation_rhetorique', 0) * 100, 1)}%**")
+        st.write(f"Soupçon systémique : **{round(rhetorical_scores.get('soupcon_systemique', 0) * 100, 1)}%**")
+        st.write(f"Attaque : **{round(rhetorical_scores.get('attaque', 0) * 100, 1)}%**")
+        st.write(f"Amplification : **{round(rhetorical_scores.get('amplification', 0) * 100, 1)}%**")
+        st.write(f"Colère : **{round(emotional_registers.get('colere', 0) * 100, 1)}%**")
+        st.write(f"Peur : **{round(emotional_registers.get('peur', 0) * 100, 1)}%**")
     
         st.markdown("**Interprétation actuelle**")
         st.write(propaganda_text)
@@ -12063,13 +13052,20 @@ with oi2:
 
         st.markdown("**Principe**")
         st.write(
-            "Elle s’appuie sur la détection de quatre types de marqueurs : "
-            "désignation d’un ennemi, urgence ou menace, certitude absolue et charge émotionnelle."
+            "Elle combine les anciens marqueurs narratifs — ennemi, urgence, certitude et émotion — "
+            "avec les nouveaux signaux rhétoriques : saturation, soupçon systémique, attaque, "
+            "amplification, colère et peur."
         )
 
         st.markdown("**Formule utilisée**")
         st.code(
-            "score = f(enemy_terms, urgency_terms, certainty_terms, emotional_terms)\n"
+            "score = ancien_score_narratif × 0.35\n"
+            "+ saturation_rhetorique × 0.15\n"
+            "+ soupcon_systemique × 0.15\n"
+            "+ attaque × 0.10\n"
+            "+ amplification × 0.10\n"
+            "+ colere × 0.10\n"
+            "+ peur × 0.05\n"
             "score = min(score, 1.0)",
             language="python"
         )
@@ -12082,6 +13078,15 @@ with oi2:
         st.write(f"Urgence : **{len(result.get('propaganda_urgency_terms', []))}**")
         st.write(f"Certitude : **{len(result.get('propaganda_certainty_terms', []))}**")
         st.write(f"Émotion : **{len(result.get('propaganda_emotional_terms', []))}**")
+        rhetorical_scores = result.get("rhetorical_scores", {})
+        emotional_registers = result.get("emotional_registers", {})
+        
+        st.write(f"Saturation rhétorique : **{round(rhetorical_scores.get('saturation_rhetorique', 0) * 100, 1)}%**")
+        st.write(f"Soupçon systémique : **{round(rhetorical_scores.get('soupcon_systemique', 0) * 100, 1)}%**")
+        st.write(f"Attaque : **{round(rhetorical_scores.get('attaque', 0) * 100, 1)}%**")
+        st.write(f"Amplification : **{round(rhetorical_scores.get('amplification', 0) * 100, 1)}%**")
+        st.write(f"Colère : **{round(emotional_registers.get('colere', 0) * 100, 1)}%**")
+        st.write(f"Peur : **{round(emotional_registers.get('peur', 0) * 100, 1)}%**")
 
         st.markdown("**Interprétation actuelle**")
         st.write(result["propaganda_interpretation"])
@@ -12794,35 +13799,37 @@ with al3:
     # ℹ️ Explication
     with st.popover("ℹ️ Comprendre cette jauge"):
         st.markdown("### Faux dilemme")
-
+    
         st.write(
             "Cette jauge détecte les situations où un problème complexe est réduit "
             "à deux choix exclusifs, souvent opposés, alors que d’autres options existent."
         )
-
+    
         st.markdown("**Principe**")
         st.write(
-            "Le texte est comparé à des marqueurs de dichotomisation : formulations binaires, "
-            "alternatives forcées ou oppositions simplifiées."
+            "Le texte est comparé à des marqueurs de dichotomisation, mais le score est réduit "
+            "lorsque le texte contient aussi des marqueurs d’ouverture, de nuance ou de pluralité."
         )
-
+    
         st.markdown("**Formule utilisée**")
         st.code(
-            "markers = marqueurs de faux dilemme détectés\n"
-            "score = min(len(markers) * coefficient / 10, 1.0)",
+            "raw_score = len(markers) × 0.25\n"
+            "nuance_reduction = min(len(marqueurs_de_nuance) × 0.07, 0.35)\n"
+            "score = max(0.0, raw_score - nuance_reduction)",
             language="python"
         )
-
+    
         markers = result.get("false_dilemma_markers", [])
-
+    
         st.markdown("**Valeur actuelle**")
         st.write(f"Score : **{round(value * 100, 1)}%**")
         st.write(f"Niveau : **{label}**")
         st.write(f"Marqueurs détectés : **{len(markers)}**")
-
+        st.write(f"Marqueurs de nuance : **{result.get('false_dilemma_nuance_count', 0)}**")
+    
         st.markdown("**Interprétation actuelle**")
         st.write(result["false_dilemma_interpretation"])
-
+    
         st.markdown("**Lecture**")
         st.write(
             "🟢 Faible : alternatives ouvertes\n"
@@ -12830,7 +13837,7 @@ with al3:
             "🟠 Élevée : opposition binaire dominante\n"
             "🔴 Très élevée : réduction forte du réel à deux choix"
         )
-
+    
         st.markdown("**Attention**")
         st.write(
             "Un faux dilemme élevé ne signifie pas que le texte est faux. "
@@ -14539,8 +15546,8 @@ with js2:
 
         st.markdown("**Formule utilisée**")
         st.code(
-            "markers = indicateurs argumentatifs détectés\n"
-            "score = min(len(markers) * coefficient / 10, 1.0)",
+            "argumentative_units = raisons + conclusions + (nuances × 0.35)\n"
+            "score = min((argumentative_units / nombre_de_mots) × 22, 1.0)",
             language="python"
         )
 
@@ -14620,9 +15627,9 @@ with js3:
 
         st.markdown("**Formule utilisée**")
         st.code(
-            "markers = marqueurs de certitude détectés\n"
-            "score = min(len(markers) * coefficient / 10, 1.0)",
-            language="python"
+            "raw_score = (len(markers) / nombre_de_phrases) × 3.0\n"
+            "hedge_reduction = min(len(marqueurs_de_prudence) × 0.08, 0.45)\n"
+            "score = max(0.0, raw_score - hedge_reduction)"
         )
 
         markers = result.get("strong_certainty_markers", [])
@@ -14631,6 +15638,7 @@ with js3:
         st.write(f"Score : **{round(value * 100, 1)}%**")
         st.write(f"Niveau : **{label}**")
         st.write(f"Marqueurs détectés : **{len(markers)}**")
+        st.write(f"Marqueurs de prudence : **{result.get('strong_certainty_hedge_count', 0)}**")
 
         st.markdown("**Interprétation actuelle**")
         st.write(result.get("strong_certainty_interpretation", ""))
